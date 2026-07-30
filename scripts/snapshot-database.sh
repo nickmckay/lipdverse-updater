@@ -39,7 +39,15 @@ if [ -n "$prev" ] && [ -f "$LIPDVERSE_SNAPSHOTS/$prev/manifest.tsv" ]; then
   fi
 fi
 
+# Snapshot names are second-resolution so they stay sortable and fixed-width.
+# Two runs in the same second would collide, so wait out the second rather than
+# failing or inventing a suffix that breaks the naming pattern.
 stamp=$(date -u +%Y%m%dT%H%M%SZ)
+for _ in 1 2 3 4 5; do
+  [ -e "$LIPDVERSE_SNAPSHOTS/$stamp" ] || break
+  sleep 1
+  stamp=$(date -u +%Y%m%dT%H%M%SZ)
+done
 dest="$LIPDVERSE_SNAPSHOTS/$stamp"
 
 if [ "$DRY_RUN" = 1 ]; then
