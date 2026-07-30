@@ -7,3 +7,6 @@
 .secret/
 renv/library/
 renv/staging/
+*.Rproj
+inst/doc
+RRR

@@ -1,0 +1,40 @@
+Package: lipdverseUpdater
+Title: Database Update Pipeline for the LiPDverse
+Version: 0.0.0.9000
+Authors@R:
+    person("Nicholas", "McKay", email = "nick@nau.edu", role = c("aut", "cre"))
+Description: Ingests, validates, standardizes, versions and exports the
+    LiPDverse database: a collection of LiPD files organized into partially
+    overlapping compilations. Replaces the update half of lipdverseR with
+    explicit stage contracts, a versioned QC store, transactional writes and
+    a canonical Parquet export. Website generation is out of scope.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Depends:
+    R (>= 4.1)
+Imports:
+    cli,
+    digest,
+    dplyr,
+    fs,
+    furrr,
+    future,
+    glue,
+    jsonlite,
+    lipdR,
+    purrr,
+    readr,
+    rlang,
+    stringr,
+    tibble,
+    tidyr,
+    vctrs,
+    withr,
+    yaml
+Suggests:
+    callr,
+    googlesheets4,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
