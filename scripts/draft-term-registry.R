@@ -138,6 +138,56 @@ convo_norm <- convo |> mutate(nm = norm(qcSheetName), nm_ts = norm(tsName))
 lookup <- setNames(convo$qcSheetName, convo_norm$nm)
 lookup_ts <- setNames(convo$qcSheetName, convo_norm$nm_ts)
 
+# ---- canonical vs alias ----------------------------------------------------
+# convo is already the field-name synonym table: 82 of its 231 rows have
+# qcSheetName != tsName, meaning the QC sheet column is a display/short name
+# for a differently-named canonical field (lat -> geo_latitude, basis ->
+# climateInterpretation1_basis). Those QC columns are synonyms, and the
+# canonical term is the tsName.
+#
+# Usage has to be attributed to the canonical: geo_latitude never appears as a
+# QC column, but its alias `lat` appears in every compilation, so geo_latitude
+# is a ubiquitous standard term.
+alias_map <- convo |>
+  filter(!is.na(tsName), nzchar(tsName), qcSheetName != tsName) |>
+  select(alias = qcSheetName, canonical = tsName)
+
+canon_of <- function(x) {
+  i <- match(x, alias_map$alias)
+  ifelse(is.na(i), x, alias_map$canonical[i])
+}
+
+# Roll every column's usage up to the term it actually populates.
+per_canon <- usage |>
+  mutate(term = canon_of(term)) |>
+  group_by(term) |>
+  summarise(
+    n_compilations = n_distinct(compilation),
+    compilations   = paste(sort(unique(compilation)), collapse = ";"),
+    n_filled       = sum(n_filled),
+    n_rows         = sum(n_rows),
+    max_distinct   = max(n_distinct),
+    .groups = "drop"
+  ) |>
+  mutate(fill_rate = round(n_filled / pmax(n_rows, 1), 3))
+
+# Universe: everything observed, plus every canonical name reachable from it.
+all_terms <- union(per_term$term, per_canon$term)
+
+per_term <- tibble(term = all_terms) |>
+  left_join(per_canon, by = "term") |>
+  mutate(across(c(n_compilations, n_filled, n_rows, max_distinct), ~ tidyr::replace_na(.x, 0)),
+         compilations = tidyr::replace_na(compilations, ""),
+         fill_rate    = tidyr::replace_na(fill_rate, 0)) |>
+  left_join(alias_map |> select(term = alias, alias_for = canonical), by = "term") |>
+  left_join(alias_map |> group_by(canonical) |> summarise(aliases = paste(alias, collapse = ";")) |>
+              rename(term = canonical), by = "term") |>
+  # An alias's own usage, for the synonym rows.
+  left_join(usage |> group_by(term) |> summarise(alias_n_filled = sum(n_filled),
+                                                 alias_compilations = paste(sort(unique(compilation)), collapse = ";"),
+                                                 .groups = "drop"),
+            by = "term")
+
 # ---- assemble --------------------------------------------------------------
 terms <- per_term |>
   left_join(variance, by = "term") |>
@@ -146,10 +196,17 @@ terms <- per_term |>
                             convo_type = type, same_across_dataset = sameAcrossDataset),
             by = "term") |>
   mutate(
-    in_convo = !is.na(ts_name),
-    nm       = norm(term),
-    alias_of = ifelse(!in_convo & nm %in% names(lookup),    unname(lookup[nm]),
-               ifelse(!in_convo & nm %in% names(lookup_ts), unname(lookup_ts[nm]), NA_character_)),
+    is_canonical = term %in% convo$tsName,
+    # convo knows a term either as a QC column name or as a canonical tsName.
+    # Joining only on qcSheetName would report paleoData_description as unknown
+    # when convo lists it as the canonical target of `description`.
+    in_convo    = !is.na(ts_name) | is_canonical,
+    nm          = norm(term),
+    # Heuristic alias detection, for columns convo does not already map. Never
+    # applied to a canonical term: matching geo_latitude against the reverse
+    # lookup would otherwise declare it an alias of its own alias `lat`.
+    alias_of = ifelse(!in_convo & !is_canonical & nm %in% names(lookup),    unname(lookup[nm]),
+               ifelse(!in_convo & !is_canonical & nm %in% names(lookup_ts), unname(lookup_ts[nm]), NA_character_)),
     ubiquity = round(n_compilations / n_comp_total, 2),
     # Indexed terms (climateInterpretation1_*, pub2_doi, ...) are one decision,
     # not twelve. Grouping them cuts the review from ~200 rows to ~90 families.
@@ -173,6 +230,9 @@ terms <- terms |>
       # the pipeline consumes and clears them.
       term %in% c("changelogNotes", "standardizationNotes",
                   "instructions")                      ~ "control",
+      # Recorded in convo as a display name for a differently-named canonical
+      # field. These are the bulk of the field-name synonyms.
+      !is.na(alias_for)                                ~ "synonym",
       !is.na(alias_of)                                 ~ "synonym",
       # Never populated anywhere: a column that exists but carries no data.
       n_filled == 0                                    ~ "unused",
@@ -185,7 +245,7 @@ terms <- terms |>
       n_compilations <= 2                              ~ "compilation",
       TRUE                                             ~ "review"
     ),
-    suggested_canonical = alias_of,
+    suggested_canonical = coalesce(alias_for, alias_of),
     # For standard terms, does the evidence say it can vary per compilation?
     suggested_scope = case_when(
       suggested_category != "standard"          ~ NA_character_,
@@ -196,6 +256,8 @@ terms <- terms |>
     rationale = case_when(
       suggested_category == "key"      ~ "identifier",
       suggested_category == "control"  ~ "pipeline instruction column, not dataset metadata",
+      suggested_category == "synonym" & !is.na(alias_for) ~
+        paste0("convo maps this QC column to canonical '", alias_for, "'"),
       suggested_category == "synonym"  ~ paste0("normalises to convo term '", alias_of, "'"),
       suggested_category == "unused"   ~ paste0("present in ", n_compilations, " sheet(s), never populated",
                                                 ifelse(in_convo, "; in convo", "; not in convo")),
@@ -225,6 +287,7 @@ final <- terms |>
     canonical_if_synonym = "",
     nick_notes = "",
     rationale, note,
+    aliases, alias_n_filled, alias_compilations,
     in_convo, ts_name, convo_type, same_across_dataset,
     n_compilations, ubiquity, compilations,
     n_filled, fill_rate, max_distinct,

@@ -5,11 +5,34 @@ they are inputs to the field registry, not outputs of it.
 
 ## terms-draft.csv
 
-Every column appearing in any compilation's QC sheet (198 terms across 18
-compilations), with a proposed classification and the evidence behind it.
+255 terms: every column appearing in any compilation's QC sheet (198), plus
+every canonical field name reachable from one (57 more), with a proposed
+classification and the evidence behind it.
 
 Regenerate with `../scripts/draft-term-registry.R --out=terms-draft.csv`.
 Reads only the local QC store; no network.
+
+### Canonical vs alias
+
+The convo sheet is already the field-name synonym table. 82 of its 231 rows
+have `qcSheetName != tsName`, meaning the QC sheet column is a display or short
+name for a differently-named canonical field:
+
+```
+lat             -> geo_latitude
+basis           -> climateInterpretation1_basis
+QC Certification-> paleoData_QCCertification
+countryOcean    -> geo_gcmdLocation
+```
+
+57 of those aliases are live in a QC sheet today. Each gets a `synonym` row
+pointing at its canonical term, and the canonical gets its own row.
+
+Usage is attributed to the **canonical**, not the alias: `geo_latitude` never
+appears as a QC column, but `lat` appears in every compilation, so
+`geo_latitude` is correctly scored as ubiquitous. A synonym row's own usage is
+in `alias_n_filled` / `alias_compilations`, and a canonical row lists its
+aliases in `aliases`.
 
 ### How to review
 
@@ -46,18 +69,19 @@ matching a clear pattern goes to `review` rather than being guessed.
 
 1. `TSid` / `dataSetName` / `datasetId` → `key`
 2. `changelogNotes` / `standardizationNotes` / `instructions` → `control`
-3. Normalises to an existing convo term → `synonym`
-4. Never populated in any compilation → `unused`
-5. Used by ≥50% of compilations, or in convo and used by ≥4 → `standard`
-6. Term name contains a compilation's name (`iso2kUI`) → `compilation`
-7. Used by ≤2 compilations → `compilation`
-8. Otherwise → `review`
+3. convo maps it to a differently-named canonical field → `synonym`
+4. Heuristically normalises to an existing convo term → `synonym`
+5. Never populated in any compilation → `unused`
+6. Used by ≥50% of compilations, or in convo and used by ≥4 → `standard`
+7. Term name contains a compilation's name (`iso2kUI`) → `compilation`
+8. Used by ≤2 compilations → `compilation`
+9. Otherwise → `review`
 
-Synonym matching only strips index digits (`pub1_doi` → `pub_doi`), never the
-semantic prefix: `climateInterpretation2_*` and `environmentInterpretation1_*`
-are different scopes and must not collapse together. Legacy short names
-(`basis` → `climateInterpretation1_basis`) are already covered by explicit
-convo entries.
+Rule 4 (the heuristic, as opposed to rule 3's recorded mapping) only strips
+index digits, never the semantic prefix: `climateInterpretation2_*` and
+`environmentInterpretation1_*` are different scopes and must not collapse
+together. It is also never applied to a canonical term, or `geo_latitude`
+would be declared an alias of its own alias `lat`.
 
 ### Evidence columns
 
