@@ -88,13 +88,55 @@ datasets (3,974 of 7,121) belong to two or more**, one to seven. Fields such as
 `archiveType`, `variableName`, `units`, and `geo_*` live in the `.lpd` file, so they are
 shared by every compilation containing that dataset.
 
-When two compilations disagree about one, **the compilation that runs last silently
-wins** — no conflict raised, no changelog entry. As of 2026-07-30 there are **6,084 such
-conflicts** (4,040 substantive, the rest vocabulary drift like `coral` vs `Coral`)
-across 4,486 TSids. This is a reproducible mechanism for the "data gremlins" that
-compilation leads have reported.
+When two compilations that share a database directory disagree about one, the
+compilation that runs last silently wins — no conflict raised, no changelog entry. As
+of 2026-07-30 there are 6,084 such disagreements across 4,486 TSids.
 
-Reads only the local snapshots; no network.
+**Read that number with two corrections.**
+
+*Staleness.* 5,589 of the 6,084 (92%) involve a compilation that has not run in over
+three years — HoloceneAbruptChange last ran 2020-10-08. Those sheets are simply stale
+views of a database that moved on, and a correct three-way merge converges them on the
+next run rather than fighting.
+
+*Separate directories.* Not every compilation reads from `database/`. Three point
+elsewhere (see below), so they cannot overwrite each other's files at all. Once
+CoralHydro2k is excluded, **zero** conflicts remain between compilations that both
+share `database/` and both ran within 14 months.
+
+Reads only the local snapshots; no network. It does **not** currently account for
+per-compilation database directories, so treat cross-directory pairs as forks rather
+than conflicts.
+
+## Per-compilation database directories
+
+17 compilations read and write `~/Dropbox/lipdverse/database`. Three do not:
+
+| compilation | directory | files |
+|---|---|---|
+| `CoralHydro2k` | `~/Dropbox/lipdverse/CoralHydro2k` | 179 |
+| `GBRCD` | `~/Dropbox/lipdverse/GBRCD` | 208 |
+| `test` | `~/Dropbox/lipdverse/testDatabase` | 15 |
+
+`lipd_dir` is therefore per-compilation, not global.
+
+GBRCD is genuinely separate: only 4 of its 208 filenames also appear in `database/`,
+and it is identity-clean with 100% of its 1,199 QC TSids matching its own files.
+
+**CoralHydro2k is a fork, and this one needs a decision.** All 179 of its datasets
+exist in *both* directories with the same `datasetId` and the same 608 TSids, but no
+file is byte-identical:
+
+- the `CoralHydro2k/` copy is frozen at dataset version `1.0.3`; the `database/` copy
+  has advanced to `1.0.5`/`1.0.6`
+- all 179 disagree on `archiveType`
+- 171 of 608 TSids disagree on `variableName` (`SrCa` vs `Sr/Ca`,
+  `SrCaUncertainty` vs `uncertainty`) — the `database/` copy has had vocabulary
+  standardization applied and the fork has not
+
+Neither side ever overwrites the other, so this is not a last-writer-wins problem. It
+is two published copies of the same `datasetId` with different content, and consumers
+get different answers depending on which compilation they download from.
 
 ## Configuration
 
