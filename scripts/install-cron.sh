@@ -22,9 +22,16 @@ QC_LABEL=org.lipdverse.updater.snapshot-qc-sheets
 
 case "${1:-install}" in
   --status)
+    # Capture once rather than piping into `grep -q`: grep exits at the first
+    # match, launchctl takes SIGPIPE, and `pipefail` reports that as failure --
+    # so a loaded job whose label appears early reads as NOT LOADED.
+    listing=$(launchctl list || true)
     for l in "$DB_LABEL" "$QC_LABEL"; do
       printf '%s: ' "$l"
-      launchctl list | grep -q "$l" && echo "loaded" || echo "NOT LOADED"
+      case "$listing" in
+        *"$l"*) echo "loaded" ;;
+        *)      echo "NOT LOADED" ;;
+      esac
     done
     echo
     for f in "$LOGDIR"/*.log; do
