@@ -1,0 +1,9 @@
+pattern,reason
+"^changelog\[","Changelog entries carry wall-clock timestamps and a version that both pipelines bump independently."
+"^lipdverseLink$","Embeds the compilation version string, which differs by construction between two runs."
+"\.createdBy$","Records which tool wrote the file; always differs between the legacy and new pipelines."
+"^createdBy$","Records which tool wrote the file; always differs between the legacy and new pipelines."
+"^datasetVersion$","Bumped independently by each pipeline; version agreement is asserted separately."
+"\.hasTimeTsid$","Derived pointer regenerated on every write."
+"^mostRecentCompilations$","Derived from compilation membership; rewritten on each run."
+"\.mostRecentCompilations$","Derived from compilation membership; rewritten on each run."

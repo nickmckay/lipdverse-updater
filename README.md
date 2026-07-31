@@ -51,6 +51,61 @@ them a clean result is indistinguishable from a validator that never fires.
 That means lipdverseR's `-dup` TSid renaming is currently defending against a condition
 that does not exist in the files.
 
+## Shadow-run harness
+
+The acceptance gate for cutting a compilation over: run both pipelines against separate
+copies of the database and diff the results field by field.
+
+```sh
+./scripts/shadow-compare.R <old_dir> <new_dir> --out=diff.csv
+```
+
+```r
+shadow_normalize(dir)          # flatten a directory to canonical long form
+shadow_diff(old, new)          # differs / only_old / only_new
+shadow_report(diff, path)      # summary + full CSV
+shadow_compare(old, new, out)  # all three
+shadow_snapshot(src, dest)     # clonefile copy for an isolated run
+shadow_run_legacy(...)         # lipdverseR in a separate callr session
+```
+
+`shadow_normalize()` emits one row per leaf value, keyed by `datasetId`, `TSid` and
+`field_path`. Three properties make the diff trustworthy:
+
+- **Columns are keyed by TSid, not position**, so a writer emitting columns in a
+  different order produces no diff.
+- **Numeric text is canonicalized** (`1.10` and `1.1` agree).
+- **Data CSVs are hashed after parsing, not as bytes.** lipdverseR quotes every CSV
+  field and the new writer does not; hashing raw bytes reported all 179 CoralHydro2k
+  datasets as having changed data when the measurements were identical. There is a
+  regression test for this.
+
+Volatile fields are dropped via `inst/extdata/shadow_ignore.csv` (changelog timestamps,
+`lipdverseLink`, `createdBy`, derived pointers). Pass `ignore = NULL` to keep them.
+
+`shadow_run_legacy()` runs lipdverseR in a separate `callr` session, because it calls
+`setwd()`, writes to the global environment with `<<-`, and caches credentials relative
+to its working directory. It refuses to run against the live database unless
+`allow_live = TRUE`, and it **writes to Google Sheets** as part of a normal legacy run.
+It is not covered by the test suite — that needs a live Google session and hours of
+runtime.
+
+### Worked example: the CoralHydro2k fork
+
+`review/shadow-coralhydro2k.csv` is the harness run over the 179 datasets that exist in
+both `CoralHydro2k/` and `database/`: 5,319 differences, all explained.
+
+| category | n | what it is |
+|---|---|---|
+| `only_new` | 4,118 | fields the `database/` copy gained: `longName` (608), `medianRes12k` (608), `interpretation[1..6].scope` (304 each) |
+| `only_old` | 544 | fork-only: CoralHydro2k compilation version `1_0_1` (252), flat `pub[1].author` (179) |
+| `differs` | 657 | `units` `AD`→`yr AD` (304), `archiveType` `coral`→`Coral` (179), `variableName` `SrCa`→`Sr/Ca` (171) |
+
+Two structural changes show up clearly: publication authors moved from a flat string
+(`"Abram, N. J., Gagan, M. K., …"`) to a structured `pub[1].author.name`, and
+interpretations gained an explicit `scope`. **Zero data differences** — the measurements
+are identical in both copies; only metadata diverged.
+
 ### QC sheets versus files
 
 TSids present in a QC sheet but in no `.lpd`, per compilation: GBRCD 1,199 of 1,199

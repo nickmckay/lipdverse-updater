@@ -26,12 +26,17 @@ make_metadata <- function(dataSetName, datasetId, tsids,
   )
 }
 
-write_lpd <- function(dir, dataSetName, datasetId = NULL, tsids = c("T1", "T2"), ...) {
+write_lpd <- function(dir, dataSetName, datasetId = NULL, tsids = c("T1", "T2"),
+                      csv = NULL, csv_quote = FALSE, ...) {
   if (is.null(datasetId)) datasetId <- paste0("ID", dataSetName)
   stage <- file.path(tempfile("lpd"), "bag", "data")
   dir.create(stage, recursive = TRUE)
   meta <- make_metadata(dataSetName, datasetId, tsids, ...)
   jsonlite::write_json(meta, file.path(stage, "metadata.jsonld"), auto_unbox = TRUE, null = "null")
+  if (!is.null(csv)) {
+    utils::write.csv(csv, file.path(stage, paste0(dataSetName, ".paleo1measurement1.csv")),
+                     row.names = FALSE, quote = csv_quote)
+  }
   root <- dirname(dirname(stage))
   out <- normalizePath(file.path(dir, paste0(dataSetName, ".lpd")), mustWork = FALSE)
   withr::with_dir(root, utils::zip(out, "bag", flags = "-rq"))
