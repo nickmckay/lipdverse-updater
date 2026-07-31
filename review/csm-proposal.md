@@ -69,10 +69,12 @@ Source keys lose their structural prefix when they move into `csm`:
 Verified: no two source keys collapse onto the same `(compilation, field)` pair
 after prefix stripping.
 
-The cost of replication is that a dataset-scoped value is stored once per
-column, so the copies can drift. `collapseTs()` should check that all columns
-agree for a given `(compilation, field)` and report a conflict rather than
-silently taking one — see open items.
+A dataset-scoped value is therefore stored once per column and the copies can
+drift. **That is accepted.** All csm is treated as column-scoped metadata even
+where it logically is not, so `collapseTs()` writes each column's value back
+without comparing across columns, and no consistency check is required. This is
+what keeps the mechanism single-shaped: everything lives in `inCompilation` on a
+column, with no second dataset-level path.
 
 ## Flat form
 
@@ -179,10 +181,14 @@ should be removed rather than left as a third mechanism.
 The 14 shared keys are the point of the exercise: `QCCertification` (4,355
 datasets), `QCnotes` (3,613), `QCRemainingIssues` (1,178), `iso2kUI` (1,747) and
 others are written by many compilations into one field. They have no owner to
-migrate to; each writing compilation gets its own namespaced copy, and the
-existing single value has to be attributed — which requires knowing which
-compilation wrote it. That attribution is not recoverable from the files alone
-and will need the QC sheets.
+migrate to, and which compilation wrote the current value is not recoverable
+from the files.
+
+**Resolution: copy the existing value into every compilation the dataset
+belongs to.** Each compilation then owns its copy and can change it
+independently. This is lossless — no compilation ends up with less than it has
+today — and it converges on the correct state as compilations are next updated,
+without requiring an attribution that cannot be reconstructed.
 
 Three keys name something that is not a compilation in the files:
 `geo_paleoDIVERSiteId` (paleoDIVER, 190 datasets) and
@@ -193,20 +199,46 @@ Three compilation names appear in files but not in `drakePlan.R`:
 `OxfordLSDB-LiPD`, `wNAm`, `DAMP21k_Lakes`. Historical, but their membership
 records persist and would need csm handling.
 
+## Field names
+
+Once the compilation owns the namespace, repeating it in the field is
+redundant: `iso2k_csm_iso2kUI` should be `iso2k_csm_UI`.
+
+`review/csm-field-names.csv` proposes a name for all 40 keys. Compilation-name
+tokens are stripped, as is a leading `QC`, and the first letter is lower-cased
+unless it begins an acronym so `UI` and `ID` survive. Anything that shortened to
+fewer than three characters or lost more than 60% of its length is left
+unchanged and flagged `REVIEW`: 21 clean, 9 already unchanged, 10 needing a
+decision.
+
+Fill in `approved_field` to override; blank accepts the proposal.
+
+Six proposals merge several source keys into one field. These are the ones
+worth checking, because they are deliberate consolidations rather than renames:
+
+| field | source keys |
+|---|---|
+| `certification` | `paleoData_QCCertification` (4,355 datasets), `paleoData_iso2kCertification` (491), `paleoData_hydroclimate2kCertification` (700) |
+| `entityID` | `paleoData_SISALEntityID`, `chronData_SISALEntityID` (column and table) |
+| `iso2kUI` | `paleoData_iso2kUI`, `chronData_iso2kUI` |
+| `datasetId` | `LegacyClimateDatasetId`, `paleoDIVERDatasetId` |
+| `siteId` | `paleoDIVERSiteId`, `geo_paleoDIVERSiteId` |
+| `useInHydro` | `paleoData_useInNAm2kHydro` (28), `paleoData_useInNam2kHydro` (1) |
+
+`certification` is the design working as intended: iso2k and hydroclimate2k each
+invented a private key to escape the shared `QCCertification`, and under `csm`
+all three become `certification` inside their own namespace.
+
+The last row is probably a typo rather than two fields — `useInNam2kHydro`
+occurs in a single dataset against 28 for `useInNAm2kHydro`.
+
 ## Open items
 
-1. **Field-name redundancy.** Once the compilation owns the namespace, names
-   like `iso2k_csm_iso2kUI`, `pages2k_csm_pages2kID` and
-   `LegacyClimate_csm_LegacyClimateDatasetId` repeat it. Shortening to
-   `iso2k_csm_UI`, `Pages2kTemperature_csm_ID`,
-   `LegacyClimateLiPD_csm_datasetId` is cheap now and awkward later. Cosmetic,
-   but it fixes 40 names permanently.
+1. **`iso2kUI` still repeats the compilation.** It was protected from
+   shortening because `UI` is only two characters. `iso2k_csm_UI` is likely what
+   is wanted.
 
-2. **Replication consistency.** For dataset-scoped values replicated across
-   columns, should `collapseTs()` error on disagreement between columns, warn
-   and take the most common, or take the first? Erroring is safest but will fire
-   on any file where a previous tool wrote them unevenly.
-
-3. **Attribution of the 14 shared keys.** Determining which compilation wrote
-   the existing `QCCertification` value needs the QC sheets, and where two
-   compilations both have a value for the same TSid, a decision per case.
+2. **Three keys have no resolvable owner**: `geo_paleoDIVERSiteId`,
+   `paleoData_useInNAm2k`, `paleoData_useInNam2kHydro`. paleoDIVER is not a
+   compilation name in any file, and `NAm2k` is ambiguous between `NAm21k`,
+   `NAm21k-noPollen` and `Nam2kDendro`.
