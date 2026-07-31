@@ -1,0 +1,149 @@
+url,lipdName,synonym,append/replace,definition,count,suggested_disposition,likely_owner,scope,n_datasets,example
+,,paleoData_number,,,143808,ignore (derived/structural),,column,7177,1
+,,chronData_TSid,,,65958,chron: not covered by the sheet,,column,4918,PMrR9KB7iN1k
+,,chronData_number,,,65958,chron: not covered by the sheet,,column,4918,1
+,,chronData_variableName,,,65958,chron: not covered by the sheet,,column,4918,dateType
+,,chronData_units,,,55961,chron: not covered by the sheet,,column,4898,m
+,,paleoData_longName,,,45813,review,,column,2307,meanAge_kaBP
+,,paleoData_hasTimeTsid,,,42298,ignore (derived/structural),,column,2500,RR2uveZTocm
+,,chronData_description,,,21483,chron: not covered by the sheet,,column,887,Lab sample code
+,,paleoData_climateCorrelation,,,21194,review,,column,230,
+,,paleoData_climateCorrelationPval,,,21194,review,,column,230,
+,,chronData_variableType,,,15257,chron: not covered by the sheet,,column,516,measured
+,,paleoData_filename,,,10630,ignore (derived/structural),,table,7177,108_658.Tiedemann.2006.paleo1measurement1.csv
+,,interpretation_interpretationApplies,,,10190,review,,interpretation,706,
+,,chronData_filename,,,10136,ignore (derived/structural),,table,4918,108_658.Tiedemann.2006.chron1measurement1.csv
+,,chronData_tableName,,,10136,ignore (derived/structural),,table,4918,Tiedemann
+,,chronData_hasMaxValue,,,9393,chron: not covered by the sheet,,column,1083,740
+,,chronData_hasMeanValue,,,9393,chron: not covered by the sheet,,column,1083,209.4375
+,,chronData_hasMedianValue,,,9393,chron: not covered by the sheet,,column,1083,157
+,,chronData_hasMinValue,,,9393,chron: not covered by the sheet,,column,1083,3
+,,chronData_measurementTableName,,,8273,chron: not covered by the sheet,,column,686,measurementTable1
+,,datasetVersion,,,7177,ignore (derived/structural),,root,7177,1.0.2
+,,geo_coordinates,,,7177,ignore (GeoJSON structure),,geo,7177,
+,,chronData_chronURL,,,5943,chron: not covered by the sheet,,column,491,PALMOD
+,,chronData_modelNumber,,,5844,chron: not covered by the sheet,,column,830,
+,,chronData_hasMax,,,5389,chron: not covered by the sheet,,column,600,740
+,,chronData_hasMean,,,5389,chron: not covered by the sheet,,column,600,209.4375
+,,chronData_hasMedian,,,5389,chron: not covered by the sheet,,column,600,282
+,,chronData_hasMin,,,5389,chron: not covered by the sheet,,column,600,3
+,,chronData_SISALEntityID,,,5355,compilation-specific,SISAL,column,79,639
+,,chronData_hasPublication,,,5355,chron: not covered by the sheet,,column,79,1
+,,chronData_chronDOI,,,5290,chron: not covered by the sheet,,column,371,10.1016/S0277-3791(99)00081-5
+,,paleoData_createdBy,,,4965,review,,column,700,hydroclimate2k
+,,paleoData_hydroclimate2kCertification,,,4911,compilation-specific,hydroclimate2k,column,700,GF
+,,chronData_summaryStatistic,,,4768,chron: not covered by the sheet,,column,2384,2 sigma
+,,chronData_proxyObservationType,,,4178,chron: not covered by the sheet,,column,449,depth
+,,chronData_chronMeasMD5,,,4040,deleteMe,,column,271,45d5a0a2ad2d2767a1c69331f68b6157
+,,chronData_depth,,,3641,chron: not covered by the sheet,,table,305,4.5
+,,chronData_depth.units,,,3617,chron: not covered by the sheet,,table,302,cm
+,,chronData_cutDeep,,,3243,chron: not covered by the sheet,,column,251,155.5
+,,chronData_chronNumber,,,2997,chron: not covered by the sheet,,column,200,1
+,,chronData_chronMeasurementTableNumber,,,2649,chron: not covered by the sheet,,column,170,1
+,,chronData_paleoName,,,2609,chron: not covered by the sheet,,column,167,chron1
+,,chronData_chronName,,,2592,chron: not covered by the sheet,,column,142,chron1
+,,chronData_variableNameOriginal,,,2397,chron: not covered by the sheet,,column,1106,type
+,,geo_type,,,2330,ignore (GeoJSON structure),,geo,2330,Point
+,,chronData_chronMeasurementTableMD5,,,1944,deleteMe,,column,160,fc82720bd513525adf678411f4452547
+,,paleoData_detrendingMethod,,,1837,review,,column,230,NegEx
+,,paleoData_useInNAm2k,,,1837,compilation-specific,NAm2k,column,230,false
+,,chronData_chronMeasurementTableName,,,1706,chron: not covered by the sheet,,column,108,measurementTable1
+,,chronData_missingValue,,,1516,chron: not covered by the sheet,,table,1360,nan
+,,environmentInterpretation_direction,,,1390,MISPLACED: root-level interpretation,,root,842,negative
+,,environmentInterpretation_seasonality,,,1390,MISPLACED: root-level interpretation,,root,842,subannual
+,,environmentInterpretation_variable,,,1390,MISPLACED: root-level interpretation,,root,842,sea surface temperature
+,,environmentInterpretation_basis,,,1389,MISPLACED: root-level interpretation,,root,841,location-specific diatom-conductivity transfer function -...
+,,environmentInterpretation_interpretationApplies,,,1110,MISPLACED: root-level interpretation,,root,555,
+,,chronData_dataType,,,996,chron: not covered by the sheet,,column,139,numeric
+,,chronData_inferredVariableType,,,936,chron: not covered by the sheet,,column,358,age
+,,savedEnsembles,,,903,review,,root,903,/var/folders/cm/mzqsdnws41z8tlsr8zcjk6xm0000gq/T//RtmpumC...
+,,geo_area,,,795,review,,geo,795,29700 ha
+,,chronData_proxy,,,711,chron: not covered by the sheet,,column,114,Chironomids
+,,chronData_uncertaintyLevel,,,710,chron: not covered by the sheet,,column,158,2.5%
+,,geo_basinType,,,700,review,,geo,700,closed
+,,geo_depthCoring,,,700,review,,geo,700,7 m
+,,geo_depthMax,,,700,review,,geo,700,13 m
+,,chronData_QCNotes,,,651,chron: not covered by the sheet,,column,359,Variable name changed from dateType to type during update...
+,,chronData_notes,,,593,chron: not covered by the sheet,,column,110,"Author can't find age depth model used, looks linear"
+,,time,,,576,review,,root,576,
+,,timeDatum,,,576,review,,root,576,1950
+,,timeDirection,,,576,review,,root,576,retrograde
+,,timeExponent,,,576,review,,root,576,0
+,,timeMax,,,576,review,,root,576,56.58
+,,timeMin,,,576,review,,root,576,0.17
+,,timeUnits,,,576,review,,root,576,yr BP
+,,chronData_positive,,,503,chron: not covered by the sheet,,column,252,down
+,,chronData_descriptionMore,,,486,chron: not covered by the sheet,,column,243,Carbon reservoir correction (delta R) value(s) given in t...
+,,chronData_missingValue,,,486,chron: not covered by the sheet,,column,62,NaN
+,,chronData_SISALEntityID,,,399,compilation-specific,SISAL,table,208,155
+,,chronData_hasPublication,,,399,chron: not covered by the sheet,,table,208,1
+,,chronData_hasIso2kUI,,,374,chron: not covered by the sheet,,column,310,CO04BAFI00A
+,,longName,,,372,review,,root,372,tree ring standardized growth index
+,,chronData_tableNumber,,,347,chron: not covered by the sheet,,column,30,1
+,,chronData_tableType,,,344,chron: not covered by the sheet,,column,29,measurement
+,,paleoData_meetsHoloceneHydroclimateCriteria,,,343,review,,column,110,TRUE
+,,chronData_cutShallow,,,336,chron: not covered by the sheet,,column,26,17.5
+,,chronData_QCCertification,,,335,chron: not covered by the sheet,,column,58,Basil Davis
+,,chronData_googleWorkSheetKey,,,301,chron: not covered by the sheet,,column,19,o2zo6e4
+,,chronData_chronDataMD5,,,297,deleteMe,,column,31,7a186e26fa01c0682d0714067115c59b
+,,deCortSiteId,,,268,review,,root,268,
+,,geo_catchment,,,268,review,,geo,268,
+,,chronData_googleWorkSheetKey,,,267,chron: not covered by the sheet,,table,249,oml4log
+,,paleoData_isAssemblage,,,260,review,,column,67,TRUE
+,,chronData_axis,,,252,chron: not covered by the sheet,,column,252,Z
+,,chronData_parameter,,,252,chron: not covered by the sheet,,column,25,lab_id
+,,proxy,,,230,review,,root,230,TRW
+,,funding,,,224,review,,root,224,
+,,geo_itrdbName,,,213,review,,geo,213,co524
+,,pub_FirstAuthor,,,140,review,,pub,19,Brook
+,,pub_abbrev,,,140,review,,pub,19,Brook et al. (2007)
+,,pub_referenceid,,,140,review,,pub,19,236
+,,pub_entry,,,108,review,,pub,19,article
+,,chronData_googWorkSheetKey,,,84,chron: not covered by the sheet,,table,76,obkjfp6
+,,chronData_takenAtDepth,,,80,chron: not covered by the sheet,,column,10,WEBe2fcb806 - compositeDepth
+,,chronData_ageModelSource,,,67,chron: not covered by the sheet,,column,67,Author
+,,chronData_depthReference,,,57,chron: not covered by the sheet,,column,57,mixed-effect generalized additive model regression
+,,chronData_WDSPaleoUrl,,,44,chron: not covered by the sheet,,table,44,https://www1.ncdc.noaa.gov/pub/data/paleo/pages2k/pages2k...
+,,chronData_chronMeasMD5,,,44,deleteMe,,table,44,87ebb0a5cee05cc4cf15c055b3afd3d1
+,,chronData_measurementTableName,,,44,chron: not covered by the sheet,,table,44,measurementTable1
+,,chronData_measurementMaterial,,,37,chron: not covered by the sheet,,column,6,
+,,chronData_measurementMethod,,,35,chron: not covered by the sheet,,column,6,
+,,chronData_NOAAdataFormat,,,34,chron: not covered by the sheet,,column,5,
+,,chronData_NOAAdataType,,,34,chron: not covered by the sheet,,column,5,
+,,chronData_NOAAseasonality,,,34,chron: not covered by the sheet,,column,5,
+,,chronData_detail,,,34,chron: not covered by the sheet,,column,5,
+,,chronData_error,,,34,chron: not covered by the sheet,,column,5,
+,,geo_basinSize,,,29,review,,geo,29,150 km2
+,,chronData_chronEnsembleMD5,,,24,deleteMe,,table,24,531d21412930f5db2ff310e8128b8b0e
+,,chronData_depthUnits,,,24,chron: not covered by the sheet,,table,3,cm
+,,geo_basintype,,,24,review,,geo,24,"closed, dry"
+,,pub_refID,,,24,review,,pub,5,76
+,,chronData_inferredFrom,,,20,chron: not covered by the sheet,,column,16,time
+,,geo_volume,,,19,review,,geo,19,
+,,chronData_fromChronData,,,17,chron: not covered by the sheet,,column,9,1
+,,chronData_fromModel,,,17,chron: not covered by the sheet,,column,9,1
+,,chronData_iso2kUI,,,17,compilation-specific,iso2k,column,9,CO17MUMA02A
+,,geo_Location,,,16,review,,geo,16,UK
+,,chronData_chronDataTableName,,,15,chron: not covered by the sheet,,table,15,chron1measurementTable1
+,,chronData_WDSPaleoUrl,,,14,chron: not covered by the sheet,,column,2,https://www1.ncdc.noaa.gov/pub/data/paleo/pages2k/NAm2kHy...
+,,chronData_uncertainty,,,10,chron: not covered by the sheet,,column,4,low
+,,pub_citekey,,,9,review,,pub,9,rivers1999landscape
+,,chronData_AgeModelSource,,,6,chron: not covered by the sheet,,column,6,10.1007/s10933-012-9656-8
+,,chronData_method,,,6,chron: not covered by the sheet,,column,4,reservoir corrected
+,,testField,,,6,review,,root,6,checkingVersioning
+,,chronData_tableMD5,,,5,deleteMe,,table,5,0c1b861dbd7a25ed256472114f218c75
+,,paleoData_NOAAdataType,,,5,review,,column,2,
+,,paleoData_NOAAseasonality,,,5,review,,column,2,
+,,paleoData_error,,,5,review,,column,2,
+,,chronData_AgeModelType,,,4,chron: not covered by the sheet,,column,4,Smooth spline
+,,chronData_TakenAtDepth,,,4,chron: not covered by the sheet,,column,1,Depth
+,,chronData_ProxyObservationType,,,3,chron: not covered by the sheet,,column,1,Depth
+,,chronData_isPrimary,,,3,chron: not covered by the sheet,,column,3,TRUE
+,,chronData_InferredFrom,,,2,chron: not covered by the sheet,,column,1,age14C
+,,chronData_InferredVariableType,,,2,chron: not covered by the sheet,,column,1,Year
+,,chronData_11,,,1,chron: not covered by the sheet,,column,1,
+,,chronData_DepthReference,,,1,chron: not covered by the sheet,,column,1,Linear interpolation
+,,chronData_Reference,,,1,chron: not covered by the sheet,,column,1,10.1016/j.quaint.2016.10.008
+,,chronData_dataMD5,,,1,deleteMe,,table,1,0c1b861dbd7a25ed256472114f218c75
+,,interpretation_doi,,,1,review,,interpretation,1,10.5194/cp-11-1587-2015
+,,pub_data,,,1,review,,pub,1,http://hurricane.ncdc.noaa.gov/pls/paleox/f?p=519:1:::::P...
