@@ -82,6 +82,10 @@ reg <- terms |>
     # another field, deleted, or a merged field with an ownership rule.
     role = case_when(
       category == "key"                          ~ "key",
+      # An identifier is an identifier regardless of which review file said so:
+      # paleoData_TSid is the canonical form of the TSid column and must never
+      # be merged.
+      !is.na(ownership) & ownership == "key"     ~ "key",
       !is.na(csm_flat_key)                       ~ "csm",
       qc_name %in% csm_removed                   ~ "delete",
       disposition == "deleteMe"                  ~ "delete",
