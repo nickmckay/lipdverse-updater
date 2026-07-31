@@ -7,7 +7,55 @@ Replaces the update half of [`lipdverseR`](https://github.com/nickmckay/lipdvers
 Website generation is out of scope here and gets its own repo, consuming the
 Parquet/DuckDB export this produces.
 
-Status: **Stage 0 complete.** The backup layer is live; the R package is not built yet.
+Status: **Stages 0 and 1 complete.** The backup layer is live and the read-only core
+of the `lipdverseUpdater` package is built and tested. Nothing writes to the database
+yet.
+
+## Stage 1 — the read-only core
+
+```r
+devtools::load_all(".")
+
+cfg <- lv_config("hydroclimate2k")   # typed config; 20 compilations validate
+s   <- lv_scan(cfg$lipd_dir)         # content-hash scan + fingerprint
+idx <- lv_db_index(s)                # identity index, metadata only
+lv_validate_identity(idx)            # the gate
+```
+
+| file | what it provides |
+|---|---|
+| `R/paths.R` | every path and secret from the environment, nothing hardcoded |
+| `R/config.R` | `lv_config()` layering defaults, registry, per-compilation YAML, overrides |
+| `R/issues.R` | `lv_issues` accumulator; `error` severity aborts *after* the report is written |
+| `R/scan.R` | byte-hash scan, `touch`-stable fingerprint, scan diffing |
+| `R/identity.R` | `lv_db_index()` — reads only the JSON member of each `.lpd` |
+| `R/validate_identity.R` | duplicate and missing-identifier gate; never auto-renames |
+| `R/lock.R` | atomic locks released by `withr::defer` on any exit path |
+| `R/cache.R` | content-addressed stage cache with atomic writes |
+| `R/logging.R` | run ids, per-run artifact directories, logging |
+
+Run the tests with
+`Rscript -e 'devtools::load_all("."); testthat::test_dir("tests/testthat", package="lipdverseUpdater", load_package="none")'`
+(115 tests).
+
+### Identity of the current database
+
+`lv_validate_identity()` over all 7,177 datasets and 210,363 timeseries in
+`database/` reports **zero issues**: no duplicate TSids, datasetIds or dataSetNames,
+no missing identifiers, no filename/metadata mismatches, no unreadable files. Indexing
+takes ~35s.
+
+The suite includes negative controls that inject each fault class, because without
+them a clean result is indistinguishable from a validator that never fires.
+
+That means lipdverseR's `-dup` TSid renaming is currently defending against a condition
+that does not exist in the files.
+
+### QC sheets versus files
+
+TSids present in a QC sheet but in no `.lpd`, per compilation: GBRCD 1,199 of 1,199
+(it reads its own database — see below), HoloceneHydroclimate 36, HoloceneAbruptChange
+31, `test` 23, everything else 3 or fewer.
 
 ## Stage 0 — backup and baseline
 
