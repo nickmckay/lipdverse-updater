@@ -226,3 +226,57 @@ test_that("a field missing from the registry is reported, not silently merged", 
   p <- merge3(cells("T1","notAField","x"), cells("T1","notAField","y"), cells("T1","notAField","x"))
   expect_equal(p$summary$n_unknown_fields, 1)
 })
+
+# ---- regressions found by running against real data ------------------------
+
+# The sheet writes 2001.54167 and the file 2001.5417: the same measurement
+# rounded differently. Comparing as text made every run report thousands of
+# changes on minYear/maxYear/lat/lon, which would churn the store and the sheet
+# and bury real edits.
+test_that("values differing only in precision are not changes", {
+  b <- cells("T1", "minYear", "1770.7917")
+  s <- cells("T1", "minYear", "1770.79167")
+  p <- merge3(b, s, b)
+  expect_equal(res(p, "T1", "minYear")$resolution, "unchanged")
+})
+
+test_that("a real numeric change at the shared precision is still detected", {
+  b <- cells("T1", "minYear", "1770.7917")
+  s <- cells("T1", "minYear", "1770.7918")
+  expect_equal(res(merge3(b, s, b), "T1", "minYear")$resolution, "sheet")
+})
+
+test_that("text values that are not numbers still compare as text", {
+  b <- cells("T1", "archiveType", "coral")
+  expect_equal(res(merge3(b, cells("T1","archiveType","Coral"), b), "T1", "archiveType")$resolution,
+               "sheet")
+})
+
+# A cell the sheet does not carry is not a cell the curator emptied. Without
+# this distinction every absent cell reads as a deletion, which is the same
+# conflation that made daff destroy curated values.
+test_that("a cell absent from the sheet does not clear a curated value", {
+  b <- cells("T1", "QC Certification", "A")
+  p <- merge3(b, qc_cells_empty(), b)            # sheet has no such cell at all
+  expect_false(any(p$cells$sheet_clears))
+  expect_equal(res(p, "T1", "QC Certification")$value, "A")
+})
+
+test_that("a cell the sheet carries but leaves blank does clear it", {
+  b <- cells("T1", "QC Certification", "A")
+  s <- cells("T1", "QC Certification", NA_character_)   # present, empty
+  p <- merge3(b, s, b)
+  expect_true(any(p$cells$sheet_clears))
+  expect_true(is.na(res(p, "T1", "QC Certification")$value))
+})
+
+# Merging a settled state against unchanged inputs must do nothing, or every
+# run rewrites the store and the sheet.
+test_that("the merge is idempotent", {
+  s <- dplyr::bind_rows(cells("T1","minYear","1770.79167"), cells("T1","archiveType","coral"))
+  f <- dplyr::bind_rows(cells("T1","minYear","1770.7917"),  cells("T1","archiveType","coral"))
+  p1 <- merge3(qc_cells_empty(), s, f)
+  p2 <- merge3(qc_plan_state(p1), s, f)
+  expect_equal(p2$summary$n_changed, 0)
+  expect_equal(p2$summary$n_cleared, 0)
+})

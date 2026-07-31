@@ -123,3 +123,42 @@ lv_field_rule <- function(field, registry = lv_qc_fields()) {
     known = !is.na(i)
   )
 }
+
+#' Resolve field names to their canonical form
+#'
+#' The QC sheet uses display names (`lat`, `basis`, `QC Certification`) while
+#' the files use canonical ones (`geo_latitude`,
+#' `climateInterpretation1_basis`, `paleoData_QCCertification`). Both sides are
+#' normalised to canonical before merging, so a rename in a sheet header cannot
+#' look like a different field.
+#'
+#' @param field Field names as they appear in a sheet or file.
+#' @param registry The registry.
+#' @return Canonical names; unknown fields are returned unchanged.
+#' @export
+lv_canonical_field <- function(field, registry = lv_qc_fields()) {
+  i <- match(field, registry$qc_name)
+  out <- field
+  syn <- !is.na(i) & registry$role[i] == "synonym" & !is.na(registry$canonical[i])
+  out[syn] <- registry$canonical[i][syn]
+  out
+}
+
+#' The display name a canonical field is written back as
+#'
+#' The inverse of [lv_canonical_field()], for pushing state to a QC sheet.
+#' Where several display names map to one canonical field, the most widely used
+#' one wins.
+#'
+#' @param field Canonical field names.
+#' @param registry The registry.
+#' @return Display names; fields with no alias are returned unchanged.
+#' @export
+lv_display_field <- function(field, registry = lv_qc_fields()) {
+  syn <- registry[registry$role == "synonym" & !is.na(registry$canonical), ]
+  if (nrow(syn) == 0) return(field)
+  syn <- syn[order(-dplyr::coalesce(syn$n_filled, 0L)), ]
+  syn <- syn[!duplicated(syn$canonical), ]
+  i <- match(field, syn$canonical)
+  ifelse(is.na(i), field, syn$qc_name[i])
+}

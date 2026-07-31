@@ -40,6 +40,47 @@
 #' @name qc_merge_rules
 NULL
 
+#' Are two stored values the same value?
+#'
+#' Compares text, except where both sides parse as numbers, in which case they
+#' are compared at the coarser of the two precisions. The sheet and the files
+#' round differently -- 2001.54167 against 2001.5417 is the same measurement
+#' written twice -- and treating those as changes would churn the store and the
+#' sheet on every run while burying real edits.
+#'
+#' Comparing at the coarser precision, rather than with a fixed tolerance, keeps
+#' a genuine change visible: 2001.5417 against 2001.5418 still differs.
+#'
+#' @param x,y Character vectors.
+#' @param numeric_ok Allow numeric comparison; `FALSE` for identifiers, where
+#'   "007" and "7" are different strings and must stay so.
+#' @return Logical vector.
+#' @keywords internal
+values_equal <- function(x, y, numeric_ok = TRUE) {
+  both_na <- is.na(x) & is.na(y)
+  same_text <- !is.na(x) & !is.na(y) & x == y
+  out <- both_na | same_text
+  numeric_ok <- numeric_ok %in% TRUE
+  if (!any(numeric_ok)) return(out)
+
+  cand <- !out & !is.na(x) & !is.na(y) & numeric_ok
+  if (!any(cand)) return(out)
+
+  nx <- suppressWarnings(as.numeric(x[cand]))
+  ny <- suppressWarnings(as.numeric(y[cand]))
+  ok <- !is.na(nx) & !is.na(ny) & is.finite(nx) & is.finite(ny)
+  if (!any(ok)) return(out)
+
+  # Digits after the decimal point: strip everything up to and including the
+  # first dot, leaving "" (and so 0) when there is no dot at all.
+  decimals <- function(v) nchar(sub("^[^.]*\\.?", "", v))
+  dp <- pmin(decimals(x[cand]), decimals(y[cand]))
+  same_num <- rep(FALSE, sum(cand))
+  same_num[ok] <- round(nx[ok], dp[ok]) == round(ny[ok], dp[ok])
+  out[cand] <- same_num
+  out
+}
+
 LV_CLEAR_SENTINEL <- "<<CLEAR>>"
 
 #' Merge policy
@@ -59,13 +100,22 @@ qc_merge_policy <- function(strict = TRUE, clear_sentinel = LV_CLEAR_SENTINEL) {
 #' @export
 qc_merge <- function(base, sheet, frame, registry = lv_qc_fields(),
                      policy = qc_merge_policy()) {
-  cells <- dplyr::full_join(
-    dplyr::full_join(
-      base[, c("tsid", "field", "value")]  |> dplyr::rename(base_value = "value"),
-      sheet[, c("tsid", "field", "value")] |> dplyr::rename(sheet_value = "value"),
-      by = c("tsid", "field")),
-    frame[, c("tsid", "field", "value", "dataset_id")] |> dplyr::rename(file_value = "value"),
-    by = c("tsid", "field"))
+  # Track which sources actually carry each cell. A cell absent from a table is
+  # not the same as a cell present and empty, and only the latter can mean a
+  # curator cleared it.
+  b0 <- base[, c("tsid", "field", "value")]
+  names(b0)[3] <- "base_value"
+  s0 <- sheet[, c("tsid", "field", "value")]
+  names(s0)[3] <- "sheet_value"
+  s0$in_sheet <- TRUE
+  f0 <- frame[, c("tsid", "field", "value", "dataset_id")]
+  names(f0)[3] <- "file_value"
+  f0$in_file <- TRUE
+
+  cells <- dplyr::full_join(dplyr::full_join(b0, s0, by = c("tsid", "field")),
+                            f0, by = c("tsid", "field"))
+  cells$in_sheet <- cells$in_sheet %in% TRUE
+  cells$in_file  <- cells$in_file %in% TRUE
 
   rule <- lv_field_rule(cells$field, registry)
   cells$ownership <- rule$ownership
@@ -95,14 +145,20 @@ qc_merge <- function(base, sheet, frame, registry = lv_qc_fields(),
 
   blank <- function(x) is.na(x) | !nzchar(x)
   explicit_clear <- !is.na(s) & s == policy$clear_sentinel
-  # A blank sheet cell only clears where the curator owns the field and the
-  # registry says it may be cleared.
-  sheet_clears <- explicit_clear | (blank(s) & cells$nullable & !blank(b))
+  # A blank sheet cell only clears where the sheet actually carries that cell,
+  # the curator owns the field, and the registry says it may be cleared. Without
+  # the in_sheet test, a cell the sheet simply does not have would read as a
+  # deletion -- the same conflation that made daff destroy curated values.
+  sheet_clears <- explicit_clear |
+    (cells$in_sheet & blank(s) & cells$nullable & !blank(b))
   # Otherwise a blank from either side means "unchanged", so treat it as base.
   s_eff <- ifelse(sheet_clears, NA_character_, ifelse(blank(s), b, s))
+  # A blank or absent file value never deletes; it means "unchanged".
   f_eff <- ifelse(blank(f), b, f)
 
-  eq <- function(x, y) (is.na(x) & is.na(y)) | (!is.na(x) & !is.na(y) & x == y)
+  # %in% rather than ==: role is NA for fields absent from the registry.
+  is_key <- cells$role %in% "key"
+  eq <- function(x, y) values_equal(x, y, numeric_ok = !is_key)
   s_ch <- !eq(s_eff, b)
   f_ch <- !eq(f_eff, b)
 
