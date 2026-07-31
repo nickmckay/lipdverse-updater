@@ -1,0 +1,6 @@
+url,lipdName,synonym,append/replace,definition,count,note
+,pub_altDataURL,pub_altDataUrl,,,14,case alignment: minority spelling folds into the majority (14 vs 275)
+,hasIGSN,hasIGSN,,,208,"declared standard, not compilation-specific"
+,pub_doiData,pub_doiData,,,208,"declared standard, not compilation-specific"
+,pub_altDataURL,pub_altDataURL,,,275,"declared standard, not compilation-specific"
+,paleoData_uncertaintyAnalyticalUnits,paleoData_uncertaintyAnalyticalUnits,,,1407,"declared standard, not compilation-specific"

@@ -124,3 +124,23 @@ This affects two files:
 
 chronData will matter again for the canonical export schema, which has to
 describe the whole file rather than just the part the pipeline edits.
+
+## key-decisions-addendum.csv
+
+Five rows to paste into the `lipd key standardization` sheet, in its own column
+format. They came out of the GBRCD inventory (GBRCD reads its own database
+directory and had never been scanned).
+
+- `pub_altDataUrl` → `pub_altDataURL`. The two differ only in case; the
+  minority spelling (14 occurrences) folds into the majority (275). Both are
+  GBRCD-only — the main database has no `altDataUrl` key at all.
+- `hasIGSN`, `pub_doiData`, `pub_altDataURL` and
+  `paleoData_uncertaintyAnalyticalUnits` are declared standard rather than
+  compilation-specific, so they are self-mapping canonical entries.
+
+Two candidates were dropped because the sheet already covers them, and adding
+them would have contradicted existing decisions:
+
+- `paleoData_core` is already recorded as a synonym of `paleoData_coreName`.
+- `calibration_targetDataset` is already canonical, with two synonyms
+  (`calibration_dataset`, `calibration_target`) mapping to it.
