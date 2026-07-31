@@ -232,13 +232,57 @@ all three become `certification` inside their own namespace.
 The last row is probably a typo rather than two fields — `useInNam2kHydro`
 occurs in a single dataset against 28 for `useInNAm2kHydro`.
 
+## Collisions from the approved names
+
+Several approved names deliberately consolidate source keys. Whether that
+actually collides depends on the **compilation namespace**, not the field name:
+`iso2kCertification` and `hydroclimate2kCertification` both become
+`QCCertification`, but they land in `iso2k_csm_` and `hydroclimate2k_csm_`
+respectively, so they never meet.
+
+A real collision needs two source keys writing the **same `(compilation,
+field)` on the same column**. Measured across the database, every such case is
+a compilation's private key meeting the shared key being copied into that same
+compilation:
+
+| private key | shared key | target namespace | columns |
+|---|---|---|---|
+| `hydroclimate2kCertification` | `QCCertification` | `hydroclimate2k_csm_QCCertification` | ~844 |
+| `iso2kCertification` | `QCCertification` | `iso2k_csm_QCCertification` | ~729 |
+| `meetsHoloceneHydroclimateCriteria` | `QCCertification` | `HoloceneHydroclimate_csm_QCCertification` | ~274 |
+| `iso2kHackathonNotes` | `QCnotes` | `iso2k_csm_QCnotes` | ~187 |
+
+These arise precisely because iso2k, hydroclimate2k and HoloceneHydroclimate
+each invented a private key to escape the shared field. Migration reunites them.
+
+**Rule: append rather than overwrite.** When two source keys resolve to the
+same `(compilation, field)` on a column:
+
+1. If the values are identical, keep one.
+2. If one is empty, keep the other.
+3. Otherwise concatenate, **compilation-private value first**, separated by
+   `"; "`. The private value is the more specific judgement, so it reads first;
+   nothing is lost either way.
+
+No other collisions occur. `useIn` consolidates `iso2kPrimaryTimeseries`,
+`useInOnset` and `useInNAm2kHydro`, but no column carries more than one of them.
+
 ## Open items
 
-1. **`iso2kUI` still repeats the compilation.** It was protected from
-   shortening because `UI` is only two characters. `iso2k_csm_UI` is likely what
-   is wanted.
+1. **Two pairs differ only by letter case, producing near-duplicate fields.**
 
-2. **Three keys have no resolvable owner**: `geo_paleoDIVERSiteId`,
-   `paleoData_useInNAm2k`, `paleoData_useInNam2kHydro`. paleoDIVER is not a
-   compilation name in any file, and `NAm2k` is ambiguous between `NAm21k`,
-   `NAm21k-noPollen` and `Nam2kDendro`.
+   - `chronData_SISALEntityID` maps to `SISALEntityID` at `column` scope but
+     `entityID` at `table` scope, while `paleoData_SISALEntityID` maps to
+     `entityID`. That yields both `SISALLiPD_csm_SISALEntityID` and
+     `SISALLiPD_csm_entityID`; presumably all three should be `entityID`.
+   - `paleoData_pages2kID` and `paleoData_pages2kId` map to `pages2kID` and
+     `pages2kId`, giving `Pages2kTemperature_csm_pages2kID` alongside
+     `Pages2kTemperature_csm_pages2kId`. These look like one field with a
+     capitalisation typo in the source data (781 versus 81 occurrences).
+
+2. **Three keys have no resolvable owner**, and are now marked `Remove`:
+   `geo_paleoDIVERSiteId`, `paleoData_useInNAm2k`, `paleoData_useInNam2kHydro`,
+   along with `paleoDIVERDatasetId` and `paleoDIVERSiteId`.
+
+3. **`paleoData_ocean2kID` and `paleoData_useInNAm2kHydro` have no compilation
+   assigned** — neither `Remove` nor an owner.
