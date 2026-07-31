@@ -42,11 +42,23 @@ lv_write_dirs <- function(dir, run_id) {
 #' @export
 lv_verify_file <- function(path, expect_name = NULL, min_bytes = 200,
                            strict_valid = TRUE) {
-  bad <- function(check, msg) lv_issues(check = check, severity = "error", message = msg, path = path)
+  r <- lv_verify_worker(path, expect_name, min_bytes, strict_valid)
+  if (is.null(r)) return(lv_issues_empty())
+  lv_issues(check = r$check, severity = "error", message = r$message, path = path)
+}
 
-  if (!fs::file_exists(path)) return(bad("staged_missing", "Staged file does not exist."))
-  if (fs::file_size(path) < min_bytes) {
-    return(bad("staged_too_small", paste0("Staged file is ", fs::file_size(path), " bytes.")))
+# The unit of work, deliberately self-contained: it touches only lipdR and base
+# R, and returns a plain list rather than an lv_issues row. Parallel workers
+# cannot see this package when it is loaded with devtools::load_all(), so
+# anything dispatched to them must not depend on it.
+lv_verify_worker <- function(path, expect_name = NULL, min_bytes = 200,
+                             strict_valid = TRUE) {
+  bad <- function(check, message) list(check = check, message = message)
+
+  if (!file.exists(path)) return(bad("staged_missing", "Staged file does not exist."))
+  sz <- file.size(path)
+  if (is.na(sz) || sz < min_bytes) {
+    return(bad("staged_too_small", paste0("Staged file is ", sz, " bytes.")))
   }
 
   L <- tryCatch(lipdR::readLipd(path), error = function(e) e)
@@ -61,14 +73,15 @@ lv_verify_file <- function(path, expect_name = NULL, min_bytes = 200,
   }
   # validLipd() reports by returning FALSE, not by erroring, so the return value
   # has to be checked. Catching only errors let an invalid file through the gate.
-  valid <- tryCatch(suppressWarnings(lipdR::validLipd(L)), error = function(e) e)
+  valid <- tryCatch(suppressWarnings(suppressMessages(lipdR::validLipd(L))),
+                    error = function(e) e)
   if (inherits(valid, "error")) {
     return(bad("staged_invalid", paste("validLipd errored:", conditionMessage(valid))))
   }
   if (isTRUE(strict_valid) && !isTRUE(all(unlist(valid)))) {
     return(bad("staged_invalid", "validLipd reported the file as invalid."))
   }
-  lv_issues_empty()
+  NULL
 }
 
 #' Promote a directory of prepared LiPD files into the database
@@ -114,15 +127,25 @@ lv_promote <- function(staging, dir = lv_path("database"), run_id = lv_run_id(),
   if (verify) {
     cli::cli_alert_info("Verifying {nrow(plan)} staged file{?s}")
     n <- workers %||% max(1L, min(8L, future::availableCores() - 1L))
-    checks <- if (nrow(plan) < 40) {
-      purrr::map2(plan$staged_path, sub("\\.lpd$", "", plan$file), lv_verify_file)
+    worker <- lv_verify_worker
+    environment(worker) <- globalenv()   # detach from this package's namespace
+    res <- if (nrow(plan) < 40) {
+      purrr::map2(plan$staged_path, sub("\\.lpd$", "", plan$file), worker)
     } else {
       oplan <- future::plan(future::multisession, workers = n)
       on.exit(future::plan(oplan), add = TRUE)
-      furrr::future_map2(plan$staged_path, sub("\\.lpd$", "", plan$file), lv_verify_file,
-                         .options = furrr::furrr_options(seed = TRUE))
+      furrr::future_map2(plan$staged_path, sub("\\.lpd$", "", plan$file), worker,
+                         .options = furrr::furrr_options(seed = TRUE,
+                                                         packages = "lipdR"))
     }
-    issues <- do.call(lv_issues_bind, checks)
+    hit <- which(!vapply(res, is.null, logical(1)))
+    issues <- if (length(hit)) {
+      lv_issues(check = vapply(res[hit], `[[`, character(1), "check"),
+                severity = "error",
+                message = vapply(res[hit], `[[`, character(1), "message"),
+                path = plan$staged_path[hit],
+                dataSetName = sub("\\.lpd$", "", plan$file[hit]))
+    } else lv_issues_empty()
   }
 
   receipt <- structure(list(
