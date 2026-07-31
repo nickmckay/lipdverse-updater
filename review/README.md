@@ -181,3 +181,48 @@ Source against migrated, over a 300-dataset sample:
   since 0.7.0), and ensemble tables' `number` field expanding into an indexed
   list. A plain `readLipd`/`writeLipd` with no migration logic reproduces the
   latter exactly, on 12 of the 300 sampled datasets.
+
+## test-compilation.csv
+
+The TSid list for a standing test compilation: a health check meant to be run
+regularly, chosen for coverage rather than size.
+
+**161 datasets, 2,824 TSids, 56 MB.** Every paleo column of each chosen dataset
+is included — a partial dataset would make the membership tab and the files
+disagree in a way no real compilation does.
+
+Selection is deterministic (fixed seed) so the list is stable across
+regenerations, and each row records why its dataset was picked. Regenerate with
+`../scripts/select-test-compilation.R`.
+
+Quotas are taken per condition rather than sampled at random, so a rare
+condition cannot be missed:
+
+| condition | datasets |
+|---|---|
+| all 17 archive types | 161 |
+| interpretations | 161 |
+| carries compilation-specific metadata | 160 |
+| calibration metadata | 123 |
+| chron data | 100 |
+| in 2–3 compilations | 63 |
+| in exactly 1 | 62 |
+| ensemble tables | 24 |
+| cross-compilation conflicts | 23 |
+| in 4+ compilations | 21 |
+| in no compilation at all | 15 |
+| ≤3 columns | 28 |
+| ≥100 columns | 8 |
+| non-alphanumeric names | 7 |
+| the reported incident records | 2 (`LS12THAY`, `LS14FEZA`) |
+
+Three detectors were wrong on the first pass and are worth knowing about:
+
+- `LS12THAY` and `LS14FEZA` are **record prefixes, not TSids** — the actual
+  identifiers are `LS12THAY01E`, `LS12THAY01B` and so on. Matching exactly found
+  nothing.
+- Ensembles are invisible in the key inventory, because an ensemble column looks
+  like any other column. They are detected by scanning the jsonld of the 900
+  largest files for `ensembleTable`.
+- No dataset has a single column; the minimum is 2 (a value and its time axis),
+  so a "single column" quota could never match.
