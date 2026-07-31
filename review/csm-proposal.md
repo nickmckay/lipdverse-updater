@@ -267,22 +267,40 @@ same `(compilation, field)` on a column:
 No other collisions occur. `useIn` consolidates `iso2kPrimaryTimeseries`,
 `useInOnset` and `useInNAm2kHydro`, but no column carries more than one of them.
 
-## Open items
+## Final disposition
 
-1. **Two pairs differ only by letter case, producing near-duplicate fields.**
+**34 keys migrate into 10 compilation namespaces; 6 are deleted from the files.**
 
-   - `chronData_SISALEntityID` maps to `SISALEntityID` at `column` scope but
-     `entityID` at `table` scope, while `paleoData_SISALEntityID` maps to
-     `entityID`. That yields both `SISALLiPD_csm_SISALEntityID` and
-     `SISALLiPD_csm_entityID`; presumably all three should be `entityID`.
-   - `paleoData_pages2kID` and `paleoData_pages2kId` map to `pages2kID` and
-     `pages2kId`, giving `Pages2kTemperature_csm_pages2kID` alongside
-     `Pages2kTemperature_csm_pages2kId`. These look like one field with a
-     capitalisation typo in the source data (781 versus 81 occurrences).
+| namespace | fields |
+|---|---|
+| `CoralHydro2k` | 9 |
+| `HoloceneAbruptChange` | 5 |
+| `iso2k` | 4 |
+| `Pages2kTemperature` | 3 |
+| `LegacyClimateLiPD`, `SISALLiPD` | 2 each |
+| `HoloceneHydroclimate`, `Temp12k`, `hydroclimate2k`, `test` | 1 each |
 
-2. **Three keys have no resolvable owner**, and are now marked `Remove`:
-   `geo_paleoDIVERSiteId`, `paleoData_useInNAm2k`, `paleoData_useInNam2kHydro`,
-   along with `paleoDIVERDatasetId` and `paleoDIVERSiteId`.
+Resolved during review:
 
-3. **`paleoData_ocean2kID` and `paleoData_useInNAm2kHydro` have no compilation
-   assigned** — neither `Remove` nor an owner.
+- All three `SISALEntityID` sources use one spelling, `SISALEntityID`.
+- `paleoData_pages2kID` and `paleoData_pages2kId` were one field with a
+  capitalisation typo in the source (781 versus 81 occurrences); both map to
+  `pages2kID`.
+- `paleoData_ocean2kID` is kept as `Pages2kTemperature_csm_ocean2kID`. Ocean2k
+  was a PAGES 2k working group and 102 of the 152 datasets carrying the key are
+  in `Pages2kTemperature`.
+- `paleoData_useInNAm2kHydro` and `paleoData_useInNam2kHydro` are deleted. No
+  `NAm2kHydro` compilation exists in any file or in the registry; the nearest
+  names are `Nam2kDendro`, `NAm21k-noPollen` and `Hydro21k`, none of which is it.
+
+Deleted entirely: `paleoDIVERDatasetId`, `paleoDIVERSiteId`,
+`geo_paleoDIVERSiteId` (paleoDIVER is not a compilation in any file),
+`paleoData_useInNAm2k`, and the two `useIn*Hydro` variants.
+
+Verified: no two fields within a namespace differ only by case.
+
+## Remaining dependency
+
+The `lipdR` changes — the extract post-pass, merge-safe collapse, and removal of
+the half-finished `compSpecificMetadata` block — are outside this repository and
+need Dave Edge in the loop.
