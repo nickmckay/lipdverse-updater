@@ -67,6 +67,33 @@ test_that("a tombstone removes a cell from state but stays in history", {
   expect_equal(qc_state_at(s, "demo", "2026-01-15T00:00:00Z")$value, "check")
 })
 
+# Regression: two appends inside the same second carry identical timestamps.
+# Ordering by anything non-monotonic (run_id is random) let the later event sort
+# first, so "latest wins" could resolve to the superseded value. This surfaced
+# only intermittently, which is exactly why it is pinned here.
+test_that("appends in the same second stay in order", {
+  s <- local_store()
+  fixed <- "2026-01-01T00:00:00Z"
+  for (v in c("v1", "v2", "v3", "v4", "v5")) {
+    qc_store_append(s, "demo", ev("T1", "archiveType", new = v, ts = fixed))
+  }
+  st <- qc_state_current(s, "demo")
+  expect_equal(nrow(st), 1)
+  expect_equal(st$value, "v5")
+
+  e <- qc_store_events(s, "demo")
+  expect_equal(e$new_value, c("v1", "v2", "v3", "v4", "v5"))
+})
+
+test_that("a tombstone written in the same second as its value still clears", {
+  s <- local_store()
+  fixed <- "2026-01-01T00:00:00Z"
+  qc_store_append(s, "demo", ev("T1", "QC comments", new = "check", ts = fixed))
+  qc_store_append(s, "demo", ev("T1", "QC comments", old = "check", new = NA_character_,
+                                new_p = FALSE, ts = fixed))
+  expect_equal(nrow(qc_state_current(s, "demo")), 0)
+})
+
 test_that("compilations are independent", {
   s <- local_store()
   qc_store_append(s, "a", ev("T1", "archiveType", new = "coral"))

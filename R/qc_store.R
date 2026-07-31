@@ -103,7 +103,13 @@ qc_store_append <- function(store, compilation, events, run_id = lv_run_id()) {
 
   d <- store_dir(store, compilation, "events")
   fs::dir_create(d)
-  p <- fs::path(d, paste0(gsub("[^0-9]", "", events$ts[1]), "_", events$run_id[1], ".csv"))
+  # A zero-padded append sequence, not the timestamp, establishes order. Two
+  # appends inside the same second carry identical timestamps, and ordering by
+  # anything else (run_id is random) would let a later event sort first and be
+  # overwritten by the earlier one when materialising "latest wins".
+  n <- length(fs::dir_ls(d, glob = "*.csv"))
+  p <- fs::path(d, sprintf("%06d_%s_%s.csv", n + 1L,
+                           gsub("[^0-9]", "", events$ts[1]), events$run_id[1]))
   readr::write_csv(events[, LV_EVENT_COLS], p, na = "")
   invisible(p)
 }
@@ -118,15 +124,18 @@ qc_store_events <- function(store, compilation) {
   if (!fs::dir_exists(d)) return(qc_events_empty())
   f <- sort(fs::dir_ls(d, glob = "*.csv"))
   if (!length(f)) return(qc_events_empty())
-  e <- purrr::list_rbind(lapply(f, function(p) {
-    readr::read_csv(p, col_types = readr::cols(
+  e <- purrr::list_rbind(lapply(seq_along(f), function(i) {
+    x <- readr::read_csv(f[i], col_types = readr::cols(
       .default = readr::col_character(),
       event_seq = readr::col_integer(),
       old_present = readr::col_logical(),
       new_present = readr::col_logical()
     ), progress = FALSE)
+    x$append_seq <- i
+    x
   }))
-  e[order(e$ts, e$run_id, e$event_seq), , drop = FALSE]
+  # Filename order is append order, so this is the true sequence.
+  e[order(e$append_seq, e$event_seq), , drop = FALSE]
 }
 
 #' Materialise the current (or a historical) QC state
@@ -146,7 +155,7 @@ qc_state_at <- function(store, compilation, as_of = NULL) {
   if (!is.null(as_of)) e <- e[e$ts <= as_of, , drop = FALSE]
   if (nrow(e) == 0) return(qc_cells_empty())
 
-  e <- e[order(e$tsid, e$field, e$ts, e$run_id, e$event_seq), , drop = FALSE]
+  e <- e[order(e$tsid, e$field, e$append_seq, e$event_seq), , drop = FALSE]
   last <- !duplicated(paste(e$tsid, e$field), fromLast = TRUE)
   x <- e[last, , drop = FALSE]
   x <- x[x$new_present, , drop = FALSE]
