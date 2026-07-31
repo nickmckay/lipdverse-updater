@@ -1,41 +1,41 @@
-key,scope,owner,evidence,shared_across_compilations,in_sheet_cs,name_owner,top_compilation,concentration,count,n_datasets
-paleoData_iso2kUI,column,iso2k,sheet;name;,TRUE,TRUE,iso2k,hydroclimate2k,0.401,25797,1747
-paleoData_SISALEntityID,column,SISAL,sheet;name;concentration;,FALSE,TRUE,SISAL,SISAL-LiPD,0.903,15483,318
-paleoData_QCCertification,column,HoloceneAbruptChange,sheet;,TRUE,TRUE,,HoloceneAbruptChange,0.537,15231,4355
-paleoData_QCnotes,column,HoloceneAbruptChange,sheet;,TRUE,TRUE,,HoloceneAbruptChange,0.62,12608,3613
-paleoData_QCRemainingIssues,column,HoloceneAbruptChange,sheet;,TRUE,TRUE,,HoloceneAbruptChange,0.667,5678,1178
-paleoData_pages2kID,column,pages2k,sheet;name;,TRUE,TRUE,pages2k,Pages2kTemperature,0.76,3043,851
-LegacyClimateDatasetId,root,LegacyClimate,sheet;name;,TRUE,TRUE,LegacyClimate,LegacyClimate-LiPD,0.899,2653,2653
-LegacyClimateSiteId,root,LegacyClimate,sheet;name;,TRUE,TRUE,LegacyClimate,LegacyClimate-LiPD,0.899,2653,2653
-paleoData_iso2kPrimaryTimeseries,column,iso2k,sheet;name;concentration;,FALSE,TRUE,iso2k,iso2k,0.99,1864,516
-geo_pages2kRegion,geo,pages2k,sheet;name;,TRUE,TRUE,pages2k,Pages2kTemperature,0.681,956,956
-paleoData_iso2kCertification,column,iso2k,sheet;name;concentration;,FALSE,TRUE,iso2k,iso2k,0.998,756,491
-paleoData_coralExtensionRate,column,CoralHydro2k,sheet;concentration;,FALSE,TRUE,,CoralHydro2k,1,608,179
-paleoData_coralHydro2kGroup,column,CoralHydro2k,sheet;name;concentration;,FALSE,TRUE,CoralHydro2k,CoralHydro2k,1,608,179
-paleoData_jcpCorrected,column,CoralHydro2k,sheet;concentration;,FALSE,TRUE,,CoralHydro2k,1,608,179
-paleoData_jcpMeasured,column,CoralHydro2k,sheet;concentration;,FALSE,TRUE,,CoralHydro2k,1,608,179
-paleoData_jcpUsed,column,CoralHydro2k,sheet;concentration;,FALSE,TRUE,,CoralHydro2k,1,608,179
-geo_sisalSiteId,geo,SISAL,sheet;name;,TRUE,TRUE,SISAL,SISAL-LiPD,0.544,529,529
-paleoDIVERDatasetId,root,paleoDIVER,sheet;name;,TRUE,TRUE,paleoDIVER,NAm21k-noPollen,0.428,458,458
-paleoDIVERSiteId,root,paleoDIVER,sheet;name;,TRUE,TRUE,paleoDIVER,NAm21k-noPollen,0.428,458,458
-paleoData_useInOnset,column,HoloceneAbruptChange,sheet;concentration;,FALSE,TRUE,,HoloceneAbruptChange,1,457,124
-paleoData_ch2kCoreCode,column,ch2k,sheet;name;concentration;,FALSE,TRUE,ch2k,CoralHydro2k,1,304,179
-paleoData_coralExtensionRateNotes,column,CoralHydro2k,sheet;concentration;,FALSE,TRUE,,CoralHydro2k,1,209,124
-geo_paleoDIVERSiteId,geo,paleoDIVER,sheet;name;concentration;,FALSE,TRUE,paleoDIVER,NAm21k-noPollen,1,190,190
-paleoData_ocean2kID,column,ocean2k,sheet;name;,TRUE,TRUE,ocean2k,Pages2kTemperature,0.671,183,152
-paleoData_pages2kId,column,pages2k,sheet;name;concentration;,FALSE,TRUE,pages2k,iso2k,0.984,96,62
-paleoData_QCLastUpdated,column,HoloceneAbruptChange,sheet;concentration;,FALSE,TRUE,,HoloceneAbruptChange,1,65,8
-paleoData_useInNAm2kHydro,column,NAm2k,sheet;name;,TRUE,TRUE,NAm2k,HoloceneAbruptChange,0.821,53,28
-paleoData_jcpNotes,column,CoralHydro2k,sheet;concentration;,FALSE,TRUE,,CoralHydro2k,1,37,30
-paleoData_coralTissueThickness,column,CoralHydro2k,sheet;concentration;,FALSE,TRUE,,CoralHydro2k,1,9,5
-paleoData_temp12kDkIndex,column,Temp12k,name;,TRUE,FALSE,Temp12k,HoloceneAbruptChange,0.899,5584,1322
-chronData_SISALEntityID,column,SISAL,name;concentration;,FALSE,FALSE,SISAL,SISAL-LiPD,1,5355,79
-paleoData_hydroclimate2kCertification,column,hydroclimate2k,name;concentration;,FALSE,FALSE,hydroclimate2k,hydroclimate2k,1,4911,700
-paleoData_useInNAm2k,column,NAm2k,name;concentration;,FALSE,FALSE,NAm2k,Nam2kDendro,1,1837,230
-paleoData_iso2kHackathonNotes,column,iso2k,name;concentration;,FALSE,FALSE,iso2k,iso2k,0.979,421,195
-chronData_SISALEntityID,table,SISAL,name;concentration;,FALSE,FALSE,SISAL,SISAL-LiPD,1,399,208
-chronData_hasIso2kUI,column,iso2k,name;concentration;,FALSE,FALSE,iso2k,iso2k,1,374,310
-paleoData_meetsHoloceneHydroclimateCriteria,column,HoloceneHydroclimate,name;concentration;,FALSE,FALSE,HoloceneHydroclimate,SISAL-LiPD,1,343,110
-chronData_iso2kUI,column,iso2k,name;concentration;,FALSE,FALSE,iso2k,hydroclimate2k,1,17,9
-testField,root,test,name;concentration;,FALSE,FALSE,test,HoloceneAbruptChange,1,6,6
-paleoData_useInNam2kHydro,column,NAm2k,name;,FALSE,FALSE,NAm2k,HoloceneAbruptChange,1,1,1
+key,scope,ownership,owner_resolved,comp_key,csm_field,flat_key,shared_across_compilations,evidence,in_sheet_cs,top_compilation,concentration,count,n_datasets
+paleoData_iso2kUI,column,shared - namespaced per writing compilation,iso2k,iso2k,iso2kUI,iso2k_csm_iso2kUI,TRUE,sheet;name;,TRUE,hydroclimate2k,0.401,25797,1747
+paleoData_SISALEntityID,column,single owner,SISAL-LiPD,SISALLiPD,SISALEntityID,SISALLiPD_csm_SISALEntityID,FALSE,sheet;name;concentration;,TRUE,SISAL-LiPD,0.903,15483,318
+paleoData_QCCertification,column,shared - namespaced per writing compilation,HoloceneAbruptChange,HoloceneAbruptChange,QCCertification,HoloceneAbruptChange_csm_QCCertification,TRUE,sheet;,TRUE,HoloceneAbruptChange,0.537,15231,4355
+paleoData_QCnotes,column,shared - namespaced per writing compilation,HoloceneAbruptChange,HoloceneAbruptChange,QCnotes,HoloceneAbruptChange_csm_QCnotes,TRUE,sheet;,TRUE,HoloceneAbruptChange,0.62,12608,3613
+paleoData_QCRemainingIssues,column,shared - namespaced per writing compilation,HoloceneAbruptChange,HoloceneAbruptChange,QCRemainingIssues,HoloceneAbruptChange_csm_QCRemainingIssues,TRUE,sheet;,TRUE,HoloceneAbruptChange,0.667,5678,1178
+paleoData_pages2kID,column,shared - namespaced per writing compilation,Pages2kTemperature,Pages2kTemperature,pages2kID,Pages2kTemperature_csm_pages2kID,TRUE,sheet;name;,TRUE,Pages2kTemperature,0.76,3043,851
+LegacyClimateDatasetId,root,shared - namespaced per writing compilation,LegacyClimate-LiPD,LegacyClimateLiPD,LegacyClimateDatasetId,LegacyClimateLiPD_csm_LegacyClimateDatasetId,TRUE,sheet;name;,TRUE,LegacyClimate-LiPD,0.899,2653,2653
+LegacyClimateSiteId,root,shared - namespaced per writing compilation,LegacyClimate-LiPD,LegacyClimateLiPD,LegacyClimateSiteId,LegacyClimateLiPD_csm_LegacyClimateSiteId,TRUE,sheet;name;,TRUE,LegacyClimate-LiPD,0.899,2653,2653
+paleoData_iso2kPrimaryTimeseries,column,single owner,iso2k,iso2k,iso2kPrimaryTimeseries,iso2k_csm_iso2kPrimaryTimeseries,FALSE,sheet;name;concentration;,TRUE,iso2k,0.99,1864,516
+geo_pages2kRegion,geo,shared - namespaced per writing compilation,Pages2kTemperature,Pages2kTemperature,pages2kRegion,Pages2kTemperature_csm_pages2kRegion,TRUE,sheet;name;,TRUE,Pages2kTemperature,0.681,956,956
+paleoData_iso2kCertification,column,single owner,iso2k,iso2k,iso2kCertification,iso2k_csm_iso2kCertification,FALSE,sheet;name;concentration;,TRUE,iso2k,0.998,756,491
+paleoData_coralExtensionRate,column,single owner,CoralHydro2k,CoralHydro2k,coralExtensionRate,CoralHydro2k_csm_coralExtensionRate,FALSE,sheet;concentration;,TRUE,CoralHydro2k,1,608,179
+paleoData_coralHydro2kGroup,column,single owner,CoralHydro2k,CoralHydro2k,coralHydro2kGroup,CoralHydro2k_csm_coralHydro2kGroup,FALSE,sheet;name;concentration;,TRUE,CoralHydro2k,1,608,179
+paleoData_jcpCorrected,column,single owner,CoralHydro2k,CoralHydro2k,jcpCorrected,CoralHydro2k_csm_jcpCorrected,FALSE,sheet;concentration;,TRUE,CoralHydro2k,1,608,179
+paleoData_jcpMeasured,column,single owner,CoralHydro2k,CoralHydro2k,jcpMeasured,CoralHydro2k_csm_jcpMeasured,FALSE,sheet;concentration;,TRUE,CoralHydro2k,1,608,179
+paleoData_jcpUsed,column,single owner,CoralHydro2k,CoralHydro2k,jcpUsed,CoralHydro2k_csm_jcpUsed,FALSE,sheet;concentration;,TRUE,CoralHydro2k,1,608,179
+geo_sisalSiteId,geo,shared - namespaced per writing compilation,SISAL-LiPD,SISALLiPD,sisalSiteId,SISALLiPD_csm_sisalSiteId,TRUE,sheet;name;,TRUE,SISAL-LiPD,0.544,529,529
+paleoDIVERDatasetId,root,shared - namespaced per writing compilation,,,paleoDIVERDatasetId,,TRUE,sheet;name;,TRUE,NAm21k-noPollen,0.428,458,458
+paleoDIVERSiteId,root,shared - namespaced per writing compilation,,,paleoDIVERSiteId,,TRUE,sheet;name;,TRUE,NAm21k-noPollen,0.428,458,458
+paleoData_useInOnset,column,single owner,HoloceneAbruptChange,HoloceneAbruptChange,useInOnset,HoloceneAbruptChange_csm_useInOnset,FALSE,sheet;concentration;,TRUE,HoloceneAbruptChange,1,457,124
+paleoData_ch2kCoreCode,column,single owner,CoralHydro2k,CoralHydro2k,ch2kCoreCode,CoralHydro2k_csm_ch2kCoreCode,FALSE,sheet;name;concentration;,TRUE,CoralHydro2k,1,304,179
+paleoData_coralExtensionRateNotes,column,single owner,CoralHydro2k,CoralHydro2k,coralExtensionRateNotes,CoralHydro2k_csm_coralExtensionRateNotes,FALSE,sheet;concentration;,TRUE,CoralHydro2k,1,209,124
+geo_paleoDIVERSiteId,geo,OWNER UNRESOLVED - needs review,,,paleoDIVERSiteId,,FALSE,sheet;name;concentration;,TRUE,NAm21k-noPollen,1,190,190
+paleoData_ocean2kID,column,shared - namespaced per writing compilation,,,ocean2kID,,TRUE,sheet;name;,TRUE,Pages2kTemperature,0.671,183,152
+paleoData_pages2kId,column,single owner,Pages2kTemperature,Pages2kTemperature,pages2kId,Pages2kTemperature_csm_pages2kId,FALSE,sheet;name;concentration;,TRUE,iso2k,0.984,96,62
+paleoData_QCLastUpdated,column,single owner,HoloceneAbruptChange,HoloceneAbruptChange,QCLastUpdated,HoloceneAbruptChange_csm_QCLastUpdated,FALSE,sheet;concentration;,TRUE,HoloceneAbruptChange,1,65,8
+paleoData_useInNAm2kHydro,column,shared - namespaced per writing compilation,,,useInNAm2kHydro,,TRUE,sheet;name;,TRUE,HoloceneAbruptChange,0.821,53,28
+paleoData_jcpNotes,column,single owner,CoralHydro2k,CoralHydro2k,jcpNotes,CoralHydro2k_csm_jcpNotes,FALSE,sheet;concentration;,TRUE,CoralHydro2k,1,37,30
+paleoData_coralTissueThickness,column,single owner,CoralHydro2k,CoralHydro2k,coralTissueThickness,CoralHydro2k_csm_coralTissueThickness,FALSE,sheet;concentration;,TRUE,CoralHydro2k,1,9,5
+paleoData_temp12kDkIndex,column,shared - namespaced per writing compilation,Temp12k,Temp12k,temp12kDkIndex,Temp12k_csm_temp12kDkIndex,TRUE,name;,FALSE,HoloceneAbruptChange,0.899,5584,1322
+chronData_SISALEntityID,column,single owner,SISAL-LiPD,SISALLiPD,SISALEntityID,SISALLiPD_csm_SISALEntityID,FALSE,name;concentration;,FALSE,SISAL-LiPD,1,5355,79
+paleoData_hydroclimate2kCertification,column,single owner,hydroclimate2k,hydroclimate2k,hydroclimate2kCertification,hydroclimate2k_csm_hydroclimate2kCertification,FALSE,name;concentration;,FALSE,hydroclimate2k,1,4911,700
+paleoData_useInNAm2k,column,OWNER UNRESOLVED - needs review,,,useInNAm2k,,FALSE,name;concentration;,FALSE,Nam2kDendro,1,1837,230
+paleoData_iso2kHackathonNotes,column,single owner,iso2k,iso2k,iso2kHackathonNotes,iso2k_csm_iso2kHackathonNotes,FALSE,name;concentration;,FALSE,iso2k,0.979,421,195
+chronData_SISALEntityID,table,single owner,SISAL-LiPD,SISALLiPD,SISALEntityID,SISALLiPD_csm_SISALEntityID,FALSE,name;concentration;,FALSE,SISAL-LiPD,1,399,208
+chronData_hasIso2kUI,column,single owner,iso2k,iso2k,hasIso2kUI,iso2k_csm_hasIso2kUI,FALSE,name;concentration;,FALSE,iso2k,1,374,310
+paleoData_meetsHoloceneHydroclimateCriteria,column,single owner,HoloceneHydroclimate,HoloceneHydroclimate,meetsHoloceneHydroclimateCriteria,HoloceneHydroclimate_csm_meetsHoloceneHydroclimateCriteria,FALSE,name;concentration;,FALSE,SISAL-LiPD,1,343,110
+chronData_iso2kUI,column,single owner,iso2k,iso2k,iso2kUI,iso2k_csm_iso2kUI,FALSE,name;concentration;,FALSE,hydroclimate2k,1,17,9
+testField,root,single owner,test,test,testField,test_csm_testField,FALSE,name;concentration;,FALSE,HoloceneAbruptChange,1,6,6
+paleoData_useInNam2kHydro,column,OWNER UNRESOLVED - needs review,,,useInNam2kHydro,,FALSE,name;,FALSE,HoloceneAbruptChange,1,1,1
