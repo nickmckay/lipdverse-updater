@@ -262,3 +262,40 @@ Three ways forward, none of them chosen yet:
 Worth noting the 300-dataset shadow diff did not catch this: it reported
 `differs: 0` because the *values* really are unchanged. Only re-reading every
 file and validating it surfaced the type loss.
+
+## Promote dry run, second pass
+
+After fixing the lipdR all-`NaN` type loss and re-running the migration:
+
+| source | files | result |
+|---|---|---|
+| `database` | 7,177 | **all pass** — promotion gate satisfied |
+| `GBRCD` | 208 | **all fail**, pre-existing |
+
+**GBRCD's entire database is already invalid.** All 208 source files fail
+`validLipd()` with `pub1: author field should be a list` — the author is stored
+as a flat string:
+
+```
+"Alibert, C., Kinsley, L., Fallon, S.J., McCulloch, M.T., Berkelmans, R. & McAllister, F."
+```
+
+rather than the structured `author.name` form the rest of the corpus uses. This
+is the same flat-versus-structured author difference seen in the CoralHydro2k
+fork, and it predates any of this work — the migration neither caused nor
+worsened it.
+
+Three options: fix the author structure in GBRCD (it is a mechanical
+transformation), promote GBRCD with `strict_valid = FALSE` and accept files that
+were already invalid, or leave GBRCD unpromoted until its data is repaired.
+
+### A version-mismatch trap worth remembering
+
+The first re-run still reported the same 14 database failures, which looked like
+the lipdR fix had not worked. It had. The migration script loads lipdR from
+source via `devtools::load_all()`, but `lv_promote()` verifies through
+`lipdR::readLipd()`, which resolves to the **installed** package. So files were
+being written by the fixed lipdR and validated by the unfixed one.
+
+Installing lipdR resolved it. Anything comparing written output against a
+validator must be sure both are the same build.
