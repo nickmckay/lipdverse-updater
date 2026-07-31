@@ -152,22 +152,22 @@ metadata but has no `inCompilation` entry for the target compilation. Attaching
 csm there would assert a membership the file does not record, so the key is
 left where it is and reported.
 
-| source | orphans | distinct keys | note |
-|---|---|---|---|
-| `database` | 6,974 | 24 | 6,423 of them on columns with **no compilation membership at all** |
-| `GBRCD` | 5,581 | 14 | 2,966 on columns that are in GBRCD but carry CoralHydro2k's vocabulary |
+| source | orphans | note |
+|---|---|---|
+| `database` | 6,974 | 6,423 on columns with **no compilation membership at all** |
+| `GBRCD` | 2,615 | all of them on columns with no membership |
 
-Two distinct conditions, both pre-existing:
+**Resolved during review:** GBRCD's coral records carried CoralHydro2k's
+vocabulary (`jcpUsed`, `coralExtensionRate`, `coralExtensionRateNotes`,
+`jcpMeasured`, `coralTissueThickness`) without being members of that
+compilation. Those five terms are now GBRCD compilation-specific terms as well,
+using the same field names, which placed a further 2,966 values and dropped
+GBRCD's orphans from 5,581 to 2,615.
 
-- **No membership.** A column holds `temp12kDkIndex` (1,707), `QCCertification`
-  (553) or similar but records no compilation at all. The value has nowhere to
-  go until membership is established.
-- **Wrong compilation.** GBRCD's coral records carry CoralHydro2k's field
-  vocabulary (`jcpUsed` 1,401, `coralExtensionRate` 786,
-  `coralExtensionRateNotes` 742) without being members of CoralHydro2k.
-
-Each needs a decision: add the membership, delete the value, or leave the key
-flat. The migration takes none of them by default.
+Everything still orphaned sits on a column that records **no compilation
+membership whatsoever** — 1,707 `temp12kDkIndex`, 1,099
+`iso2kPrimaryTimeseries`, 553 `QCCertification` and so on. Those keys stay flat
+for now; there is nowhere to put them until membership is established.
 
 ## Migration verification
 
