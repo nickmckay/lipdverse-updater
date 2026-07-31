@@ -226,3 +226,39 @@ Three detectors were wrong on the first pass and are worth knowing about:
   largest files for `ensembleTable`.
 - No dataset has a single column; the minimum is 2 (a value and its time axis),
   so a "single column" quota could never match.
+
+## promote-dryrun-failures.csv
+
+`lv_promote(dry_run = TRUE)` over all 7,177 migrated files: **7,163 pass, 14
+fail**, so the promotion is blocked until these are resolved.
+
+All 14 fail the same way, and **the migration is not the cause**. Each is valid
+in the source database and invalid after, but a plain `readLipd()` →
+`writeLipd()` with no migration logic reproduces it exactly.
+
+**Mechanism.** An all-`NaN` numeric column loses its type on a lipdR round trip:
+
+```
+source, after readLipd :  depth  class=numeric  n=1422  NaN,NaN,NaN
+after readLipd/writeLipd: depth  class=logical  n=1422  NA,NA,NA
+```
+
+`writeLipd()` emits `NaN` to the CSV; on re-read an all-`NaN` column is typed
+logical, and `validLipd()` then rejects the file with "depth values are not
+numeric". Every one of the 14 has at least one all-`NaN` numeric column —
+`SP05CRBR` has 18 of them.
+
+This is the reverse of the bug fixed in lipdR 0.7.0, where string and logical
+columns were written as `NaN`. The values are not lost (they were already
+`NaN`), but the column type is, and that is enough to make the file invalid.
+
+Three ways forward, none of them chosen yet:
+
+1. Fix `lipdR` so an all-`NaN` numeric column keeps its type.
+2. Have the migration restore the type after writing.
+3. Treat an all-`NaN` column as meaningless and drop it — a data question, not a
+   code one.
+
+Worth noting the 300-dataset shadow diff did not catch this: it reported
+`differs: 0` because the *values* really are unchanged. Only re-reading every
+file and validating it surfaced the type loss.

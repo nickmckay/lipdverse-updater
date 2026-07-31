@@ -1,0 +1,15 @@
+dataSetName,check,message,cause,path
+IC10VISB,staged_invalid,validLipd reported the file as invalid.,all-NaN numeric column loses its type on a lipdR read/write round trip,/Users/nicholas/lipdverse-staging/csm-database/IC10VISB.lpd
+LS06DENA,staged_invalid,validLipd reported the file as invalid.,all-NaN numeric column loses its type on a lipdR read/write round trip,/Users/nicholas/lipdverse-staging/csm-database/LS06DENA.lpd
+LS06JONA,staged_invalid,validLipd reported the file as invalid.,all-NaN numeric column loses its type on a lipdR read/write round trip,/Users/nicholas/lipdverse-staging/csm-database/LS06JONA.lpd
+LS06TIST,staged_invalid,validLipd reported the file as invalid.,all-NaN numeric column loses its type on a lipdR read/write round trip,/Users/nicholas/lipdverse-staging/csm-database/LS06TIST.lpd
+LS08LICA,staged_invalid,validLipd reported the file as invalid.,all-NaN numeric column loses its type on a lipdR read/write round trip,/Users/nicholas/lipdverse-staging/csm-database/LS08LICA.lpd
+LS14ZHJU,staged_invalid,validLipd reported the file as invalid.,all-NaN numeric column loses its type on a lipdR read/write round trip,/Users/nicholas/lipdverse-staging/csm-database/LS14ZHJU.lpd
+LS15SHBO,staged_invalid,validLipd reported the file as invalid.,all-NaN numeric column loses its type on a lipdR read/write round trip,/Users/nicholas/lipdverse-staging/csm-database/LS15SHBO.lpd
+SP03BMIL,staged_invalid,validLipd reported the file as invalid.,all-NaN numeric column loses its type on a lipdR read/write round trip,/Users/nicholas/lipdverse-staging/csm-database/SP03BMIL.lpd
+SP05CRBR,staged_invalid,validLipd reported the file as invalid.,all-NaN numeric column loses its type on a lipdR read/write round trip,/Users/nicholas/lipdverse-staging/csm-database/SP05CRBR.lpd
+SP07FLOM,staged_invalid,validLipd reported the file as invalid.,all-NaN numeric column loses its type on a lipdR read/write round trip,/Users/nicholas/lipdverse-staging/csm-database/SP07FLOM.lpd
+SP07WABR,staged_invalid,validLipd reported the file as invalid.,all-NaN numeric column loses its type on a lipdR read/write round trip,/Users/nicholas/lipdverse-staging/csm-database/SP07WABR.lpd
+SP08SPUS,staged_invalid,validLipd reported the file as invalid.,all-NaN numeric column loses its type on a lipdR read/write round trip,/Users/nicholas/lipdverse-staging/csm-database/SP08SPUS.lpd
+SP10MEMX,staged_invalid,validLipd reported the file as invalid.,all-NaN numeric column loses its type on a lipdR read/write round trip,/Users/nicholas/lipdverse-staging/csm-database/SP10MEMX.lpd
+SP12NOBR,staged_invalid,validLipd reported the file as invalid.,all-NaN numeric column loses its type on a lipdR read/write round trip,/Users/nicholas/lipdverse-staging/csm-database/SP12NOBR.lpd
