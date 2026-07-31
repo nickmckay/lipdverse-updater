@@ -144,3 +144,40 @@ them would have contradicted existing decisions:
 - `paleoData_core` is already recorded as a synonym of `paleoData_coreName`.
 - `calibration_targetDataset` is already canonical, with two synonyms
   (`calibration_dataset`, `calibration_target`) mapping to it.
+
+## csm-migration-orphans-*.csv
+
+Cells the csm migration could not place, because the column carries the
+metadata but has no `inCompilation` entry for the target compilation. Attaching
+csm there would assert a membership the file does not record, so the key is
+left where it is and reported.
+
+| source | orphans | distinct keys | note |
+|---|---|---|---|
+| `database` | 6,974 | 24 | 6,423 of them on columns with **no compilation membership at all** |
+| `GBRCD` | 5,581 | 14 | 2,966 on columns that are in GBRCD but carry CoralHydro2k's vocabulary |
+
+Two distinct conditions, both pre-existing:
+
+- **No membership.** A column holds `temp12kDkIndex` (1,707), `QCCertification`
+  (553) or similar but records no compilation at all. The value has nowhere to
+  go until membership is established.
+- **Wrong compilation.** GBRCD's coral records carry CoralHydro2k's field
+  vocabulary (`jcpUsed` 1,401, `coralExtensionRate` 786,
+  `coralExtensionRateNotes` 742) without being members of CoralHydro2k.
+
+Each needs a decision: add the membership, delete the value, or leave the key
+flat. The migration takes none of them by default.
+
+## Migration verification
+
+Source against migrated, over a 300-dataset sample:
+
+- **`differs`: 0.** No value was changed by the migration.
+- Moved keys balance exactly — 463 `paleoData.SISALEntityID` out, 463
+  `inCompilation[1].csm.SISALEntityID` in.
+- The remaining diff is entirely lipdR round-trip behaviour, not migration:
+  the `inCompilationBeta` → `inCompilation` rename (intended, applied on read
+  since 0.7.0), and ensemble tables' `number` field expanding into an indexed
+  list. A plain `readLipd`/`writeLipd` with no migration logic reproduces the
+  latter exactly, on 12 of the 300 sampled datasets.
