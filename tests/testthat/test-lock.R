@@ -62,9 +62,18 @@ test_that("a lock held by a dead process is stale and gets broken", {
 
 test_that("a lock past its timeout is stale even if the pid is alive", {
   withr::local_envvar(LIPDVERSE_STATE = withr::local_tempdir())
-  lv_lock("demo", timeout_minutes = 0)
-  Sys.sleep(0.05)
-  expect_true(lv_lock_status("demo")$stale)
+  lv_lock("demo", timeout_minutes = 60)
+
+  # Backdate rather than sleep: a wall-clock race makes this test depend on
+  # machine load, and it should be testing the timeout rule, not the clock.
+  f <- fs::path(lv_path("state"), "locks", "demo.lock", "lock.json")
+  info <- jsonlite::read_json(f, simplifyVector = TRUE)
+  info$started_at <- format(Sys.time() - 3600 * 3, "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
+  jsonlite::write_json(info, f, auto_unbox = TRUE)
+
+  s <- lv_lock_status("demo")
+  expect_true(s$stale)
+  expect_gt(s$age_minutes, 60)
   lv_unlock("demo")
 })
 
