@@ -285,9 +285,20 @@ is the same flat-versus-structured author difference seen in the CoralHydro2k
 fork, and it predates any of this work — the migration neither caused nor
 worsened it.
 
-Three options: fix the author structure in GBRCD (it is a mechanical
-transformation), promote GBRCD with `strict_valid = FALSE` and accept files that
-were already invalid, or leave GBRCD unpromoted until its data is repaired.
+**Resolved.** `scripts/fix-gbrcd-authors.R` wraps the flat string as
+`list(list(name = <string>))`, matching lipdverseR's `fixPubAuthorList()`. All
+208 files now pass.
+
+Names are deliberately **not** split into separate entries. A sample of 106
+datasets from the main database found **99% of structured author lists carry
+exactly one entry**, so a single entry holding the whole string is the corpus
+convention rather than a compromise. Splitting would also mean parsing
+"Surname, I." against the commas separating authors — the kind of guess that
+corrupts names.
+
+Verified by shadow diff that nothing but the author field changed: 289 rows out,
+289 in, `pub[N].author` → `pub[N].author[1].name`, and **zero non-author
+differences**.
 
 ### A version-mismatch trap worth remembering
 
