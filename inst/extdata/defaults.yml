@@ -1,0 +1,30 @@
+# Defaults for every compilation. Override per compilation in
+# inst/extdata/compilations/<name>.yml; the registry in compilations.tsv
+# supplies the identifiers.
+
+age_or_year: age
+lipd_dir: database
+
+qc_tabs:
+  qc: QC
+  datasets: datasetsInCompilation
+
+# from_sheet: membership comes from the datasetsInCompilation tab.
+# from_qc:    membership comes from inThisCompilation in the QC tab.
+membership: from_sheet
+
+standardize_terms: false
+export: true
+
+# legacy | shadow | live. Nothing is written to the real database until a
+# compilation reaches `live`, so this is the cutover switch.
+cutover: shadow
+
+# Abort rather than proceed when the merge leaves unresolved conflicts.
+strict: true
+
+# Call lipdverseR's web functions after the data stages, until the site
+# generator exists in its own repo.
+legacy_web_hook: true
+
+lock_timeout_minutes: 240
