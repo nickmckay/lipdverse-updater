@@ -108,3 +108,19 @@ only 62 of those are substantive — all CoralHydro2k vs hydroclimate2k, and
 almost entirely the short-name/standard-name boundary
 (`SrCa_annual` vs `Sr/Ca`, `d18O_sw` vs `d18O`). Use
 `../scripts/report-cross-compilation-conflicts.R` for the per-cell detail.
+
+## Scope note: chronData is deferred
+
+LiPDverse updates have only ever touched `paleoData`. Chronology keys therefore
+need no merge rule, no ownership classification and no csm handling until that
+changes.
+
+This affects two files:
+
+- `key-gap-not-in-sheet.csv` — 93 of its 148 keys are `chronData_*` and can be
+  ignored for now, leaving 55 that matter.
+- `qc-field-ownership.csv` — unaffected, since it is built from QC sheet columns
+  and those are already paleo-only.
+
+chronData will matter again for the canonical export schema, which has to
+describe the whole file rather than just the part the pipeline edits.
