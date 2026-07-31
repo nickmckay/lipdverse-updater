@@ -110,33 +110,43 @@ than conflicts.
 
 ## Per-compilation database directories
 
-17 compilations read and write `~/Dropbox/lipdverse/database`. Three do not:
+`lipd_dir` is per-compilation, not global. **GBRCD is the only genuinely separate
+database** (`~/Dropbox/lipdverse/GBRCD`, 208 files): only 4 of its filenames also
+appear in `database/`, it is identity-clean, and 100% of its 1,199 QC TSids match its
+own files.
 
-| compilation | directory | files |
+`test` uses `~/Dropbox/lipdverse/testDatabase` (15 files) and is not a real compilation.
+
+### CoralHydro2k: integrated, but `drakePlan.R` still points at the old directory
+
+CoralHydro2k **has** been integrated into `database/` — all 179 of its datasets carry
+`inCompilationBeta: CoralHydro2k` there. The registry here points it at `database`
+accordingly.
+
+`~/Dropbox/lipdverse/CoralHydro2k/` still exists and still holds all 179 datasets, and
+`lipdverseR`'s `drakePlan.R` still names it as that compilation's `lipdDir`. So the last
+CoralHydro2k run (2025-06-30) wrote to the stale fork rather than to the integrated
+copies, and the two have diverged in both directions:
+
+| | fork | `database/` |
 |---|---|---|
-| `CoralHydro2k` | `~/Dropbox/lipdverse/CoralHydro2k` | 179 |
-| `GBRCD` | `~/Dropbox/lipdverse/GBRCD` | 208 |
-| `test` | `~/Dropbox/lipdverse/testDatabase` | 15 |
+| dataset version | 1.0.3 | 1.0.5 / 1.0.6 |
+| CoralHydro2k compilation version | **1.0.1** | 1.0.0 |
+| `archiveType` | `coral` | `Coral` |
+| `variableName` | `SrCa`, `SrCaUncertainty` | `Sr/Ca`, `uncertainty` |
 
-`lipd_dir` is therefore per-compilation, not global.
+The `database/` copies got vocabulary standardization and other compilations' updates;
+the fork got a CoralHydro2k run that the integrated copies never received. All 179 files
+differ; none is byte-identical.
 
-GBRCD is genuinely separate: only 4 of its 208 filenames also appear in `database/`,
-and it is identity-clean with 100% of its 1,199 QC TSids matching its own files.
+Two consequences:
 
-**CoralHydro2k is a fork, and this one needs a decision.** All 179 of its datasets
-exist in *both* directories with the same `datasetId` and the same 608 TSids, but no
-file is byte-identical:
-
-- the `CoralHydro2k/` copy is frozen at dataset version `1.0.3`; the `database/` copy
-  has advanced to `1.0.5`/`1.0.6`
-- all 179 disagree on `archiveType`
-- 171 of 608 TSids disagree on `variableName` (`SrCa` vs `Sr/Ca`,
-  `SrCaUncertainty` vs `uncertainty`) — the `database/` copy has had vocabulary
-  standardization applied and the fork has not
-
-Neither side ever overwrites the other, so this is not a last-writer-wins problem. It
-is two published copies of the same `datasetId` with different content, and consumers
-get different answers depending on which compilation they download from.
+1. Running CoralHydro2k under `lipdverseR` today writes to the fork again. Its `lipdDir`
+   needs updating there, or the run needs to happen under the new system.
+2. Whatever the 2025-06-30 run produced (compilation version 1.0.1) exists only in the
+   fork. Its QC sheet is already compatible with `database/` — all 304 of its QC TSids
+   resolve there — so re-pointing and re-running should reconcile it, but the fork
+   should not be deleted until that is confirmed.
 
 ## Configuration
 
