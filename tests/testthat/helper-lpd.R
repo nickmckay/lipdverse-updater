@@ -21,6 +21,10 @@ make_metadata <- function(dataSetName, datasetId, tsids,
     dataSetName = dataSetName,
     datasetId   = datasetId,
     archiveType = archiveType,
+    # validLipd() requires geo, and the writer verifies with it, so fixtures
+    # must be genuinely valid LiPD rather than merely parseable.
+    geo         = list(latitude = 40.0, longitude = -105.0, elevation = 1500,
+                       siteName = paste0("Site ", dataSetName)),
     changelog   = list(list(version = "1.0.0"), list(version = version)),
     paleoData   = list(list(measurementTable = list(tbl)))
   )
