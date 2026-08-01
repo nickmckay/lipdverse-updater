@@ -40,12 +40,29 @@ own <- own |> mutate(
 
 # ---- csm: these leave the shared namespace entirely -------------------------
 csm <- csm |> mutate(field_final = take(approved_field, proposed_field))
+# One row per source key. Five coral keys are claimed by both CoralHydro2k and
+# GBRCD, and joining them straight through produced two registry rows with the
+# same qc_name -- which validate_qc_fields() rejects, so the registry could not
+# be regenerated at all. Both claims are real (the migration copies such a value
+# into each compilation the dataset belongs to), so the targets are collapsed
+# into one row rather than one of them being dropped.
 csm_keys <- csm |>
   filter(!is.na(comp_key), nzchar(comp_key)) |>
-  transmute(source_key = key,
-            csm_compilation = compilation,
-            csm_field = field_final,
-            csm_flat_key = paste0(comp_key, "_csm_", field_final))
+  distinct(key, compilation, field_final, comp_key) |>
+  arrange(key, compilation) |>
+  group_by(source_key = key) |>
+  summarise(
+    csm_compilation = paste(compilation, collapse = ";"),
+    csm_field = {
+      f <- unique(field_final)
+      if (length(f) > 1) {
+        stop("csm key '", first(source_key), "' maps to differing field names: ",
+             paste(f, collapse = ", "))
+      }
+      f
+    },
+    csm_flat_key = paste0(comp_key, "_csm_", field_final, collapse = ";"),
+    .groups = "drop")
 csm_removed <- csm |> filter(is.na(comp_key) | !nzchar(comp_key)) |> pull(key)
 
 # ---- standardization sheet: renames and deletions ---------------------------
@@ -117,6 +134,9 @@ reg <- terms |>
       same_across_dataset == "TRUE"  ~ "dataset",
       same_across_dataset == "FALSE" ~ "timeseries",
       TRUE                           ~ NA_character_),
+    # A membership field resolves to itself: as a synonym it pointed at the
+    # machine-owned inCompilationBeta_struct.
+    canonical = ifelse(role == "membership", NA_character_, canonical),
     type = convo_type,
     vocab_key = unname(VOCAB[nz(qc_name)]),
     deprecated = role == "delete")

@@ -99,3 +99,30 @@ test_that("the shipped registry parses and its shape is sane", {
   # Every field the merge engine will actually consult should be classified.
   expect_gt(sum(x$role == "merged"), 100)
 })
+
+# The registry is derived from review/, but the build script had stopped
+# reproducing it: five coral keys claimed by both CoralHydro2k and GBRCD became
+# two rows with the same qc_name, which validation rejects. The shipped file and
+# the script drifted apart silently, so nobody could regenerate the registry.
+test_that("a csm key may target more than one compilation", {
+  base <- lv_qc_fields(validate = FALSE)[1, ]
+  row <- base
+  row$qc_name <- "paleoData_x"; row$role <- "csm"
+  row$csm_compilation <- "CoralHydro2k;GBRCD"
+  row$csm_field <- "x"
+  row$csm_flat_key <- "CoralHydro2k_csm_x;GBRCD_csm_x"
+  expect_silent(validate_qc_fields(row))
+
+  # A malformed second target must still be caught, not hidden by the first.
+  bad <- row; bad$csm_flat_key <- "CoralHydro2k_csm_x;nonsense"
+  expect_error(validate_qc_fields(bad), class = "lv_error_registry")
+
+  # Naming two compilations but one target is a build error.
+  mismatch <- row; mismatch$csm_flat_key <- "CoralHydro2k_csm_x"
+  expect_error(validate_qc_fields(mismatch), class = "lv_error_registry")
+})
+
+test_that("the shipped registry has one row per qc_name", {
+  x <- lv_qc_fields(validate = FALSE)
+  expect_equal(anyDuplicated(x$qc_name), 0)
+})

@@ -102,10 +102,23 @@ validate_qc_fields <- function(x) {
     cli::cli_warn("Synonym{?s} whose canonical is absent from the registry: {.val {utils::head(orphan, 8)}}")
   }
 
+  # A key can be claimed by more than one compilation -- five coral fields
+  # belong to both CoralHydro2k and GBRCD -- so the targets are ";"-separated
+  # and every part must be well formed, not just the first.
   csm <- x[x$role == "csm", ]
-  bad_csm <- csm$qc_name[is.na(csm$csm_flat_key) | !grepl("^[A-Za-z0-9]+_csm_", csm$csm_flat_key)]
-  if (length(bad_csm)) {
-    cli::cli_abort("csm field{?s} with a malformed flat key: {.val {bad_csm}}", class = "lv_error_registry")
+  ok <- vapply(csm$csm_flat_key, function(k) {
+    !is.na(k) && all(grepl("^[A-Za-z0-9]+_csm_.+", strsplit(k, ";", fixed = TRUE)[[1]]))
+  }, logical(1), USE.NAMES = FALSE)
+  if (any(!ok)) {
+    cli::cli_abort("csm field{?s} with a malformed flat key: {.val {csm$qc_name[!ok]}}",
+                   class = "lv_error_registry")
+  }
+  # The number of targets must match the number of compilations named.
+  n_key <- lengths(strsplit(csm$csm_flat_key, ";", fixed = TRUE))
+  n_comp <- lengths(strsplit(csm$csm_compilation %||% "", ";", fixed = TRUE))
+  if (any(n_key != n_comp)) {
+    cli::cli_abort("csm field{?s} whose compilations and flat keys disagree: {.val {csm$qc_name[n_key != n_comp]}}",
+                   class = "lv_error_registry")
   }
 
   invisible(x)

@@ -133,6 +133,7 @@ pub3_firstAuthor,pub3_firstAuthor,pub*_firstAuthor,merged,shared,FALSE,dataset,c
 pub3_journal,pub3_journal,pub*_journal,merged,shared,FALSE,dataset,character,,,,,,FALSE,1,50
 pub3_title,pub3_title,pub*_title,merged,shared,FALSE,dataset,character,,,,,,FALSE,1,50
 pub3_year,pub3_year,pub*_year,merged,shared,FALSE,dataset,numeric,,,,,,FALSE,1,50
+inThisCompilation,inCompilationBeta_struct,inThisCompilation,membership,curator,FALSE,timeseries,inCompilation,,,,,,FALSE,0,0
 paleoData_QCnotes,,paleoData_QCnotes,csm,,,,,,,HoloceneAbruptChange,QCnotes,HoloceneAbruptChange_csm_QCnotes,FALSE,16,11357
 paleoData_QCCertification,,paleoData_QCCertification,csm,,,,,,,HoloceneAbruptChange,QCCertification,HoloceneAbruptChange_csm_QCCertification,FALSE,15,16117
 paleoData_QCRemainingIssues,,paleoData_QCRemainingIssues,csm,,,,,,,HoloceneAbruptChange,QCRemainingIssues,HoloceneAbruptChange_csm_QCRemainingIssues,FALSE,7,4
@@ -147,10 +148,10 @@ gbrIsCompositeCalibration,gbrIsCompositeCalibration,gbrIsCompositeCalibration,cs
 gbrIsCoreIDOtherStudy,gbrIsCoreIDOtherStudy,gbrIsCoreIDOtherStudy,csm,,,dataset,character,,,GBRCD,isCoreIDOtherStudy,GBRCD_csm_isCoreIDOtherStudy,FALSE,1,1199
 gbrIsSstCalibration,gbrIsSstCalibration,gbrIsSstCalibration,csm,,,dataset,character,,,GBRCD,isSstCalibration,GBRCD_csm_isSstCalibration,FALSE,1,1199
 gbrUseSstCalibration,gbrUseSstCalibration,gbrUseSstCalibration,csm,,,dataset,character,,,GBRCD,useSstCalibration,GBRCD_csm_useSstCalibration,FALSE,1,1199
-paleoData_coralExtensionRate,paleoData_coralExtensionRate,paleoData_coralExtensionRate,csm,,,timeseries,character,,,CoralHydro2k,coralExtensionRate,CoralHydro2k_csm_coralExtensionRate,FALSE,1,578
-paleoData_coralExtensionRateNotes,paleoData_coralExtensionRateNotes,paleoData_coralExtensionRateNotes,csm,,,timeseries,character,,,CoralHydro2k,coralExtensionRateNotes,CoralHydro2k_csm_coralExtensionRateNotes,FALSE,1,637
+paleoData_coralExtensionRate,paleoData_coralExtensionRate,paleoData_coralExtensionRate,csm,,,timeseries,character,,,CoralHydro2k;GBRCD,coralExtensionRate,CoralHydro2k_csm_coralExtensionRate;GBRCD_csm_coralExtensionRate,FALSE,1,578
+paleoData_coralExtensionRateNotes,paleoData_coralExtensionRateNotes,paleoData_coralExtensionRateNotes,csm,,,timeseries,character,,,CoralHydro2k;GBRCD,coralExtensionRateNotes,CoralHydro2k_csm_coralExtensionRateNotes;GBRCD_csm_coralExtensionRateNotes,FALSE,1,637
 paleoData_coralHydro2kGroup,,paleoData_coralHydro2kGroup,csm,,,,,,,CoralHydro2k,coralHydro2kGroup,CoralHydro2k_csm_coralHydro2kGroup,FALSE,1,304
-paleoData_coralTissueThickness,paleoData_coralTissueThickness,paleoData_coralTissueThickness,csm,,,timeseries,character,,,CoralHydro2k,coralTissueThickness,CoralHydro2k_csm_coralTissueThickness,FALSE,1,227
+paleoData_coralTissueThickness,paleoData_coralTissueThickness,paleoData_coralTissueThickness,csm,,,timeseries,character,,,CoralHydro2k;GBRCD,coralTissueThickness,CoralHydro2k_csm_coralTissueThickness;GBRCD_csm_coralTissueThickness,FALSE,1,227
 paleoData_gbr14CDate,paleoData_gbr14CDate,paleoData_gbr14CDate,csm,,,timeseries,character,,,GBRCD,gbr14CDate,GBRCD_csm_gbr14CDate,FALSE,1,6
 paleoData_gbr14CDateUncertainty,paleoData_gbr14CDateUncertainty,paleoData_gbr14CDateUncertainty,csm,,,timeseries,character,,,GBRCD,gbr14CDateUncertainty,GBRCD_csm_gbr14CDateUncertainty,FALSE,1,6
 paleoData_gbrChronologyNotes,paleoData_gbrChronologyNotes,paleoData_gbrChronologyNotes,csm,,,timeseries,character,,,GBRCD,chronologyNotes,GBRCD_csm_chronologyNotes,FALSE,1,1199
@@ -164,8 +165,8 @@ paleoData_hydroclimate2kCertification,,paleoData_hydroclimate2kCertification,csm
 paleoData_iso2kCertification,,paleoData_iso2kCertification,csm,,,,,,,iso2k,QCCertification,iso2k_csm_QCCertification,FALSE,1,727
 paleoData_iso2kHackathonNotes,,paleoData_iso2kHackathonNotes,csm,,,,,,,iso2k,QCnotes,iso2k_csm_QCnotes,FALSE,1,384
 paleoData_iso2kPrimaryTimeseries,,paleoData_iso2kPrimaryTimeseries,csm,,,,,,,iso2k,useIn,iso2k_csm_useIn,FALSE,1,1022
-paleoData_jcpMeasured,paleoData_jcpMeasured,paleoData_jcpMeasured,csm,,,timeseries,character,,,CoralHydro2k,jcpMeasured,CoralHydro2k_csm_jcpMeasured,FALSE,1,325
-paleoData_jcpUsed,paleoData_jcpUsed,paleoData_jcpUsed,csm,,,timeseries,character,,,CoralHydro2k,jcpUsed,CoralHydro2k_csm_jcpUsed,FALSE,1,1199
+paleoData_jcpMeasured,paleoData_jcpMeasured,paleoData_jcpMeasured,csm,,,timeseries,character,,,CoralHydro2k;GBRCD,jcpMeasured,CoralHydro2k_csm_jcpMeasured;GBRCD_csm_jcpMeasured,FALSE,1,325
+paleoData_jcpUsed,paleoData_jcpUsed,paleoData_jcpUsed,csm,,,timeseries,character,,,CoralHydro2k;GBRCD,jcpUsed,CoralHydro2k_csm_jcpUsed;GBRCD_csm_jcpUsed,FALSE,1,1199
 dataSetName,dataSetName,dataSetName,key,key,,dataset,character,,,,,,FALSE,18,297030
 paleoData_TSid,,paleoData_TSid,key,key,,,,,,,,,FALSE,18,297030
 datasetId,datasetId,datasetId,key,key,,dataset,character,,,,,,FALSE,8,261356
@@ -194,7 +195,6 @@ elevation,geo_elevation,elevation,synonym,,,dataset,numeric,,geo_elevation,,,,FA
 hasUncertainty,paleoData_hasUncertainty,hasUncertainty,synonym,,,timeseries,character,,paleoData_hasUncertainty,,,,FALSE,0,0
 hydroclimate 2k Certification,paleoData_hydroclimate2kCertification,hydroclimate 2k Certification,synonym,,,timeseries,character,,paleoData_hydroclimate2kCertification,,,,FALSE,0,0
 inCompilation,paleoData_inCompilation,inCompilation,synonym,,,timeseries,character,,paleoData_inCompilation,,,,FALSE,0,0
-inThisCompilation,inCompilationBeta_struct,inThisCompilation,membership,curator,FALSE,timeseries,inCompilation,,,,,,FALSE,0,0
 inferredMaterial,paleoData_inferredMaterial,inferredMaterial,synonym,,,timeseries,character,,paleoData_inferredMaterial,,,,FALSE,0,0
 isComposite,paleoData_isComposite,isComposite,synonym,,,timeseries,character,,paleoData_isComposite,,,,FALSE,0,0
 iso2kUI,paleoData_iso2kUI,iso2kUI,synonym,,,timeseries,character,,paleoData_iso2kUI,,,,FALSE,0,0
