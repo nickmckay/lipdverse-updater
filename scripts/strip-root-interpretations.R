@@ -44,6 +44,13 @@ getarg <- function(f, d = NULL) { v <- sub(paste0("^--", f, "="), "", grep(paste
 db     <- getarg("src", lv_path("database"))
 stage  <- getarg("stage-dir", path.expand("~/lipdverse-staging/root-interp"))
 force  <- "--force" %in% args
+# An explicit, reviewed table of which column each otherwise-unrepresented value
+# belongs to. A table rather than a rule: the ownership was established per
+# dataset (the column carrying real interpretations, or a decision where there
+# was none), and a heuristic general enough to cover all four would be wrong
+# somewhere. With --place every root key becomes removable, because the values
+# that had nowhere to go now have somewhere.
+place  <- getarg("place", if ("--place" %in% args) "review/root-interpretation-placements.csv" else NULL)
 
 do_stage   <- "--stage" %in% args
 do_promote <- "--promote" %in% args
@@ -100,15 +107,48 @@ for (p in files) {
     v <- m[[k]]
     v <- if (is.null(v) || !length(v)) NA_character_ else as.character(unlist(v))[1]
     empty <- is.na(v) || !nzchar(v)
-    dup <- !empty && paste0(sub(paste0("^.*", ROOT_RE), "", k), "=", v) %in% have
+    fld <- sub(paste0("^.*", ROOT_RE), "", k)
+    dup <- !empty && paste0(fld, "=", v) %in% have
+    # The root copies are the older, unstandardised wording of what the columns
+    # already say: root "sea surface temperature" against a column carrying
+    # climate:temperature and isotope:temperature. Comparing the strings exactly
+    # would call 67 of these unique when they carry no information the file does
+    # not already hold, more precisely, elsewhere. Labelled separately from an
+    # exact duplicate so the report stays auditable.
+    same_field <- sub("^([^=]*)=.*$", "\\1", have) == fld
+    red <- !empty && !dup && any(same_field) &&
+      any(vapply(sub("^[^=]*=", "", have[same_field]), function(w) {
+        # Equality after dropping the qualifier, not substring matching in
+        # either direction: "precipitationisotope" contains "precipitation" but
+        # the isotopic composition of precipitation is not its amount.
+        a <- sub("^(sea surface|subsurface seawater|lake water) ", "", tolower(v))
+        b <- tolower(w)
+        !is.na(b) && nzchar(b) && a == b
+      }, logical(1)))
     plan[[length(plan) + 1L]] <- data.frame(
       file = basename(p), key = k, value = v,
-      disposition = if (empty) "empty" else if (dup) "duplicate" else "unmatched")
+      disposition = if (empty) "empty" else if (dup) "duplicate"
+                    else if (red) "restatement" else "unmatched")
   }
   n_ds <- n_ds + 1L
 }
 plan <- bind_rows(plan)
-plan$remove <- plan$disposition %in% c("empty", "duplicate") | force
+plan$remove <- plan$disposition %in% c("empty", "duplicate", "restatement") | force
+
+cells <- NULL
+if (!is.null(place)) {
+  pl <- read_csv(place, col_types = cols(.default = col_character()), progress = FALSE)
+  cells <- tibble::tibble(tsid = pl$TSid, field = pl$key, value = pl$value,
+                          present = TRUE, dataset_id = NA_character_)
+  covered <- paste0(pl$dataSetName, ".lpd|", pl$key, "|", pl$value)
+  hit <- paste0(plan$file, "|", plan$key, "|", plan$value) %in% covered
+  plan$remove <- plan$remove | hit
+  cat(sprintf("placements: %d value%s onto %d column%s in %d dataset%s\n",
+              n_distinct(paste(pl$dataSetName, pl$key)),
+              if (n_distinct(paste(pl$dataSetName, pl$key)) == 1) "" else "s",
+              nrow(pl), if (nrow(pl) == 1) "" else "s",
+              n_distinct(pl$dataSetName), if (n_distinct(pl$dataSetName) == 1) "" else "s"))
+}
 
 
 cat(sprintf("%d root key%s across %d dataset%s\n\n", nrow(plan),
@@ -140,6 +180,17 @@ if (do_stage) {
   cat(sprintf("\nstaged %d file%s in %s\n", length(list.files(stage, "[.]lpd$")),
               if (length(todo) == 1) "" else "s", stage))
 
+  if (!is.null(cells) && nrow(cells)) {
+    # Read from staging, where the root keys are already gone, so the two edits
+    # compose into one file instead of the second undoing the first.
+    idx <- lv_db_index(lv_scan(db), cache = TRUE)
+    staged <- sub("[.]lpd$", "", list.files(stage, "[.]lpd$"))
+    idx$datasets$path[match(staged, idx$datasets$fileDataSetName)] <-
+      fs::path(stage, paste0(staged, ".lpd"))
+    iss <- lv_apply_qc(cells, db, stage, index = idx, progress = FALSE)
+    cat(sprintf("placed %d value%s\n", nrow(cells), if (nrow(cells) == 1) "" else "s"))
+    if (nrow(iss)) print(as.data.frame(count(tibble::as_tibble(iss), check, severity)))
+  }
 }
 
 if (do_promote) {

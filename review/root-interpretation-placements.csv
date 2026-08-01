@@ -1,0 +1,16 @@
+dataSetName,TSid,variableName,key,value,basis,col_has_real_interp
+ElJunco.Zhang.2014,missR0Wb3BIlN7ykqTXSJ,d2H,environmentInterpretation1_direction,negative,decided: isotope proxy,FALSE
+ElJunco.Zhang.2014,missRPQemJxQkRyFyegcl,d2H,environmentInterpretation1_direction,negative,decided: isotope proxy,FALSE
+ElJunco.Zhang.2014,missR0Wb3BIlN7ykqTXSJ,d2H,environmentInterpretation1_seasonality,Annual,decided: isotope proxy,FALSE
+ElJunco.Zhang.2014,missRPQemJxQkRyFyegcl,d2H,environmentInterpretation1_seasonality,Annual,decided: isotope proxy,FALSE
+ElJunco.Zhang.2014,missR0Wb3BIlN7ykqTXSJ,d2H,environmentInterpretation1_variable,effectivePrecipitation,decided: isotope proxy,FALSE
+ElJunco.Zhang.2014,missRPQemJxQkRyFyegcl,d2H,environmentInterpretation1_variable,effectivePrecipitation,decided: isotope proxy,FALSE
+Huagapocave.Kanner.2013,S2LR6REtKecQef,d18O,environmentInterpretation1_variable,precipitationisotope,sole column carrying interpretations,TRUE
+Huagapocave.Kanner.2013,S2LRI939L9cdEk,d18O,environmentInterpretation1_variable,precipitationisotope,sole column carrying interpretations,TRUE
+Huagapocave.Kanner.2013,S2LR2Wh18SUuDC,d18O,environmentInterpretation1_variable,precipitationisotope,sole column carrying interpretations,TRUE
+Huagapocave.Kanner.2013,S2LRoN5dgm3f9Q,d18O,environmentInterpretation1_variable,precipitationisotope,sole column carrying interpretations,TRUE
+Huagapocave.Kanner.2013,S2LR2l7ql2n1X2,d18O,environmentInterpretation1_variable,precipitationisotope,sole column carrying interpretations,TRUE
+Huagapocave.Kanner.2013,S2LRYziKIJaUis,d18O,environmentInterpretation1_variable,precipitationisotope,sole column carrying interpretations,TRUE
+Huagapocave.Kanner.2013,S2LRBXVhP2hFuP,d18O,environmentInterpretation1_variable,precipitationisotope,sole column carrying interpretations,TRUE
+LakeElingamite.Barr.2014,WEB-26ae4-43ad-4975-b72c-91df2,conductivity,environmentInterpretation1_basis,location-specific diatom-conductivity transfer function - from observed diatom species assemblages,sole column carrying interpretations,TRUE
+LakeSurprise.Barr.2014,WEB-92254-6027-4abf-b730-d8248,conductivity,environmentInterpretation1_basis,location-specific diatom-conductivity transfer function - from observed diatom species assemblages,sole column carrying interpretations,TRUE
