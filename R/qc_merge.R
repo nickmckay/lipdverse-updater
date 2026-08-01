@@ -128,9 +128,12 @@ qc_merge <- function(base, sheet, frame, registry = lv_qc_fields(),
   cells$nullable <- rule$nullable_by_curator %in% TRUE
   cells$known_field <- rule$known
 
-  # Only fields that participate in the merge. Everything else (csm, synonym,
-  # control, unused, delete) is handled elsewhere or not at all.
-  cells <- cells[cells$role %in% c("merged", "key") | !cells$known_field, , drop = FALSE]
+  # Only fields that participate in the merge. `membership` is merged by the
+  # same rules as a curator-owned field -- it just gets applied to the
+  # inCompilation structure rather than written as a key. Everything else (csm,
+  # synonym, control, unused, delete) is handled elsewhere or not at all.
+  cells <- cells[cells$role %in% c("merged", "membership", "key") | !cells$known_field,
+                 , drop = FALSE]
 
   # With no rows, ifelse() below returns logical(0) and case_when cannot
   # reconcile that with the character branches.

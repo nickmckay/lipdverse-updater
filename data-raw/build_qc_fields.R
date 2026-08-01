@@ -81,6 +81,11 @@ reg <- terms |>
     # A field is one of: an identifier, compilation-specific, a synonym of
     # another field, deleted, or a merged field with an ownership rule.
     role = case_when(
+      # Membership is not a stored field: it is the curator's control over the
+      # inCompilation structure, and the review files classed it as a synonym
+      # of inCompilationBeta_struct, which is machine-owned. That would have
+      # let the files overrule a curator adding a timeseries.
+      qc_name == "inThisCompilation"             ~ "membership",
       category == "key"                          ~ "key",
       # An identifier is an identifier regardless of which review file said so:
       # paleoData_TSid is the canonical form of the TSid column and must never
@@ -96,10 +101,18 @@ reg <- terms |>
       grepl("inCompilation", ownership)          ~ "csm_pending",
       TRUE                                       ~ "merged"),
     ownership = case_when(
-      role == "key"     ~ "key",
-      role == "merged"  ~ ownership,
-      TRUE              ~ NA_character_),
-    nullable_by_curator = ifelse(role == "merged", nullable_by_curator, NA_character_),
+      role == "key"        ~ "key",
+      role == "merged"     ~ ownership,
+      # The curator decides membership; the files only report it.
+      role == "membership" ~ "curator",
+      TRUE                 ~ NA_character_),
+    # Not nullable: a blank means "no opinion", not "remove this timeseries".
+    # Most cells in a real QC tab are blank, so a blank clearing membership
+    # would drop most of a compilation on its first run. Removal requires an
+    # explicit FALSE.
+    nullable_by_curator = ifelse(role %in% c("merged", "membership"),
+                                 ifelse(role == "membership", "FALSE", nullable_by_curator),
+                                 NA_character_),
     cardinality = case_when(
       same_across_dataset == "TRUE"  ~ "dataset",
       same_across_dataset == "FALSE" ~ "timeseries",
@@ -113,7 +126,7 @@ out <- reg |>
             cardinality, type, vocab_key, canonical,
             csm_compilation, csm_field, csm_flat_key,
             deprecated, n_compilations, n_filled) |>
-  arrange(factor(role, levels = c("merged", "csm", "key", "synonym", "control", "unused", "delete")),
+  arrange(factor(role, levels = c("merged", "membership", "csm", "key", "synonym", "control", "unused", "delete")),
           desc(n_compilations), qc_name)
 
 dir.create(file.path(repo, "inst/extdata"), recursive = TRUE, showWarnings = FALSE)

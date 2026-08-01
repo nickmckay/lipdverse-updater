@@ -139,47 +139,162 @@ lv_add_membership <- function(L, tsids, compilation, version) {
 
 #' Which datasets are in a compilation
 #'
-#' Honors `cfg$membership`, because the two modes disagree and picking the
-#' wrong one silently changes the scope of a run:
+#' The datasets a run *considers*, which is wider than the datasets whose
+#' timeseries are members. Membership grows in two steps, and this is the first:
 #'
-#' * `from_sheet` — the `datasetsInCompilation` tab, filtered to `inComp`.
-#' * `from_qc` — the `inThisCompilation` column of the QC tab.
+#' 1. A curator sets a dataset to TRUE in `datasetsInCompilation`. Every one of
+#'    its timeseries then appears in the QC tab, all with
+#'    `inThisCompilation = FALSE`.
+#' 2. They flag individual timeseries TRUE there to admit them.
 #'
-#' Names are checked against the database rather than trusted, since a sheet
-#' can name a dataset that no longer exists.
+#' So this returns the QC tab's scope, not the compilation's contents. Names are
+#' checked against the database rather than trusted, since a sheet can name a
+#' dataset that no longer exists.
 #'
 #' @param cfg An `lv_config`.
 #' @param backend A sheet backend.
 #' @param index An `lv_index`, to resolve names against the files.
-#' @return A list of `datasets` present in the database and `missing` names.
+#' @return A list of `datasets` considered, `missing` names, and `excluded`.
 #' @export
 lv_compilation_datasets <- function(cfg, backend, index = NULL) {
-  truthy <- function(x) tolower(trimws(x)) %in% c("true", "yes", "1")
-
-  if (identical(cfg$membership, "from_sheet")) {
-    x <- sheet_read(backend, cfg$qc_sheet_id, cfg$qc_tabs$datasets)
-    x <- x[, !duplicated(names(x)) & nzchar(names(x)) & !is.na(names(x)), drop = FALSE]
-    nm <- intersect(c("dsn", "dataSetName"), names(x))
-    if (!length(nm)) {
-      cli::cli_abort("Membership tab {.val {cfg$qc_tabs$datasets}} has no dsn column.",
-                     class = "lv_error_sheet")
-    }
-    keep <- if ("inComp" %in% names(x)) truthy(x$inComp) else rep(TRUE, nrow(x))
-    want <- unique(stats::na.omit(x[[nm[1]]][keep]))
-  } else {
-    x <- sheet_read(backend, cfg$qc_sheet_id, cfg$qc_tabs$qc)
-    if (!"inThisCompilation" %in% names(x)) {
-      cli::cli_abort("QC tab has no inThisCompilation column for {.val {cfg$membership}} membership.",
-                     class = "lv_error_sheet")
-    }
-    tsid <- x$TSid[truthy(x$inThisCompilation)]
-    if (is.null(index)) index <- lv_db_index(lv_scan(cfg$lipd_dir), cache = TRUE)
-    want <- unique(stats::na.omit(index$timeseries$dataSetName[index$timeseries$TSid %in% tsid]))
+  x <- sheet_read(backend, cfg$qc_sheet_id, cfg$qc_tabs$datasets)
+  x <- x[, !duplicated(names(x)) & nzchar(names(x)) & !is.na(names(x)), drop = FALSE]
+  nm <- intersect(c("dsn", "dataSetName"), names(x))
+  if (!length(nm)) {
+    cli::cli_abort("Membership tab {.val {cfg$qc_tabs$datasets}} has no dsn column.",
+                   class = "lv_error_sheet")
   }
+
+  # The tab's own instructions: "Any datasets marked as FALSE will not be
+  # considered for the update, NA or TRUE will be considered." Requiring TRUE
+  # instead would drop every dataset a curator had not yet ruled on, which is
+  # precisely the set the tab exists to surface.
+  keep <- if ("inComp" %in% names(x)) !tolower(trimws(x$inComp)) %in% "false" else rep(TRUE, nrow(x))
+  want <- unique(stats::na.omit(x[[nm[1]]][keep]))
 
   if (is.null(index)) index <- lv_db_index(lv_scan(cfg$lipd_dir), cache = TRUE)
   have <- want %in% index$datasets$fileDataSetName
-  list(datasets = want[have], missing = want[!have])
+  list(datasets = want[have], missing = want[!have],
+       excluded = unique(stats::na.omit(x[[nm[1]]][!keep])))
+}
+
+#' The file-side view of compilation membership
+#'
+#' One cell per timeseries, so membership merges by the same rules as any other
+#' curator-owned field: the sheet wins a straight disagreement, the store
+#' supplies the baseline, and every change becomes an event.
+#'
+#' @param index An `lv_index`.
+#' @param compilation Compilation name.
+#' @param tsids Timeseries in scope. Those not in the compilation get `FALSE`,
+#'   which is what exposes a candidate to the curator.
+#' @return A cell table.
+#' @export
+lv_membership_frame <- function(index, compilation, tsids) {
+  members <- lv_compilation_timeseries(index, compilation)
+  dsid <- index$timeseries$datasetId[match(tsids, index$timeseries$TSid)]
+  tibble::tibble(
+    tsid = tsids, field = "inThisCompilation",
+    value = ifelse(tsids %in% members, "TRUE", "FALSE"),
+    present = TRUE, dataset_id = dsid,
+    updated_at = NA_character_, source = "lipd", actor = NA_character_)
+}
+
+#' Apply merged membership decisions to the files
+#'
+#' Additions add an `inCompilation` entry; removals drop it. Both are written
+#' to staging for [lv_promote()], never in place.
+#'
+#' @param cells Merged cells for `inThisCompilation`.
+#' @param index An `lv_index`.
+#' @param compilation Compilation name.
+#' @param version Compilation version recorded on an addition.
+#' @param dir Source database directory.
+#' @param out Staging directory.
+#' @param progress Show progress.
+#' @return A list of `added`, `removed`, `issues` and `datasets` touched.
+#' @export
+lv_apply_membership <- function(cells, index, compilation, version = "1_0_0",
+                                dir = lv_path("database"), out, progress = TRUE) {
+  if (missing(out)) cli::cli_abort("{.arg out} is required; this never writes in place.")
+  cells <- cells[cells$field == "inThisCompilation", , drop = FALSE]
+  members <- lv_compilation_timeseries(index, compilation)
+
+  want_in <- cells$tsid[cells$value %in% "TRUE"]
+  # Only an explicit FALSE removes. A blank is "no opinion": most cells in a
+  # real QC tab are blank, and treating those as removals would empty the
+  # compilation on the first run.
+  want_out <- cells$tsid[cells$value %in% "FALSE"]
+  add <- setdiff(want_in, members)
+  drop <- intersect(want_out, members)
+
+  if (!length(add) && !length(drop)) {
+    return(list(added = character(), removed = character(),
+                issues = lv_issues_empty(), datasets = character()))
+  }
+  fs::dir_create(out)
+
+  ts2ds <- stats::setNames(index$timeseries$dataSetName, index$timeseries$TSid)
+  paths <- stats::setNames(index$datasets$path, index$datasets$fileDataSetName)
+  touched <- unique(stats::na.omit(unname(ts2ds[c(add, drop)])))
+  if (progress) {
+    cli::cli_alert_info(
+      "Membership: {length(add)} addition{?s}, {length(drop)} removal{?s} across {length(touched)} dataset{?s}")
+  }
+
+  issues <- lv_issues_empty()
+  for (dsn in touched) {
+    p <- paths[[dsn]]
+    L <- tryCatch(lipdR::readLipd(p), error = function(e) NULL)
+    if (is.null(L)) {
+      issues <- lv_issues_bind(issues, lv_issues(
+        check = "unreadable", severity = "error",
+        message = "Could not read the dataset.", dataSetName = dsn, path = p))
+      next
+    }
+    a <- intersect(add, names(which(ts2ds == dsn)))
+    d <- intersect(drop, names(which(ts2ds == dsn)))
+    if (length(a)) {
+      r <- lv_add_membership(L, a, compilation, version)
+      L <- r$L
+      if (nrow(r$issues)) issues <- lv_issues_bind(issues, r$issues)
+    }
+    if (length(d)) L <- lv_drop_membership(L, d, compilation)
+    lipdR::writeLipd(L, path = out, removeNamesFromLists = TRUE)
+  }
+
+  list(added = add, removed = drop, issues = issues, datasets = touched)
+}
+
+#' Remove compilation membership from the named columns
+#' @keywords internal
+lv_drop_membership <- function(L, tsids, compilation) {
+  for (blk in c("paleoData", "chronData")) {
+    if (is.null(L[[blk]])) next
+    for (pd in seq_along(L[[blk]])) {
+      for (tb in seq_along(L[[blk]][[pd]]$measurementTable)) {
+        tab <- L[[blk]][[pd]]$measurementTable[[tb]]
+        for (cn in setdiff(names(tab), c("tableName", "filename", "missingValue"))) {
+          col <- tab[[cn]]
+          if (!is.list(col) || is.null(col$TSid)) next
+          if (!as.character(col$TSid)[1] %in% tsids) next
+          ic <- col$inCompilation
+          if (!is.list(ic) || !length(ic)) next
+          nm <- vapply(ic, function(e) {
+            n <- if (is.list(e)) unlist(e[["compilationName"]]) else unlist(e)
+            if (length(n)) as.character(n)[1] else NA_character_
+          }, character(1))
+          keep <- is.na(nm) | nm != compilation
+          # Drop the key entirely rather than leaving an empty list, which
+          # lipdR would write back as an empty array.
+          col$inCompilation <- if (any(keep)) ic[keep] else NULL
+          tab[[cn]] <- col
+        }
+        L[[blk]][[pd]]$measurementTable[[tb]] <- tab
+      }
+    }
+  }
+  L
 }
 
 #' Build the tabs for a new compilation's QC sheet
@@ -196,10 +311,24 @@ lv_compilation_sheet <- function(cells, index, registry = lv_qc_fields()) {
   rest <- sort(setdiff(names(qc), "TSid"))
   qc <- qc[, c("TSid", rest), drop = FALSE]
 
-  ds <- unique(index$timeseries$dataSetName[index$timeseries$TSid %in% cells$tsid])
-  dsid <- index$datasets$datasetId[match(ds, index$datasets$fileDataSetName)]
-  members <- tibble::tibble(dsn = ds, dsid = dsid, inComp = "TRUE")
+  # The membership tab catalogues the *whole database*, not just the members.
+  # That is what makes a new dataset visible: a curator flips it to TRUE here,
+  # its timeseries appear in the QC tab on the next run, and they are then
+  # admitted one by one via inThisCompilation.
+  considered <- unique(index$timeseries$dataSetName[index$timeseries$TSid %in% cells$tsid])
+  all_ds <- index$datasets$fileDataSetName
+  members <- tibble::tibble(
+    dsn = all_ds,
+    dsid = index$datasets$datasetId,
+    inComp = ifelse(all_ds %in% considered, "TRUE", "FALSE"),
+    instructions = LV_MEMBERSHIP_INSTRUCTIONS)
   members <- members[order(members$dsn), , drop = FALSE]
 
   list(QC = qc, datasetsInCompilation = members)
 }
+
+# Kept verbatim from the existing sheets: compilation leads read this text, and
+# it is also the specification -- FALSE excludes, anything else considers.
+LV_MEMBERSHIP_INSTRUCTIONS <- paste(
+  "Any datasets marked as FALSE will not be considered for the update,",
+  "NA or TRUE will be considered.")

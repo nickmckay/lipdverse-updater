@@ -86,8 +86,16 @@ test_that("the shipped registry parses and its shape is sane", {
   x <- lv_qc_fields(validate = FALSE)
   expect_gt(nrow(x), 200)
   expect_equal(anyDuplicated(x$qc_name), 0)
-  expect_true(all(x$role %in% c("merged", "csm", "csm_pending", "key", "synonym",
-                                "control", "unused", "delete")))
+  expect_true(all(x$role %in% c("merged", "membership", "csm", "csm_pending", "key",
+                                "synonym", "control", "unused", "delete")))
+  # Membership must stay curator-owned: as a synonym of the machine-owned
+  # inCompilationBeta_struct, the files would have overruled a curator adding a
+  # timeseries to the compilation.
+  m <- x[x$role == "membership", ]
+  expect_equal(m$qc_name, "inThisCompilation")
+  expect_equal(m$ownership, "curator")
+  # Not nullable: a blank is "no opinion", not "remove this timeseries".
+  expect_equal(m$nullable_by_curator, "FALSE")
   # Every field the merge engine will actually consult should be classified.
   expect_gt(sum(x$role == "merged"), 100)
 })

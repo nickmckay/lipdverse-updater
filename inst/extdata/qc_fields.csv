@@ -194,7 +194,7 @@ elevation,geo_elevation,elevation,synonym,,,dataset,numeric,,geo_elevation,,,,FA
 hasUncertainty,paleoData_hasUncertainty,hasUncertainty,synonym,,,timeseries,character,,paleoData_hasUncertainty,,,,FALSE,0,0
 hydroclimate 2k Certification,paleoData_hydroclimate2kCertification,hydroclimate 2k Certification,synonym,,,timeseries,character,,paleoData_hydroclimate2kCertification,,,,FALSE,0,0
 inCompilation,paleoData_inCompilation,inCompilation,synonym,,,timeseries,character,,paleoData_inCompilation,,,,FALSE,0,0
-inThisCompilation,inCompilationBeta_struct,inThisCompilation,synonym,,,timeseries,inCompilation,,inCompilationBeta_struct,,,,FALSE,0,0
+inThisCompilation,inCompilationBeta_struct,inThisCompilation,membership,curator,FALSE,timeseries,inCompilation,,,,,,FALSE,0,0
 inferredMaterial,paleoData_inferredMaterial,inferredMaterial,synonym,,,timeseries,character,,paleoData_inferredMaterial,,,,FALSE,0,0
 isComposite,paleoData_isComposite,isComposite,synonym,,,timeseries,character,,paleoData_isComposite,,,,FALSE,0,0
 iso2kUI,paleoData_iso2kUI,iso2kUI,synonym,,,timeseries,character,,paleoData_iso2kUI,,,,FALSE,0,0

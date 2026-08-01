@@ -12,6 +12,9 @@
 #'   \item{`csm`}{Compilation-specific; lives under `csm` in the matching
 #'     `inCompilation` entry, not in the shared namespace.}
 #'   \item{`csm_pending`}{Destined for `csm`, target compilation not yet decided.}
+#'   \item{`membership`}{Whether a timeseries is in the compilation. Merged
+#'     like a curator-owned field, but applied to the `inCompilation` structure
+#'     rather than written as a key.}
 #'   \item{`key`}{Identifier. Never merged; disagreement is an error.}
 #'   \item{`synonym`}{An alias; `canonical` names the field it resolves to.}
 #'   \item{`control`}{An instruction column consumed by the pipeline.}
@@ -61,7 +64,8 @@ validate_qc_fields <- function(x) {
     cli::cli_abort("Duplicate qc_name in registry: {.val {unique(dup)}}", class = "lv_error_registry")
   }
 
-  roles <- c("merged", "csm", "csm_pending", "key", "synonym", "control", "unused", "delete")
+  roles <- c("merged", "membership", "csm", "csm_pending", "key", "synonym",
+             "control", "unused", "delete")
   bad <- setdiff(unique(stats::na.omit(x$role)), roles)
   if (length(bad)) {
     cli::cli_abort("Unknown role{?s}: {.val {bad}}", class = "lv_error_registry")

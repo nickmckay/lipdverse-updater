@@ -36,27 +36,39 @@ cat(sprintf("compilation : %s\nsheet       : %s\nrun_id      : %s\nmode        :
 
 idx <- lv_db_index(lv_scan(db), cache = TRUE)
 
-# Scope comes from the files, where membership actually lives, and is per
-# column. Taking every column of every member dataset instead would widen the
-# run well past the compilation: lipdverseTest's 161 datasets hold 4,370
-# columns, of which 2,689 are members.
-ts <- lv_compilation_timeseries(idx, comp)
-ds <- unique(idx$timeseries$dataSetName[idx$timeseries$TSid %in% ts])
-cat(sprintf("members     : %d datasets, %d timeseries\n", length(ds), length(ts)))
-
-# The sheet's membership tab is a derived view, so disagreement with the files
-# is worth reporting rather than resolving silently.
+# Two different sets, and conflating them is the whole point of this stage.
+#
+#   considered  datasets the curator has not excluded in datasetsInCompilation.
+#               Every timeseries of these appears in the QC tab, which is how a
+#               candidate becomes visible.
+#   members     timeseries actually carrying an inCompilation entry.
+#
+# The QC tab is scoped to `considered`; the compilation is `members`.
 mem <- lv_compilation_datasets(cfg, bk, idx)
-drift <- c(setdiff(mem$datasets, ds), setdiff(ds, mem$datasets))
-if (length(drift) || length(mem$missing)) {
-  cat(sprintf("sheet drift : %d dataset%s differ from the files, %d named but absent\n",
-              length(drift), if (length(drift) == 1) "" else "s", length(mem$missing)))
+ds  <- mem$datasets
+ts  <- idx$timeseries$TSid[idx$timeseries$dataSetName %in% ds]
+members <- lv_compilation_timeseries(idx, comp)
+cat(sprintf("considered  : %d datasets, %d timeseries\n", length(ds), length(ts)))
+cat(sprintf("members     : %d timeseries in %d datasets\n", length(members),
+            dplyr::n_distinct(idx$timeseries$dataSetName[idx$timeseries$TSid %in% members])))
+if (length(mem$missing)) {
+  cat(sprintf("not in db   : %d dataset%s named by the sheet\n",
+              length(mem$missing), if (length(mem$missing) == 1) "" else "s"))
+}
+# A member whose dataset the curator has since excluded is a contradiction the
+# run must not silently act on either way.
+orphan <- setdiff(members, ts)
+if (length(orphan)) {
+  cat(sprintf("orphaned    : %d member%s whose dataset is excluded in the membership tab\n",
+              length(orphan), if (length(orphan) == 1) "" else "s"))
 }
 
 base  <- qc_state_current(store, comp)
 sheet <- qc_sheet_pull(bk, cfg$qc_sheet_id, cfg$qc_tabs$qc)
 frame <- qc_frame(db, datasets = ds, progress = FALSE)
 frame <- frame[frame$tsid %in% ts, , drop = FALSE]
+# Membership is not stored as a field, so the file-side view is derived.
+frame <- dplyr::bind_rows(frame, lv_membership_frame(idx, comp, ts))
 cat(sprintf("base        : %d cells\nsheet       : %d cells\nframe       : %d cells\n",
             nrow(base), nrow(sheet), nrow(frame)))
 
@@ -73,7 +85,8 @@ state <- qc_plan_state(plan)
 # Only cells the curator's sheet moved need writing back into the files.
 # "file" and "converged" mean the file already holds the resolved value, and
 # rewriting them would churn 161 files to no effect.
-write_cells <- plan$cells[plan$cells$resolution == "sheet", , drop = FALSE]
+write_cells <- plan$cells[plan$cells$resolution == "sheet" &
+                          plan$cells$field != "inThisCompilation", , drop = FALSE]
 cat(sprintf("\nto write    : %d cell%s from the sheet\n", nrow(write_cells),
             if (nrow(write_cells) == 1) "" else "s"))
 
@@ -82,8 +95,30 @@ cat(sprintf("\nto write    : %d cell%s from the sheet\n", nrow(write_cells),
 if (dir.exists(stage)) unlink(stage, recursive = TRUE)
 dir.create(stage, recursive = TRUE, showWarnings = FALSE)
 
+# Membership first, and from the merged plan rather than the raw sheet, so an
+# admission is subject to the same rules and leaves the same events as any
+# other curator edit.
+mplan <- plan$cells[plan$cells$field == "inThisCompilation" &
+                    plan$cells$resolution %in% c("sheet", "converged"), , drop = FALSE]
+mres <- lv_apply_membership(mplan, idx, comp, dir = db, out = stage, progress = FALSE)
+if (length(mres$added) || length(mres$removed)) {
+  cat(sprintf("membership  : +%d, -%d across %d dataset%s\n",
+              length(mres$added), length(mres$removed), length(mres$datasets),
+              if (length(mres$datasets) == 1) "" else "s"))
+}
+if (lv_n_issues(mres$issues, "error")) stop("membership produced errors; not promoting")
+
 if (nrow(write_cells)) {
-  iss <- lv_apply_qc(write_cells, db, stage, index = idx, progress = FALSE)
+  # Point the index at staging for datasets membership already rewrote, so the
+  # two stages compose into one file. Reading those from the database again
+  # would silently drop the membership change when this stage writes the same
+  # filename.
+  aidx <- idx
+  if (length(mres$datasets)) {
+    hit <- match(mres$datasets, aidx$datasets$fileDataSetName)
+    aidx$datasets$path[hit] <- fs::path(stage, paste0(mres$datasets, ".lpd"))
+  }
+  iss <- lv_apply_qc(write_cells, db, stage, index = aidx, progress = FALSE)
   if (nrow(iss)) print(as.data.frame(count(tibble::as_tibble(iss), check, severity)))
   if (lv_n_issues(iss, "error")) stop("apply produced errors; not promoting")
 }
@@ -109,15 +144,41 @@ if (length(staged)) {
   print(rec)
 }
 
+
+# ---- push the sheet --------------------------------------------------------
+#
+# This is what closes the loop on membership. A dataset the curator set TRUE in
+# datasetsInCompilation has all of its timeseries in scope from this run on, so
+# they appear here -- carrying inThisCompilation = FALSE, which is the prompt to
+# admit them one by one.
+
+# Scoped to the considered datasets. The store keeps history for everything it
+# has ever seen, but a dataset the curator has since set FALSE must drop out of
+# the tab -- limiting what a lead has to look at is half the point of the
+# membership tab.
+push_state <- state[state$tsid %in% ts, , drop = FALSE]
+wide <- qc_cells_to_sheet(push_state, registry = lv_qc_fields())
+new_rows <- setdiff(wide$TSid, sheet$tsid)
+new_cols <- setdiff(names(wide), c("TSid", unique(lv_display_field(sheet$field, lv_qc_fields()))))
+cat(sprintf("\nsheet       : %d row%s, %d new row%s, %d new column%s\n",
+            nrow(wide), if (nrow(wide) == 1) "" else "s",
+            length(new_rows), if (length(new_rows) == 1) "" else "s",
+            length(new_cols), if (length(new_cols) == 1) "" else "s"))
+
 if (commit) {
   ev <- qc_diff_to_events(base, state, source = "sheet")
   qc_store_append(store, comp, ev, run_id = run)
-  cat(sprintf("\nstore       : appended %d event%s\n", nrow(ev),
+  cat(sprintf("store       : appended %d event%s\n", nrow(ev),
               if (nrow(ev) == 1) "" else "s"))
+  # Full rewrite whenever the shape changes; a patch cannot add rows.
+  qc_sheet_push(push_state, bk, cfg$qc_sheet_id, cfg$qc_tabs$qc,
+                mode = if (length(new_rows) || length(new_cols)) "full" else "patch",
+                dry_run = FALSE)
+  cat("sheet       : pushed\n")
 } else {
-  cat(sprintf("\nstore       : would append %d event%s\n",
-              nrow(qc_diff_to_events(base, state, source = "sheet")),
-              if (nrow(qc_diff_to_events(base, state, source = "sheet")) == 1) "" else "s"))
+  n <- nrow(qc_diff_to_events(base, state, source = "sheet"))
+  cat(sprintf("store       : would append %d event%s\n", n, if (n == 1) "" else "s"))
+  cat("sheet       : would push\n")
 }
 
 # ---- invariant: idempotence ------------------------------------------------
