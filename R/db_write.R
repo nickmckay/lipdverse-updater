@@ -90,6 +90,10 @@ lv_verify_worker <- function(path, expect_name = NULL, min_bytes = 200,
 #' elsewhere. `lv_write()` is the same commit machinery with a `writeLipd()`
 #' step in front.
 #'
+#' Staged files are **moved** into place, not copied, so `staging` is empty on
+#' return and cannot be promoted a second time. The undo path is `.trash`, via
+#' [lv_write_rollback()], not the staging directory.
+#'
 #' @param staging Directory of prepared `.lpd` files.
 #' @param dir Target database directory.
 #' @param run_id Run identifier.

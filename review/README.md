@@ -323,9 +323,17 @@ Both databases now carry the csm structure.
 Zero additions, zero deletions. Every prior copy is in `.trash/<run_id>/`
 (1.8 GB and 8.7 MB), and fresh snapshots were taken immediately before.
 
-Post-promotion checks: 7,177 datasets and 210,363 timeseries, identity
-validation clean, fingerprint `bbdd8b14a45e` (was `0fa6e08dfd24`). A
-250-dataset sample found 155 carrying csm across 1,751 values.
+Post-promotion checks against the live databases:
+
+- **every live file re-verified: 7,177 of 7,177 and 208 of 208 valid**
+- 7,177 datasets and 210,363 timeseries, identity validation clean
+- fingerprint `bbdd8b14a45e` (was `0fa6e08dfd24`)
+- a 250-dataset sample found 155 carrying csm across 1,751 values
+
+Note that `lv_promote()` **moves** staged files into place rather than copying,
+so the staging directory is empty afterwards and cannot be promoted twice or
+compared against. Verify the live directory instead, as above. The undo path is
+`.trash`, not the staging.
 
 ### Undoing it
 
