@@ -310,3 +310,30 @@ being written by the fixed lipdR and validated by the unfixed one.
 
 Installing lipdR resolved it. Anything comparing written output against a
 validator must be sure both are the same build.
+
+## Promotion — committed 2026-07-31
+
+Both databases now carry the csm structure.
+
+| | files | run id |
+|---|---|---|
+| `~/Dropbox/lipdverse/database` | 7,177 replaced | `csm-promote-database` |
+| `~/Dropbox/lipdverse/GBRCD` | 208 replaced | `csm-promote-gbrcd` |
+
+Zero additions, zero deletions. Every prior copy is in `.trash/<run_id>/`
+(1.8 GB and 8.7 MB), and fresh snapshots were taken immediately before.
+
+Post-promotion checks: 7,177 datasets and 210,363 timeseries, identity
+validation clean, fingerprint `bbdd8b14a45e` (was `0fa6e08dfd24`). A
+250-dataset sample found 155 carrying csm across 1,751 values.
+
+### Undoing it
+
+```r
+lv_write_rollback(dir = "~/Dropbox/lipdverse/database", run_id = "csm-promote-database")
+lv_write_rollback(dir = "~/Dropbox/lipdverse/GBRCD",    run_id = "csm-promote-gbrcd")
+```
+
+That restores from `.trash`. Failing that, `scripts/restore-from-snapshot.sh`
+restores from the snapshot taken beforehand. Do not run `lv_gc()` on either
+directory until the promotion is settled — it prunes the trash.
