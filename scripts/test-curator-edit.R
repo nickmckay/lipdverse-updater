@@ -25,8 +25,10 @@ mode <- if ("--revert" %in% args) "revert" else if ("--apply" %in% args) "apply"
 cfg <- lv_config(comp); bk <- sheet_backend_google()
 # Sheet columns carry display names, not canonical ones, so pick them from the
 # tab itself rather than hardcoding a name the registry happens to use.
-field_edit  <- "paleoDataNotes"                       # curator, nullable
-field_fixed <- "environmentInterpretation1_variable"  # curator, not nullable
+field_edit  <- "paleoDataNotes"                   # curator, nullable
+# Index 2 within a scope on purpose: this is the case a positional write got
+# wrong, landing on another scope's interpretation.
+field_fixed <- "isotopeInterpretation2_variable"  # curator, not nullable
 marker <- "edited by test-curator-edit"
 
 raw <- sheet_read(bk, cfg$qc_sheet_id, cfg$qc_tabs$qc)
@@ -68,16 +70,26 @@ if (mode == "apply") {
   put(chg,   field_fixed, marker)
   cat("\nedits written. Now run: ./scripts/run-compilation.R", comp, "--commit\n")
 } else {
-  # The store holds what was there before the edits, which is exactly what
-  # revert needs -- no separate backup file to go stale.
+  # Driven entirely by the event log, never by re-deriving fill/clear/change
+  # positions: those are chosen from the sheet's current contents, so once the
+  # edits have landed they pick different rows -- and reverting the wrong row
+  # writes a blank over a real value. Nor from the store's current state, which
+  # after the edit run IS the marker.
   st <- qc_store()
-  base <- qc_state_current(st, comp)
-  orig <- function(tsid, f) {
-    v <- base$value[base$tsid == tsid & base$field == canon(f)]
-    if (!length(v) || is.na(v)) "" else v
+  ev <- qc_store_events(st, comp)
+  mine <- ev[(!is.na(ev$new_value) & ev$new_value == marker) | !ev$new_present, , drop = FALSE]
+  if (!nrow(mine)) stop("no events from this test found in the store; nothing to revert")
+
+  disp <- lv_display_field(mine$field, lv_qc_fields())
+  for (i in seq_len(nrow(mine))) {
+    row <- match(mine$tsid[i], raw$TSid)
+    if (is.na(row) || !disp[i] %in% names(raw)) {
+      cat(sprintf("skip   %s %s -- not in the sheet\n", mine$tsid[i], disp[i]))
+      next
+    }
+    v <- if (is.na(mine$old_value[i])) "" else mine$old_value[i]
+    cat(sprintf("revert row %-5d %-32s %s = [%s]\n", row, mine$tsid[i], disp[i], v))
+    put(row, disp[i], v)
   }
-  put(fill,  field_edit,  orig(raw$TSid[fill],  field_edit))
-  put(clear, field_edit,  orig(raw$TSid[clear], field_edit))
-  put(chg,   field_fixed, orig(raw$TSid[chg],   field_fixed))
-  cat("\nreverted to the store's values. Re-run the pipeline to settle.\n")
+  cat("\nreverted from the event log. Re-run the pipeline to settle.\n")
 }
