@@ -1,0 +1,74 @@
+dsn,key,value,n,vars
+Huagapocave.Kanner.2013,environmentInterpretation1_variable,precipitationisotope,88,"correction, d13C, d18O, mineralogy, notes, sampleID, uncertainty, uncertaintyHigh, uncertaintyLow"
+ElJunco.Zhang.2014,environmentInterpretation1_direction,negative,15,"concentration, d2H, depthBottom, depthTop, needsToBeChanged, precipitation"
+ElJunco.Zhang.2014,environmentInterpretation1_seasonality,Annual,15,"concentration, d2H, depthBottom, depthTop, needsToBeChanged, precipitation"
+ElJunco.Zhang.2014,environmentInterpretation1_variable,effectivePrecipitation,15,"concentration, d2H, depthBottom, depthTop, needsToBeChanged, precipitation"
+CO03COPM,environmentInterpretation1_variable,sea surface temperature,12,d18O
+MS14MOLS,environmentInterpretation1_variable,sea surface temperature,9,"d18O, Mg/Ca, temperature"
+MS15VIBC,environmentInterpretation1_variable,subsurface seawater temperature,7,"core, d18O, Mg/Ca, temperature"
+MS02FLPC,environmentInterpretation1_variable,subsurface seawater temperature,5,"d18O, temperature"
+MS11FAPM,environmentInterpretation1_variable,sea surface temperature,5,"core, d18O"
+CO06MOTO,environmentInterpretation1_variable,sea surface temperature,4,"d13C, d18O"
+MS07MMNP,environmentInterpretation1_variable,subsurface seawater temperature,4,"d18O, temperature"
+CO04BAFI,environmentInterpretation1_variable,sea surface temperature,3,d18O
+CO04KIVA,environmentInterpretation1_variable,sea surface temperature,3,"d13C, d18O, Sr/Ca"
+CO04LIRA,environmentInterpretation1_variable,sea surface temperature,3,d18O
+CO06QUNG,environmentInterpretation1_variable,sea surface temperature,3,"d13C, d18O, Sr/Ca"
+CO99LICL,environmentInterpretation1_variable,sea surface temperature,3,d18O
+MS03BRNS,environmentInterpretation1_variable,subsurface seawater temperature,3,"core, d18O"
+MS03LKNS,environmentInterpretation1_variable,subsurface seawater temperature,3,"d18O, temperature"
+MS04BLCB,environmentInterpretation1_variable,sea surface temperature,3,"core, d18O"
+MS07RCNA,environmentInterpretation1_variable,subsurface seawater temperature,3,"d18O, Mg/Ca, temperature"
+MS15BATP,environmentInterpretation1_variable,subsurface seawater temperature,3,"core, d18O"
+CO00URMA,environmentInterpretation1_variable,sea surface temperature,2,d18O
+CO01TUNG,environmentInterpretation1_variable,sea surface temperature,2,d18O
+CO02KUBE,environmentInterpretation1_variable,sea surface temperature,2,"d18O, Sr/Ca"
+CO04LIFI,environmentInterpretation1_variable,sea surface temperature,2,"d18O, Sr/Ca"
+CO05KUBE,environmentInterpretation1_variable,sea surface temperature,2,"d18O, Sr/Ca"
+CO08GOBE,environmentInterpretation1_variable,sea surface temperature,2,"d18O, Sr/Ca"
+CO10HEIG,environmentInterpretation1_variable,sea surface temperature,2,"d18O, Sr/Ca"
+CO13CABL,environmentInterpretation1_variable,sea surface temperature,2,d18O
+CO13CAHN,environmentInterpretation1_variable,sea surface temperature,2,d18O
+CO14ZIHO,environmentInterpretation1_variable,sea surface temperature,2,"d18O, Sr/Ca"
+CO14ZIMG,environmentInterpretation1_variable,sea surface temperature,2,d18O
+CO94HEAQ,environmentInterpretation1_variable,sea surface temperature,2,d18O
+CO98EVXM,environmentInterpretation1_variable,sea surface temperature,2,"d13C, d18O"
+CO99GUMI,environmentInterpretation1_variable,sea surface temperature,2,d18O
+LS01HUFA,environmentInterpretation1_variable,lake water temperature,2,d18O
+MS03KTCB,environmentInterpretation1_variable,subsurface seawater temperature,2,d18O
+MS05LKLF,environmentInterpretation1_variable,subsurface seawater temperature,2,d18O
+MS11SENS,environmentInterpretation1_variable,subsurface seawater temperature,2,"core, d18O"
+MS96LKSS,environmentInterpretation1_variable,sea surface temperature,2,d18O
+MS99LWSC,environmentInterpretation1_variable,sea surface temperature,2,"d18O, uncertainty"
+SS05ROES,environmentInterpretation1_variable,subsurface seawater temperature,2,"d18O, Sr/Ca"
+SS05ROTN,environmentInterpretation1_variable,subsurface seawater temperature,2,"d18O, Sr/Ca"
+CO00COKY,environmentInterpretation1_variable,sea surface temperature,1,d18O
+CO04PFRE,environmentInterpretation1_variable,sea surface temperature,1,d18O
+CO04ZIMG,environmentInterpretation1_variable,sea surface temperature,1,d18O
+CO05ASGU,environmentInterpretation1_variable,sea surface temperature,1,d18O
+CO06DATZ,environmentInterpretation1_variable,sea surface temperature,1,d18O
+CO06LIFI,environmentInterpretation1_variable,sea surface temperature,1,d18O
+CO08ABSU,environmentInterpretation1_variable,sea surface temperature,1,d18O
+CO08HEVE,environmentInterpretation1_variable,sea surface temperature,1,d18O
+CO08KIPR,environmentInterpretation1_variable,sea surface temperature,1,d18O
+CO09NAKY,environmentInterpretation1_variable,sea surface temperature,1,d18O
+CO13COTB,environmentInterpretation1_variable,sea surface temperature,1,d18O
+CO13COXM,environmentInterpretation1_variable,sea surface temperature,1,d18O
+CO14WUCL,environmentInterpretation1_variable,sea surface temperature,1,d18O
+CO15ABSP,environmentInterpretation1_variable,sea surface temperature,1,d18O
+CO92SHPU,environmentInterpretation1_variable,sea surface temperature,1,d18O
+CO96QUVA,environmentInterpretation1_variable,sea surface temperature,1,d18O
+CO97CHSY,environmentInterpretation1_variable,sea surface temperature,1,d18O
+CO98BOFP,environmentInterpretation1_variable,sea surface temperature,1,d18O
+CO98CHPI,environmentInterpretation1_variable,sea surface temperature,1,d18O
+CO98QUNC,environmentInterpretation1_variable,sea surface temperature,1,d18O
+CO99DRGB,environmentInterpretation1_variable,sea surface temperature,1,d18O
+LakeElingamite.Barr.2014,environmentInterpretation1_basis,location-specific diatom-conductivity transfer function - from observed diatom species assemblages,1,conductivity
+LakeElingamite.Barr.2014,environmentInterpretation1_variable,lake water salinity,1,conductivity
+LakeSurprise.Barr.2014,environmentInterpretation1_basis,location-specific diatom-conductivity transfer function - from observed diatom species assemblages,1,conductivity
+LakeSurprise.Barr.2014,environmentInterpretation1_variable,lake water salinity,1,conductivity
+MS03SMAS,environmentInterpretation1_variable,sea surface temperature,1,d18O
+MS04ICNI,environmentInterpretation1_variable,subsurface seawater temperature,1,d18O
+MS08UAPM,environmentInterpretation1_variable,sea surface temperature,1,d18O
+MS09TCIS,environmentInterpretation1_variable,sea surface temperature,1,d18O
+MS11KWFS,environmentInterpretation1_variable,subsurface seawater temperature,1,d18O

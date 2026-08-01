@@ -340,3 +340,21 @@ test_that("interpretations are read per column, with scope-aware indices", {
   # The root copy is not read, so it does not leak onto the other column.
   expect_length(get("T2", "environmentInterpretation1_variable"), 0)
 })
+
+# The root copies are being removed from the files, but a dataset that has not
+# been migrated yet must still not have them read: a root value describes the
+# whole dataset, so reading it puts one column's interpretation onto every
+# column, which is how the per-column read gap stayed hidden.
+test_that("a root interpretation key is ignored even when no column has one", {
+  d <- withr::local_tempdir()
+  withr::local_envvar(LIPDVERSE_STATE = withr::local_tempdir())
+  write_lpd(d, "A.Author.2001", tsids = c("T1", "T2"))
+  L <- lipdR::readLipd(fs::path(d, "A.Author.2001.lpd"))
+  L$environmentInterpretation1_variable <- "effectiveMoisture"
+  L$Interpretation1_scope <- "climate"
+  out <- withr::local_tempdir()
+  lipdR::writeLipd(L, path = out, removeNamesFromLists = TRUE)
+
+  f <- qc_frame(out, progress = FALSE)
+  expect_false(any(grepl("nterpretation", f$field)))
+})

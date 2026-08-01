@@ -1,0 +1,74 @@
+dsn,key,value,same_field_on_columns,covered
+CO00COKY,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+CO00URMA,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+CO01TUNG,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+CO02KUBE,environmentInterpretation1_variable,sea surface temperature,temperature,TRUE
+CO03COPM,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+CO04BAFI,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+CO04KIVA,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+CO04LIFI,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+CO04LIRA,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+CO04PFRE,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+CO04ZIMG,environmentInterpretation1_variable,sea surface temperature,temperature,TRUE
+CO05ASGU,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+CO05KUBE,environmentInterpretation1_variable,sea surface temperature,temperature,TRUE
+CO06DATZ,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+CO06LIFI,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+CO06MOTO,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+CO06QUNG,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+CO08ABSU,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+CO08GOBE,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+CO08HEVE,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+CO08KIPR,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+CO09NAKY,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+CO10HEIG,environmentInterpretation1_variable,sea surface temperature,temperature,TRUE
+CO13CABL,environmentInterpretation1_variable,sea surface temperature,temperature,TRUE
+CO13CAHN,environmentInterpretation1_variable,sea surface temperature,temperature,TRUE
+CO13COTB,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+CO13COXM,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+CO14WUCL,environmentInterpretation1_variable,sea surface temperature,temperature,TRUE
+CO14ZIHO,environmentInterpretation1_variable,sea surface temperature,temperature,TRUE
+CO14ZIMG,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+CO15ABSP,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+CO92SHPU,environmentInterpretation1_variable,sea surface temperature,temperature,TRUE
+CO94HEAQ,environmentInterpretation1_variable,sea surface temperature,temperature,TRUE
+CO96QUVA,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+CO97CHSY,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+CO98BOFP,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+CO98CHPI,environmentInterpretation1_variable,sea surface temperature,temperature,TRUE
+CO98EVXM,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+CO98QUNC,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+CO99DRGB,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+CO99GUMI,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+CO99LICL,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+ElJunco.Zhang.2014,environmentInterpretation1_direction,negative,,FALSE
+ElJunco.Zhang.2014,environmentInterpretation1_seasonality,Annual,,FALSE
+ElJunco.Zhang.2014,environmentInterpretation1_variable,effectivePrecipitation,,FALSE
+Huagapocave.Kanner.2013,environmentInterpretation1_variable,precipitationisotope,precipitation,FALSE
+LakeElingamite.Barr.2014,environmentInterpretation1_variable,lake water salinity,salinity,TRUE
+LakeElingamite.Barr.2014,environmentInterpretation1_basis,location-specific diatom-conductivity transfer function - from observed diatom species assemblages,,FALSE
+LakeSurprise.Barr.2014,environmentInterpretation1_variable,lake water salinity,salinity,TRUE
+LakeSurprise.Barr.2014,environmentInterpretation1_basis,location-specific diatom-conductivity transfer function - from observed diatom species assemblages,,FALSE
+LS01HUFA,environmentInterpretation1_variable,lake water temperature,effectiveprecipitation | precipitationisotope | temperature,TRUE
+MS02FLPC,environmentInterpretation1_variable,subsurface seawater temperature,salinity | seawaterisotope | temperature,TRUE
+MS03BRNS,environmentInterpretation1_variable,subsurface seawater temperature,seawaterisotope | temperature,TRUE
+MS03KTCB,environmentInterpretation1_variable,subsurface seawater temperature,seawaterisotope | temperature,TRUE
+MS03LKNS,environmentInterpretation1_variable,subsurface seawater temperature,seawaterisotope | temperature,TRUE
+MS03SMAS,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+MS04BLCB,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+MS04ICNI,environmentInterpretation1_variable,subsurface seawater temperature,seawaterisotope | temperature,TRUE
+MS05LKLF,environmentInterpretation1_variable,subsurface seawater temperature,salinity | seawaterisotope | temperature,TRUE
+MS07MMNP,environmentInterpretation1_variable,subsurface seawater temperature,salinity | seawaterisotope | temperature,TRUE
+MS07RCNA,environmentInterpretation1_variable,subsurface seawater temperature,seawaterisotope | temperature,TRUE
+MS08UAPM,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+MS09TCIS,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+MS11FAPM,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+MS11KWFS,environmentInterpretation1_variable,subsurface seawater temperature,seawaterisotope | temperature,TRUE
+MS11SENS,environmentInterpretation1_variable,subsurface seawater temperature,seawaterisotope | temperature,TRUE
+MS14MOLS,environmentInterpretation1_variable,sea surface temperature,salinity | seawaterisotope | temperature,TRUE
+MS15BATP,environmentInterpretation1_variable,subsurface seawater temperature,seawaterisotope | temperature,TRUE
+MS15VIBC,environmentInterpretation1_variable,subsurface seawater temperature,salinity | seawaterisotope | temperature,TRUE
+MS96LKSS,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+MS99LWSC,environmentInterpretation1_variable,sea surface temperature,seawaterisotope | temperature,TRUE
+SS05ROES,environmentInterpretation1_variable,subsurface seawater temperature,salinity | temperature,TRUE
+SS05ROTN,environmentInterpretation1_variable,subsurface seawater temperature,salinity | temperature,TRUE
