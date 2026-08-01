@@ -390,3 +390,28 @@ should be re-migrated once the ensemble bug is fixed.
 Why only one of 217: most paleo ensembles have the well-formed shape, with one
 scalar column and one matrix. Only tables where two columns both parse as the
 full matrix double.
+
+### Resolved
+
+The lipdR ensemble fix is verified across the corpus: **all 217 paleo-ensemble
+datasets round-trip with zero width change**.
+
+`130_806B.Berger.2006.lpd` was re-migrated with the fixed lipdR and promoted
+(run `fix-130_806B`). It now has its correct 1000-member ensemble, uses the
+modern `inCompilation` key rather than the legacy `inCompilationBeta`, and
+verifies clean. It turned out to carry no csm-eligible keys at all, so the
+original migration had been a no-op for it and the trash restore lost nothing.
+The quarantine directory has been removed.
+
+Both lipdR fixes are pushed to `origin/dev`.
+
+### lv_promote gained a partial mode
+
+Promoting that single file exposed a design gap the guard caught: `lv_promote`
+compared whole directories, so staging one file against a 7,177-file database
+read as 7,176 deletions and was refused.
+
+That matters well beyond the one file — the pipeline's normal case is updating
+only the datasets that changed. `partial = TRUE` considers no deletions at all,
+so a run can add and replace without the files it did not touch looking like
+removals. Rollback works the same way.

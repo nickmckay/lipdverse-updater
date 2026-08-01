@@ -169,3 +169,36 @@ test_that("an empty staging directory is refused", {
   expect_error(lv_promote(withr::local_tempdir(), live, dry_run = FALSE),
                class = "lv_error_write")
 })
+
+# The pipeline normally updates only the datasets that changed. Without a
+# partial mode, promoting one changed file into a database of thousands reads
+# as deleting all the others.
+test_that("a partial staging does not treat untouched files as deletions", {
+  withr::local_envvar(LIPDVERSE_STATE = withr::local_tempdir())
+  live <- local_db(list(list(dataSetName = "A.Author.2001"),
+                        list(dataSetName = "B.Author.2002"),
+                        list(dataSetName = "C.Author.2003")))
+  stage <- local_db(list(list(dataSetName = "B.Author.2002", tsids = c("T1", "T9"))))
+
+  # Whole-directory semantics would call the other two deletions and refuse.
+  expect_error(lv_promote(stage, live, dry_run = FALSE), class = "lv_error_write")
+
+  r <- lv_promote(stage, live, run_id = "P1", dry_run = FALSE, partial = TRUE)
+  expect_equal(length(r$deletions), 0)
+  expect_setequal(fs::path_file(fs::dir_ls(live, glob = "*.lpd")),
+                  c("A.Author.2001.lpd", "B.Author.2002.lpd", "C.Author.2003.lpd"))
+  expect_true(fs::file_exists(fs::path(live, ".trash", "P1", "B.Author.2002.lpd")))
+})
+
+test_that("a partial promotion still rolls back cleanly", {
+  withr::local_envvar(LIPDVERSE_STATE = withr::local_tempdir())
+  live <- local_db(list(list(dataSetName = "A.Author.2001"),
+                        list(dataSetName = "B.Author.2002")))
+  stage <- local_db(list(list(dataSetName = "B.Author.2002", tsids = c("T1", "T9"))))
+  before <- fingerprint(live)
+
+  lv_promote(stage, live, run_id = "P1", dry_run = FALSE, partial = TRUE)
+  expect_false(identical(fingerprint(live), before))
+  lv_write_rollback(live, "P1")
+  expect_equal(fingerprint(live), before)
+})

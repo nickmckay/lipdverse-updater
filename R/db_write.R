@@ -101,11 +101,15 @@ lv_verify_worker <- function(path, expect_name = NULL, min_bytes = 200,
 #' @param verify Re-read every staged file before committing. Leave on.
 #' @param workers Parallel verification workers.
 #' @param allow_delete Permit removing live files absent from staging.
+#' @param partial Staging holds only some of the database. Deletions are not
+#'   considered at all, so the run can add and replace without the files it
+#'   simply did not touch looking like removals. This is the normal case for an
+#'   incremental update; leave `FALSE` when staging is a whole database.
 #' @return An `lv_write_receipt`, invisibly.
 #' @export
 lv_promote <- function(staging, dir = lv_path("database"), run_id = lv_run_id(),
                        dry_run = TRUE, verify = TRUE, workers = NULL,
-                       allow_delete = FALSE) {
+                       allow_delete = FALSE, partial = FALSE) {
   staging <- path.expand(staging); dir <- path.expand(dir)
   if (!fs::dir_exists(staging)) cli::cli_abort("Staging directory not found: {.path {staging}}")
   if (!fs::dir_exists(dir)) cli::cli_abort("Database directory not found: {.path {dir}}")
@@ -123,7 +127,10 @@ lv_promote <- function(staging, dir = lv_path("database"), run_id = lv_run_id(),
     staged_path = as.character(new_files),
     live_path = fs::path(dir, new_names)
   )
-  deletions <- setdiff(live_names, new_names)
+  # With a partial staging, everything the run did not touch is untouched, not
+  # deleted. Without this, promoting one changed file into the database reads as
+  # deleting the other 7,176.
+  deletions <- if (partial) character() else setdiff(live_names, new_names)
 
   cli::cli_alert_info("{nrow(plan)} file{?s} to write ({sum(plan$action == 'replace')} replace, {sum(plan$action == 'add')} add), {length(deletions)} candidate deletion{?s}")
 
@@ -154,7 +161,7 @@ lv_promote <- function(staging, dir = lv_path("database"), run_id = lv_run_id(),
 
   receipt <- structure(list(
     run_id = run_id, dir = dir, staging = staging, dry_run = dry_run,
-    plan = plan, deletions = deletions, issues = issues,
+    partial = partial, plan = plan, deletions = deletions, issues = issues,
     committed = FALSE, at = Sys.time()
   ), class = "lv_write_receipt")
 
