@@ -312,3 +312,31 @@ test_that("identity fields are not cells", {
   f <- qc_frame(d, progress = FALSE)
   expect_false(any(c("TSid", "datasetId") %in% f$field))
 })
+
+# Interpretation is a column-level concept, but 624 datasets carry flattened
+# copies at the dataset root. Reading those replicated one column's
+# interpretation onto every column, and shadowed the real per-column values.
+test_that("interpretations are read per column, with scope-aware indices", {
+  d <- withr::local_tempdir()
+  withr::local_envvar(LIPDVERSE_STATE = withr::local_tempdir())
+  write_lpd(d, "A.Author.2001", tsids = c("T1", "T2"))
+
+  L <- lipdR::readLipd(fs::path(d, "A.Author.2001.lpd"))
+  L$environmentInterpretation1_variable <- "fromTheRoot"
+  tab <- L$paleoData[[1]]$measurementTable[[1]]
+  cn <- names(Filter(function(c) is.list(c) && identical(as.character(c$TSid), "T1"), tab))[1]
+  L$paleoData[[1]]$measurementTable[[1]][[cn]]$interpretation <- list(
+    list(scope = "climate", variable = "temperature"),
+    list(scope = "isotope", variable = "precipitationIsotope"))
+  out <- withr::local_tempdir()
+  lipdR::writeLipd(L, path = out, removeNamesFromLists = TRUE)
+
+  f <- qc_frame(out, progress = FALSE)
+  get <- function(ts, fld) f$value[f$tsid == ts & f$field == fld]
+
+  # The isotope interpretation is the second entry but the first of its scope.
+  expect_equal(get("T1", "climateInterpretation1_variable"), "temperature")
+  expect_equal(get("T1", "isotopeInterpretation1_variable"), "precipitationIsotope")
+  # The root copy is not read, so it does not leak onto the other column.
+  expect_length(get("T2", "environmentInterpretation1_variable"), 0)
+})

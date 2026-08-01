@@ -205,6 +205,31 @@ lv_apply_to_lipd <- function(L, cells) {
   list(L = L, issues = issues)
 }
 
+# Which entry of a column's interpretation list `<scope>InterpretationN` means.
+#
+# The index in a QC field name counts within a scope, but lipdR stores one flat
+# list mixing scopes -- a column can hold three climate interpretations then
+# three isotope ones. Writing environmentInterpretation1 to `interpretation[[1]]`
+# overwrote a *climate* interpretation's variable on a real dataset.
+#
+# Returns NA when the slot does not exist yet, so the caller appends.
+lv_interp_slot <- function(interp, scope, index) {
+  if (is.na(index)) index <- 1L
+  if (is.na(scope)) {
+    # Unscoped names are positional over entries that carry no scope.
+    hits <- which(vapply(interp, function(e) {
+      s <- if (is.list(e)) as_chr1(e$scope) else NULL
+      is.null(s) || !nzchar(s)
+    }, logical(1)))
+  } else {
+    hits <- which(vapply(interp, function(e) {
+      s <- if (is.list(e)) as_chr1(e$scope) else NULL
+      !is.null(s) && identical(tolower(s), tolower(scope))
+    }, logical(1)))
+  }
+  if (index <= length(hits)) hits[index] else NA_integer_
+}
+
 lv_apply_to_column <- function(col, cells) {
   for (i in seq_len(nrow(cells))) {
     r <- cells[i, ]
@@ -215,16 +240,16 @@ lv_apply_to_column <- function(col, cells) {
       if (!is.list(col$calibration)) col$calibration <- list()
       col$calibration[[r$key]] <- v
     } else if (r$container == "interpretation") {
-      j <- r$index
       if (!is.list(col$interpretation)) col$interpretation <- list()
-      while (length(col$interpretation) < j) {
+      j <- lv_interp_slot(col$interpretation, r$scope, r$index)
+      if (is.na(j)) {
+        # The named slot does not exist yet: append rather than reuse a
+        # position, which would overwrite an interpretation of another scope.
         col$interpretation[[length(col$interpretation) + 1L]] <- list()
+        j <- length(col$interpretation)
+        if (!is.na(r$scope)) col$interpretation[[j]]$scope <- r$scope
       }
       col$interpretation[[j]][[r$key]] <- v
-      # A scoped field name carries the scope; lipdR keeps it as a field.
-      if (!is.na(r$scope) && is.null(col$interpretation[[j]]$scope)) {
-        col$interpretation[[j]]$scope <- r$scope
-      }
     }
   }
   col

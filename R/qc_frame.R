@@ -70,9 +70,14 @@ qc_frame_one <- function(path, canon) {
     if (length(s) != 1 || is.na(s) || !nzchar(s)) return(invisible())
     root[[cn(k)]] <<- s
   }
-  for (nm in setdiff(names(m), c("paleoData", "chronData", "pub", "geo", "@context"))) {
-    add_root(nm, m[[nm]])
-  }
+  # 624 datasets carry flattened interpretation keys at the dataset root, left
+  # by lipdverseR. Interpretation is a column-level concept, so reading them
+  # here replicates one column's interpretation onto every column of the
+  # dataset -- and because they shadowed the real per-column values, they hid
+  # the fact that per-column interpretations were not being read at all.
+  root_keys <- setdiff(names(m), c("paleoData", "chronData", "pub", "geo", "@context"))
+  root_keys <- root_keys[!grepl("Interpretation[0-9]+_", root_keys)]
+  for (nm in root_keys) add_root(nm, m[[nm]])
   for (nm in names(m$geo)) {
     if (nm == "geometry") {
       for (g in names(m$geo$geometry)) add_root(paste0("geo_", g), m$geo$geometry[[g]])
@@ -100,11 +105,26 @@ qc_frame_one <- function(path, canon) {
 
         for (nm in names(col)) {
           if (nm == "interpretation") {
+            # QC names index within a scope: environmentInterpretation1 is the
+            # first *environment* interpretation, not the first entry in the
+            # list. Numbering positionally instead produced names like
+            # interpretation4_variable, which match nothing in the registry --
+            # so every per-column interpretation was silently invisible to QC,
+            # and the only interpretation values reaching the frame were the
+            # flattened copies lipdverseR left at the dataset root.
+            seen <- integer()
             for (i in seq_along(col$interpretation)) {
-              for (s in names(col$interpretation[[i]])) {
-                k <- paste0("interpretation", i, "_", s)
+              it <- col$interpretation[[i]]
+              if (!is.list(it)) next
+              sc <- scalar_chr(it$scope)
+              sc <- if (length(sc) == 1 && !is.na(sc) && nzchar(sc)) tolower(sc) else ""
+              n <- if (sc %in% names(seen)) seen[[sc]] + 1L else 1L
+              seen[[sc]] <- n
+              prefix <- if (nzchar(sc)) paste0(sc, "Interpretation", n) else paste0("interpretation", n)
+              for (s in names(it)) {
+                k <- paste0(prefix, "_", s)
                 if (!is.null(cn(k))) {
-                  v <- scalar_chr(col$interpretation[[i]][[s]])
+                  v <- scalar_chr(it[[s]])
                   if (length(v) == 1 && !is.na(v) && nzchar(v)) vals[[cn(k)]] <- v
                 }
               }

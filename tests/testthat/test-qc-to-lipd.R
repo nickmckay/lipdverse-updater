@@ -154,3 +154,41 @@ test_that("applied output passes verification", {
               registry = reg_for("paleoData_units"), index = idx, progress = FALSE)
   expect_equal(nrow(lv_verify_file(fs::path(out, "A.Author.2001.lpd"), "A.Author.2001")), 0)
 })
+
+# A column can hold three climate interpretations followed by three isotope
+# ones. The index in a QC field name counts within a scope, but lipdR stores
+# one flat list -- so writing environmentInterpretation1 to interpretation[[1]]
+# overwrote a climate interpretation's variable on IC00OE02.
+test_that("a scoped interpretation never lands on another scope's slot", {
+  interp <- list(list(scope = "climate", variable = "temperature"),
+                 list(scope = "climate"),
+                 list(scope = "isotope", variable = "precipitationIsotope"))
+
+  expect_equal(lv_interp_slot(interp, "climate", 1L), 1L)
+  expect_equal(lv_interp_slot(interp, "climate", 2L), 2L)
+  expect_equal(lv_interp_slot(interp, "isotope", 1L), 3L)
+  # No environment interpretation exists yet, so the caller must append.
+  expect_true(is.na(lv_interp_slot(interp, "environment", 1L)))
+
+  col <- lv_apply_to_column(
+    list(TSid = "T1", interpretation = interp),
+    cellset("T1", "environmentInterpretation1_variable", "effectiveMoisture") |>
+      dplyr::mutate(container = "interpretation", index = 1L, key = "variable",
+                    scope = "environment", level = "column"))
+
+  expect_length(col$interpretation, 4)
+  expect_equal(col$interpretation[[1]]$variable, "temperature")   # untouched
+  expect_equal(col$interpretation[[4]]$scope, "environment")
+  expect_equal(col$interpretation[[4]]$variable, "effectiveMoisture")
+})
+
+test_that("an existing scoped slot is updated in place, not appended", {
+  col <- lv_apply_to_column(
+    list(TSid = "T1", interpretation = list(list(scope = "climate", variable = "temperature"),
+                                            list(scope = "isotope", variable = "d18O"))),
+    cellset("T1", "isotopeInterpretation1_variable", "precipitationIsotope") |>
+      dplyr::mutate(container = "interpretation", index = 1L, key = "variable",
+                    scope = "isotope", level = "column"))
+  expect_length(col$interpretation, 2)
+  expect_equal(col$interpretation[[2]]$variable, "precipitationIsotope")
+})
