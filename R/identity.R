@@ -63,12 +63,15 @@ lv_db_index <- function(scan = lv_scan(), workers = NULL, cache = TRUE) {
   timeseries <- purrr::list_rbind(purrr::map(extracts, function(e) {
     if (!length(e$tsids)) return(tibble::tibble(TSid = character(), datasetId = character(),
                                                 dataSetName = character(), tableType = character(),
-                                                variableName = character()))
+                                                tableKind = character(), variableName = character()))
     tibble::tibble(
       TSid         = e$tsids,
       datasetId    = e$datasetId %||% NA_character_,
       dataSetName  = e$dataSetName %||% NA_character_,
       tableType    = e$tstypes %||% NA_character_,
+      # measurement vs a model's summary/ensemble table. Compilation membership
+      # belongs on measurement columns; model columns are derived.
+      tableKind    = e$tskinds %||% NA_character_,
       variableName = e$tsnames %||% NA_character_
     )
   }))
@@ -109,8 +112,10 @@ lv_extract_identity <- function(path) {
     out$tsids   <- vapply(cols, function(c) c$TSid %||% NA_character_, character(1))
     out$tsnames <- vapply(cols, function(c) c$variableName %||% NA_character_, character(1))
     out$tstypes <- vapply(cols, function(c) c$type %||% NA_character_, character(1))
+    out$tskinds <- vapply(cols, function(c) c$kind %||% NA_character_, character(1))
     keep <- !is.na(out$tsids)
-    out$tsids <- out$tsids[keep]; out$tsnames <- out$tsnames[keep]; out$tstypes <- out$tstypes[keep]
+    out$tsids <- out$tsids[keep]; out$tsnames <- out$tsnames[keep]
+    out$tstypes <- out$tstypes[keep]; out$tskinds <- out$tskinds[keep]
   }
   out
 }
@@ -124,10 +129,14 @@ lv_walk_columns <- function(x, type) {
   res <- list()
   if (is.null(x)) return(res)
   for (obj in x) {
-    tabs <- c(obj$measurementTable, unlist(lapply(obj$model, function(m) {
+    meas <- obj$measurementTable
+    modl <- unlist(lapply(obj$model, function(m) {
       c(m$summaryTable, m$ensembleTable, m$distributionTable)
-    }), recursive = FALSE))
-    for (tb in tabs) {
+    }), recursive = FALSE)
+    tabs <- c(meas, modl)
+    kinds <- c(rep("measurement", length(meas)), rep("model", length(modl)))
+    for (ti in seq_along(tabs)) {
+      tb <- tabs[[ti]]; kind <- kinds[ti]
       if (!is.list(tb)) next
       cols <- if (!is.null(tb$columns)) tb$columns else tb
       nms  <- names(cols)
@@ -137,7 +146,7 @@ lv_walk_columns <- function(x, type) {
         res[[length(res) + 1L]] <- list(
           TSid = as_chr1(col$TSid),
           variableName = as_chr1(col$variableName) %||% (if (!is.null(nms)) nms[k] else NA_character_),
-          type = type
+          type = type, kind = kind
         )
       }
     }

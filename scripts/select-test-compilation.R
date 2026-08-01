@@ -145,8 +145,12 @@ sel$reason <- vapply(sel$dataSetName, function(d) {
 # A compilation is a set of TSids. Take every paleo column of each chosen
 # dataset: partial datasets would make the membership tab and the files
 # disagree in a way no real compilation does.
+# Measurement columns only. Compilation membership belongs on measured data;
+# a model's summary and ensemble columns are derived, and lv_create_compilation
+# does not walk them.
 ts <- idx$timeseries |>
-  filter(dataSetName %in% sel$dataSetName, tableType == "paleo") |>
+  filter(dataSetName %in% sel$dataSetName, tableType == "paleo",
+         tableKind == "measurement") |>
   left_join(sel |> select(dataSetName, reason, archiveType, n_compilations), by = "dataSetName")
 
 write_csv(ts |> select(TSid, dataSetName, datasetId, variableName, archiveType,

@@ -345,3 +345,48 @@ lv_write_rollback(dir = "~/Dropbox/lipdverse/GBRCD",    run_id = "csm-promote-gb
 That restores from `.trash`. Failing that, `scripts/restore-from-snapshot.sh`
 restores from the snapshot taken beforehand. Do not run `lv_gc()` on either
 directory until the promotion is settled — it prunes the trash.
+
+## A paleo-ensemble corruption in lipdR, found after promotion
+
+Building the test compilation surfaced a second lipdR round-trip bug, more
+serious than the `NaN` typing one.
+
+**A paleo ensemble table doubles in width on a single read/write cycle.**
+
+```
+SOURCE      GIK17961_2.Wang.2002.paleo1model1ensemble1.csv   127 x 1000
+ROUND-TRIP  GIK17961_2.Wang.2002.paleo1model1ensemble1.csv   127 x 2000
+TWICE       GIK17961_2.Wang.2002.paleo1model1ensemble1.csv   127 x 2000
+```
+
+Chron ensembles are unaffected. The cause is visible in the parsed structure:
+
+```
+PALEO ensembleTable -- 2 columns
+    depth        number=1,2,3...  values: matrix 127x1000
+    temperature  number=1,2,3...  values: matrix 127x1000     <- both claim the same columns
+
+CHRON ensembleTable -- 2 columns
+    depth         number=1        values: numeric 218
+    ageEnsemble   number=2,3,4... values: matrix 218x1000     <- disjoint, correct
+```
+
+Both paleo columns are read as the full 1000-wide matrix and both are written
+back, so 1000 becomes 2000. It doubles once and then stabilises.
+
+### Impact on the live database
+
+The csm promotion read and wrote all 7,177 files, so this could have applied
+broadly. Checking every paleo-ensemble dataset against the pre-promotion
+snapshot: **217 have a paleo ensemble, and exactly 1 was affected** —
+`130_806B.Berger.2006.lpd`, 1000 → 2000 members.
+
+That file was restored from `.trash/csm-promote-database` (verified byte-identical
+to the pre-promotion snapshot) and the corrupted copy moved to
+`.quarantine/csm-promote-database/`. The restored file verifies clean and has
+its original 1000-member ensemble. It consequently lacks the csm migration, and
+should be re-migrated once the ensemble bug is fixed.
+
+Why only one of 217: most paleo ensembles have the well-formed shape, with one
+scalar column and one matrix. Only tables where two columns both parse as the
+full matrix double.
