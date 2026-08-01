@@ -70,6 +70,26 @@ test_that("re-running the same version is idempotent", {
   expect_equal(unlist(col$inCompilation[[1]]$compilationVersion), "1_0_0")
 })
 
+# Two columns in the real database hold `inCompilation: "Tverse"` -- a bare
+# string where a list of entries belongs. The obvious guard, `if (!is.list(ic))
+# ic <- list()`, throws that membership away.
+test_that("a bare-string inCompilation is converted, not discarded", {
+  src <- setup_db(); mid <- withr::local_tempdir(); out <- withr::local_tempdir()
+  L <- lipdR::readLipd(fs::path(src, "A.Author.2001.lpd"))
+  tab <- L$paleoData[[1]]$measurementTable[[1]]
+  cn <- names(Filter(function(c) is.list(c) && identical(as.character(c$TSid), "T1"), tab))[1]
+  L$paleoData[[1]]$measurementTable[[1]][[cn]]$inCompilation <- "Tverse"
+  lipdR::writeLipd(L, path = mid, removeNamesFromLists = TRUE)
+
+  idx <- lv_db_index(lv_scan(mid, cache = FALSE), cache = FALSE)
+  r <- lv_create_compilation("T1", "lipdverseTest", "1_0_0", mid, out,
+                             index = idx, progress = FALSE)
+
+  A <- lipdR::readLipd(fs::path(out, "A.Author.2001.lpd"))
+  expect_setequal(memberships(A, "T1"), c("Tverse", "lipdverseTest"))
+  expect_true("malformed_inCompilation" %in% r$issues$check)
+})
+
 test_that("an unknown TSid is reported, not silently dropped", {
   src <- setup_db(); out <- withr::local_tempdir()
   idx <- lv_db_index(lv_scan(src, cache = FALSE), cache = FALSE)

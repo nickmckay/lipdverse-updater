@@ -88,7 +88,21 @@ lv_add_membership <- function(L, tsids, compilation, version) {
           if (!tsid %in% want) next
 
           ic <- col$inCompilation
-          if (!is.list(ic)) ic <- list()
+          if (!is.list(ic)) {
+            # Two columns in the database store inCompilation as a bare string
+            # rather than a list of entries. Discarding it would be exactly the
+            # kind of silent loss this rewrite exists to stop, so promote it to
+            # the normal structure and report it.
+            old <- as.character(ic)
+            old <- old[!is.na(old) & nzchar(old)]
+            ic <- lapply(old, function(n) list(compilationName = n))
+            if (length(old)) {
+              issues <- lv_issues_bind(issues, lv_issues(
+                check = "malformed_inCompilation", severity = "warn",
+                message = "inCompilation was a bare string; converted to an entry.",
+                dataSetName = dsn, TSid = tsid, value = old))
+            }
+          }
           names_here <- vapply(ic, function(e) {
             n <- if (is.list(e)) unlist(e[["compilationName"]]) else NULL
             if (length(n)) as.character(n)[1] else NA_character_

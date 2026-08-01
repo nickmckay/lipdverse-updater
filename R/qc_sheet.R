@@ -101,6 +101,31 @@ sheet_write.lv_sheet_google <- function(backend, id, tab, x) {
   invisible(TRUE)
 }
 
+#' Create a new sheet
+#'
+#' A new compilation needs a new QC sheet, and making it by hand is how tab
+#' names drift. Returns the id to record in `compilations.tsv`.
+#'
+#' @param backend A backend.
+#' @param name Sheet name.
+#' @param tabs A named list of data frames, one per tab.
+#' @return The sheet id.
+#' @export
+sheet_create <- function(backend, name, tabs) UseMethod("sheet_create")
+
+#' @export
+sheet_create.lv_sheet_local <- function(backend, name, tabs) {
+  for (nm in names(tabs)) sheet_write(backend, name, nm, tabs[[nm]])
+  name
+}
+
+#' @export
+sheet_create.lv_sheet_google <- function(backend, name, tabs) {
+  sheet_auth(backend)
+  ss <- with_retry(googlesheets4::gs4_create(name, sheets = tabs), paste("create", name))
+  as.character(googlesheets4::as_sheets_id(ss))
+}
+
 sheet_auth <- function(backend) {
   if (!requireNamespace("googlesheets4", quietly = TRUE)) {
     cli::cli_abort("Package {.pkg googlesheets4} is required for the google backend.")
