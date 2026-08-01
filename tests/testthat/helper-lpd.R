@@ -21,10 +21,17 @@ make_metadata <- function(dataSetName, datasetId, tsids,
     dataSetName = dataSetName,
     datasetId   = datasetId,
     archiveType = archiveType,
+    # Without lipdVersion, readLipd() prompts interactively for it, which
+    # derails any test that reads a file back.
+    lipdVersion = 1.3,
     # validLipd() requires geo, and the writer verifies with it, so fixtures
     # must be genuinely valid LiPD rather than merely parseable.
     geo         = list(latitude = 40.0, longitude = -105.0, elevation = 1500,
                        siteName = paste0("Site ", dataSetName)),
+    # Real datasets carry a publication; without one, any test touching pubN_*
+    # exercises the "create from nothing" path rather than the normal one.
+    pub         = list(list(author = list(list(name = "Author, A.")),
+                            title = paste("A study of", dataSetName))),
     changelog   = list(list(version = "1.0.0"), list(version = version)),
     paleoData   = list(list(measurementTable = list(tbl)))
   )
