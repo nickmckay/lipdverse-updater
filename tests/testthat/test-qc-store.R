@@ -175,3 +175,21 @@ test_that("a merge plan can be committed to the store and read back", {
 
   expect_equal(qc_state_current(s, "demo")$value, "Coral")
 })
+
+# 669 cells in lipdverseTest hold the literal string "NA" on collectionYear and
+# paleoData_climateCorrelation. write_csv emits that bare, and read_csv's
+# default na includes "NA", so the store read them back as missing and the
+# merge reported the same cells as changed on every run forever. The
+# idempotence assertion is what caught it.
+test_that("a value that is the literal string NA survives the event log", {
+  withr::local_envvar(LIPDVERSE_QCSTORE = withr::local_tempdir())
+  st <- qc_store()
+  ev <- qc_diff_to_events(qc_cells_empty(),
+                          tibble::tibble(tsid = "T1", field = "collectionYear",
+                                         value = "NA", present = TRUE,
+                                         dataset_id = "DS1"))
+  qc_store_append(st, "c", ev, run_id = "r1")
+  s <- qc_state_current(st, "c")
+  expect_equal(s$value, "NA")
+  expect_false(is.na(s$value))
+})

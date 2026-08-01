@@ -19,7 +19,10 @@ lv_db_index <- function(scan = lv_scan(), workers = NULL, cache = TRUE) {
   if (is.character(scan)) scan <- lv_scan(scan)
   files <- scan$files
 
-  cache_file <- fs::path(lv_path("state"), "cache", "index-extracts.rds")
+  # Versioned filename: the extract schema has grown (tableKind, compilations),
+  # and a cache keyed only on file md5 would keep serving extracts that predate
+  # the new fields.
+  cache_file <- fs::path(lv_path("state"), "cache", "index-extracts-v2.rds")
   prior <- if (cache && fs::file_exists(cache_file)) readRDS(cache_file) else NULL
 
   hit <- if (is.null(prior)) rep(FALSE, nrow(files)) else files$md5 %in% names(prior)
@@ -63,7 +66,8 @@ lv_db_index <- function(scan = lv_scan(), workers = NULL, cache = TRUE) {
   timeseries <- purrr::list_rbind(purrr::map(extracts, function(e) {
     if (!length(e$tsids)) return(tibble::tibble(TSid = character(), datasetId = character(),
                                                 dataSetName = character(), tableType = character(),
-                                                tableKind = character(), variableName = character()))
+                                                tableKind = character(), variableName = character(),
+                                                compilations = list()))
     tibble::tibble(
       TSid         = e$tsids,
       datasetId    = e$datasetId %||% NA_character_,
@@ -72,7 +76,10 @@ lv_db_index <- function(scan = lv_scan(), workers = NULL, cache = TRUE) {
       # measurement vs a model's summary/ensemble table. Compilation membership
       # belongs on measurement columns; model columns are derived.
       tableKind    = e$tskinds %||% NA_character_,
-      variableName = e$tsnames %||% NA_character_
+      variableName = e$tsnames %||% NA_character_,
+      # Which compilations claim this column. A list column because membership
+      # is many-to-one: 56% of datasets are in two or more compilations.
+      compilations = e$tscomps %||% vector("list", length(e$tsids))
     )
   }))
 
@@ -113,9 +120,11 @@ lv_extract_identity <- function(path) {
     out$tsnames <- vapply(cols, function(c) c$variableName %||% NA_character_, character(1))
     out$tstypes <- vapply(cols, function(c) c$type %||% NA_character_, character(1))
     out$tskinds <- vapply(cols, function(c) c$kind %||% NA_character_, character(1))
+    out$tscomps <- lapply(cols, function(c) c$compilations %||% character())
     keep <- !is.na(out$tsids)
     out$tsids <- out$tsids[keep]; out$tsnames <- out$tsnames[keep]
     out$tstypes <- out$tstypes[keep]; out$tskinds <- out$tskinds[keep]
+    out$tscomps <- out$tscomps[keep]
   }
   out
 }
@@ -146,12 +155,41 @@ lv_walk_columns <- function(x, type) {
         res[[length(res) + 1L]] <- list(
           TSid = as_chr1(col$TSid),
           variableName = as_chr1(col$variableName) %||% (if (!is.null(nms)) nms[k] else NA_character_),
-          type = type, kind = kind
+          type = type, kind = kind,
+          compilations = lv_column_compilations(col$inCompilation)
         )
       }
     }
   }
   res
+}
+
+# Compilation membership is per column, not per dataset, so it belongs on the
+# timeseries table. Two columns in the database store `inCompilation` as a bare
+# string rather than a list of entries; handle both rather than dropping them.
+lv_column_compilations <- function(ic) {
+  if (is.null(ic) || !length(ic)) return(character())
+  if (!is.list(ic)) return(as.character(ic))
+  out <- vapply(ic, function(e) {
+    if (!is.list(e)) return(as_chr1(e) %||% NA_character_)
+    as_chr1(e$compilationName) %||% NA_character_
+  }, character(1))
+  unique(out[!is.na(out)])
+}
+
+#' Timeseries belonging to a compilation
+#'
+#' Membership lives on the column, so the compilation's scope is a property of
+#' the files rather than of the sheet. Using the sheet instead would silently
+#' widen a run to every column of every member dataset.
+#'
+#' @param index An `lv_index`.
+#' @param compilation Compilation name.
+#' @return A character vector of TSids.
+#' @export
+lv_compilation_timeseries <- function(index, compilation) {
+  hit <- vapply(index$timeseries$compilations, function(v) compilation %in% v, logical(1))
+  index$timeseries$TSid[hit]
 }
 
 lv_changelog_version <- function(cl) {

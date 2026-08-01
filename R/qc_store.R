@@ -130,7 +130,11 @@ qc_store_events <- function(store, compilation) {
       event_seq = readr::col_integer(),
       old_present = readr::col_logical(),
       new_present = readr::col_logical()
-    ), progress = FALSE)
+    # na = "": only an empty field is missing. readr's default also treats a
+    # bare NA as missing, so a cell whose value is the literal string "NA" --
+    # 669 of them in lipdverseTest, on collectionYear and climateCorrelation --
+    # came back empty and the store could never converge with the files.
+    ), na = "", progress = FALSE)
     x$append_seq <- i
     x
   }))

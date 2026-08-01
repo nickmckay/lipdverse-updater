@@ -35,6 +35,12 @@ qc_frame <- function(dir = lv_path("database"), registry = lv_qc_fields(),
   out <- purrr::list_rbind(parts)
   if (nrow(out) == 0) return(qc_cells_empty())
 
+  # TSid and datasetId identify a cell rather than being cells themselves, and
+  # the sheet reads them into the key columns rather than as values. Emitting
+  # them here too would make datasetId read as a file-side change on every run
+  # forever, adding one spurious event per timeseries each time.
+  out <- out[!out$field %in% c("TSid", "datasetId"), , drop = FALSE]
+
   # One dataset can contribute the same dataset-level field from several
   # columns; keep one row per cell.
   out[!duplicated(paste(out$tsid, out$field)), , drop = FALSE]

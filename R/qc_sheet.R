@@ -66,8 +66,11 @@ sheet_read.lv_sheet_local <- function(backend, id, tab) {
   if (!fs::file_exists(p)) {
     cli::cli_abort("No tab {.val {tab}} for sheet {.val {id}}.", class = "lv_error_sheet")
   }
+  # na = "" to match the google backend, which returns a literal "NA" cell as
+  # the string. Without it the local backend would silently disagree with
+  # production about a value the corpus really contains.
   readr::read_csv(p, col_types = readr::cols(.default = readr::col_character()),
-                  progress = FALSE, name_repair = "minimal")
+                  na = "", progress = FALSE, name_repair = "minimal")
 }
 
 #' @export

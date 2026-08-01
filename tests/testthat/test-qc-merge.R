@@ -246,6 +246,27 @@ test_that("a real numeric change at the shared precision is still detected", {
   expect_equal(res(merge3(b, s, b), "T1", "minYear")$resolution, "sheet")
 })
 
+# Google Sheets drops leading and trailing whitespace, so a paleoData_description
+# ending in a newline came back from the sheet without it. Four cells in
+# lipdverseTest conflicted on the very first run for no reason a curator would
+# recognise, and on a curator-owned field the sheet would have written its
+# trimmed value into the file.
+test_that("whitespace the sheet cannot represent is not a change", {
+  b <- cells("T1", "paleoData_description", "modeled age error\n")
+  s <- cells("T1", "paleoData_description", "modeled age error")
+  expect_equal(res(merge3(b, s, b), "T1", "paleoData_description")$resolution, "unchanged")
+
+  b2 <- cells("T1", "paleoData_description", "\tLoisel et al. 2014")
+  s2 <- cells("T1", "paleoData_description", "Loisel et al. 2014")
+  expect_equal(res(merge3(b2, s2, b2), "T1", "paleoData_description")$resolution, "unchanged")
+})
+
+test_that("a change in interior whitespace is still a change", {
+  b <- cells("T1", "paleoData_description", "modeled  age error")
+  s <- cells("T1", "paleoData_description", "modeled age error")
+  expect_equal(res(merge3(b, s, b), "T1", "paleoData_description")$resolution, "sheet")
+})
+
 test_that("text values that are not numbers still compare as text", {
   b <- cells("T1", "archiveType", "coral")
   expect_equal(res(merge3(b, cells("T1","archiveType","Coral"), b), "T1", "archiveType")$resolution,
@@ -279,4 +300,15 @@ test_that("the merge is idempotent", {
   p2 <- merge3(qc_plan_state(p1), s, f)
   expect_equal(p2$summary$n_changed, 0)
   expect_equal(p2$summary$n_cleared, 0)
+})
+
+# The frame emitted datasetId as a cell while the sheet read it into the key
+# column, so on lipdverseTest it resolved to "file" on all 2,689 timeseries --
+# one spurious event per column, on every run, forever.
+test_that("identity fields are not cells", {
+  d <- withr::local_tempdir()
+  withr::local_envvar(LIPDVERSE_STATE = withr::local_tempdir())
+  write_lpd(d, "A.Author.2001", tsids = c("T1", "T2"))
+  f <- qc_frame(d, progress = FALSE)
+  expect_false(any(c("TSid", "datasetId") %in% f$field))
 })

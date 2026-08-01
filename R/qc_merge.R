@@ -58,7 +58,12 @@ NULL
 #' @keywords internal
 values_equal <- function(x, y, numeric_ok = TRUE) {
   both_na <- is.na(x) & is.na(y)
-  same_text <- !is.na(x) & !is.na(y) & x == y
+  # Trim before comparing. Google Sheets silently drops leading and trailing
+  # whitespace, so a file value ending in a newline comes back from the sheet
+  # without it. Comparing raw would report that as a curator edit on every run
+  # forever, and on a curator-owned field would write the trimmed value back --
+  # the sheet quietly editing the database because of what it cannot represent.
+  same_text <- !is.na(x) & !is.na(y) & trimws(x) == trimws(y)
   out <- both_na | same_text
   numeric_ok <- numeric_ok %in% TRUE
   if (!any(numeric_ok)) return(out)

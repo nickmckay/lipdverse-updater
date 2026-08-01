@@ -137,6 +137,51 @@ lv_add_membership <- function(L, tsids, compilation, version) {
   list(L = L, issues = issues, placed = placed)
 }
 
+#' Which datasets are in a compilation
+#'
+#' Honors `cfg$membership`, because the two modes disagree and picking the
+#' wrong one silently changes the scope of a run:
+#'
+#' * `from_sheet` — the `datasetsInCompilation` tab, filtered to `inComp`.
+#' * `from_qc` — the `inThisCompilation` column of the QC tab.
+#'
+#' Names are checked against the database rather than trusted, since a sheet
+#' can name a dataset that no longer exists.
+#'
+#' @param cfg An `lv_config`.
+#' @param backend A sheet backend.
+#' @param index An `lv_index`, to resolve names against the files.
+#' @return A list of `datasets` present in the database and `missing` names.
+#' @export
+lv_compilation_datasets <- function(cfg, backend, index = NULL) {
+  truthy <- function(x) tolower(trimws(x)) %in% c("true", "yes", "1")
+
+  if (identical(cfg$membership, "from_sheet")) {
+    x <- sheet_read(backend, cfg$qc_sheet_id, cfg$qc_tabs$datasets)
+    x <- x[, !duplicated(names(x)) & nzchar(names(x)) & !is.na(names(x)), drop = FALSE]
+    nm <- intersect(c("dsn", "dataSetName"), names(x))
+    if (!length(nm)) {
+      cli::cli_abort("Membership tab {.val {cfg$qc_tabs$datasets}} has no dsn column.",
+                     class = "lv_error_sheet")
+    }
+    keep <- if ("inComp" %in% names(x)) truthy(x$inComp) else rep(TRUE, nrow(x))
+    want <- unique(stats::na.omit(x[[nm[1]]][keep]))
+  } else {
+    x <- sheet_read(backend, cfg$qc_sheet_id, cfg$qc_tabs$qc)
+    if (!"inThisCompilation" %in% names(x)) {
+      cli::cli_abort("QC tab has no inThisCompilation column for {.val {cfg$membership}} membership.",
+                     class = "lv_error_sheet")
+    }
+    tsid <- x$TSid[truthy(x$inThisCompilation)]
+    if (is.null(index)) index <- lv_db_index(lv_scan(cfg$lipd_dir), cache = TRUE)
+    want <- unique(stats::na.omit(index$timeseries$dataSetName[index$timeseries$TSid %in% tsid]))
+  }
+
+  if (is.null(index)) index <- lv_db_index(lv_scan(cfg$lipd_dir), cache = TRUE)
+  have <- want %in% index$datasets$fileDataSetName
+  list(datasets = want[have], missing = want[!have])
+}
+
 #' Build the tabs for a new compilation's QC sheet
 #'
 #' @param cells A cell table from [qc_frame()], restricted to the compilation.
