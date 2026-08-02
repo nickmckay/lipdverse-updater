@@ -26,9 +26,19 @@ qc_frame <- function(dir = lv_path("database"), registry = lv_qc_fields(),
   if (!length(paths)) return(qc_cells_empty())
 
   wanted <- registry[registry$role %in% c("merged", "key"), ]
-  # Files store fields without the structural prefix the registry uses.
+  # Two lookups, because the two halves of a file name their fields differently.
+  #
+  # Column keys are bare in the file (`units`, `notes`), so they resolve through
+  # the bare map. But dataset-level names are built fully qualified in the walk
+  # below (`geo_latitude`, `pub1_doi`) and must resolve by their full name --
+  # looking those up in the bare map missed every one of them, so no geo_* or
+  # pub* field was ever read from the files. The bare map cannot serve them
+  # anyway: `doi` is ambiguous across pub1/pub2/pub3, as is `notes` across
+  # calibration/geo/paleoData.
   wanted$bare <- sub("^(paleoData|chronData|geo|pub[0-9]*|calibration)_", "", wanted$qc_name)
-  canon <- stats::setNames(lv_canonical_field(wanted$qc_name, registry), wanted$bare)
+  canonical <- lv_canonical_field(wanted$qc_name, registry)
+  canon <- list(bare = stats::setNames(canonical, wanted$bare),
+                full = stats::setNames(canonical, wanted$qc_name))
 
   if (progress) cli::cli_alert_info("Reading QC state from {length(paths)} file{?s}")
   parts <- lapply(paths, function(p) qc_frame_one(p, canon))
@@ -63,12 +73,15 @@ qc_frame_one <- function(path, canon) {
   # QC sheet presents them.
   root <- list()
   # `[[` on a named vector errors for a missing name, so look up by membership.
-  cn <- function(k) if (length(k) == 1L && !is.na(k) && k %in% names(canon)) canon[[k]] else NULL
+  cn <- function(k) if (length(k) == 1L && !is.na(k) && k %in% names(canon$bare)) canon$bare[[k]] else NULL
+  # Fully qualified: unambiguous, and the only way geo_* and pub* resolve.
+  cnq <- function(k) if (length(k) == 1L && !is.na(k) && k %in% names(canon$full)) canon$full[[k]] else NULL
   add_root <- function(k, v) {
-    if (is.null(cn(k))) return(invisible())
+    nm <- cnq(k)
+    if (is.null(nm)) return(invisible())
     s <- scalar_chr(v)
     if (length(s) != 1 || is.na(s) || !nzchar(s)) return(invisible())
-    root[[cn(k)]] <<- s
+    root[[nm]] <<- s
   }
   # 624 datasets carry flattened interpretation keys at the dataset root, left
   # by lipdverseR. Interpretation is a column-level concept, so reading them
@@ -80,7 +93,19 @@ qc_frame_one <- function(path, canon) {
   for (nm in root_keys) add_root(nm, m[[nm]])
   for (nm in names(m$geo)) {
     if (nm == "geometry") {
-      for (g in names(m$geo$geometry)) add_root(paste0("geo_", g), m$geo$geometry[[g]])
+      # GeoJSON: coordinates are [longitude, latitude, elevation], in that
+      # order. The registry names them separately, and reading the array
+      # positionally the other way round would swap latitude and longitude
+      # across the whole database without erroring anywhere.
+      co <- m$geo$geometry$coordinates
+      if (is.list(co) || is.numeric(co)) {
+        if (length(co) >= 1) add_root("geo_longitude", co[[1]])
+        if (length(co) >= 2) add_root("geo_latitude",  co[[2]])
+        if (length(co) >= 3) add_root("geo_elevation", co[[3]])
+      }
+      for (g in setdiff(names(m$geo$geometry), "coordinates")) {
+        add_root(paste0("geo_", g), m$geo$geometry[[g]])
+      }
     } else add_root(paste0("geo_", nm), m$geo[[nm]])
   }
   for (i in seq_along(m$pub)) {
@@ -128,6 +153,17 @@ qc_frame_one <- function(path, canon) {
                   if (length(v) == 1 && !is.na(v) && nzchar(v)) vals[[cn(k)]] <- v
                 }
               }
+            }
+            next
+          }
+          if (nm == "calibration" && is.list(col$calibration)) {
+            # A list, so the generic branch below skips it -- which meant none
+            # of the eight calibration_* fields were ever read either.
+            for (s in names(col$calibration)) {
+              k <- cnq(paste0("calibration_", s))
+              if (is.null(k)) next
+              v <- scalar_chr(col$calibration[[s]])
+              if (length(v) == 1 && !is.na(v) && nzchar(v)) vals[[k]] <- v
             }
             next
           }

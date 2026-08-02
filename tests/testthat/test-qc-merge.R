@@ -358,3 +358,34 @@ test_that("a root interpretation key is ignored even when no column has one", {
   f <- qc_frame(out, progress = FALSE)
   expect_false(any(grepl("nterpretation", f$field)))
 })
+
+# The dataset-level walk builds fully qualified names (geo_latitude, pub1_doi)
+# but looked them up in a map keyed by bare names (latitude, doi), so no geo_*
+# or pub* field was ever read from a file. On hydroclimate2k that made 4,956
+# timeseries look as though the database had no coordinates. The bare map cannot
+# serve these anyway: `doi` is ambiguous across pub1/pub2/pub3.
+test_that("geo, pub and calibration fields are read from the files", {
+  d <- withr::local_tempdir()
+  withr::local_envvar(LIPDVERSE_STATE = withr::local_tempdir())
+  write_lpd(d, "A.Author.2001", tsids = c("T1", "T2"))
+  L <- lipdR::readLipd(fs::path(d, "A.Author.2001.lpd"))
+  L$geo$latitude <- 45.5
+  L$geo$siteName <- "Somewhere"
+  L$pub[[1]]$doi <- "10.1234/first"
+  tab <- L$paleoData[[1]]$measurementTable[[1]]
+  cn <- names(Filter(function(c) is.list(c) && identical(as.character(c$TSid), "T1"), tab))[1]
+  L$paleoData[[1]]$measurementTable[[1]][[cn]]$calibration <- list(method = "BSi transfer function")
+  out <- withr::local_tempdir()
+  lipdR::writeLipd(L, path = out, removeNamesFromLists = TRUE)
+
+  f <- qc_frame(out, progress = FALSE)
+  get <- function(ts, fld) f$value[f$tsid == ts & f$field == fld]
+  expect_equal(get("T1", "geo_latitude"), "45.5")
+  expect_equal(get("T1", "geo_siteName"), "Somewhere")
+  expect_equal(get("T1", "pub1_doi"), "10.1234/first")
+  expect_equal(get("T1", "calibration_method"), "BSi transfer function")
+  # Dataset-level values replicate onto every timeseries, as the sheet shows them.
+  expect_equal(get("T2", "geo_latitude"), "45.5")
+  # Calibration is per column, so it must not leak to the other one.
+  expect_length(get("T2", "calibration_method"), 0)
+})
