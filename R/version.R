@@ -59,8 +59,13 @@ lv_tick_version <- function(prev, before, now, publish = FALSE) {
   # the answer matters most.
   same <- length(added) == 0 && length(removed) == 0
 
+  # A compilation that has never been versioned starts unpublished. Every
+  # compilation in LiPDverse begins at 0_0_1 and the publication component stays
+  # 0 until it is actually published -- hydroclimate2k is at 0_4_0 after four
+  # rounds of dataset changes. Defaulting to 1 would claim a publication that
+  # has not happened.
   v <- if (is.null(prev) || (length(prev) == 1 && is.na(prev))) {
-    c(publication = 1L, dataset = 0L, metadata = 0L)
+    c(publication = 0L, dataset = 0L, metadata = 0L)
   } else {
     lv_version_parse(prev)
   }
@@ -70,6 +75,7 @@ lv_tick_version <- function(prev, before, now, publish = FALSE) {
     v <- c(publication = v[["publication"]] + 1L, dataset = 0L, metadata = 0L)
     reason <- "published"
   } else if (first) {
+    v[["metadata"]] <- 1L
     reason <- "first version"
   } else if (same) {
     v[["metadata"]] <- v[["metadata"]] + 1L

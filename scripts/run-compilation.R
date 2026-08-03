@@ -165,10 +165,12 @@ if (length(staged)) {
 # compilation changes metadata, not membership.
 
 prev <- lv_version_current(store, comp)
-members_now <- if (length(mres$added) || length(mres$removed)) {
-  idx2 <- lv_db_index(lv_scan(db), cache = TRUE)
-  lv_compilation_timeseries(idx2, comp)
-} else members
+# The membership this run *would* produce, taken from the plan rather than by
+# re-reading the database. On a dry run nothing has been written, so re-reading
+# returns the membership we started with and every run looks like a metadata
+# change -- hydroclimate2k reported 0_4_1 when admitting 15 timeseries and
+# removing 2 should take it to 0_5_0.
+members_now <- union(setdiff(members, mres$removed), mres$added)
 ds_now <- unique(idx$timeseries$dataSetName[idx$timeseries$TSid %in% members_now])
 ds_before <- {
   m <- fs::path(store$path, "version_datasets.csv")

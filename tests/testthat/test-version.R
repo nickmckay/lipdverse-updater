@@ -38,16 +38,26 @@ test_that("a dataset set that grew by a multiple is not mistaken for unchanged",
 })
 
 test_that("publishing bumps publication and resets the rest", {
-  v <- lv_tick_version("1_4_9", c("a"), c("a"), publish = TRUE)
-  expect_equal(v$version, "2_0_0")
+  v <- lv_tick_version("0_4_9", c("a"), c("a"), publish = TRUE)
+  expect_equal(v$version, "1_0_0")
   expect_equal(v$reason, "published")
 })
 
-test_that("the first version of a compilation is 1_0_0", {
+# Every compilation in LiPDverse begins at 0_0_1 and stays at publication 0
+# until it is actually published. hydroclimate2k reached 0_4_0 unpublished.
+test_that("the first version of a compilation is 0_0_1", {
   v <- lv_tick_version(NULL, character(), c("a", "b"))
-  expect_equal(v$version, "1_0_0")
+  expect_equal(v$version, "0_0_1")
   expect_true(is.na(v$previous))
   expect_equal(v$n_datasets, 2)
+})
+
+# The case Nick corrected: hydroclimate2k at 0_4_0, this run changes which
+# datasets are in the compilation, so the dataset component ticks and metadata
+# resets.
+test_that("a dataset change at 0_4_0 gives 0_5_0", {
+  v <- lv_tick_version("0_4_0", c("a", "b"), c("a", "b", "c"))
+  expect_equal(v$version, "0_5_0")
 })
 
 test_that("the dataset set hash ignores order and duplicates", {
@@ -68,29 +78,29 @@ test_that("the ledger appends and reads back", {
 
   v1 <- lv_tick_version(NULL, character(), c("a", "b"))
   lv_version_append(st, "iso2k", v1, run_id = "r1")
-  expect_equal(lv_version_current(st, "iso2k"), "1_0_0")
+  expect_equal(lv_version_current(st, "iso2k"), "0_0_1")
 
   v2 <- lv_tick_version(lv_version_current(st, "iso2k"), c("a", "b"), c("a", "b"))
   lv_version_append(st, "iso2k", v2, run_id = "r2")
-  expect_equal(lv_version_current(st, "iso2k"), "1_0_1")
+  expect_equal(lv_version_current(st, "iso2k"), "0_0_2")
   expect_equal(nrow(lv_versions(st)), 2)
 
   # Another compilation does not disturb this one.
   lv_version_append(st, "Temp12k", lv_tick_version(NULL, character(), "z"), run_id = "r3")
-  expect_equal(lv_version_current(st, "iso2k"), "1_0_1")
-  expect_equal(lv_version_current(st, "Temp12k"), "1_0_0")
+  expect_equal(lv_version_current(st, "iso2k"), "0_0_2")
+  expect_equal(lv_version_current(st, "Temp12k"), "0_0_1")
 })
 
 test_that("membership is recorded per version, not as a joined string", {
   st <- qc_store(withr::local_tempdir())
   lv_version_append(st, "iso2k", lv_tick_version(NULL, character(), c("a", "b")), run_id = "r1")
-  lv_version_append(st, "iso2k", lv_tick_version("1_0_0", c("a", "b"), c("a", "b", "c")),
+  lv_version_append(st, "iso2k", lv_tick_version("0_0_1", c("a", "b"), c("a", "b", "c")),
                     run_id = "r2")
   m <- readr::read_csv(fs::path(st$path, "version_datasets.csv"),
                        col_types = readr::cols(.default = readr::col_character()),
                        progress = FALSE)
-  expect_setequal(m$dataset[m$version == "1_0_0"], c("a", "b"))
-  expect_setequal(m$dataset[m$version == "1_1_0"], c("a", "b", "c"))
+  expect_setequal(m$dataset[m$version == "0_0_1"], c("a", "b"))
+  expect_setequal(m$dataset[m$version == "0_1_0"], c("a", "b", "c"))
 })
 
 test_that("a version carries provenance for reproducing the run", {
