@@ -170,6 +170,17 @@ qc_merge <- function(base, sheet, frame, registry = lv_qc_fields(),
   s_ch <- !eq(s_eff, b)
   f_ch <- !eq(f_eff, b)
 
+  # A machine-owned field is derived, and the sheet only displays it. The
+  # ownership rule below is consulted just on *divergence*, so it never fired
+  # for these once a baseline matched the files: the sheet then differed alone
+  # and won unopposed. On hydroclimate2k that was 6,093 cells -- minYear,
+  # maxYear, createdBy, lipdverseLink -- where a sheet last written years ago
+  # would have overwritten values recomputed from the data since.
+  #
+  # The sheet never writes a machine field. It can still be reported as stale,
+  # and the push puts the file's value back into the sheet.
+  s_ch <- s_ch & !(cells$ownership %in% "machine")
+
   cells$resolution <- dplyr::case_when(
     !s_ch & !f_ch              ~ "unchanged",
     s_ch  & !f_ch              ~ "sheet",

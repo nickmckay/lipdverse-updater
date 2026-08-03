@@ -7,6 +7,7 @@ test_registry <- function() {
     "QC Certification",                    "merged", "curator",  "TRUE",
     "paleoData_createdBy",                 "merged", "machine",  "FALSE",
     "minYear",                             "merged", "machine",  "FALSE",
+    "collectionYear",                      "merged", "curator",  "FALSE",
     "archiveType",                         "merged", "shared",   "FALSE",
     "paleoData_variableName",              "merged", "shared",   "FALSE",
     "TSid",                                "key",    "key",      NA_character_
@@ -233,17 +234,26 @@ test_that("a field missing from the registry is reported, not silently merged", 
 # rounded differently. Comparing as text made every run report thousands of
 # changes on minYear/maxYear/lat/lon, which would churn the store and the sheet
 # and bury real edits.
+# A curator-owned numeric field, so this tests the precision comparison rather
+# than the machine-ownership rule that keeps the sheet out of minYear.
 test_that("values differing only in precision are not changes", {
-  b <- cells("T1", "minYear", "1770.7917")
-  s <- cells("T1", "minYear", "1770.79167")
+  b <- cells("T1", "collectionYear", "1770.7917")
+  s <- cells("T1", "collectionYear", "1770.79167")
   p <- merge3(b, s, b)
-  expect_equal(res(p, "T1", "minYear")$resolution, "unchanged")
+  expect_equal(res(p, "T1", "collectionYear")$resolution, "unchanged")
 })
 
 test_that("a real numeric change at the shared precision is still detected", {
+  b <- cells("T1", "collectionYear", "1770.7917")
+  s <- cells("T1", "collectionYear", "1770.7918")
+  expect_equal(res(merge3(b, s, b), "T1", "collectionYear")$resolution, "sheet")
+})
+
+# The same comparison on a machine field must still be inert from the sheet.
+test_that("precision aside, the sheet cannot move a machine field", {
   b <- cells("T1", "minYear", "1770.7917")
-  s <- cells("T1", "minYear", "1770.7918")
-  expect_equal(res(merge3(b, s, b), "T1", "minYear")$resolution, "sheet")
+  expect_equal(res(merge3(b, cells("T1","minYear","1770.7918"), b), "T1", "minYear")$resolution,
+               "unchanged")
 })
 
 # Google Sheets drops leading and trailing whitespace, so a paleoData_description
@@ -388,4 +398,34 @@ test_that("geo, pub and calibration fields are read from the files", {
   expect_equal(get("T2", "geo_latitude"), "45.5")
   # Calibration is per column, so it must not leak to the other one.
   expect_length(get("T2", "calibration_method"), 0)
+})
+
+# Ownership was only consulted on divergence, so once a baseline matched the
+# files a machine-owned field could be rewritten by the sheet alone -- 6,093
+# cells on hydroclimate2k, including minYear/maxYear recomputed from the data
+# since the sheet was last written.
+test_that("the sheet never writes a machine-owned field", {
+  b <- cells("T1", "minYear", "1000")
+  p <- merge3(b, cells("T1", "minYear", "1850"), b)
+  expect_equal(res(p, "T1", "minYear")$resolution, "unchanged")
+  expect_equal(res(p, "T1", "minYear")$value, "1000")
+})
+
+test_that("a machine field still follows the files", {
+  b <- cells("T1", "minYear", "1000")
+  p <- merge3(b, b, cells("T1", "minYear", "1200"))
+  expect_equal(res(p, "T1", "minYear")$resolution, "file")
+  expect_equal(res(p, "T1", "minYear")$value, "1200")
+})
+
+test_that("a machine field diverging still takes the file, not the sheet", {
+  b <- cells("T1", "minYear", "1000")
+  p <- merge3(b, cells("T1", "minYear", "1850"), cells("T1", "minYear", "1200"))
+  expect_equal(res(p, "T1", "minYear")$value, "1200")
+})
+
+test_that("curator fields are unaffected by the machine rule", {
+  b <- cells("T1", "QC Certification", "A")
+  p <- merge3(b, cells("T1", "QC Certification", "B"), b)
+  expect_equal(res(p, "T1", "QC Certification")$resolution, "sheet")
 })
