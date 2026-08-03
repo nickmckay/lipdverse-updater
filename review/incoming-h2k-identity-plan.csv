@@ -1,0 +1,325 @@
+file,dataSetName,datasetId,block,paleo,table,column,variableName,TSid,error,claim_dataSetName,claim_datasetId,action,reason,new_TSid
+31Dpt.Frezzotti.2007.lpd,31Dpt ice core snow accumulation rate,,paleoData,1,1,1,time,WEB-8fe9b-5b6a-41db-a655-797f2,,,,keep,"new TSid, unique",WEB-8fe9b-5b6a-41db-a655-797f2
+31Dpt.Frezzotti.2007.lpd,31Dpt ice core snow accumulation rate,,paleoData,1,1,2,accumulation,WEB-4d68e-39d9-459a-90a9-65960,,,,keep,"new TSid, unique",WEB-4d68e-39d9-459a-90a9-65960
+Albemarle.Stahle.2013.lpd,Albemarle.Stahle.2013,,paleoData,1,1,1,year,WEB-b84e1-b127-457d-98c2-d4166,,,,keep,"new TSid, unique",WEB-b84e1-b127-457d-98c2-d4166
+Albemarle.Stahle.2013.lpd,Albemarle.Stahle.2013,,paleoData,1,1,2,Palmer Hydrological Drought IndeX,WEB-7bde1-2172-4578-91c7-0b419,,,,keep,"new TSid, unique",WEB-7bde1-2172-4578-91c7-0b419
+Andalusia.Rodrigo.1999.lpd,Andalusia.Rodrigo.1999,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,Rxz3xcNlzLM9Rmpnf
+Andalusia.Rodrigo.1999.lpd,Andalusia.Rodrigo.1999,,paleoData,1,1,2,DecJanFeb precipitation index,,,,,mint,no TSid on the incoming column,RIwI5qxgOaqZXcQ4Q
+Andalusia.Rodrigo.1999.lpd,Andalusia.Rodrigo.1999,,paleoData,1,1,3,MarAprMay precipitation index,WEB-8f319121-23e2-40f7-9fa8-20612ce35301,,,,remint,TSid repeated across submissions; template reuse,R5p0ZlUQV7X6TAqFH
+Andalusia.Rodrigo.1999.lpd,Andalusia.Rodrigo.1999,,paleoData,1,1,4,JunJulAug precipitation index,WEB-03cbb360-5715-48ab-b504-58943748e420,,,,remint,TSid repeated across submissions; template reuse,RoFNVSU4aAGJlOu1G
+Andalusia.Rodrigo.1999.lpd,Andalusia.Rodrigo.1999,,paleoData,1,1,5,SepOctNov precipitation index,WEB-b21732dd-f451-41d2-bf67-44ad58564406,,,,keep,"new TSid, unique",WEB-b21732dd-f451-41d2-bf67-44ad58564406
+Apalachicola.Pederson.2012.lpd,Apalachicola.Pederson.2012,,paleoData,1,1,1,year,WEB-b76bd-2b91-4642-a06d-fb42b,,,,keep,"new TSid, unique",WEB-b76bd-2b91-4642-a06d-fb42b
+Apalachicola.Pederson.2012.lpd,Apalachicola.Pederson.2012,,paleoData,1,1,2,PDSI,WEB-514ff-cea5-42c3-bc93-ea0b5,,,,keep,"new TSid, unique",WEB-514ff-cea5-42c3-bc93-ea0b5
+BalkanPenunsila.Klippel.2018.lpd,BalkanPenunsila.Klippel.2018,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,RbhFvbNSmb1GVGeMV
+BalkanPenunsila.Klippel.2018.lpd,BalkanPenunsila.Klippel.2018,,paleoData,1,1,2,drought index,,,,,mint,no TSid on the incoming column,RLpB7Frsrm6FAnHa1
+BeaverKillRiverEasternUS.Maxwell.2017.lpd,BeaverKillRiverEasternUS.Maxwell.2017,,paleoData,1,1,1,year,WEB-6f625-f4c5-4aed-b3ac-e7fe7,,,,keep,"new TSid, unique",WEB-6f625-f4c5-4aed-b3ac-e7fe7
+BeaverKillRiverEasternUS.Maxwell.2017.lpd,BeaverKillRiverEasternUS.Maxwell.2017,,paleoData,1,1,2,streamflow,WEB-46b5b-6555-4fd5-a70a-ff177,,,,keep,"new TSid, unique",WEB-46b5b-6555-4fd5-a70a-ff177
+Bern.Gimmi.2007.lpd,Bern.Gimmi.2007,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,R1jPHKyOGNIDPfLMk
+Bern.Gimmi.2007.lpd,Bern.Gimmi.2007,,paleoData,1,1,2,Jan precipitation,,,,,mint,no TSid on the incoming column,R6sRrwM9PGqoIsSJF
+Bern.Gimmi.2007.lpd,Bern.Gimmi.2007,,paleoData,1,1,3,Feb precipitation,WEB-8f319121-23e2-40f7-9fa8-20612ce35301,,,,remint,TSid repeated across submissions; template reuse,RoGJSvSIXMbQk5IGR
+Bern.Gimmi.2007.lpd,Bern.Gimmi.2007,,paleoData,1,1,4,Mar precipitation,WEB-03cbb360-5715-48ab-b504-58943748e420,,,,remint,TSid repeated across submissions; template reuse,RGa66tdjyabvdkswn
+Bern.Gimmi.2007.lpd,Bern.Gimmi.2007,,paleoData,1,1,5,Apr precipitation,WEB-2a8bcc7a-1bf2-4e1f-a1d1-f2c7e2ff801b,,,,remint,TSid repeated across submissions; template reuse,RB14hqZfgdCVixRDY
+Bern.Gimmi.2007.lpd,Bern.Gimmi.2007,,paleoData,1,1,6,May precipitation,WEB-cd86c919-f8e0-4f10-90de-875317a67b95,,,,remint,TSid repeated across submissions; template reuse,RaUoPZCLD9hW8YFib
+Bern.Gimmi.2007.lpd,Bern.Gimmi.2007,,paleoData,1,1,7,Jun precipitation,WEB-4b1e981f-4d1e-4d6a-845b-cf7f14e9650e,,,,remint,TSid repeated across submissions; template reuse,RPUXo1wPljSRAxYiG
+Bern.Gimmi.2007.lpd,Bern.Gimmi.2007,,paleoData,1,1,8,Jul precipitation,WEB-fe4fb086-cd96-4ae1-b1c7-f319acf826eb,,,,remint,TSid repeated across submissions; template reuse,RTz9J5MjXHknU2fv1
+Bern.Gimmi.2007.lpd,Bern.Gimmi.2007,,paleoData,1,1,9,Aug precipitation,WEB-f55511f2-22d8-41cb-8d05-4e641e327f58,,,,remint,TSid repeated across submissions; template reuse,RMIDeLYAHooCEFcRN
+Bern.Gimmi.2007.lpd,Bern.Gimmi.2007,,paleoData,1,1,10,Sep precipitation,WEB-024ef1c6-a538-4372-be2c-6d46a59e0c1a,,,,remint,TSid repeated across submissions; template reuse,RgJ1UUhontyI4fpve
+Bern.Gimmi.2007.lpd,Bern.Gimmi.2007,,paleoData,1,1,11,Oct precipitation,WEB-25314f8f-1e51-4200-9871-68b21974811b,,,,remint,TSid repeated across submissions; template reuse,RzsLAgCH8cO9CgRdY
+Bern.Gimmi.2007.lpd,Bern.Gimmi.2007,,paleoData,1,1,12,Nov precipitation,WEB-a8f5c1df-7cd9-4547-9903-929713bc122c,,,,remint,TSid repeated across submissions; template reuse,RDFKJIbcwwFbgBl6J
+Bern.Gimmi.2007.lpd,Bern.Gimmi.2007,,paleoData,1,1,13,Dec precipitation,WEB-ed4747cb-b0ce-495b-9c53-94f81eea28e4,,,,remint,TSid repeated across submissions; template reuse,R8qVsxXPTCiAhq5qE
+Bidoup.Buckley.2010.lpd,Bidoup.Buckley.2010,,paleoData,1,1,1,age,WEB-163c7-5710-4584-926c-e6a41,,,,keep,"new TSid, unique",WEB-163c7-5710-4584-926c-e6a41
+Bidoup.Buckley.2010.lpd,Bidoup.Buckley.2010,,paleoData,1,1,2,trsgi,WEB-32726-7cb1-4dec-9727-2c8fc,,,,keep,"new TSid, unique",WEB-32726-7cb1-4dec-9727-2c8fc
+Bohemia.Dobrovolný.2018.lpd,Bohemia.Dobrovolný.2018,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,Rqwrif7HrqOtRtPrd
+Bohemia.Dobrovolný.2018.lpd,Bohemia.Dobrovolný.2018,,paleoData,1,1,2,precipitation,,,,,mint,no TSid on the incoming column,RcWmQO0UyjzvzQY4t
+Bohemia.Mozny.2016.lpd,Bohemia.Mozny.2016,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,RNQVU38k568v1oDnQ
+Bohemia.Mozny.2016.lpd,Bohemia.Mozny.2016,,paleoData,1,1,2,drought index,,,,,mint,no TSid on the incoming column,Ru6NOQtvORkWbCsQA
+BurgundianLowCountries.Camenisch.2015.lpd,BurgundianLowCountries.Camenisch.2015,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,RvL6JtogHyGRHHOWT
+BurgundianLowCountries.Camenisch.2015.lpd,BurgundianLowCountries.Camenisch.2015,,paleoData,1,1,2,JJA precipitation index,,,,,mint,no TSid on the incoming column,RKFbEGg5VLxu4M43t
+CalimaniMountains.Nagavciuc.2022.lpd,CalimaniMountains.Nagavciuc.2022,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,RO5wnbrLmqgPNlIDR
+CalimaniMountains.Nagavciuc.2022.lpd,CalimaniMountains.Nagavciuc.2022,,paleoData,1,1,2,drought index,,,,,mint,no TSid on the incoming column,R3TfkfkoR79jr5WOi
+CanaryIsland.Garcia.2003.lpd,CanaryIsland.Garcia.2003,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,RBXNVf7xIp8iMQz4L
+CanaryIsland.Garcia.2003.lpd,CanaryIsland.Garcia.2003,,paleoData,1,1,2,Oct-Mar precip index,,,,,mint,no TSid on the incoming column,RxqZhzFYsMMMQO5vl
+CandelariaNewMexico.Olivera.2019.lpd,CandelariaNewMexico.Olivera.2019,,paleoData,1,1,1,year,WEB-fc902-0197-4fb2-ad69-145f8,,,,keep,"new TSid, unique",WEB-fc902-0197-4fb2-ad69-145f8
+CandelariaNewMexico.Olivera.2019.lpd,CandelariaNewMexico.Olivera.2019,,paleoData,1,1,2,scPDSI,WEB-1f403-dc4e-400e-bb3a-e3265,,,,keep,"new TSid, unique",WEB-1f403-dc4e-400e-bb3a-e3265
+Capetown.Hannaford.2015.lpd,Capetown.Hannaford.2015,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,RhtdeBRcSAexSDKHu
+Capetown.Hannaford.2015.lpd,Capetown.Hannaford.2015,,paleoData,1,1,2,Apr-Sep Precip,,,,,mint,no TSid on the incoming column,RE6eHr7ZrfG6feJJx
+CentralEurope.Büntgen.2011.lpd,CentralEurope.Büntgen.2011,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,RZzFu21knCppBBAyp
+CentralEurope.Büntgen.2011.lpd,CentralEurope.Büntgen.2011,,paleoData,1,1,2,precipitation,,,,,mint,no TSid on the incoming column,R6jwPvAZZKQhyQQpN
+CentralGermany.Büntgen.2010.lpd,CentralGermany.Büntgen.2010,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,Rfo72JAn1dY9yc0gY
+CentralGermany.Büntgen.2010.lpd,CentralGermany.Büntgen.2010,,paleoData,1,1,2,drought index,,,,,mint,no TSid on the incoming column,RUOtKswB9SG67DbxZ
+ChinHills.Rao.2020.lpd,ChinHills.Rao.2020,,paleoData,1,1,1,age,WEB-b3bd5-b85f-4138-914d-7f55d,,,,keep,"new TSid, unique",WEB-b3bd5-b85f-4138-914d-7f55d
+ChinHills.Rao.2020.lpd,ChinHills.Rao.2020,,paleoData,1,1,2,trsgi,WEB-487d0-eebd-4820-9c0a-b9042,,,,keep,"new TSid, unique",WEB-487d0-eebd-4820-9c0a-b9042
+ChinHills.Rao.2020.lpd,ChinHills.Rao.2020,,paleoData,1,1,3,sampleCount,WEB-d905e-8090-4fc6-92b6-9eafd,,,,keep,"new TSid, unique",WEB-d905e-8090-4fc6-92b6-9eafd
+Cordoba.PrietoHerrera.2001.lpd,Cordoba.PrietoHerrera.2001,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,RqjRQFaz2cepgjysj
+Cordoba.PrietoHerrera.2001.lpd,Cordoba.PrietoHerrera.2001,,paleoData,1,1,2,Oct-Mar precip index,,,,,mint,no TSid on the incoming column,RueXhk1e4Hnzb9070
+CzechLands.Dobrovolny.2015.lpd,CzechLands.Dobrovolny.2015,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,RK6kidEzrCYgW78Mv
+CzechLands.Dobrovolny.2015.lpd,CzechLands.Dobrovolny.2015,,paleoData,1,1,2,June-Aug precipitation,,,,,mint,no TSid on the incoming column,R9ROJ0ceVn62wcpjQ
+CzechLands.Dobrovolny.2015.lpd,CzechLands.Dobrovolny.2015,,paleoData,1,1,3,Annual precipitation,,,,,mint,no TSid on the incoming column,Rft1d8J36CpLt0OXh
+D66.Frezzotti.2013.lpd,D66 ice core snow accumulation rate,,paleoData,1,1,1,time,WEB-99345-2cb0-49ad-a3ed-fc3de,,,,keep,"new TSid, unique",WEB-99345-2cb0-49ad-a3ed-fc3de
+D66.Frezzotti.2013.lpd,D66 ice core snow accumulation rate,,paleoData,1,1,2,accumulation,WEB-0fbe1-d456-4ac2-a94d-93b23,,,,keep,"new TSid, unique",WEB-0fbe1-d456-4ac2-a94d-93b23
+DeSotoNationalForest.Bregy.2022.lpd,DSNF.Bregy.222,36470,paleoData,1,1,1,age,PCU-95b63583b4f047c,,,,keep,"new TSid, unique",PCU-95b63583b4f047c
+DeSotoNationalForest.Bregy.2022.lpd,DSNF.Bregy.222,36470,paleoData,1,1,2,precipitation,PCU-a9a0639025ed497,,,,keep,"new TSid, unique",PCU-a9a0639025ed497
+DeSotoNationalForest.Bregy.2022.lpd,DSNF.Bregy.222,36470,paleoData,1,1,3,precipitation,PCU-28743b407ede409,,,,keep,"new TSid, unique",PCU-28743b407ede409
+EastAnglia.Pribyl.2017.lpd,EastAnglia.Pribyl.2017,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,RxprBACt4PwhoXhNO
+EastAnglia.Pribyl.2017.lpd,EastAnglia.Pribyl.2017,,paleoData,1,1,2,Precipitation index,,,,,mint,no TSid on the incoming column,R3B0hUxorFpuc4nFB
+EasternRockies.StGeorge.2009.lpd,EasternRockies.StGeorge.2009,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,RBgQvlJyayfGhxBwT
+EasternRockies.StGeorge.2009.lpd,EasternRockies.StGeorge.2009,,paleoData,1,1,2,tree-ring index,,,,,mint,no TSid on the incoming column,R0h8toaiZVsa9bD54
+EasternUtah.Finley.2020.lpd,EasternUtah.Finley.2020,,paleoData,1,1,1,year,,,,,mint,no TSid on the incoming column,RS1g2A1u3zTs8eQpV
+EasternUtah.Finley.2020.lpd,EasternUtah.Finley.2020,,paleoData,1,1,2,precipitation,,,,,mint,no TSid on the incoming column,RmlSbtew2Ty50CSzq
+FlintRiverEasternUS.Maxwell.2017.lpd,FlintRiverEasternUS.Maxwell.2017,,paleoData,1,1,1,year,WEB-00682-89dc-4b2f-b59e-22444,,,,keep,"new TSid, unique",WEB-00682-89dc-4b2f-b59e-22444
+FlintRiverEasternUS.Maxwell.2017.lpd,FlintRiverEasternUS.Maxwell.2017,,paleoData,1,1,2,streamflow,WEB-4bc62-fa79-4b45-a618-b023e,,,,keep,"new TSid, unique",WEB-4bc62-fa79-4b45-a618-b023e
+GV2.Frezzotti.2013.lpd,GV2 ice core snow accumulation rate,,paleoData,1,1,1,time,WEB-cd72e-93f5-402c-b0bf-f9bdb,,,,keep,"new TSid, unique",WEB-cd72e-93f5-402c-b0bf-f9bdb
+GV2.Frezzotti.2013.lpd,GV2 ice core snow accumulation rate,,paleoData,1,1,2,accumulation,WEB-d3618-5a9a-470d-b15d-d97cb,,,,keep,"new TSid, unique",WEB-d3618-5a9a-470d-b15d-d97cb
+GV5.Frezzotti.2007.lpd,GV5 ice core snow accumulation rate,,paleoData,1,1,1,time,WEB-4c8d8-c36a-4bf8-9d6f-7331e,,,,keep,"new TSid, unique",WEB-4c8d8-c36a-4bf8-9d6f-7331e
+GV5.Frezzotti.2007.lpd,GV5 ice core snow accumulation rate,,paleoData,1,1,2,accumulation,WEB-21d69-84a7-4282-ae7d-50c6d,,,,keep,"new TSid, unique",WEB-21d69-84a7-4282-ae7d-50c6d
+GV7.Frezzotti.2007.lpd,GV7 ice core snow accumulation rate,,paleoData,1,1,1,time,WEB-c4e32-a30e-4a5a-8f06-70606,,,,keep,"new TSid, unique",WEB-c4e32-a30e-4a5a-8f06-70606
+GV7.Frezzotti.2007.lpd,GV7 ice core snow accumulation rate,,paleoData,1,1,2,accumulation,WEB-173b7-1cc4-4562-97cd-ac00e,,,,keep,"new TSid, unique",WEB-173b7-1cc4-4562-97cd-ac00e
+Germany.GlaserKahle.2020.lpd,Germany.GlaserKahle.2020,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,RF8ONBJ8ftcxW9QGA
+Germany.GlaserKahle.2020.lpd,Germany.GlaserKahle.2020,,paleoData,1,1,2,Dec-Feb HHI,,,,,mint,no TSid on the incoming column,R3b4DlnpUIjuAzDfR
+Germany.GlaserKahle.2020.lpd,Germany.GlaserKahle.2020,,paleoData,1,1,3,Mar-May HHI,WEB-0736684e-369f-4246-85b5-7023397cbdb0,,,,keep,"new TSid, unique",WEB-0736684e-369f-4246-85b5-7023397cbdb0
+Germany.GlaserKahle.2020.lpd,Germany.GlaserKahle.2020,,paleoData,1,1,4,Jun-Aug HHI,WEB-a18b197b-4997-4582-8f5a-7725f2e34782,,,,keep,"new TSid, unique",WEB-a18b197b-4997-4582-8f5a-7725f2e34782
+Germany.GlaserKahle.2020.lpd,Germany.GlaserKahle.2020,,paleoData,1,1,5,Sep-Nov HHI,WEB-0da3cd25-f63e-44f1-84e2-990f7dd7a4f7,,,,keep,"new TSid, unique",WEB-0da3cd25-f63e-44f1-84e2-990f7dd7a4f7
+Germany.GlaserKahle.2020.lpd,Germany.GlaserKahle.2020,,paleoData,1,1,6,Annual HHI,,,,,mint,no TSid on the incoming column,ROp2AoWDzArYBXmyG
+Guatemala.GuevaraMurua.2018.lpd,Guatemala.GuevaraMurua.2018,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,ROH5OjXsn9g2yqfSo
+Guatemala.GuevaraMurua.2018.lpd,Guatemala.GuevaraMurua.2018,,paleoData,1,1,2,May-Oct precip index,,,,,mint,no TSid on the incoming column,RT6341aDeerOznMpE
+GulfofKhambat.AdamsonNash.2014.lpd,GulfofKhambat.AdamsonNash.2014,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,Ra4J7X6NQeDQSLhjs
+GulfofKhambat.AdamsonNash.2014.lpd,GulfofKhambat.AdamsonNash.2014,,paleoData,1,1,2,MJJASO precip index,,,,,mint,no TSid on the incoming column,RqW4XlhnHYDXBmSnQ
+HerculesNévé.Stenni.1999.lpd,Hercules Névé ice core snow accumulation rate,,paleoData,1,1,1,time,WEB-c6c17-5c2e-45c3-8405-0f944,,,,keep,"new TSid, unique",WEB-c6c17-5c2e-45c3-8405-0f944
+HerculesNévé.Stenni.1999.lpd,Hercules Névé ice core snow accumulation rate,,paleoData,1,1,2,accumulation,WEB-4c178-97f5-414f-8348-33664,,,,keep,"new TSid, unique",WEB-4c178-97f5-414f-8348-33664
+IberianRange.Tejedor.2016.lpd,IberianRange.Tejedor.2016,,paleoData,1,1,1,SPI12,WEB-51d71-e2af-4d96-b0a3-38263,,,,keep,"new TSid, unique",WEB-51d71-e2af-4d96-b0a3-38263
+IberianRange.Tejedor.2016.lpd,IberianRange.Tejedor.2016,,paleoData,1,1,2,Year (AD),,,,,mint,no TSid on the incoming column,RzmurDQ7v6orXuxn5
+KimHy.Hansen.2017.lpd,KimHy.Hansen.2017,,paleoData,1,1,1,age,WEB-20820-c979-4392-990e-7a22c,,,,keep,"new TSid, unique",WEB-20820-c979-4392-990e-7a22c
+KimHy.Hansen.2017.lpd,KimHy.Hansen.2017,,paleoData,1,1,2,trsgi,WEB-ceb08-2eb2-4936-8d66-1eb86,,,,keep,"new TSid, unique",WEB-ceb08-2eb2-4936-8d66-1eb86
+Kirirom.Nguyen.2021.lpd,Kirirom.Nguyen.2021,,paleoData,1,1,1,age,WEB-2a730-335e-4d13-91c4-853a7,,,,keep,"new TSid, unique",WEB-2a730-335e-4d13-91c4-853a7
+Kirirom.Nguyen.2021.lpd,Kirirom.Nguyen.2021,,paleoData,1,1,2,trsgi,WEB-7a7c3-9c79-4d6c-9760-fc588,,,,keep,"new TSid, unique",WEB-7a7c3-9c79-4d6c-9760-fc588
+Kirirom.Nguyen.2021.lpd,Kirirom.Nguyen.2021,,paleoData,1,1,3,sampleCount,WEB-3357b-0e54-4419-9f1d-4a5af,,,,keep,"new TSid, unique",WEB-3357b-0e54-4419-9f1d-4a5af
+KonKaKinh.Buckley.2019.lpd,KonKaKinh.Buckley.2019,,paleoData,1,1,1,age,WEB-952f3-e1f1-459e-bc87-2bea4,,,,keep,"new TSid, unique",WEB-952f3-e1f1-459e-bc87-2bea4
+KonKaKinh.Buckley.2019.lpd,KonKaKinh.Buckley.2019,,paleoData,1,1,2,trsgi,WEB-120ac-e425-4aa4-998d-50eb5,,,,keep,"new TSid, unique",WEB-120ac-e425-4aa4-998d-50eb5
+KwaZulu-Natal.Nash.2016.lpd,KwaZulu-Natal.Nash.2016,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,RqI45gxlZ1f2FfrwD
+KwaZulu-Natal.Nash.2016.lpd,KwaZulu-Natal.Nash.2016,,paleoData,1,1,2,Annual precip index,,,,,mint,no TSid on the incoming column,R1yeIsZGUafn8sSsb
+LS15DOCH.lpd,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,paleoData,1,1,1,d2H,LS15DOCH01C,,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,keep,update: the file is the dataset holding this TSid,LS15DOCH01C
+LS15DOCH.lpd,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,paleoData,1,1,2,age,MAT31b880784d,,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,keep,update: the file is the dataset holding this TSid,MAT31b880784d
+LS15DOCH.lpd,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,paleoData,1,1,3,depth,MATefa4890134,,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,keep,update: the file is the dataset holding this TSid,MATefa4890134
+LS15DOCH.lpd,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,paleoData,1,1,4,d2H,LS15DOCH01B,,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,keep,update: the file is the dataset holding this TSid,LS15DOCH01B
+LS15DOCH.lpd,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,paleoData,1,1,5,d2H,LS15DOCH01A,,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,keep,update: the file is the dataset holding this TSid,LS15DOCH01A
+LS15DOCH.lpd,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,paleoData,1,1,6,age,,,,,mint,no TSid on the incoming column,RJ4WFMBSY39HDPN0A
+LS15DOCH.lpd,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,paleoData,1,1,7,d13C,,,,,mint,no TSid on the incoming column,RyWnWhptRfAJuA9s6
+LS15DOCH.lpd,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,paleoData,1,1,8,d13C,,,,,mint,no TSid on the incoming column,RVJuRTOppcnGktWFb
+LS15DOCH.lpd,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,paleoData,1,1,9,d13C,,,,,mint,no TSid on the incoming column,RLfqbAtAqO3va5AAH
+LS15DOCH.lpd,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,paleoData,1,1,10,d13C,,,,,mint,no TSid on the incoming column,RKvkqf9uAMawfy9wl
+LS15DOCH.lpd,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,paleoData,1,1,11,fractionC4,,,,,mint,no TSid on the incoming column,R4gSoxFWyBb0h1h3b
+LS15DOCH.lpd,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,paleoData,1,1,12,d2H,,,,,mint,no TSid on the incoming column,RAzTmywqHcoB6FzCG
+LS15DOCH.lpd,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,paleoData,1,1,13,d2H,,,,,mint,no TSid on the incoming column,ReWLkFwvydSIelFpi
+LS15DOCH.lpd,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,chronData,1,1,1,depth,chron1,,,,remint,TSid repeated across submissions; template reuse,RAuz9BGct0Z0KadL0
+LS15DOCH.lpd,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,chronData,1,1,2,age14C,chron2,,,,remint,TSid repeated across submissions; template reuse,R2eUwmbvCjl3405PY
+LS15DOCH.lpd,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,chronData,1,1,3,SD,chron3,,,,remint,TSid repeated across submissions; template reuse,RVcanwXayZ6ICjDd9
+LS15DOCH.lpd,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,chronData,1,1,4,fractionModern,chron4,,,,remint,TSid repeated across submissions; template reuse,Ro6BQYHUuUHr6CVX5
+LS15DOCH.lpd,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,chronData,1,1,5,fractionModernUncertainty,chron5,,,,remint,TSid repeated across submissions; template reuse,RtkFjeZSJRKzSSmBC
+LS15DOCH.lpd,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,chronData,1,1,6,delta13C,chron6,,,,remint,TSid repeated across submissions; template reuse,RTiM3fvrmnwXOS72Q
+LS15DOCH.lpd,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,chronData,1,1,7,delta13Cuncertainty,chron7,,,,remint,TSid repeated across submissions; template reuse,R3SZ8psWgMwuSANsk
+LS15DOCH.lpd,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,chronData,1,1,8,thickness,chron8,,,,remint,TSid repeated across submissions; template reuse,RFdMGCLGlkizLJ9mU
+LS15DOCH.lpd,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,chronData,1,1,9,labID,chron9,,,,remint,TSid repeated across submissions; template reuse,RuwJaorG1vVQSg2u8
+LS15DOCH.lpd,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,chronData,1,1,10,materialDated,chron10,,,,remint,TSid repeated across submissions; template reuse,R22SZH6cgldpAgTwL
+LS15DOCH.lpd,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,chronData,1,1,11,activity,chron11,,,,remint,TSid repeated across submissions; template reuse,RvpQGV4xhLkCKay69
+LS15DOCH.lpd,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,chronData,1,1,12,activityUncertainty,chron12,,,,remint,TSid repeated across submissions; template reuse,R9QICNOWKUEWEW7LH
+LS15DOCH.lpd,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,chronData,1,1,13,supportedActivity,chron13,,,,remint,TSid repeated across submissions; template reuse,R1dgXKpfHqNpJmGfH
+LS15DOCH.lpd,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,chronData,1,1,14,x210PbModel,chron14,,,,remint,TSid repeated across submissions; template reuse,RduYBws0JZaDc5mTH
+LS15DOCH.lpd,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,chronData,1,1,15,age,chron15,,,,remint,TSid repeated across submissions; template reuse,RBnUjzRKHUJzlKSx1
+LS15DOCH.lpd,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,chronData,1,1,16,SD,chron16,,,,remint,TSid repeated across submissions; template reuse,RbLgig93RGQRDhT34
+LS15DOCH.lpd,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,chronData,1,1,17,reservoirAge14C,chron17,,,,remint,TSid repeated across submissions; template reuse,RqNB4P3305ZI8HPOl
+LS15DOCH.lpd,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,chronData,1,1,18,reservoirAge14CUncertainty,chron18,,,,remint,TSid repeated across submissions; template reuse,R91q0NAaONKjpnwj7
+LS15DOCH.lpd,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,chronData,1,1,19,useInAgeModel,chron19,,,,remint,TSid repeated across submissions; template reuse,R3kBdGpwWHH1wWEm2
+LS15DOCH.lpd,LS15DOCH,meVZ6PGNWn1r6zUd2N2J,chronData,1,1,20,reject,RlKrFciTboeV3Dw1U,,,,keep,"new TSid, unique",RlKrFciTboeV3Dw1U
+LS15DOSA.lpd,LS15DOSA,9dCvb7un7yim06OmoNjJ,paleoData,1,1,1,d2H,LS15DOSA01C,,LS15DOSA,9dCvb7un7yim06OmoNjJ,keep,update: the file is the dataset holding this TSid,LS15DOSA01C
+LS15DOSA.lpd,LS15DOSA,9dCvb7un7yim06OmoNjJ,paleoData,1,1,2,age,MATc00c25333f,,LS15DOSA,9dCvb7un7yim06OmoNjJ,keep,update: the file is the dataset holding this TSid,MATc00c25333f
+LS15DOSA.lpd,LS15DOSA,9dCvb7un7yim06OmoNjJ,paleoData,1,1,3,depth,MAT7cd8053d65,,LS15DOSA,9dCvb7un7yim06OmoNjJ,keep,update: the file is the dataset holding this TSid,MAT7cd8053d65
+LS15DOSA.lpd,LS15DOSA,9dCvb7un7yim06OmoNjJ,paleoData,1,1,4,d2H,LS15DOSA01B,,LS15DOSA,9dCvb7un7yim06OmoNjJ,keep,update: the file is the dataset holding this TSid,LS15DOSA01B
+LS15DOSA.lpd,LS15DOSA,9dCvb7un7yim06OmoNjJ,paleoData,1,1,5,d2H,LS15DOSA01A,,LS15DOSA,9dCvb7un7yim06OmoNjJ,keep,update: the file is the dataset holding this TSid,LS15DOSA01A
+LS15DOSA.lpd,LS15DOSA,9dCvb7un7yim06OmoNjJ,paleoData,1,1,6,age,,,,,mint,no TSid on the incoming column,Rx5tTM8Qz1WgsHUkR
+LS15DOSA.lpd,LS15DOSA,9dCvb7un7yim06OmoNjJ,paleoData,1,1,7,d13C,,,,,mint,no TSid on the incoming column,R38CM06ugML9rrSNv
+LS15DOSA.lpd,LS15DOSA,9dCvb7un7yim06OmoNjJ,paleoData,1,1,8,d13C,,,,,mint,no TSid on the incoming column,RiGLXA2Y4Na4i4vcn
+LS15DOSA.lpd,LS15DOSA,9dCvb7un7yim06OmoNjJ,paleoData,1,1,9,d13C,,,,,mint,no TSid on the incoming column,RWI1ZCboDzS0UitkZ
+LS15DOSA.lpd,LS15DOSA,9dCvb7un7yim06OmoNjJ,paleoData,1,1,10,d13C,,,,,mint,no TSid on the incoming column,RIKGX9vCndFlNB8I8
+LS15DOSA.lpd,LS15DOSA,9dCvb7un7yim06OmoNjJ,paleoData,1,1,11,fractionC4,,,,,mint,no TSid on the incoming column,ReKGI9RjWmDzx8xKi
+LS15DOSA.lpd,LS15DOSA,9dCvb7un7yim06OmoNjJ,paleoData,1,1,12,d2H,,,,,mint,no TSid on the incoming column,R19sOhGYhHQVetboj
+LS15DOSA.lpd,LS15DOSA,9dCvb7un7yim06OmoNjJ,paleoData,1,1,13,d2H,,,,,mint,no TSid on the incoming column,RmZejpoQcERvEnZXV
+LS15DOSA.lpd,LS15DOSA,9dCvb7un7yim06OmoNjJ,chronData,1,1,1,depth,chron1,,,,remint,TSid repeated across submissions; template reuse,RD9NEpcYVwDyYxRt0
+LS15DOSA.lpd,LS15DOSA,9dCvb7un7yim06OmoNjJ,chronData,1,1,2,age14C,chron2,,,,remint,TSid repeated across submissions; template reuse,RTRPFdcLvgy04Dl2F
+LS15DOSA.lpd,LS15DOSA,9dCvb7un7yim06OmoNjJ,chronData,1,1,3,SD,chron3,,,,remint,TSid repeated across submissions; template reuse,RscCn3ZxFh9lI4tnM
+LS15DOSA.lpd,LS15DOSA,9dCvb7un7yim06OmoNjJ,chronData,1,1,4,fractionModern,chron4,,,,remint,TSid repeated across submissions; template reuse,RFfC70PUzbjLv9nsG
+LS15DOSA.lpd,LS15DOSA,9dCvb7un7yim06OmoNjJ,chronData,1,1,5,fractionModernUncertainty,chron5,,,,remint,TSid repeated across submissions; template reuse,RJG6IZ5KAZcqxe8WV
+LS15DOSA.lpd,LS15DOSA,9dCvb7un7yim06OmoNjJ,chronData,1,1,6,delta13C,chron6,,,,remint,TSid repeated across submissions; template reuse,RaCak3LtkslcTM29h
+LS15DOSA.lpd,LS15DOSA,9dCvb7un7yim06OmoNjJ,chronData,1,1,7,delta13Cuncertainty,chron7,,,,remint,TSid repeated across submissions; template reuse,RJay64P2kPO5QbXEe
+LS15DOSA.lpd,LS15DOSA,9dCvb7un7yim06OmoNjJ,chronData,1,1,8,thickness,chron8,,,,remint,TSid repeated across submissions; template reuse,RTmBZg2XTtWkFyukT
+LS15DOSA.lpd,LS15DOSA,9dCvb7un7yim06OmoNjJ,chronData,1,1,9,labID,chron9,,,,remint,TSid repeated across submissions; template reuse,RB6QeeRd3LhjFTSQq
+LS15DOSA.lpd,LS15DOSA,9dCvb7un7yim06OmoNjJ,chronData,1,1,10,materialDated,chron10,,,,remint,TSid repeated across submissions; template reuse,R37AqJLYZ9X2How4G
+LS15DOSA.lpd,LS15DOSA,9dCvb7un7yim06OmoNjJ,chronData,1,1,11,activity,chron11,,,,remint,TSid repeated across submissions; template reuse,R9qhQwYCBAingqxaF
+LS15DOSA.lpd,LS15DOSA,9dCvb7un7yim06OmoNjJ,chronData,1,1,12,activityUncertainty,chron12,,,,remint,TSid repeated across submissions; template reuse,Rgdksfz8QoD6sib2I
+LS15DOSA.lpd,LS15DOSA,9dCvb7un7yim06OmoNjJ,chronData,1,1,13,supportedActivity,chron13,,,,remint,TSid repeated across submissions; template reuse,RJVrXKs4vggwClFvh
+LS15DOSA.lpd,LS15DOSA,9dCvb7un7yim06OmoNjJ,chronData,1,1,14,x210PbModel,chron14,,,,remint,TSid repeated across submissions; template reuse,RrMQzQ8HvEHbQ4iGe
+LS15DOSA.lpd,LS15DOSA,9dCvb7un7yim06OmoNjJ,chronData,1,1,15,age,chron15,,,,remint,TSid repeated across submissions; template reuse,RtnYkdIcFGUG97B58
+LS15DOSA.lpd,LS15DOSA,9dCvb7un7yim06OmoNjJ,chronData,1,1,16,SD,chron16,,,,remint,TSid repeated across submissions; template reuse,RvXPrIKk56x1B0Jrj
+LS15DOSA.lpd,LS15DOSA,9dCvb7un7yim06OmoNjJ,chronData,1,1,17,reservoirAge14C,chron17,,,,remint,TSid repeated across submissions; template reuse,RvDxJiPIJrDKwDfHw
+LS15DOSA.lpd,LS15DOSA,9dCvb7un7yim06OmoNjJ,chronData,1,1,18,reservoirAge14CUncertainty,chron18,,,,remint,TSid repeated across submissions; template reuse,R1qSFc3417eNsiO5O
+LS15DOSA.lpd,LS15DOSA,9dCvb7un7yim06OmoNjJ,chronData,1,1,19,useInAgeModel,chron19,,,,remint,TSid repeated across submissions; template reuse,RUjOwj4mJHv2ccXxf
+Lesotho.NashGrab.2010.lpd,Lesotho.NashGrab.2010,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,RNb8XrwEngW1T3wQ0
+Lesotho.NashGrab.2010.lpd,Lesotho.NashGrab.2010,,paleoData,1,1,2,Oct-Mar precip index,,,,,mint,no TSid on the incoming column,RiNBwfgeTXN86mF5F
+LeteaForest.Nagavciuc.2025.lpd,LeteaForest.Nagavciuc.2025,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,RNEuMtpvvC9wbEB2d
+LeteaForest.Nagavciuc.2025.lpd,LeteaForest.Nagavciuc.2025,,paleoData,1,1,2,drought index,,,,,mint,no TSid on the incoming column,Ri0CB9zyWJqpIbMWj
+MaeHongSon.Buckley.2007.lpd,MaeHongSon.Buckley.2007,,paleoData,1,1,1,age,WEB-41763-1690-4352-9911-9cd4c,,,,keep,"new TSid, unique",WEB-41763-1690-4352-9911-9cd4c
+MaeHongSon.Buckley.2007.lpd,MaeHongSon.Buckley.2007,,paleoData,1,1,2,trsgi,WEB-eda7c-0f98-4b58-90f3-29105,,,,keep,"new TSid, unique",WEB-eda7c-0f98-4b58-90f3-29105
+MaeHongSon.Buckley.2007.lpd,MaeHongSon.Buckley.2007,,paleoData,1,1,3,sampleCount,WEB-9c568-2873-47dc-80c2-f3954,,,,keep,"new TSid, unique",WEB-9c568-2873-47dc-80c2-f3954
+Maingtha.DArrigo.2011.lpd,Maingtha.DArrigo.2011,,paleoData,1,1,1,age,WEB-fe85b-d169-4d71-99b4-0d4bc,,,,keep,"new TSid, unique",WEB-fe85b-d169-4d71-99b4-0d4bc
+Maingtha.DArrigo.2011.lpd,Maingtha.DArrigo.2011,,paleoData,1,1,2,trsgi,WEB-cc3f5-a04a-47f1-98f5-b905f,,,,keep,"new TSid, unique",WEB-cc3f5-a04a-47f1-98f5-b905f
+Maingtha.DArrigo.2011.lpd,Maingtha.DArrigo.2011,,paleoData,1,1,3,sampleCount,WEB-a97ea-b4d6-4b4c-a234-84a70,,,,keep,"new TSid, unique",WEB-a97ea-b4d6-4b4c-a234-84a70
+MidAtlantic.Maxwell.2012.lpd,MidAtlantic.Maxwell.2012,,paleoData,1,1,1,year,WEB-1bd95-7e59-4718-9ca5-4edcb,,,,keep,"new TSid, unique",WEB-1bd95-7e59-4718-9ca5-4edcb
+MidAtlantic.Maxwell.2012.lpd,MidAtlantic.Maxwell.2012,,paleoData,1,1,2,precipitation,WEB-e04e4-149e-4689-93dc-0ab78,,,,keep,"new TSid, unique",WEB-e04e4-149e-4689-93dc-0ab78
+MissouriRiver.Gangopadhyay.2026.lpd,MissouriRiver.Gangopadhyay.2026,,paleoData,1,1,1,year,WEB-d340a-5b44-4e84-aa57-438f5,,,,keep,"new TSid, unique",WEB-d340a-5b44-4e84-aa57-438f5
+MissouriRiver.Gangopadhyay.2026.lpd,MissouriRiver.Gangopadhyay.2026,,paleoData,1,1,2,streamflow,WEB-138cc-3f3d-4d7c-80eb-279b1,,,,keep,"new TSid, unique",WEB-138cc-3f3d-4d7c-80eb-279b1
+Mthatha.Hannaford.2015.lpd,Mthatha.Hannaford.2015,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,Rf78tM2KKbbGSvADi
+Mthatha.Hannaford.2015.lpd,Mthatha.Hannaford.2015,,paleoData,1,1,2,Nov-Mar Precip,,,,,mint,no TSid on the incoming column,RiBnA8vWKRCORF8vs
+MuCangChai.Sano.2009.lpd,MuCangChai.Sano.2009,,paleoData,1,1,1,age,WEB-92472-9246-4a6d-b66c-5a4c3,,,,keep,"new TSid, unique",WEB-92472-9246-4a6d-b66c-5a4c3
+MuCangChai.Sano.2009.lpd,MuCangChai.Sano.2009,,paleoData,1,1,2,trsgi,WEB-a9af3-7693-41a2-9f0c-5d10d,,,,keep,"new TSid, unique",WEB-a9af3-7693-41a2-9f0c-5d10d
+MuCangChai.Sano.2009.lpd,MuCangChai.Sano.2009,,paleoData,1,1,3,sampleCount,WEB-3f848-5a6e-42ef-a24f-1716c,,,,keep,"new TSid, unique",WEB-3f848-5a6e-42ef-a24f-1716c
+Mumbai.AdamsonNash.2014.lpd,Mumbai.AdamsonNash.2014,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,RiGf4a0dAk06wtq8K
+Mumbai.AdamsonNash.2014.lpd,Mumbai.AdamsonNash.2014,,paleoData,1,1,2,MJJASO precip index,,,,,mint,no TSid on the incoming column,R5uMSfE0fNM885kx9
+NESpainMediterranean.Tejedor.2019.lpd,NESpainMediterranean.Tejedor.2019,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,R3dlnZwydNnX6mZmg
+NESpainMediterranean.Tejedor.2019.lpd,NESpainMediterranean.Tejedor.2019,,paleoData,1,1,2,Drought index,,,,,mint,no TSid on the incoming column,RKfm7JAjxr6fekB8T
+NamNao.Buckley.1995.lpd,NamNao.Buckley.1995,,paleoData,1,1,1,age,WEB-d8ab9-a55a-4fed-a67b-9fc67,,,,keep,"new TSid, unique",WEB-d8ab9-a55a-4fed-a67b-9fc67
+NamNao.Buckley.1995.lpd,NamNao.Buckley.1995,,paleoData,1,1,2,trsgi,WEB-395f0-0d5b-40d5-8128-ee306,,,,keep,"new TSid, unique",WEB-395f0-0d5b-40d5-8128-ee306
+NamNao.Buckley.1995.lpd,NamNao.Buckley.1995,,paleoData,1,1,3,sampleCount,WEB-eab51-5768-425a-8490-3bdfb,,,,keep,"new TSid, unique",WEB-eab51-5768-425a-8490-3bdfb
+Namaqualand.Vogel.1989.lpd,Namaqualand.Vogel.1989,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,RJ86aPBZqLursOYis
+Namaqualand.Vogel.1989.lpd,Namaqualand.Vogel.1989,,paleoData,1,1,2,Apr-Sep Precip index,,,,,mint,no TSid on the incoming column,RbBQu7nXbRI6ad6sW
+Namibia.GrabZumthurm.2018.lpd,Namibia.GrabZumthurm.2018,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,RXFE5DSiIAeLAwn0P
+Namibia.GrabZumthurm.2018.lpd,Namibia.GrabZumthurm.2018,,paleoData,1,1,2,Annual precip index,,,,,mint,no TSid on the incoming column,RQSVn7cGhmDqiBlxz
+NewYorkCityRegion.Pederson.2013.lpd,NewYorkCityRegion.Pederson.2013,,paleoData,1,1,1,year,WEB-d22e6-cb08-4727-90aa-87693,,,,keep,"new TSid, unique",WEB-d22e6-cb08-4727-90aa-87693
+NewYorkCityRegion.Pederson.2013.lpd,NewYorkCityRegion.Pederson.2013,,paleoData,1,1,2,PDSI,WEB-735df-a95e-4774-92c6-50a7c,,,,keep,"new TSid, unique",WEB-735df-a95e-4774-92c6-50a7c
+NorthEasternGermany.Scharnweber.2019.lpd,NorthEasternGermany.Scharnweber.2019,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,REw4bcmj4Gb7f9sG7
+NorthEasternGermany.Scharnweber.2019.lpd,NorthEasternGermany.Scharnweber.2019,,paleoData,1,1,2,ringWidth,,,,,mint,no TSid on the incoming column,RgHWu4pocvz4rdGcZ
+NorthwesternOntario.StGeorge.2009.lpd,NorthwesternOntario.StGeorge.2009,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,RAPwGrfMXyZ7kKlcj
+NorthwesternOntario.StGeorge.2009.lpd,NorthwesternOntario.StGeorge.2009,,paleoData,1,1,2,tree-ring index,,,,,mint,no TSid on the incoming column,RSBVXDEdX6SBYK4wH
+PatagoniaARAR.lpd,PatagoniaARAR,,paleoData,1,1,1,year,WEB-15362-a154-44d2-876f-05dc2,,,,keep,"new TSid, unique",WEB-15362-a154-44d2-876f-05dc2
+PatagoniaARAR.lpd,PatagoniaARAR,,paleoData,1,1,2,Tree ring index,WEB-1a688-10df-439e-a41d-ec375,,,,keep,"new TSid, unique",WEB-1a688-10df-439e-a41d-ec375
+PatagoniaAUCH.Villalba.2012.lpd,PatagoniaAUCH.Villalba.2012,,paleoData,1,1,1,year,WEB-edd2d-7ee9-495c-a688-0df19,,,,keep,"new TSid, unique",WEB-edd2d-7ee9-495c-a688-0df19
+PatagoniaAUCH.Villalba.2012.lpd,PatagoniaAUCH.Villalba.2012,,paleoData,1,1,2,Tree ring index,WEB-4ca55-9920-43ef-9fdd-efe09,,,,keep,"new TSid, unique",WEB-4ca55-9920-43ef-9fdd-efe09
+PecosRiver.Harley.2017.lpd,PecosRiver.Harley.2017,,paleoData,1,1,1,year,WEB-186b6-182a-4bec-9def-58449,,,,keep,"new TSid, unique",WEB-186b6-182a-4bec-9def-58449
+PecosRiver.Harley.2017.lpd,PecosRiver.Harley.2017,,paleoData,1,1,2,streamflow,WEB-14a4d-76f1-47c2-91ef-b756b,,,,keep,"new TSid, unique",WEB-14a4d-76f1-47c2-91ef-b756b
+Petchaburi.Nguyen.2021.lpd,Petchaburi.Nguyen.2021,,paleoData,1,1,1,age,WEB-4aa32-d573-4c1f-af6b-e7304,,,,keep,"new TSid, unique",WEB-4aa32-d573-4c1f-af6b-e7304
+Petchaburi.Nguyen.2021.lpd,Petchaburi.Nguyen.2021,,paleoData,1,1,2,trsgi,WEB-92e2a-72aa-4915-916b-4b705,,,,keep,"new TSid, unique",WEB-92e2a-72aa-4915-916b-4b705
+Petchaburi.Nguyen.2021.lpd,Petchaburi.Nguyen.2021,,paleoData,1,1,3,sampleCount,WEB-152a7-3df1-4f98-87f1-d0b60,,,,keep,"new TSid, unique",WEB-152a7-3df1-4f98-87f1-d0b60
+PhaTaem.Nguyen.2021.lpd,PhaTaem.Nguyen.2021,,paleoData,1,1,1,age,WEB-278a6-9ae6-400d-b7d6-3c23e,,,,keep,"new TSid, unique",WEB-278a6-9ae6-400d-b7d6-3c23e
+PhaTaem.Nguyen.2021.lpd,PhaTaem.Nguyen.2021,,paleoData,1,1,2,trsgi,WEB-ae358-c02e-4df2-9fb5-cf8fc,,,,keep,"new TSid, unique",WEB-ae358-c02e-4df2-9fb5-cf8fc
+PhaTaem.Nguyen.2021.lpd,PhaTaem.Nguyen.2021,,paleoData,1,1,3,sampleCount,WEB-09bdd-eaca-4cee-940a-4c088,,,,keep,"new TSid, unique",WEB-09bdd-eaca-4cee-940a-4c088
+PhouKhaoKhouay.Buckley.2007.lpd,PhouKhaoKhouay.Buckley.2007,,paleoData,1,1,1,age,WEB-10cb0-37d6-4ef7-83c4-4888a,,,,keep,"new TSid, unique",WEB-10cb0-37d6-4ef7-83c4-4888a
+PhouKhaoKhouay.Buckley.2007.lpd,PhouKhaoKhouay.Buckley.2007,,paleoData,1,1,2,trsgi,WEB-1d079-d71d-4e63-9e9c-7cfb2,,,,keep,"new TSid, unique",WEB-1d079-d71d-4e63-9e9c-7cfb2
+PhouKhaoKhouay.Buckley.2007.lpd,PhouKhaoKhouay.Buckley.2007,,paleoData,1,1,3,sampleCount,WEB-5d5c2-2f03-46d8-80e7-5b28e,,,,keep,"new TSid, unique",WEB-5d5c2-2f03-46d8-80e7-5b28e
+PhuKradung.DArrigo.1997.lpd,PhuKradung.DArrigo.1997,,paleoData,1,1,1,age,WEB-e0fde-38b3-4238-a35d-30b46,,,,keep,"new TSid, unique",WEB-e0fde-38b3-4238-a35d-30b46
+PhuKradung.DArrigo.1997.lpd,PhuKradung.DArrigo.1997,,paleoData,1,1,2,trsgi,WEB-ecd18-0f0d-4df0-ad03-0d47e,,,,keep,"new TSid, unique",WEB-ecd18-0f0d-4df0-ad03-0d47e
+PhuKradung.DArrigo.1997.lpd,PhuKradung.DArrigo.1997,,paleoData,1,1,3,sampleCount,WEB-2ddef-e10c-4d8c-8e64-c49fd,,,,keep,"new TSid, unique",WEB-2ddef-e10c-4d8c-8e64-c49fd
+PhuToei.Cook.2010.lpd,PhuToei.Cook.2010,,paleoData,1,1,1,age,WEB-98621-dec8-4f2a-9333-bdcb8,,,,keep,"new TSid, unique",WEB-98621-dec8-4f2a-9333-bdcb8
+PhuToei.Cook.2010.lpd,PhuToei.Cook.2010,,paleoData,1,1,2,trsgi,WEB-7c76c-f100-4536-93f1-2ba93,,,,keep,"new TSid, unique",WEB-7c76c-f100-4536-93f1-2ba93
+PhuToei.Cook.2010.lpd,PhuToei.Cook.2010,,paleoData,1,1,3,count,WEB-952db-ea54-4656-b553-43725,,,,keep,"new TSid, unique",WEB-952db-ea54-4656-b553-43725
+PotomacRiver.EasternUS.Maxwell.2017.lpd,PotomacRiver.EasternUS.Maxwell.2017,,paleoData,1,1,1,year,WEB-750a9-46ae-4f67-a779-1531d,,,,keep,"new TSid, unique",WEB-750a9-46ae-4f67-a779-1531d
+PotomacRiver.EasternUS.Maxwell.2017.lpd,PotomacRiver.EasternUS.Maxwell.2017,,paleoData,1,1,2,streamflow,WEB-40381-a86c-4fb9-9fad-a22fd,,,,keep,"new TSid, unique",WEB-40381-a86c-4fb9-9fad-a22fd
+PotomacRiver.Maxwell.2011.lpd,PotomacRiver.Maxwell.2011,,paleoData,1,1,1,year,WEB-59224-1781-46e8-8473-501a1,,,,keep,"new TSid, unique",WEB-59224-1781-46e8-8473-501a1
+PotomacRiver.Maxwell.2011.lpd,PotomacRiver.Maxwell.2011,,paleoData,1,1,2,streamflow,WEB-3f9f4-65d5-4782-aff3-92e1e,,,,keep,"new TSid, unique",WEB-3f9f4-65d5-4782-aff3-92e1e
+PuMat.Buckley.2019.lpd,PuMat.Buckley.2019,,paleoData,1,1,1,age,WEB-356ab-5deb-4648-83fb-f8762,,,,keep,"new TSid, unique",WEB-356ab-5deb-4648-83fb-f8762
+PuMat.Buckley.2019.lpd,PuMat.Buckley.2019,,paleoData,1,1,2,trsgi,WEB-3fe49-964a-4773-8d6f-24813,,,,keep,"new TSid, unique",WEB-3fe49-964a-4773-8d6f-24813
+Pune.AdamsonNash.2014.lpd,Pune.AdamsonNash.2014,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,RKBpgDrB2Pma2ai2Z
+Pune.AdamsonNash.2014.lpd,Pune.AdamsonNash.2014,,paleoData,1,1,2,MJJASO precip index,,,,,mint,no TSid on the incoming column,RBM9APwh7H96VXS4U
+QuangNam.Buckley.2017.lpd,QuangNam.Buckley.2017,,paleoData,1,1,1,age,WEB-20ddd-3693-4d71-95cd-ba8ac,,,,keep,"new TSid, unique",WEB-20ddd-3693-4d71-95cd-ba8ac
+QuangNam.Buckley.2017.lpd,QuangNam.Buckley.2017,,paleoData,1,1,2,trsgi,WEB-5f714-d274-42fc-9ccb-6aaae,,,,keep,"new TSid, unique",WEB-5f714-d274-42fc-9ccb-6aaae
+RoyalNationalPark.Hannaford.2015.lpd,RoyalNationalPark.Hannaford.2015,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,Rb70Lon3CfO4XigXZ
+RoyalNationalPark.Hannaford.2015.lpd,RoyalNationalPark.Hannaford.2015,,paleoData,1,1,2,Nov-Mar Precip,,,,,mint,no TSid on the incoming column,RKhLcew8WaMgX28cw
+SEAustralia.GergisAshcroft.2013GergisAshcroft.2013.lpd,GergisAshcroft.2013,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,RxGDUPsFwa99ojLgM
+SEAustralia.GergisAshcroft.2013GergisAshcroft.2013.lpd,GergisAshcroft.2013,,paleoData,1,1,2,Annual precipitation index,,,,,mint,no TSid on the incoming column,RY5lM3KDmMdfs4Kr2
+SalaengLuang.Buckley.1995.lpd,SalaengLuang.Buckley.1995,,paleoData,1,1,1,age,WEB-9d496-a5a5-493b-ade8-17619,,,,keep,"new TSid, unique",WEB-9d496-a5a5-493b-ade8-17619
+SalaengLuang.Buckley.1995.lpd,SalaengLuang.Buckley.1995,,paleoData,1,1,2,trsgi,WEB-0a870-6680-407b-807f-66394,,,,keep,"new TSid, unique",WEB-0a870-6680-407b-807f-66394
+SalaengLuang.Buckley.1995.lpd,SalaengLuang.Buckley.1995,,paleoData,1,1,3,sampleCount,WEB-fc9ba-8c70-4f5f-9ddd-ef5a9,,,,keep,"new TSid, unique",WEB-fc9ba-8c70-4f5f-9ddd-ef5a9
+SanLuang.Cook.2010.lpd,SanLuang.Cook.2010,,paleoData,1,1,1,age,WEB-1bbfc-3ff2-4126-a756-3dad9,,,,keep,"new TSid, unique",WEB-1bbfc-3ff2-4126-a756-3dad9
+SanLuang.Cook.2010.lpd,SanLuang.Cook.2010,,paleoData,1,1,2,trsgi,WEB-7fb90-c9c7-4b55-b9e7-e8fdc,,,,keep,"new TSid, unique",WEB-7fb90-c9c7-4b55-b9e7-e8fdc
+SanLuang.Cook.2010.lpd,SanLuang.Cook.2010,,paleoData,1,1,3,sampleCount,WEB-85df4-dde7-49cf-9694-28a11,,,,keep,"new TSid, unique",WEB-85df4-dde7-49cf-9694-28a11
+SantaFeCorrientes.Prieto.2007.lpd,SantaFeCorrientes.Prieto.2007,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,R3t0bE7BuTYmAMJvY
+SantaFeCorrientes.Prieto.2007.lpd,SantaFeCorrientes.Prieto.2007,,paleoData,1,1,2,Annual precipitation index,,,,,mint,no TSid on the incoming column,RkhPUHs8cDx7CS6b2
+SantiagoDeChile.Taulis.1934.lpd,SantiagoDeChile.Taulis.1934,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,RHtYgLltYlnqOZaPt
+SantiagoDeChile.Taulis.1934.lpd,SantiagoDeChile.Taulis.1934,,paleoData,1,1,2,Apr-Sep precip index,,,,,mint,no TSid on the incoming column,RzXoQoFsJvY90zp0K
+Shijiazhuang.Ge.2005.lpd,Shijiazhuang.Ge.2005,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,RfxZpns8s8Hk85tL8
+Shijiazhuang.Ge.2005.lpd,Shijiazhuang.Ge.2005,,paleoData,1,1,2,Jun-Sep precip,,,,,mint,no TSid on the incoming column,RNJAeGHsJ0Wu9hTQc
+Shijiazhuang.Ge.2005.lpd,Shijiazhuang.Ge.2005,,paleoData,1,1,3,Jan precip,,,,,mint,no TSid on the incoming column,RjxeNyuL9Ahcs4Z7E
+SoutheasternUS.Stahle.1992.lpd,SoutheasternUS.Stahle.1992,,paleoData,1,1,1,year,WEB-a554e-7fe9-450e-b814-6a30e,,,,keep,"new TSid, unique",WEB-a554e-7fe9-450e-b814-6a30e
+SoutheasternUS.Stahle.1992.lpd,SoutheasternUS.Stahle.1992,,paleoData,1,1,2,precipitation (Region),WEB-de3d0-1172-4f0a-9196-8acc2,,,,keep,"new TSid, unique",WEB-de3d0-1172-4f0a-9196-8acc2
+SoutheasternUS.Stahle.1992.lpd,SoutheasternUS.Stahle.1992,,paleoData,1,1,3,precipitation (NC),WEB-aba51-4590-4158-8576-497c2,,,,keep,"new TSid, unique",WEB-aba51-4590-4158-8576-497c2
+SoutheasternUS.Stahle.1992.lpd,SoutheasternUS.Stahle.1992,,paleoData,1,1,4,precipitation (SC),WEB-566cd-1701-4519-ac86-e21fa,,,,keep,"new TSid, unique",WEB-566cd-1701-4519-ac86-e21fa
+SoutheasternUS.Stahle.1992.lpd,SoutheasternUS.Stahle.1992,,paleoData,1,1,5,precipitation (GA),WEB-5309c-1f5b-4969-86a5-14dc8,,,,keep,"new TSid, unique",WEB-5309c-1f5b-4969-86a5-14dc8
+SouthernFinland.Helama.2009.lpd,SouthernFinland.Helama.2009,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,R8JmRqdyFkuaLXzsL
+SouthernFinland.Helama.2009.lpd,SouthernFinland.Helama.2009,,paleoData,1,1,2,precipitation,,,,,mint,no TSid on the incoming column,R5N43pvYbnvVGIAv5
+SouthernManitoba.StGeorge.2009.lpd,SouthernManitoba.StGeorge.2009,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,RdgAzocwSK5qjSvEv
+SouthernManitoba.StGeorge.2009.lpd,SouthernManitoba.StGeorge.2009,,paleoData,1,1,2,tree-ring index,,,,,mint,no TSid on the incoming column,Rfnrbwv1mlarpQCDZ
+SouthernMississippiUS.Bregy.2022.lpd,SouthernMississippiUS.Bregy.2022,,paleoData,1,1,1,year,WEB-c15c1-ca4f-4471-a007-a23cb,,,,keep,"new TSid, unique",WEB-c15c1-ca4f-4471-a007-a23cb
+SouthernMississippiUS.Bregy.2022.lpd,SouthernMississippiUS.Bregy.2022,,paleoData,1,1,2,precipitation,WEB-84bc7-2ce9-4f1c-879b-eaa52,,,,keep,"new TSid, unique",WEB-84bc7-2ce9-4f1c-879b-eaa52
+SouthernMoravia.Büntgen.2011.lpd,SouthernMoravia.Büntgen.2011,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,ReV8XhIVpR9TaNAHH
+SouthernMoravia.Büntgen.2011.lpd,SouthernMoravia.Büntgen.2011,,paleoData,1,1,2,drought index,,,,,mint,no TSid on the incoming column,RyfimjAUxqMR0RFge
+SouthernPatagoniaNOBE.Villalba.2012.lpd,SouthernPatagoniaNOBE.Villalba.2012,,paleoData,1,1,1,year,WEB-7ff5c-0e02-41fd-a804-6d6b4,,,,keep,"new TSid, unique",WEB-7ff5c-0e02-41fd-a804-6d6b4
+SouthernPatagoniaNOBE.Villalba.2012.lpd,SouthernPatagoniaNOBE.Villalba.2012,,paleoData,1,1,2,Tree ring width index,WEB-58d55-84cc-4a74-95f8-b61de,,,,keep,"new TSid, unique",WEB-58d55-84cc-4a74-95f8-b61de
+Suceava.Roibu.2026.lpd,Suceava.Roibu.2026,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,RNDx3qAABKSxJDkXl
+Suceava.Roibu.2026.lpd,Suceava.Roibu.2026,,paleoData,1,1,2,drought index,,,,,mint,no TSid on the incoming column,RPlm0urdMIJOPg4Ia
+SuwanneeRiver.Harley.2017.lpd,SuwanneeRiver.Harley.2017,,paleoData,1,1,1,year,WEB-e5e6b-b4da-4180-9cf9-2caa4,,,,keep,"new TSid, unique",WEB-e5e6b-b4da-4180-9cf9-2caa4
+SuwanneeRiver.Harley.2017.lpd,SuwanneeRiver.Harley.2017,,paleoData,1,1,2,streamflow,WEB-be960-7d42-493c-891a-70761,,,,keep,"new TSid, unique",WEB-be960-7d42-493c-891a-70761
+Switzerland.Kress.2014.lpd,Switzerland.Kress.2014,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,R8KAskbaDmanpzlno
+Switzerland.Kress.2014.lpd,Switzerland.Kress.2014,,paleoData,1,1,2,d13C,,,,,mint,no TSid on the incoming column,RWO4C3Dc8c62HFuod
+Switzerland.Pfister.1992.lpd,Switzerland.Pfister.1992,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,RY522qetN9lIcVJYV
+Switzerland.Pfister.1992.lpd,Switzerland.Pfister.1992,,paleoData,1,1,2,Jan precipitation index,WEB-5e76bb3d-bb3e-4776-814b-475caa9daa8f,,,,keep,"new TSid, unique",WEB-5e76bb3d-bb3e-4776-814b-475caa9daa8f
+Switzerland.Pfister.1992.lpd,Switzerland.Pfister.1992,,paleoData,1,1,3,Feb precipitation index,WEB-36b1012d-2c35-4aa2-be34-3668cbeae68d,,,,keep,"new TSid, unique",WEB-36b1012d-2c35-4aa2-be34-3668cbeae68d
+Switzerland.Pfister.1992.lpd,Switzerland.Pfister.1992,,paleoData,1,1,4,Mar precipitation index,WEB-b93f60f1-c7f0-4923-9cea-2c2ac7f2093e,,,,keep,"new TSid, unique",WEB-b93f60f1-c7f0-4923-9cea-2c2ac7f2093e
+Switzerland.Pfister.1992.lpd,Switzerland.Pfister.1992,,paleoData,1,1,5,Apr precipitation index,WEB-662d9fd4-8d63-4eb2-9484-7a26f9dae801,,,,keep,"new TSid, unique",WEB-662d9fd4-8d63-4eb2-9484-7a26f9dae801
+Switzerland.Pfister.1992.lpd,Switzerland.Pfister.1992,,paleoData,1,1,6,May precipitation index,WEB-ef44a728-0b1f-4ed0-b413-70df985cba8c,,,,keep,"new TSid, unique",WEB-ef44a728-0b1f-4ed0-b413-70df985cba8c
+Switzerland.Pfister.1992.lpd,Switzerland.Pfister.1992,,paleoData,1,1,7,Jun precipitation index,WEB-27191af2-5236-4abf-b7e3-256d9546de98,,,,keep,"new TSid, unique",WEB-27191af2-5236-4abf-b7e3-256d9546de98
+Switzerland.Pfister.1992.lpd,Switzerland.Pfister.1992,,paleoData,1,1,8,Jul precipitation index,WEB-2469b981-48e5-4b70-901a-fa4b58ea3365,,,,keep,"new TSid, unique",WEB-2469b981-48e5-4b70-901a-fa4b58ea3365
+Switzerland.Pfister.1992.lpd,Switzerland.Pfister.1992,,paleoData,1,1,9,Aug precipitation index,WEB-97a1efd5-9173-4e93-9122-7f027361dcaa,,,,keep,"new TSid, unique",WEB-97a1efd5-9173-4e93-9122-7f027361dcaa
+Switzerland.Pfister.1992.lpd,Switzerland.Pfister.1992,,paleoData,1,1,10,Sep precipitation index,WEB-36af6d4d-b7f4-40ff-9dce-0d63c27c1a39,,,,keep,"new TSid, unique",WEB-36af6d4d-b7f4-40ff-9dce-0d63c27c1a39
+Switzerland.Pfister.1992.lpd,Switzerland.Pfister.1992,,paleoData,1,1,11,Oct precipitation index,WEB-22ffb1b2-d102-45ca-9d72-4e97afaf49d6,,,,keep,"new TSid, unique",WEB-22ffb1b2-d102-45ca-9d72-4e97afaf49d6
+Switzerland.Pfister.1992.lpd,Switzerland.Pfister.1992,,paleoData,1,1,12,Nov precipitation index,WEB-6a6b3ee8-1dfb-4f7e-951a-cd70d9085efa,,,,keep,"new TSid, unique",WEB-6a6b3ee8-1dfb-4f7e-951a-cd70d9085efa
+Switzerland.Pfister.1992.lpd,Switzerland.Pfister.1992,,paleoData,1,1,13,Dec precipitation index,WEB-9dbc74d5-100a-4ee1-aa9f-f3b53e246f45,,,,keep,"new TSid, unique",WEB-9dbc74d5-100a-4ee1-aa9f-f3b53e246f45
+TalosDome.Stenni.2000.lpd,Talos Dome ice core snow accumulation rate,,paleoData,1,1,1,time,WEB-49691-85ab-495d-83b6-858ee,,,,keep,"new TSid, unique",WEB-49691-85ab-495d-83b6-858ee
+TalosDome.Stenni.2000.lpd,Talos Dome ice core snow accumulation rate,,paleoData,1,1,2,accumulation,WEB-589ae-9e90-44c7-87e9-20321,,,,keep,"new TSid, unique",WEB-589ae-9e90-44c7-87e9-20321
+TropicalChinaReachesD.Wang.2018.lpd,TropicalChinaReachesD.Wang.2018,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,RbWEutNsmmRbSm8Q8
+TropicalChinaReachesD.Wang.2018.lpd,TropicalChinaReachesD.Wang.2018,,paleoData,1,1,2,Nov-Mar precipitation index,,,,,mint,no TSid on the incoming column,RAUdZhlPvLcCSvJYd
+TropicalChinaReachesD.Wang.2018.lpd,TropicalChinaReachesD.Wang.2018,,paleoData,1,1,3,May-Sep precipitation index,WEB-8f319121-23e2-40f7-9fa8-20612ce35301,,,,remint,TSid repeated across submissions; template reuse,RcrTYbIbHbi7tK98w
+Tucuman.Prieto.2000.lpd,Tucuman.Prieto.2000,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,R3VX6J9DlamU2lNjJ
+Tucuman.Prieto.2000.lpd,Tucuman.Prieto.2000,,paleoData,1,1,2,Apr-Sep precip index,,,,,mint,no TSid on the incoming column,RDcRRxI4MaMMMQLq3
+UpperRhineValley.Tegel.2020.lpd,UpperRhineValley.Tegel.2020,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,RBDaMz3tNIz0IO7MD
+UpperRhineValley.Tegel.2020.lpd,UpperRhineValley.Tegel.2020,,paleoData,1,1,2,ringWidth,,,,,mint,no TSid on the incoming column,RWKCWgABofEmTblzO
+WatChan.Buckley.1995.lpd,WatChan.Buckley.1995,,paleoData,1,1,1,age,WEB-89221-89b9-4749-8ffe-e0ad2,,,,keep,"new TSid, unique",WEB-89221-89b9-4749-8ffe-e0ad2
+WatChan.Buckley.1995.lpd,WatChan.Buckley.1995,,paleoData,1,1,2,trsgi,WEB-5320d-bc27-4576-8f6c-2fae0,,,,keep,"new TSid, unique",WEB-5320d-bc27-4576-8f6c-2fae0
+WatChan.Buckley.1995.lpd,WatChan.Buckley.1995,,paleoData,1,1,3,sampleCount,WEB-e357b-a44c-4c78-8e32-1dd23,,,,keep,"new TSid, unique",WEB-e357b-a44c-4c78-8e32-1dd23
+WesternMediterranean.Camuffo.2010.lpd,WesternMediterranean.Camuffo.2010,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,RCHpRB8HEcManfFXC
+WesternMediterranean.Camuffo.2010.lpd,WesternMediterranean.Camuffo.2010,,paleoData,1,1,2,Dec-Feb precipitation,,,,,mint,no TSid on the incoming column,RFcvto5nntz8npSJI
+WesternMediterranean.Camuffo.2010.lpd,WesternMediterranean.Camuffo.2010,,paleoData,1,1,3,Mar-May precipitation,WEB-4f6b22ff-ac24-417e-929b-1468eca5ddee,,,,keep,"new TSid, unique",WEB-4f6b22ff-ac24-417e-929b-1468eca5ddee
+WesternMediterranean.Camuffo.2010.lpd,WesternMediterranean.Camuffo.2010,,paleoData,1,1,4,Jun-Aug precipitation,WEB-9b483b3f-a882-4607-b5e6-14d09889fa24,,,,keep,"new TSid, unique",WEB-9b483b3f-a882-4607-b5e6-14d09889fa24
+WesternMediterranean.Camuffo.2010.lpd,WesternMediterranean.Camuffo.2010,,paleoData,1,1,5,Sep-Nov precipitation,WEB-8f2f0421-395c-4b14-bbf8-d97f2e370335,,,,keep,"new TSid, unique",WEB-8f2f0421-395c-4b14-bbf8-d97f2e370335
+WhiteRiver.Cleaveland.2000.lpd,WhiteRiver.Cleaveland.2000,,paleoData,1,1,1,year,WEB-68050-77cb-4ad8-a273-13326,,,,keep,"new TSid, unique",WEB-68050-77cb-4ad8-a273-13326
+WhiteRiver.Cleaveland.2000.lpd,WhiteRiver.Cleaveland.2000,,paleoData,1,1,2,streamflow,WEB-6f898-10cb-4e7b-9bd0-d686c,,,,keep,"new TSid, unique",WEB-6f898-10cb-4e7b-9bd0-d686c
+WhiteRiver.Cleaveland.2000.lpd,WhiteRiver.Cleaveland.2000,,paleoData,1,1,3,streamflow,WEB-9638d-5d1d-4fda-9efe-b47fe,,,,keep,"new TSid, unique",WEB-9638d-5d1d-4fda-9efe-b47fe
+WiangHaeng.Nguyen.2021.lpd,WiangHaeng.Nguyen.2021,,paleoData,1,1,1,age,WEB-047da-873e-4989-9681-1b546,,,,keep,"new TSid, unique",WEB-047da-873e-4989-9681-1b546
+WiangHaeng.Nguyen.2021.lpd,WiangHaeng.Nguyen.2021,,paleoData,1,1,2,trsgi,WEB-d6437-fd41-46da-ad2e-b357f,,,,keep,"new TSid, unique",WEB-d6437-fd41-46da-ad2e-b357f
+WiangHaeng.Nguyen.2021.lpd,WiangHaeng.Nguyen.2021,,paleoData,1,1,3,sampleCount,WEB-9b991-3620-4bad-86ac-77d5b,,,,keep,"new TSid, unique",WEB-9b991-3620-4bad-86ac-77d5b
+YangtzeRiverPlainReachesC.Wang.2018.lpd,YangtzeRiverPlainReachesC.Wang.2018,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,Rr2bVmJNRxnoJrpeU
+YangtzeRiverPlainReachesC.Wang.2018.lpd,YangtzeRiverPlainReachesC.Wang.2018,,paleoData,1,1,2,Nov-Mar precipitation index,,,,,mint,no TSid on the incoming column,RT9fkp0i8UTUi01By
+YangtzeRiverPlainReachesC.Wang.2018.lpd,YangtzeRiverPlainReachesC.Wang.2018,,paleoData,1,1,3,May-Sep precipitation index,WEB-8f319121-23e2-40f7-9fa8-20612ce35301,,,,remint,TSid repeated across submissions; template reuse,RCH8da3jx1zNMdcqH
+YellowRiver.Jinbao.2019.lpd,YellowRiver.Jinbao.2019,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,R7UgBpcz4G486xzPH
+YellowRiver.Jinbao.2019.lpd,YellowRiver.Jinbao.2019,,paleoData,1,1,2,streamflow,,,,,mint,no TSid on the incoming column,RlYbboyrrlHKPkcWg
+YellowRiverPlainReachesB.Wang.2018.lpd,YellowRiverPlainReachesB.Wang.2018,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,R5it5qiC5KlRe44t0
+YellowRiverPlainReachesB.Wang.2018.lpd,YellowRiverPlainReachesB.Wang.2018,,paleoData,1,1,2,May-Sep precipitation index,WEB-8f319121-23e2-40f7-9fa8-20612ce35301,,,,remint,TSid repeated across submissions; template reuse,RbMBDo6YWzpCaCl7R
+Zafra.Fernandez-Fernandez.2015.lpd,Zafra.Fernandez-Fernandez.2015,,paleoData,1,1,1,age,,,,,mint,no TSid on the incoming column,RpbHlYGX8Rf2CCZod
+Zafra.Fernandez-Fernandez.2015.lpd,Zafra.Fernandez-Fernandez.2015,,paleoData,1,1,2,Jan precipitation index,,,,,mint,no TSid on the incoming column,RKFgN86Efsr2iVLYw
+Zafra.Fernandez-Fernandez.2015.lpd,Zafra.Fernandez-Fernandez.2015,,paleoData,1,1,3,Feb precipitation index,WEB-8f319121-23e2-40f7-9fa8-20612ce35301,,,,remint,TSid repeated across submissions; template reuse,Rn1Opb92fZQPcWlP5
+Zafra.Fernandez-Fernandez.2015.lpd,Zafra.Fernandez-Fernandez.2015,,paleoData,1,1,4,Mar precipitation index,WEB-03cbb360-5715-48ab-b504-58943748e420,,,,remint,TSid repeated across submissions; template reuse,R3sRMzGBk8BrkITDN
+Zafra.Fernandez-Fernandez.2015.lpd,Zafra.Fernandez-Fernandez.2015,,paleoData,1,1,5,Apr precipitation index,WEB-2a8bcc7a-1bf2-4e1f-a1d1-f2c7e2ff801b,,,,remint,TSid repeated across submissions; template reuse,R6HLGyNYOhya2ANUW
+Zafra.Fernandez-Fernandez.2015.lpd,Zafra.Fernandez-Fernandez.2015,,paleoData,1,1,6,May precipitation index,WEB-cd86c919-f8e0-4f10-90de-875317a67b95,,,,remint,TSid repeated across submissions; template reuse,RyEqbVeHfEiWQcVKW
+Zafra.Fernandez-Fernandez.2015.lpd,Zafra.Fernandez-Fernandez.2015,,paleoData,1,1,7,Jun precipitation index,WEB-4b1e981f-4d1e-4d6a-845b-cf7f14e9650e,,,,remint,TSid repeated across submissions; template reuse,RtVGJxZHAQAiyA9Gi
+Zafra.Fernandez-Fernandez.2015.lpd,Zafra.Fernandez-Fernandez.2015,,paleoData,1,1,8,Jul precipitation index,WEB-fe4fb086-cd96-4ae1-b1c7-f319acf826eb,,,,remint,TSid repeated across submissions; template reuse,RAySwJVAcz3Sc75ys
+Zafra.Fernandez-Fernandez.2015.lpd,Zafra.Fernandez-Fernandez.2015,,paleoData,1,1,9,Aug precipitation index,WEB-f55511f2-22d8-41cb-8d05-4e641e327f58,,,,remint,TSid repeated across submissions; template reuse,R74KHGwWDV1NZHCho
+Zafra.Fernandez-Fernandez.2015.lpd,Zafra.Fernandez-Fernandez.2015,,paleoData,1,1,10,Sep precipitation index,WEB-024ef1c6-a538-4372-be2c-6d46a59e0c1a,,,,remint,TSid repeated across submissions; template reuse,ROnJPpA9cJ563Aj5Q
+Zafra.Fernandez-Fernandez.2015.lpd,Zafra.Fernandez-Fernandez.2015,,paleoData,1,1,11,Oct precipitation index,WEB-25314f8f-1e51-4200-9871-68b21974811b,,,,remint,TSid repeated across submissions; template reuse,RCN5XvIrYMK9YVQgn
+Zafra.Fernandez-Fernandez.2015.lpd,Zafra.Fernandez-Fernandez.2015,,paleoData,1,1,12,Nov precipitation index,WEB-a8f5c1df-7cd9-4547-9903-929713bc122c,,,,remint,TSid repeated across submissions; template reuse,Rs7FWgZRP0V8kTH0d
+Zafra.Fernandez-Fernandez.2015.lpd,Zafra.Fernandez-Fernandez.2015,,paleoData,1,1,13,Dec precipitation index,WEB-ed4747cb-b0ce-495b-9c53-94f81eea28e4,,,,remint,TSid repeated across submissions; template reuse,RLjW17GPZWtPeoQiZ
