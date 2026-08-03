@@ -177,6 +177,36 @@ lv_ingest_issues <- function(plan) {
     field = bad$variableName, path = bad$file)
 }
 
+# How many measured values a file actually holds. Counting non-NA numerics
+# rather than CSV lines, because submissions are routinely padded with blank
+# rows -- one has 2,413 lines of which 1,903 are entirely NA -- and trimming
+# those loses nothing.
+lv_value_count <- function(p) {
+  nm <- tryCatch(utils::unzip(p, list = TRUE)$Name, error = function(e) NULL)
+  if (is.null(nm)) return(NA_integer_)
+  j <- grep("jsonld$", nm, value = TRUE)
+  if (!length(j)) return(NA_integer_)
+  con <- unz(p, j[1])
+  m <- tryCatch(jsonlite::fromJSON(paste(readLines(con, warn = FALSE), collapse = "\n"),
+                                   simplifyVector = FALSE), error = function(e) NULL)
+  close(con)
+  if (is.null(m)) return(NA_integer_)
+  tot <- 0L
+  for (blk in c("paleoData", "chronData")) for (pd in m[[blk]]) for (tb in pd$measurementTable) {
+    fn <- as_chr1(tb$filename)
+    if (is.null(fn)) next
+    mem <- nm[basename(nm) == fn]
+    if (!length(mem)) next
+    txt <- tryCatch(readLines(unz(p, mem[1]), warn = FALSE), error = function(e) NULL)
+    if (is.null(txt) || !length(txt)) next
+    d <- tryCatch(utils::read.csv(text = paste(txt, collapse = "\n"), header = FALSE,
+                                  check.names = FALSE), error = function(e) NULL)
+    if (is.null(d)) next
+    for (k in seq_len(ncol(d))) tot <- tot + sum(!is.na(suppressWarnings(as.numeric(d[[k]]))))
+  }
+  tot
+}
+
 #' Walk a LiPD object's columns in the same order as [lv_ingest_scan()]
 #' @keywords internal
 lv_ingest_walk <- function(L) {
@@ -312,6 +342,21 @@ lv_ingest_apply <- function(plan, dir, out, index, progress = TRUE) {
     got <- if (is.null(back)) list() else lv_ingest_walk(back)
     has_csv <- fs::file_exists(sp) &&
       any(grepl("[.]csv$", tryCatch(utils::unzip(sp, list = TRUE)$Name, error = function(e) character())))
+    # Measured values, not just columns. Four submissions carry a ragged
+    # measurement table -- LS15DOCH has a d2H column of 95 values beside an age
+    # column of 88 -- and lipdR truncates the table to its shortest column,
+    # dropping 3,577 values across the batch without a word.
+    before_n <- lv_value_count(p)
+    after_n <- if (fs::file_exists(sp)) lv_value_count(sp) else NA_integer_
+    if (!is.na(before_n) && !is.na(after_n) && after_n < before_n) {
+      issues <- lv_issues_bind(issues, lv_issues(
+        check = "write_lost_values", severity = "error",
+        message = sprintf("Staged file holds %d of %d measured values; the table is probably ragged.",
+                          after_n, before_n),
+        dataSetName = dsn, path = f, value = as.character(before_n - after_n)))
+      if (fs::file_exists(sp)) fs::file_delete(sp)
+      skipped <- c(skipped, f); next
+    }
     if (length(got) != nrow(want) || (nrow(want) > 0 && !has_csv)) {
       issues <- lv_issues_bind(issues, lv_issues(
         check = "write_lost_columns", severity = "error",
@@ -590,4 +635,126 @@ lv_ingest_standardize <- function(dir, out, vocab = lv_vocab(), progress = TRUE)
          tibble::tibble(dataSetName = character(), TSid = character(), field = character(),
                         from = character(), to = character(), rule = character()),
        issues = issues, pin = attr(vocab, "pin"))
+}
+
+# Columns that are a time or depth axis rather than data. Hashing them finds
+# nothing: every annually resolved record covering the same span has an
+# identical year column, which produced 58,451 spurious "duplicates" before
+# these were excluded.
+LV_AXIS_VARIABLES <- c("year", "age", "depth", "yearbp", "agebp", "cal age",
+                       "calendar age", "sampleid", "top", "bottom",
+                       "depthtop", "depthbottom")
+
+#' Hash the measurement values of every dataset in a directory
+#'
+#' The only signal that reliably distinguishes "the same record under a
+#' different name" from "a different record at the same site". Metadata does
+#' not: variable-name overlap is 1.00 for three unrelated pollen studies at one
+#' site, and 622 coordinate clusters in the database cover 1,441 datasets
+#' because a site has many cores.
+#'
+#' @param dir Directory of `.lpd` files.
+#' @param cache Cache file, keyed on the directory fingerprint.
+#' @param progress Show progress.
+#' @return A named list of md5 vectors, one entry per dataset.
+#' @export
+lv_value_hashes <- function(dir, cache = NULL, progress = TRUE) {
+  paths <- fs::dir_ls(dir, glob = "*.lpd", type = "file")
+  if (!is.null(cache) && fs::file_exists(cache)) {
+    prior <- readRDS(cache)
+    if (identical(prior$fingerprint, lv_scan(dir)$fingerprint)) return(prior$hashes)
+  }
+  if (progress) cli::cli_alert_info("Hashing measurement values in {length(paths)} file{?s}")
+
+  out <- lapply(paths, function(p) {
+    nm <- tryCatch(utils::unzip(p, list = TRUE)$Name, error = function(e) NULL)
+    j <- grep("jsonld$", nm, value = TRUE)
+    if (!length(j)) return(character())
+    con <- unz(p, j[1])
+    m <- tryCatch(jsonlite::fromJSON(paste(readLines(con, warn = FALSE), collapse = "\n"),
+                                     simplifyVector = FALSE), error = function(e) NULL)
+    close(con)
+    if (is.null(m)) return(character())
+    h <- character()
+    for (blk in c("paleoData", "chronData")) for (pd in m[[blk]]) for (tb in pd$measurementTable) {
+      fn <- as_chr1(tb$filename)
+      if (is.null(fn)) next
+      mem <- nm[basename(nm) == fn]
+      if (!length(mem)) next
+      txt <- tryCatch(readLines(unz(p, mem[1]), warn = FALSE), error = function(e) NULL)
+      if (is.null(txt) || length(txt) < 20) next
+      d <- tryCatch(utils::read.csv(text = paste(txt, collapse = "\n"), header = FALSE,
+                                    check.names = FALSE), error = function(e) NULL)
+      if (is.null(d)) next
+      cols <- if (!is.null(tb$columns)) tb$columns else tb
+      for (cl in cols) {
+        if (!is.list(cl) || is.null(cl$number)) next
+        k <- suppressWarnings(as.integer(unlist(cl$number))[1])
+        if (is.na(k) || k > ncol(d)) next
+        if (tolower(as_chr1(cl$variableName) %||% "") %in% LV_AXIS_VARIABLES) next
+        v <- suppressWarnings(as.numeric(d[[k]])); v <- v[!is.na(v)]
+        if (length(v) < 20) next
+        h <- c(h, digest::digest(paste(sprintf("%.6g", v), collapse = ","),
+                                 algo = "md5", serialize = FALSE))
+      }
+    }
+    unique(h)
+  })
+  names(out) <- sub("\\.lpd$", "", fs::path_file(paths))
+
+  if (!is.null(cache)) {
+    fs::dir_create(fs::path_dir(cache))
+    saveRDS(list(fingerprint = lv_scan(dir)$fingerprint, hashes = out), cache)
+  }
+  out
+}
+
+#' Screen incoming datasets against the database for duplicates
+#'
+#' Reports rather than decides. Every disposition is a recommendation to hand
+#' back to whoever submitted the files.
+#'
+#' @param incoming,existing Named lists from [lv_value_hashes()].
+#' @param index An `lv_index`, to distinguish an update from a new record.
+#' @return A tibble of candidate pairs with a disposition and a recommendation.
+#' @export
+lv_duplicate_screen <- function(incoming, existing, index) {
+  incoming <- incoming[lengths(incoming) > 0]
+  existing <- existing[lengths(existing) > 0]
+  if (!length(incoming) || !length(existing)) return(lv_duplicate_empty())
+
+  a <- tibble::tibble(new = rep(names(incoming), lengths(incoming)), hash = unlist(incoming))
+  b <- tibble::tibble(existing = rep(names(existing), lengths(existing)), hash = unlist(existing))
+  m <- dplyr::inner_join(a, b, by = "hash", relationship = "many-to-many")
+  if (!nrow(m)) return(lv_duplicate_empty())
+
+  m <- dplyr::count(m, new, existing, name = "shared")
+  m$n_new <- lengths(incoming)[m$new]
+  m$n_existing <- lengths(existing)[m$existing]
+  m$containment <- m$shared / pmin(m$n_new, m$n_existing)
+  m$same_name <- m$new == m$existing
+
+  m$disposition <- dplyr::case_when(
+    m$containment >= 1 & m$n_new > m$n_existing ~ "already_present_incoming_has_more",
+    m$containment >= 1                          ~ "already_present",
+    TRUE                                        ~ "partial_overlap")
+  m$recommendation <- dplyr::case_when(
+    m$disposition == "already_present_incoming_has_more" ~ sprintf(
+      "Already in LiPDverse as %s, and this file covers more. Update the existing dataset from it rather than adding a second copy; its TSids and compilation memberships are kept.", m$existing),
+    m$disposition == "already_present" & m$same_name ~ sprintf(
+      "This is an update to %s. Its identifiers are preserved.", m$existing),
+    m$disposition == "already_present" ~ sprintf(
+      "Already in LiPDverse as %s, under a different name. Do not ingest a second copy; add %s to the compilation through the datasetsInCompilation tab instead.", m$existing, m$existing),
+    TRUE ~ sprintf(
+      "Shares %d of %d measurement columns with %s. Add only the columns it does not already have.",
+      m$shared, m$n_existing, m$existing))
+
+  m[order(-m$containment, -m$shared), , drop = FALSE]
+}
+
+lv_duplicate_empty <- function() {
+  tibble::tibble(new = character(), existing = character(), shared = integer(),
+                 n_new = integer(), n_existing = integer(), containment = numeric(),
+                 same_name = logical(), disposition = character(),
+                 recommendation = character())
 }
