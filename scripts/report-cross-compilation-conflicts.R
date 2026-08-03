@@ -44,7 +44,7 @@ dirs <- setdiff(list.dirs(snapdir, recursive = FALSE), file.path(snapdir, "_shar
 
 long <- list()
 for (d in dirs) {
-  f <- file.path(d, "QC.csv")
+  f <- lipdverseUpdater::lv_snapshot_file(d, "QC"); if (is.na(f)) return(NULL)
   if (!file.exists(f)) next
   x <- suppressWarnings(read_csv(f, col_types = cols(.default = col_character()),
                                  progress = FALSE, name_repair = "minimal"))

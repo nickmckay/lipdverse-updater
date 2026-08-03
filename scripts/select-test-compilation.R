@@ -29,7 +29,7 @@ snap <- path.expand("~/GitHub/lipdverse-qcstore/snapshots")
 
 # Compilation membership, from the QC sheets' own membership tabs.
 mem <- bind_rows(lapply(setdiff(list.dirs(snap, recursive = FALSE), file.path(snap, "_shared")), function(d) {
-  f <- file.path(d, "datasetsInCompilation.csv"); if (!file.exists(f)) return(NULL)
+  f <- lipdverseUpdater::lv_snapshot_file(d, "datasetsInCompilation"); if (is.na(f)) return(NULL)
   x <- suppressWarnings(read_csv(f, col_types = cols(.default = col_character()),
                                  progress = FALSE, name_repair = "minimal"))
   x <- x[, !duplicated(names(x)), drop = FALSE]

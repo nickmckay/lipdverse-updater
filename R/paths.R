@@ -58,3 +58,21 @@ lv_secret <- function(name, required = TRUE) {
     i = "Set {.envvar {env}} to a JSON object, or create {.path {f}}."
   ), class = "lv_error_secret")
 }
+
+#' Locate a QC-sheet snapshot tab
+#'
+#' Snapshots are stored gzipped (the largest QC tabs are tens of megabytes and
+#' the cron runs nightly), but older ones are plain CSV. Resolve either, so a
+#' reader never has to care which.
+#'
+#' @param dir A compilation's snapshot directory.
+#' @param tab Tab name, without extension.
+#' @return A path, or `NA_character_` when the tab is absent.
+#' @export
+lv_snapshot_file <- function(dir, tab) {
+  for (ext in c(".csv.gz", ".csv")) {
+    p <- file.path(dir, paste0(tab, ext))
+    if (file.exists(p)) return(p)
+  }
+  NA_character_
+}

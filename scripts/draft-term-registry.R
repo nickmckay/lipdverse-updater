@@ -35,7 +35,7 @@ if (!dir.exists(snapdir)) stop("no snapshots at ", snapdir)
 # ---- convo: the existing QC-column -> timeseries-field mapping -------------
 # Sheet1 is the superset (231 rows) and matches the cached convo.csv; convoR
 # (195) is a strict subset.
-convo <- read_csv(file.path(snapdir, "_shared/convo/Sheet1.csv"),
+convo <- read_csv(lipdverseUpdater::lv_snapshot_file(file.path(snapdir, "_shared/convo"), "Sheet1"),
                   col_types = cols(.default = col_character()), progress = FALSE) |>
   filter(!is.na(qcSheetName), nzchar(qcSheetName)) |>
   distinct(qcSheetName, .keep_all = TRUE)
@@ -44,7 +44,7 @@ convo <- read_csv(file.path(snapdir, "_shared/convo/Sheet1.csv"),
 dirs <- setdiff(list.dirs(snapdir, recursive = FALSE), file.path(snapdir, "_shared"))
 qc <- list()
 for (d in dirs) {
-  f <- file.path(d, "QC.csv")
+  f <- lipdverseUpdater::lv_snapshot_file(d, "QC"); if (is.na(f)) return(NULL)
   if (!file.exists(f)) next
   x <- suppressWarnings(read_csv(f, col_types = cols(.default = col_character()),
                                  progress = FALSE, name_repair = "minimal"))

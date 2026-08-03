@@ -16,6 +16,7 @@
 #   Rscript data-raw/build_qc_fields.R
 
 suppressPackageStartupMessages({library(readr); library(dplyr); library(stringr)})
+suppressMessages(devtools::load_all(dirname(sub("^--file=", "", grep("^--file=", commandArgs(FALSE), value = TRUE)[1])) |> dirname(), quiet = TRUE))
 
 repo    <- normalizePath(file.path(dirname(sub("^--file=", "", grep("^--file=", commandArgs(FALSE), value = TRUE)[1])), ".."))
 qcstore <- Sys.getenv("LIPDVERSE_QCSTORE", path.expand("~/GitHub/lipdverse-qcstore"))
@@ -25,7 +26,7 @@ own   <- rd(file.path(repo, "review/qc-field-ownership.csv"))
 csm   <- rd(file.path(repo, "review/csm-field-names.csv"))
 terms <- rd(file.path(repo, "review/terms-draft.csv"))
 std   <- rd(file.path(repo, "review/lipd key standardization - data.csv"))
-convo <- rd(file.path(qcstore, "snapshots/_shared/convo/Sheet1.csv")) |>
+convo <- rd(lipdverseUpdater::lv_snapshot_file(file.path(qcstore, "snapshots/_shared/convo"), "Sheet1")) |>
   filter(!is.na(qcSheetName)) |> distinct(qcSheetName, .keep_all = TRUE)
 
 take <- function(decision, suggestion) {

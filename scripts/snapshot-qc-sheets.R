@@ -9,8 +9,9 @@
 # the migration input for the QC event store.
 #
 # Snapshots are written to STABLE paths and committed. Git is the history:
-# `git log -p compilations/hydroclimate2k/QC.csv` shows every change to any
-# cell, and `git blame` attributes it. No timestamped directories needed.
+# `git log compilations/hydroclimate2k/QC.csv.gz` shows every change; the files
+# are gzipped because the largest QC tabs are tens of megabytes and this runs
+# nightly. No timestamped directories needed.
 #
 #   ./scripts/snapshot-qc-sheets.R
 #   ./scripts/snapshot-qc-sheets.R --dry-run
@@ -131,7 +132,13 @@ for (i in seq_len(nrow(targets))) {
         sprintf("read %s!%s", comp, tab)
       )
       rows[j] <- nrow(d)
-      write_csv(d, file.path(out_dir, paste0(gsub("[/\\\\]", "_", tab), ".csv")), na = "")
+      # Gzipped: HoloceneHydroclimate's QC tab alone is 73 MB uncommpressed and
+      # LegacyClimate-LiPD 63 MB, and this runs nightly. Every content change
+      # writes a new blob, so plain CSV would push the repo past GitHub's size
+      # guidance within a year. These compress about 10:1, and `git log -p` on a
+      # 73 MB CSV was never usable anyway -- the history is for recovery, not
+      # for reading diffs. readr reads and writes .csv.gz transparently.
+      write_csv(d, file.path(out_dir, paste0(gsub("[/\\\\]", "_", tab), ".csv.gz")), na = "")
     }
 
     jsonline <- sprintf(
