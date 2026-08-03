@@ -197,10 +197,13 @@ test_that("a file whose structure does not match the plan is skipped, not mis-as
   expect_length(fs::dir_ls(out, glob = "*.lpd"), 0)
 })
 
+# Two TSids, not one: validLipd requires at least two variables in a
+# measurement table, so a single-column fixture is not a valid LiPD file and the
+# staged-file gate rightly rejects it.
 test_that("an existing datasetId is left alone", {
   withr::local_envvar(LIPDVERSE_STATE = withr::local_tempdir())
   src <- withr::local_tempdir(); mid <- withr::local_tempdir(); out <- withr::local_tempdir()
-  write_lpd(src, "A.Author.2001", tsids = "T1")
+  write_lpd(src, "A.Author.2001", tsids = c("T1", "T2"))
   L <- lipdR::readLipd(fs::path(src, "A.Author.2001.lpd"))
   L$datasetId <- "KEEP_ME"
   lipdR::writeLipd(L, path = mid, removeNamesFromLists = TRUE)
@@ -253,7 +256,7 @@ vdir <- function(envir = parent.frame(), ...) {
   withr::local_envvar(LIPDVERSE_STATE = withr::local_tempdir(.local_envir = envir),
                       .local_envir = envir)
   d <- withr::local_tempdir(.local_envir = envir)
-  write_lpd(d, "A.Author.2001", tsids = "T1")
+  write_lpd(d, "A.Author.2001", tsids = c("T1", "T2"))
   mods <- list(...)
   if (length(mods)) {
     L <- lipdR::readLipd(fs::path(d, "A.Author.2001.lpd"))
