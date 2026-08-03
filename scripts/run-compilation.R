@@ -87,6 +87,19 @@ state <- qc_plan_state(plan)
 # rewriting them would churn 161 files to no effect.
 write_cells <- plan$cells[plan$cells$resolution == "sheet" &
                           plan$cells$field != "inThisCompilation", , drop = FALSE]
+
+# A curator can type anything into a cell. Quarantine values the files cannot
+# legally hold, rather than letting one of them abort a several-hundred-file
+# promote at the verification gate.
+bad <- lv_validate_values(write_cells)
+if (nrow(bad)) {
+  cat(sprintf("\nrejected    : %d cell%s the files cannot hold\n", nrow(bad),
+              if (nrow(bad) == 1) "" else "s"))
+  print(as.data.frame(bad[, c("check", "TSid", "field", "value")]), right = FALSE)
+  readr::write_csv(bad, file.path(lv_run_dir(run), "rejected-values.csv"), na = "")
+  write_cells <- dplyr::anti_join(write_cells, bad[, c("TSid", "field")],
+                                  by = c("tsid" = "TSid", "field" = "field"))
+}
 cat(sprintf("\nto write    : %d cell%s from the sheet\n", nrow(write_cells),
             if (nrow(write_cells) == 1) "" else "s"))
 

@@ -429,3 +429,33 @@ test_that("curator fields are unaffected by the machine rule", {
   p <- merge3(b, cells("T1", "QC Certification", "B"), b)
   expect_equal(res(p, "T1", "QC Certification")$resolution, "sheet")
 })
+
+# One hydroclimate2k cell held a URL pasted into the latitude column. It reached
+# staging and was caught only by the writer's verification, which aborted a
+# 413-file promote over a single cell.
+test_that("values the files cannot hold are rejected per cell", {
+  reg <- dplyr::bind_rows(
+    test_registry(),
+    tibble::tibble(qc_name = "geo_latitude", role = "merged", ownership = "shared",
+                   nullable_by_curator = "FALSE", ts_name = "geo_latitude",
+                   family = "geo_latitude", cardinality = "dataset", type = "numeric",
+                   vocab_key = NA_character_, canonical = NA_character_,
+                   csm_compilation = NA_character_, csm_field = NA_character_,
+                   csm_flat_key = NA_character_, deprecated = FALSE,
+                   n_compilations = 1L, n_filled = 1L))
+
+  x <- cells("T1", "geo_latitude", "https://example.org/study/22195",
+             "T2", "geo_latitude", "63.227",
+             "T3", "geo_latitude", "412.5")
+  bad <- lv_validate_values(x, reg)
+
+  expect_equal(nrow(bad), 2)
+  expect_setequal(bad$TSid, c("T1", "T3"))
+  expect_setequal(bad$check, c("value_not_numeric", "value_out_of_range"))
+  expect_true(all(bad$severity == "error"))
+})
+
+test_that("a clean cell table produces no issues", {
+  expect_equal(nrow(lv_validate_values(cells("T1", "archiveType", "Coral"))), 0)
+  expect_equal(nrow(lv_validate_values(qc_cells_empty())), 0)
+})

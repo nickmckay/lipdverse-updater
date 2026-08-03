@@ -272,3 +272,50 @@ qc_plan_check <- function(plan, path = NULL) {
   }
   invisible(plan)
 }
+
+#' Check resolved values against what the registry says they are
+#'
+#' A curator can type anything into a sheet cell. Without this, a value the
+#' files cannot legally hold reaches [lv_apply_qc()], gets written into staging,
+#' and is caught only by the writer's verification -- which aborts the whole
+#' run. On hydroclimate2k one cell held a URL pasted into the latitude column,
+#' and it would have blocked a 413-file promote.
+#'
+#' Reporting per cell instead lets the run continue with the other 2,738
+#' changes and hands the curator a specific TSid and field to fix.
+#'
+#' @param cells Resolved cells (`tsid`, `field`, `value`).
+#' @param registry Field registry.
+#' @return An `lv_issues` tibble.
+#' @export
+lv_validate_values <- function(cells, registry = lv_qc_fields()) {
+  if (nrow(cells) == 0) return(lv_issues_empty())
+  i <- match(cells$field, registry$qc_name)
+  type <- registry$type[i]
+  v <- cells$value
+  have <- !is.na(v) & nzchar(v)
+
+  num <- have & type %in% "numeric"
+  bad_num <- num & is.na(suppressWarnings(as.numeric(v)))
+
+  # Range checks for the coordinate fields, which have a defined domain and are
+  # the ones a mis-pasted cell corrupts most visibly.
+  n <- suppressWarnings(as.numeric(v))
+  bad_rng <- rep(FALSE, length(v))
+  lat <- have & cells$field == "geo_latitude" & !is.na(n)
+  lon <- have & cells$field == "geo_longitude" & !is.na(n)
+  bad_rng[lat] <- abs(n[lat]) > 90
+  bad_rng[lon] <- n[lon] < -180 | n[lon] > 360
+
+  bad <- bad_num | bad_rng
+  if (!any(bad)) return(lv_issues_empty())
+
+  lv_issues(
+    check = ifelse(bad_num[bad], "value_not_numeric", "value_out_of_range"),
+    severity = "error",
+    message = ifelse(bad_num[bad],
+                     "Value is not numeric but the field is.",
+                     "Value is outside the field's valid range."),
+    TSid = cells$tsid[bad], field = cells$field[bad], value = v[bad],
+    datasetId = if ("dataset_id" %in% names(cells)) cells$dataset_id[bad] else NA_character_)
+}

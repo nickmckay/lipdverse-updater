@@ -1,8 +1,8 @@
 qc_name,ts_name,family,role,ownership,nullable_by_curator,cardinality,type,vocab_key,canonical,csm_compilation,csm_field,csm_flat_key,deprecated,n_compilations,n_filled
 archiveType,archiveType,archiveType,merged,shared,FALSE,dataset,character,archiveType,,,,,FALSE,18,297030
-geo_elevation,,geo_elevation,merged,shared,FALSE,,,,,,,,FALSE,18,290025
-geo_latitude,,geo_latitude,merged,shared,FALSE,,,,,,,,FALSE,18,297030
-geo_longitude,,geo_longitude,merged,shared,FALSE,,,,,,,,FALSE,18,297030
+geo_elevation,,geo_elevation,merged,shared,FALSE,,numeric,,,,,,FALSE,18,290025
+geo_latitude,,geo_latitude,merged,shared,FALSE,,numeric,,,,,,FALSE,18,297030
+geo_longitude,,geo_longitude,merged,shared,FALSE,,numeric,,,,,,FALSE,18,297030
 geo_siteName,,geo_siteName,merged,shared,FALSE,,,,,,,,FALSE,18,296967
 inCompilationBeta_struct,,inCompilationBeta_struct,merged,machine,FALSE,,,,,,,,FALSE,18,34287
 maxYear,maxYear,maxYear,merged,machine,FALSE,timeseries,numeric,,,,,,FALSE,18,287977

@@ -78,6 +78,12 @@ std_lut <- std |> transmute(n_syn = nz(synonym), disposition, std_canonical = li
   distinct(n_syn, .keep_all = TRUE)
 
 # ---- assemble --------------------------------------------------------------
+# The convo sheet has no type for the coordinate fields, but LiPD itself
+# requires them numeric -- validLipd() rejects a non-numeric latitude. Declaring
+# the type is what lets a bad value be caught in the plan rather than by the
+# writer after 400 files have been staged.
+NUMERIC <- c("geo_latitude", "geo_longitude", "geo_elevation")
+
 VOCAB <- c(paleoData_variableName = "variableName", paleoData_units = "units",
            archiveType = "archiveType", paleoData_proxy = "proxy",
            interpretation_seasonality = "seasonality", interpretation_variable = "interpretationVariable")
@@ -138,7 +144,7 @@ reg <- terms |>
     # A membership field resolves to itself: as a synonym it pointed at the
     # machine-owned inCompilationBeta_struct.
     canonical = ifelse(role == "membership", NA_character_, canonical),
-    type = convo_type,
+    type = ifelse(qc_name %in% NUMERIC, "numeric", convo_type),
     vocab_key = unname(VOCAB[nz(qc_name)]),
     deprecated = role == "delete")
 
