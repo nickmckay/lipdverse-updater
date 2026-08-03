@@ -158,6 +158,29 @@ if (length(staged)) {
 }
 
 
+# ---- version ---------------------------------------------------------------
+#
+# The dataset set is what decides the bump, so it is taken after membership has
+# been applied: a run that admits a timeseries from a dataset already in the
+# compilation changes metadata, not membership.
+
+prev <- lv_version_current(store, comp)
+members_now <- if (length(mres$added) || length(mres$removed)) {
+  idx2 <- lv_db_index(lv_scan(db), cache = TRUE)
+  lv_compilation_timeseries(idx2, comp)
+} else members
+ds_now <- unique(idx$timeseries$dataSetName[idx$timeseries$TSid %in% members_now])
+ds_before <- {
+  m <- fs::path(store$path, "version_datasets.csv")
+  if (!is.null(prev) && fs::file_exists(m)) {
+    v <- readr::read_csv(m, col_types = readr::cols(.default = readr::col_character()),
+                         progress = FALSE)
+    v$dataset[v$compilation == comp & v$version == prev]
+  } else ds_now
+}
+ver <- lv_tick_version(prev, ds_before, ds_now)
+print(ver)
+
 # ---- push the sheet --------------------------------------------------------
 #
 # This is what closes the loop on membership. A dataset the curator set TRUE in
@@ -183,6 +206,10 @@ if (commit) {
   qc_store_append(store, comp, ev, run_id = run)
   cat(sprintf("store       : appended %d event%s\n", nrow(ev),
               if (nrow(ev) == 1) "" else "s"))
+  lv_version_append(store, comp, ver, run_id = run,
+                    db_fingerprint = lv_scan(db)$fingerprint,
+                    qc_state_hash = lv_dataset_set_hash(paste(state$tsid, state$field, state$value)))
+  cat(sprintf("version     : %s\n", ver$version))
   # Full rewrite whenever the shape changes; a patch cannot add rows.
   qc_sheet_push(push_state, bk, cfg$qc_sheet_id, cfg$qc_tabs$qc,
                 mode = if (length(new_rows) || length(new_cols)) "full" else "patch",
@@ -192,6 +219,7 @@ if (commit) {
   n <- nrow(qc_diff_to_events(base, state, source = "sheet"))
   cat(sprintf("store       : would append %d event%s\n", n, if (n == 1) "" else "s"))
   cat("sheet       : would push\n")
+  cat(sprintf("version     : would record %s\n", ver$version))
 }
 
 # ---- invariant: idempotence ------------------------------------------------

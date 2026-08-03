@@ -148,10 +148,48 @@ reg <- terms |>
     vocab_key = unname(VOCAB[nz(qc_name)]),
     deprecated = role == "delete")
 
+# ---- thematic grouping -----------------------------------------------------
+# Taken from the column order of the hydroclimate2k sheet, which is the layout
+# compilation leads already navigate by. Generated sheets sorted alphabetically
+# instead, which is diffable and unreadable.
+lv_group <- function(x) {
+  case_when(
+    x %in% c("TSid", "paleoData_TSid", "dataSetName", "datasetId",
+             "neotomaDatasetId") | grepl("UI$|DatasetId$", x)  ~ "identity",
+    x == "archiveType" | x == "archiveTypeOriginal"     ~ "archive",
+    grepl("^pub[0-9]*_", x) | x == "originalDataUrl"    ~ "publication",
+    grepl("^geo_", x)                                   ~ "geography",
+    x %in% c("minYear", "maxYear", "distinctYearsInCommonEra", "collectionYear",
+             "nUniqueAges", "medianHoloceneResolution", "agesPerKyr",
+             "hasChron", "hasDepth", "datasetVersion")  ~ "chronology",
+    grepl("^climateInterpretation", x)                  ~ "interpretation_climate",
+    grepl("^environmentInterpretation", x)              ~ "interpretation_environment",
+    grepl("^isotopeInterpretation", x)                  ~ "interpretation_isotope",
+    grepl("^[A-Za-z]*[Ii]nterpretation", x) |
+      grepl("^dynamicalSystem", x)                      ~ "interpretation_other",
+    grepl("^calibration_", x)                           ~ "calibration",
+    x %in% c("inThisCompilation", "paleoData_primaryTimeseries",
+             "paleoData_mostRecentCompilations", "lipdverseLink") |
+      grepl("[Cc]ertification|inCompilation", x)        ~ "compilation",
+    x %in% c("paleoData_createdBy", "createdBy", "changelogNotes",
+             "standardizationNotes", "paleoData_notes", "notes",
+             "QCnotes", "tagMD5")                       ~ "provenance",
+    grepl("^paleoData_|^chronData_", x)                 ~ "measurement",
+    TRUE                                                ~ "other")
+}
+
+LV_GROUP_ORDER <- c("identity", "archive", "publication", "geography", "chronology",
+                    "measurement", "interpretation_climate", "interpretation_environment",
+                    "interpretation_isotope", "interpretation_other", "calibration",
+                    "compilation", "provenance", "other")
+
 out <- reg |>
+  mutate(group = lv_group(qc_name),
+         group_order = match(group, LV_GROUP_ORDER)) |>
   transmute(qc_name, ts_name, family, role, ownership, nullable_by_curator,
             cardinality, type, vocab_key, canonical,
             csm_compilation, csm_field, csm_flat_key,
+            group, group_order,
             deprecated, n_compilations, n_filled) |>
   arrange(factor(role, levels = c("merged", "membership", "csm", "key", "synonym", "control", "unused", "delete")),
           desc(n_compilations), qc_name)

@@ -34,6 +34,7 @@ lv_qc_fields <- function(validate = TRUE) {
   x <- readr::read_csv(p, col_types = readr::cols(
     .default = readr::col_character(),
     deprecated = readr::col_logical(),
+    group_order = readr::col_integer(),
     n_compilations = readr::col_integer(),
     n_filled = readr::col_integer()
   ), progress = FALSE)

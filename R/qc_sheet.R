@@ -104,6 +104,44 @@ sheet_write.lv_sheet_google <- function(backend, id, tab, x) {
   invisible(TRUE)
 }
 
+#' Write values into a tab without disturbing its formatting
+#'
+#' `write_sheet()` clears the worksheet and rewrites it, which discards the
+#' colour coding compilation leads navigate by -- 213 of the 222 cells in the
+#' first three rows of the hydroclimate2k QC tab carry a background colour.
+#' `range_write(reformat = FALSE)` overwrites the values in place and leaves the
+#' formatting alone.
+#'
+#' It also does not shrink a sheet, so a frame with fewer rows than the tab
+#' would leave stale rows below it. That case falls back to the clearing write,
+#' because stale data is worse than lost colour.
+#'
+#' @param backend A backend.
+#' @param id Sheet id.
+#' @param tab Tab name.
+#' @param x A data frame.
+#' @export
+sheet_write_values <- function(backend, id, tab, x) UseMethod("sheet_write_values")
+
+#' @export
+sheet_write_values.lv_sheet_local <- function(backend, id, tab, x) sheet_write(backend, id, tab, x)
+
+#' @export
+sheet_write_values.lv_sheet_google <- function(backend, id, tab, x) {
+  sheet_auth(backend)
+  cur <- tryCatch(sheet_read(backend, id, tab), error = function(e) NULL)
+  shrinks <- !is.null(cur) && (nrow(x) < nrow(cur) || ncol(x) < ncol(cur))
+  if (shrinks) {
+    cli::cli_alert_warning(
+      "New tab is smaller than the existing one; clearing and rewriting, which drops formatting.")
+    return(sheet_write(backend, id, tab, x))
+  }
+  with_retry(googlesheets4::range_write(id, data = x, sheet = tab, range = "A1",
+                                        col_names = TRUE, reformat = FALSE),
+             paste("range_write", id, tab))
+  invisible(TRUE)
+}
+
 #' Create a new sheet
 #'
 #' A new compilation needs a new QC sheet, and making it by hand is how tab
@@ -219,6 +257,9 @@ qc_cells_to_sheet <- function(cells, registry = lv_qc_fields(), template = NULL)
     keep <- intersect(names(template), names(wide))
     extra <- setdiff(names(wide), keep)
     wide <- wide[, c(keep, extra), drop = FALSE]
+  } else {
+    wide <- wide[, c("TSid", lv_sheet_column_order(setdiff(names(wide), "TSid"), registry)),
+                 drop = FALSE]
   }
   wide
 }
@@ -253,6 +294,93 @@ qc_sheet_push <- function(cells, backend, id, tab = "QC", mode = c("patch", "ful
 
   template <- tryCatch(sheet_read(backend, id, tab), error = function(e) NULL)
   wide <- qc_cells_to_sheet(cells, registry, template)
-  sheet_write(backend, id, tab, wide)
+  # Values only: the QC tab's colour coding is how leads find their way around
+  # it, and rewriting the worksheet would discard it.
+  sheet_write_values(backend, id, tab, wide)
   invisible(receipt)
+}
+
+#' Order sheet columns thematically
+#'
+#' Alphabetical order is diffable and unreadable. This is the grouping the
+#' hydroclimate2k sheet already uses -- identity, archive, publication,
+#' geography, chronology, measurement, then each interpretation scope, then
+#' compilation and provenance -- taken from the registry so the layout is data
+#' rather than code.
+#'
+#' @param field Display names, without TSid.
+#' @param registry Field registry.
+#' @return `field`, reordered.
+#' @export
+lv_sheet_column_order <- function(field, registry = lv_qc_fields()) {
+  canon <- lv_canonical_field(field, registry)
+  i <- match(canon, registry$qc_name)
+  ord <- registry$group_order[i]
+  # Anything the registry does not place goes last rather than first, so an
+  # unrecognised column never displaces the identity columns.
+  ord[is.na(ord)] <- max(registry$group_order, na.rm = TRUE) + 1L
+  field[order(ord, field)]
+}
+
+#' Colour the header of each thematic group
+#'
+#' hydroclimate2k's sheet is colour-coded by hand and leads navigate by it; a
+#' generated sheet that drops the colour is harder to use than the one it
+#' replaces. Applied to the header row only, so no curator's own cell colouring
+#' is disturbed.
+#'
+#' @param backend A sheet backend.
+#' @param id Sheet id.
+#' @param tab Tab name.
+#' @param registry Field registry.
+#' @param dry_run Report the ranges without writing.
+#' @return A tibble of group, columns and colour, invisibly.
+#' @export
+qc_sheet_colour_groups <- function(backend, id, tab = "QC", registry = lv_qc_fields(),
+                                   dry_run = TRUE) {
+  hdr <- names(sheet_read(backend, id, tab))
+  canon <- lv_canonical_field(hdr, registry)
+  grp <- registry$group[match(canon, registry$qc_name)]
+  grp[is.na(grp)] <- "other"
+
+  pal <- c(identity = "#D9D2E9", archive = "#D9EAD3", publication = "#FFF2CC",
+           geography = "#D0E0E3", chronology = "#CFE2F3", measurement = "#F4CCCC",
+           interpretation_climate = "#FCE5CD", interpretation_environment = "#D9EAD3",
+           interpretation_isotope = "#EAD1DC", interpretation_other = "#EFEFEF",
+           calibration = "#FFF2CC", compilation = "#C9DAF8", provenance = "#EFEFEF",
+           other = "#FFFFFF")
+
+  # Contiguous runs of one group become one range, so a 75-column sheet is a
+  # dozen requests rather than 75.
+  r <- rle(grp)
+  ends <- cumsum(r$lengths); starts <- ends - r$lengths + 1L
+  out <- tibble::tibble(group = r$values, from = starts, to = ends,
+                        colour = unname(pal[r$values]))
+  out$range <- sprintf("%s!%s1:%s1", tab, lv_col_letter(out$from), lv_col_letter(out$to))
+
+  if (!dry_run) {
+    for (i in seq_len(nrow(out))) {
+      googlesheets4::range_flood(id, sheet = tab,
+                                 range = sprintf("%s1:%s1", lv_col_letter(out$from[i]),
+                                                 lv_col_letter(out$to[i])),
+                                 cell = googlesheets4::cell_limits(),
+                                 reformat = TRUE)
+    }
+  }
+  invisible(out)
+}
+
+#' Spreadsheet column letter for a 1-based index
+#' @param i Column index.
+#' @export
+lv_col_letter <- function(i) {
+  vapply(i, function(k) {
+    s <- ""
+    while (k > 0) {
+      r <- (k - 1L) %% 26L
+      s <- paste0(LETTERS[r + 1L], s)
+      k <- (k - 1L) %/% 26L
+    }
+    s
+  }, character(1))
 }

@@ -126,3 +126,39 @@ test_that("the shipped registry has one row per qc_name", {
   x <- lv_qc_fields(validate = FALSE)
   expect_equal(anyDuplicated(x$qc_name), 0)
 })
+
+# Generated sheets sorted alphabetically, which is diffable and unreadable. The
+# grouping is the one hydroclimate2k already uses, taken from the registry so
+# the layout is data rather than code.
+test_that("sheet columns order thematically, identity first", {
+  r <- lv_qc_fields()
+  f <- c("paleoData_units", "pub1_doi", "geo_latitude", "archiveType",
+         "inThisCompilation", "minYear", "dataSetName")
+  got <- lv_sheet_column_order(f, r)
+  expect_equal(got[1], "dataSetName")
+  expect_lt(match("archiveType", got), match("pub1_doi", got))
+  expect_lt(match("pub1_doi", got), match("geo_latitude", got))
+  expect_lt(match("geo_latitude", got), match("minYear", got))
+  expect_lt(match("minYear", got), match("paleoData_units", got))
+  expect_equal(got[length(got)], "inThisCompilation")
+})
+
+test_that("a field the registry does not know goes last, not first", {
+  r <- lv_qc_fields()
+  got <- lv_sheet_column_order(c("somethingNew", "archiveType", "dataSetName"), r)
+  expect_equal(got[length(got)], "somethingNew")
+  expect_equal(got[1], "dataSetName")
+})
+
+test_that("every merged field has a group", {
+  r <- lv_qc_fields()
+  m <- r[r$role %in% c("merged", "key", "membership"), ]
+  expect_false(any(is.na(m$group)))
+  expect_false(any(is.na(m$group_order)))
+  # group_order must be numeric, or "10" sorts before "2".
+  expect_type(r$group_order, "integer")
+})
+
+test_that("column letters follow the spreadsheet convention past Z", {
+  expect_equal(lv_col_letter(c(1, 26, 27, 52, 53, 75)), c("A", "Z", "AA", "AZ", "BA", "BW"))
+})
