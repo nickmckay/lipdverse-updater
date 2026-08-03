@@ -176,3 +176,154 @@ lv_ingest_issues <- function(plan) {
     dataSetName = bad$dataSetName, TSid = bad$TSid,
     field = bad$variableName, path = bad$file)
 }
+
+#' Walk a LiPD object's columns in the same order as [lv_ingest_scan()]
+#' @keywords internal
+lv_ingest_walk <- function(L) {
+  out <- list()
+  for (blk in c("paleoData", "chronData")) {
+    for (pi in seq_along(L[[blk]])) {
+      meas <- L[[blk]][[pi]]$measurementTable
+      modl <- unlist(lapply(L[[blk]][[pi]]$model, function(md) {
+        c(md$summaryTable, md$ensembleTable, md$distributionTable)
+      }), recursive = FALSE)
+      tabs <- c(meas, modl)
+      for (ti in seq_along(tabs)) {
+        tb <- tabs[[ti]]
+        if (!is.list(tb)) next
+        cols <- if (!is.null(tb$columns)) tb$columns else tb
+        for (cn in seq_along(cols)) {
+          cl <- cols[[cn]]
+          if (!is.list(cl) || is.null(cl$variableName)) next
+          out[[length(out) + 1L]] <- list(
+            blk = blk, pi = pi, ti = ti, n_meas = length(meas),
+            name = if (!is.null(names(cols))) names(cols)[cn] else NA_character_,
+            idx = cn, has_columns = !is.null(tb$columns),
+            variableName = as_chr1(cl$variableName))
+        }
+      }
+    }
+  }
+  out
+}
+
+#' Write the resolved identity into staged copies of the incoming files
+#'
+#' Never writes in place. Assigns the TSids from [lv_ingest_identity()] and a
+#' `datasetId` to any file lacking one, then stages for [lv_promote()].
+#'
+#' Columns are matched by position within a deterministic walk, because
+#' `variableName` is not unique inside a table -- one incoming file carries four
+#' `d13C` columns and five `d2H`. The walk is verified against the plan before
+#' anything is assigned, so a file whose structure does not line up is reported
+#' and skipped rather than silently mis-assigned.
+#'
+#' @param plan From [lv_ingest_identity()].
+#' @param dir Directory holding the incoming files.
+#' @param out Staging directory.
+#' @param index An `lv_index`, so a minted `datasetId` cannot collide.
+#' @param progress Show progress.
+#' @return A list of `staged` files, `skipped`, and `issues`.
+#' @export
+lv_ingest_apply <- function(plan, dir, out, index, progress = TRUE) {
+  if (missing(out)) cli::cli_abort("{.arg out} is required; this never writes in place.")
+  fs::dir_create(out)
+  plan <- plan[plan$action != "error", , drop = FALSE]
+  files <- unique(plan$file)
+  if (progress) cli::cli_alert_info("Applying identity to {length(files)} file{?s}")
+
+  taken_ds <- unique(stats::na.omit(index$datasets$datasetId))
+  issues <- lv_issues_empty()
+  staged <- character(); skipped <- character()
+
+  for (f in files) {
+    p <- fs::path(dir, f)
+    L <- tryCatch(suppressWarnings(lipdR::readLipd(p)), error = function(e) NULL)
+    if (is.null(L)) {
+      issues <- lv_issues_bind(issues, lv_issues(
+        check = "unreadable", severity = "error",
+        message = "Could not read the incoming file.", path = f))
+      skipped <- c(skipped, f); next
+    }
+
+    want <- plan[plan$file == f, , drop = FALSE]
+    walk <- lv_ingest_walk(L)
+    # The guard that makes positional assignment safe. One real submission
+    # declares 13 columns but leaves the table's filename empty, so readLipd
+    # returns none of them; assigning positionally there would be nonsense.
+    if (length(walk) != nrow(want) ||
+        !identical(vapply(walk, function(w) w$variableName %||% NA_character_, character(1)),
+                   want$variableName)) {
+      issues <- lv_issues_bind(issues, lv_issues(
+        check = "structure_mismatch", severity = "error",
+        message = sprintf("Metadata declares %d columns but the file yields %d; not staged.",
+                          nrow(want), length(walk)),
+        dataSetName = want$dataSetName[1], path = f))
+      skipped <- c(skipped, f); next
+    }
+
+    for (i in seq_along(walk)) {
+      w <- walk[[i]]
+      tsid <- want$new_TSid[i]
+      if (is.na(tsid)) next
+      if (w$ti <= w$n_meas) {
+        tb <- L[[w$blk]][[w$pi]]$measurementTable[[w$ti]]
+        if (w$has_columns) tb$columns[[w$idx]]$TSid <- tsid else tb[[w$name]]$TSid <- tsid
+        L[[w$blk]][[w$pi]]$measurementTable[[w$ti]] <- tb
+      } else {
+        # Model tables are nested a level deeper; find the same flat position.
+        k <- w$ti - w$n_meas
+        seen <- 0L
+        for (mi in seq_along(L[[w$blk]][[w$pi]]$model)) {
+          md <- L[[w$blk]][[w$pi]]$model[[mi]]
+          for (slot in c("summaryTable", "ensembleTable", "distributionTable")) {
+            for (si in seq_along(md[[slot]])) {
+              seen <- seen + 1L
+              if (seen != k) next
+              tb <- md[[slot]][[si]]
+              if (w$has_columns) tb$columns[[w$idx]]$TSid <- tsid else tb[[w$name]]$TSid <- tsid
+              L[[w$blk]][[w$pi]]$model[[mi]][[slot]][[si]] <- tb
+            }
+          }
+        }
+      }
+    }
+
+    if (is.null(L$datasetId) || is.na(as_chr1(L$datasetId) %||% NA_character_)) {
+      repeat {
+        id <- lipdR::createDatasetId()
+        if (!id %in% taken_ds) break
+      }
+      taken_ds <- c(taken_ds, id)
+      L$datasetId <- id
+    }
+
+    lipdR::writeLipd(L, path = out, removeNamesFromLists = TRUE)
+
+    # Verify by re-reading, because the loss can happen on write. One submission
+    # leaves its measurement table's filename empty: readLipd returns all 13
+    # columns of metadata but no values, and writeLipd then emits a dataset with
+    # one column and no CSV member at all -- 2 KB where a dataset should be.
+    # Checking the plan against the read would never catch that.
+    dsn <- as_chr1(L$dataSetName) %||% sub("\\.lpd$", "", f)
+    sp <- fs::path(out, paste0(dsn, ".lpd"))
+    back <- if (fs::file_exists(sp)) tryCatch(suppressWarnings(lipdR::readLipd(sp)),
+                                              error = function(e) NULL) else NULL
+    got <- if (is.null(back)) list() else lv_ingest_walk(back)
+    has_csv <- fs::file_exists(sp) &&
+      any(grepl("[.]csv$", tryCatch(utils::unzip(sp, list = TRUE)$Name, error = function(e) character())))
+    if (length(got) != nrow(want) || (nrow(want) > 0 && !has_csv)) {
+      issues <- lv_issues_bind(issues, lv_issues(
+        check = "write_lost_columns", severity = "error",
+        message = sprintf("Staged file has %d of %d columns%s; not usable.",
+                          length(got), nrow(want),
+                          if (!has_csv) " and no data file" else ""),
+        dataSetName = dsn, path = f))
+      if (fs::file_exists(sp)) fs::file_delete(sp)
+      skipped <- c(skipped, f); next
+    }
+    staged <- c(staged, f)
+  }
+
+  list(staged = staged, skipped = skipped, issues = issues)
+}
