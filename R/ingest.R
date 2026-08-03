@@ -357,6 +357,18 @@ lv_ingest_apply <- function(plan, dir, out, index, progress = TRUE) {
       if (fs::file_exists(sp)) fs::file_delete(sp)
       skipped <- c(skipped, f); next
     }
+    # The same gate the database writer applies, run here so one malformed
+    # submission is excluded and reported rather than aborting the promote of
+    # every other file in the batch. Shijiazhuang.Ge.2005 has non-numeric age
+    # values and fails validLipd.
+    bad <- lv_verify_file(sp, expect_name = dsn)
+    if (nrow(bad)) {
+      issues <- lv_issues_bind(issues, lv_issues(
+        check = bad$check, severity = "error", message = bad$message,
+        dataSetName = dsn, path = f))
+      if (fs::file_exists(sp)) fs::file_delete(sp)
+      skipped <- c(skipped, f); next
+    }
     if (length(got) != nrow(want) || (nrow(want) > 0 && !has_csv)) {
       issues <- lv_issues_bind(issues, lv_issues(
         check = "write_lost_columns", severity = "error",
