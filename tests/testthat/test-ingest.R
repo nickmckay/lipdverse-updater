@@ -242,3 +242,130 @@ test_that("staged output is verified against the plan after writing", {
   expect_equal(length(lv_ingest_walk(lipdR::readLipd(f))), nrow(plan))
   expect_true(any(grepl("[.]csv$", utils::unzip(f, list = TRUE)$Name)))
 })
+
+# ---- the name and metadata gate --------------------------------------------
+#
+# Severity is calibrated against the live database, not an ideal: Site.Author.YYYY
+# covers 82% of the 7,177 datasets, so a non-conforming name warns; every dataset
+# has an archiveType and coordinates, so their absence is an error.
+
+vdir <- function(envir = parent.frame(), ...) {
+  withr::local_envvar(LIPDVERSE_STATE = withr::local_tempdir(.local_envir = envir),
+                      .local_envir = envir)
+  d <- withr::local_tempdir(.local_envir = envir)
+  write_lpd(d, "A.Author.2001", tsids = "T1")
+  mods <- list(...)
+  if (length(mods)) {
+    L <- lipdR::readLipd(fs::path(d, "A.Author.2001.lpd"))
+    for (nm in names(mods)) {
+      if (nm == "dataSetName") L$dataSetName <- mods[[nm]]
+      else if (nm == "archiveType") L$archiveType <- mods[[nm]]
+      else if (nm == "lat") L$geo$latitude <- mods[[nm]]
+      else if (nm == "lon") L$geo$longitude <- mods[[nm]]
+      else if (nm == "pub") L$pub <- mods[[nm]]
+    }
+    out <- withr::local_tempdir(.local_envir = envir)
+    lipdR::writeLipd(L, path = out, removeNamesFromLists = TRUE)
+    return(out)
+  }
+  d
+}
+
+checks <- function(dir, index) lv_ingest_validate(dir, index, progress = FALSE)$check
+
+test_that("a well-formed submission produces no errors", {
+  d <- vdir()
+  idx <- lv_db_index(lv_scan(d, cache = FALSE), cache = FALSE)
+  # Compare against an empty database so the file is not its own collision.
+  empty <- idx; empty$datasets <- idx$datasets[0, ]; empty$timeseries <- idx$timeseries[0, ]
+  iss <- lv_ingest_validate(d, empty, progress = FALSE)
+  expect_equal(sum(iss$severity == "error"), 0)
+})
+
+test_that("a placeholder name is an error", {
+  d <- vdir(dataSetName = "SomeLake.lastname.year")
+  idx <- lv_db_index(lv_scan(d, cache = FALSE), cache = FALSE)
+  empty <- idx; empty$datasets <- idx$datasets[0, ]; empty$timeseries <- idx$timeseries[0, ]
+  iss <- lv_ingest_validate(d, empty, progress = FALSE)
+  expect_true("name_placeholder" %in% iss$check)
+  expect_equal(iss$severity[iss$check == "name_placeholder"], "error")
+})
+
+test_that("a short code warns but does not block", {
+  d <- vdir(dataSetName = "AB08MEN01")
+  idx <- lv_db_index(lv_scan(d, cache = FALSE), cache = FALSE)
+  empty <- idx; empty$datasets <- idx$datasets[0, ]; empty$timeseries <- idx$timeseries[0, ]
+  iss <- lv_ingest_validate(d, empty, progress = FALSE)
+  expect_true("name_not_conventional" %in% iss$check)
+  expect_equal(sum(iss$severity == "error"), 0)
+})
+
+test_that("spaces and non-ASCII warn", {
+  d <- vdir(dataSetName = "Hercules Névé accumulation")
+  idx <- lv_db_index(lv_scan(d, cache = FALSE), cache = FALSE)
+  empty <- idx; empty$datasets <- idx$datasets[0, ]; empty$timeseries <- idx$timeseries[0, ]
+  iss <- lv_ingest_validate(d, empty, progress = FALSE)
+  expect_true(all(c("name_has_space", "name_non_ascii") %in% iss$check))
+  expect_equal(sum(iss$severity == "error"), 0)
+})
+
+test_that("a name belonging to a different dataset is a collision, but an update is not", {
+  d <- vdir()
+  idx <- lv_db_index(lv_scan(d, cache = FALSE), cache = FALSE)
+
+  # Same name, different datasetId in the database: two records would share a name.
+  other <- idx
+  other$datasets$datasetId <- "SOMETHING_ELSE"
+  L <- lipdR::readLipd(fs::path(d, "A.Author.2001.lpd"))
+  L$datasetId <- "MINE"
+  d2 <- withr::local_tempdir(); lipdR::writeLipd(L, path = d2, removeNamesFromLists = TRUE)
+  iss <- lv_ingest_validate(d2, other, progress = FALSE)
+  expect_true("name_collision" %in% iss$check)
+  expect_equal(iss$severity[iss$check == "name_collision"], "error")
+
+  # Same name, same datasetId: an update.
+  same <- idx; same$datasets$datasetId <- "MINE"
+  iss2 <- lv_ingest_validate(d2, same, progress = FALSE)
+  expect_true("name_existing_update" %in% iss2$check)
+  expect_equal(sum(iss2$severity == "error"), 0)
+})
+
+test_that("missing archiveType or coordinates is an error", {
+  d <- vdir()
+  idx <- lv_db_index(lv_scan(d, cache = FALSE), cache = FALSE)
+  empty <- idx; empty$datasets <- idx$datasets[0, ]; empty$timeseries <- idx$timeseries[0, ]
+
+  L <- lipdR::readLipd(fs::path(d, "A.Author.2001.lpd"))
+  L$archiveType <- NULL
+  d2 <- withr::local_tempdir(); lipdR::writeLipd(L, path = d2, removeNamesFromLists = TRUE)
+  expect_true("archiveType_missing" %in% checks(d2, empty))
+
+  L2 <- lipdR::readLipd(fs::path(d, "A.Author.2001.lpd"))
+  L2$geo <- list(siteName = "Nowhere")
+  d3 <- withr::local_tempdir(); lipdR::writeLipd(L2, path = d3, removeNamesFromLists = TRUE)
+  expect_true("coordinates_missing" %in% checks(d3, empty))
+})
+
+test_that("an out-of-range latitude is an error", {
+  d <- vdir(lat = 412.5)
+  idx <- lv_db_index(lv_scan(d, cache = FALSE), cache = FALSE)
+  empty <- idx; empty$datasets <- idx$datasets[0, ]; empty$timeseries <- idx$timeseries[0, ]
+  iss <- lv_ingest_validate(d, empty, progress = FALSE)
+  expect_true("latitude_out_of_range" %in% iss$check)
+  expect_equal(iss$severity[iss$check == "latitude_out_of_range"], "error")
+})
+
+# writeLipd names its output from dataSetName, so a file arrives as one name and
+# lands as another. Not an error -- every database dataset satisfies
+# dataSetName == filename -- but it should be said out loud.
+test_that("a dataSetName that disagrees with the filename is reported as info", {
+  d <- vdir(dataSetName = "Different.Name.2020")
+  idx <- lv_db_index(lv_scan(d, cache = FALSE), cache = FALSE)
+  empty <- idx; empty$datasets <- idx$datasets[0, ]; empty$timeseries <- idx$timeseries[0, ]
+  # writeLipd always names its output from dataSetName, so the disagreement can
+  # only arrive from outside -- which is how the real submissions arrive.
+  fs::file_move(fs::path(d, "Different.Name.2020.lpd"), fs::path(d, "Arrived.As.2019.lpd"))
+  iss <- lv_ingest_validate(d, empty, progress = FALSE)
+  expect_true("name_file_mismatch" %in% iss$check)
+  expect_equal(iss$severity[iss$check == "name_file_mismatch"], "info")
+})

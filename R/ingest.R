@@ -327,3 +327,152 @@ lv_ingest_apply <- function(plan, dir, out, index, progress = TRUE) {
 
   list(staged = staged, skipped = skipped, issues = issues)
 }
+
+# Names that are clearly a template left unfilled. `author.1111` and
+# `lastname.year` are both present in the live database, 139 datasets between
+# them, so this is not hypothetical.
+#
+# `author` on its own is deliberately not here. It occupies the surname slot of
+# the convention, so matching it flags any dataset whose author is actually
+# named Author -- and `X.author.1111` is caught anyway by its impossible year.
+LV_NAME_PLACEHOLDER <- "(^|[.])(lastname|firstname|unknown|tbd|xxx)([.]|$)|[.]year$"
+
+#' Validate incoming names and metadata before they enter LiPDverse
+#'
+#' Severity is calibrated against the live database rather than an ideal, so the
+#' gate rejects what LiPDverse genuinely does not contain and merely reports what
+#' it contains but would rather not:
+#'
+#' * `Site.Author.YYYY` covers 82% of the database, not all of it — the rest are
+#'   legitimate short codes like `AB08MEN01`. A non-conforming name is a warning.
+#' * Every one of the 7,177 datasets has an `archiveType` and coordinates, so
+#'   their absence is an error.
+#' * An implausible year is an error even though 107 existing datasets fail it.
+#'   They exist because there was no gate; using them to justify admitting more
+#'   would be circular.
+#' * No dataset name contains a filesystem-hostile character, so that is an
+#'   error. Spaces and non-ASCII do occur (7 and 15 datasets), so they warn.
+#'
+#' `writeLipd()` names its output from `dataSetName`, not from the incoming
+#' filename, and every dataset in the database satisfies `dataSetName == file`.
+#' So a disagreement is not an error, but it does mean the file lands under a
+#' different name than it arrived with, which is worth saying out loud.
+#'
+#' @param dir Directory of incoming `.lpd` files.
+#' @param index An `lv_index` of the live database.
+#' @param progress Show progress.
+#' @return An `lv_issues` tibble.
+#' @export
+lv_ingest_validate <- function(dir, index, progress = TRUE) {
+  paths <- fs::dir_ls(dir, glob = "*.lpd", type = "file")
+  if (progress) cli::cli_alert_info("Validating {length(paths)} incoming file{?s}")
+  issues <- lv_issues_empty()
+  add <- function(check, severity, message, file, dsn = NA_character_, value = NA_character_) {
+    issues <<- lv_issues_bind(issues, lv_issues(
+      check = check, severity = severity, message = message,
+      dataSetName = dsn, value = value, path = file))
+  }
+
+  for (p in paths) {
+    f <- fs::path_file(p)
+    nm <- tryCatch(utils::unzip(p, list = TRUE)$Name, error = function(e) NULL)
+    j <- grep("jsonld$", nm, value = TRUE)
+    if (!length(j)) { add("unreadable", "error", "No jsonld member.", f); next }
+    con <- unz(p, j[1])
+    m <- tryCatch(jsonlite::fromJSON(paste(readLines(con, warn = FALSE), collapse = "\n"),
+                                     simplifyVector = FALSE), error = function(e) NULL)
+    close(con)
+    if (is.null(m)) { add("unreadable", "error", "Unparseable jsonld.", f); next }
+
+    dsn <- as_chr1(m$dataSetName) %||% NA_character_
+
+    # ---- the name ----------------------------------------------------------
+    if (is.na(dsn) || !nzchar(dsn)) {
+      add("name_missing", "error", "No dataSetName; the file cannot be named.", f)
+    } else {
+      if (grepl("[/\\:*?\"<>|]", dsn)) {
+        add("name_illegal_characters", "error",
+            "dataSetName contains characters that cannot appear in a filename.", f, dsn, dsn)
+      }
+      if (grepl(LV_NAME_PLACEHOLDER, dsn, ignore.case = TRUE)) {
+        add("name_placeholder", "error",
+            "dataSetName still contains a template placeholder.", f, dsn, dsn)
+      }
+      if (grepl(" ", dsn)) {
+        add("name_has_space", "warn",
+            "dataSetName contains a space; LiPDverse names do not, by convention.", f, dsn, dsn)
+      }
+      if (grepl("[^ -~]", dsn)) {
+        add("name_non_ascii", "warn",
+            "dataSetName contains non-ASCII characters, which travel badly through URLs and sheets.",
+            f, dsn, dsn)
+      }
+      if (!grepl("^[A-Za-z0-9_-]+[.][A-Za-z0-9_-]+[.][0-9]{4}$", dsn)) {
+        add("name_not_conventional", "warn",
+            "dataSetName is not Site.Author.YYYY. Legitimate for a short code, otherwise worth fixing.",
+            f, dsn, dsn)
+      }
+      yr <- suppressWarnings(as.integer(sub("^.*[.]", "", dsn)))
+      if (grepl("[.][0-9]{4}$", dsn) && (is.na(yr) || yr < 1500 || yr > 2030)) {
+        # An error, not a warning, even though 107 datasets in the database
+        # already fail it -- almost all of them `.1111`, the placeholder year.
+        # Those exist because there was no gate; using them to justify letting
+        # more through would be circular.
+        add("name_year_implausible", "error",
+            "The year in dataSetName is outside 1500-2030, which usually means a template placeholder.",
+            f, dsn, as.character(yr))
+      }
+      if (!identical(paste0(dsn, ".lpd"), f)) {
+        add("name_file_mismatch", "info",
+            sprintf("Will be written as %s.lpd, not %s.", dsn, f), f, dsn, dsn)
+      }
+      # A name already in LiPDverse is only acceptable when this file is that
+      # dataset; otherwise two different records would share a name.
+      hit <- match(dsn, index$datasets$fileDataSetName)
+      if (!is.na(hit)) {
+        did <- as_chr1(m$datasetId) %||% NA_character_
+        if (is.na(did) || identical(did, index$datasets$datasetId[hit])) {
+          add("name_existing_update", "info",
+              "Matches an existing dataset; will be treated as an update.", f, dsn, dsn)
+        } else {
+          add("name_collision", "error",
+              "dataSetName already belongs to a different dataset in LiPDverse.", f, dsn,
+              index$datasets$datasetId[hit])
+        }
+      }
+    }
+
+    # ---- required metadata -------------------------------------------------
+    if (is.null(as_chr1(m$archiveType))) {
+      add("archiveType_missing", "error",
+          "No archiveType. Every dataset in LiPDverse has one.", f, dsn)
+    }
+    # Coordinates live in GeoJSON in the database, but a submission may put them
+    # directly on geo. Accept either rather than reporting a file as having no
+    # position when it plainly does.
+    # Always length one: an absent key unlists to NULL, and is.na(numeric(0))
+    # is logical(0), which makes the guard below error rather than report.
+    num <- function(x) {
+      v <- suppressWarnings(as.numeric(unlist(x)[1]))
+      if (length(v) != 1) NA_real_ else v
+    }
+    co <- m$geo$geometry$coordinates
+    lon <- if (length(co) >= 1) num(co[1]) else num(m$geo$longitude)
+    lat <- if (length(co) >= 2) num(co[2]) else num(m$geo$latitude)
+    if (is.na(lat) || is.na(lon)) {
+      add("coordinates_missing", "error",
+          "No usable coordinates. Every dataset in LiPDverse has them.", f, dsn)
+    } else {
+      if (abs(lat) > 90) {
+        add("latitude_out_of_range", "error", "Latitude is outside -90 to 90.", f, dsn, as.character(lat))
+      }
+      if (lon < -180 || lon > 360) {
+        add("longitude_out_of_range", "error", "Longitude is outside -180 to 360.", f, dsn, as.character(lon))
+      }
+    }
+    if (!length(m$pub)) {
+      add("no_publication", "warn", "No publication recorded.", f, dsn)
+    }
+  }
+  issues
+}

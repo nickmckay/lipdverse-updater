@@ -1,0 +1,61 @@
+check,severity,message,datasetId,dataSetName,TSid,field,value,path
+name_has_space,warn,"dataSetName contains a space; LiPDverse names do not, by convention.",,31Dpt ice core snow accumulation rate,,,31Dpt ice core snow accumulation rate,31Dpt.Frezzotti.2007.lpd
+name_not_conventional,warn,"dataSetName is not Site.Author.YYYY. Legitimate for a short code, otherwise worth fixing.",,31Dpt ice core snow accumulation rate,,,31Dpt ice core snow accumulation rate,31Dpt.Frezzotti.2007.lpd
+name_file_mismatch,info,"Will be written as 31Dpt ice core snow accumulation rate.lpd, not 31Dpt.Frezzotti.2007.lpd.",,31Dpt ice core snow accumulation rate,,,31Dpt ice core snow accumulation rate,31Dpt.Frezzotti.2007.lpd
+no_publication,warn,No publication recorded.,,Bidoup.Buckley.2010,,,,Bidoup.Buckley.2010.lpd
+name_non_ascii,warn,"dataSetName contains non-ASCII characters, which travel badly through URLs and sheets.",,Bohemia.Dobrovolný.2018,,,Bohemia.Dobrovolný.2018,Bohemia.Dobrovolný.2018.lpd
+name_not_conventional,warn,"dataSetName is not Site.Author.YYYY. Legitimate for a short code, otherwise worth fixing.",,Bohemia.Dobrovolný.2018,,,Bohemia.Dobrovolný.2018,Bohemia.Dobrovolný.2018.lpd
+name_non_ascii,warn,"dataSetName contains non-ASCII characters, which travel badly through URLs and sheets.",,CentralEurope.Büntgen.2011,,,CentralEurope.Büntgen.2011,CentralEurope.Büntgen.2011.lpd
+name_not_conventional,warn,"dataSetName is not Site.Author.YYYY. Legitimate for a short code, otherwise worth fixing.",,CentralEurope.Büntgen.2011,,,CentralEurope.Büntgen.2011,CentralEurope.Büntgen.2011.lpd
+name_non_ascii,warn,"dataSetName contains non-ASCII characters, which travel badly through URLs and sheets.",,CentralGermany.Büntgen.2010,,,CentralGermany.Büntgen.2010,CentralGermany.Büntgen.2010.lpd
+name_not_conventional,warn,"dataSetName is not Site.Author.YYYY. Legitimate for a short code, otherwise worth fixing.",,CentralGermany.Büntgen.2010,,,CentralGermany.Büntgen.2010,CentralGermany.Büntgen.2010.lpd
+no_publication,warn,No publication recorded.,,ChinHills.Rao.2020,,,,ChinHills.Rao.2020.lpd
+name_has_space,warn,"dataSetName contains a space; LiPDverse names do not, by convention.",,D66 ice core snow accumulation rate,,,D66 ice core snow accumulation rate,D66.Frezzotti.2013.lpd
+name_not_conventional,warn,"dataSetName is not Site.Author.YYYY. Legitimate for a short code, otherwise worth fixing.",,D66 ice core snow accumulation rate,,,D66 ice core snow accumulation rate,D66.Frezzotti.2013.lpd
+name_file_mismatch,info,"Will be written as D66 ice core snow accumulation rate.lpd, not D66.Frezzotti.2013.lpd.",,D66 ice core snow accumulation rate,,,D66 ice core snow accumulation rate,D66.Frezzotti.2013.lpd
+name_not_conventional,warn,"dataSetName is not Site.Author.YYYY. Legitimate for a short code, otherwise worth fixing.",,DSNF.Bregy.222,,,DSNF.Bregy.222,DeSotoNationalForest.Bregy.2022.lpd
+name_file_mismatch,info,"Will be written as DSNF.Bregy.222.lpd, not DeSotoNationalForest.Bregy.2022.lpd.",,DSNF.Bregy.222,,,DSNF.Bregy.222,DeSotoNationalForest.Bregy.2022.lpd
+name_has_space,warn,"dataSetName contains a space; LiPDverse names do not, by convention.",,GV2 ice core snow accumulation rate,,,GV2 ice core snow accumulation rate,GV2.Frezzotti.2013.lpd
+name_not_conventional,warn,"dataSetName is not Site.Author.YYYY. Legitimate for a short code, otherwise worth fixing.",,GV2 ice core snow accumulation rate,,,GV2 ice core snow accumulation rate,GV2.Frezzotti.2013.lpd
+name_file_mismatch,info,"Will be written as GV2 ice core snow accumulation rate.lpd, not GV2.Frezzotti.2013.lpd.",,GV2 ice core snow accumulation rate,,,GV2 ice core snow accumulation rate,GV2.Frezzotti.2013.lpd
+name_has_space,warn,"dataSetName contains a space; LiPDverse names do not, by convention.",,GV5 ice core snow accumulation rate,,,GV5 ice core snow accumulation rate,GV5.Frezzotti.2007.lpd
+name_not_conventional,warn,"dataSetName is not Site.Author.YYYY. Legitimate for a short code, otherwise worth fixing.",,GV5 ice core snow accumulation rate,,,GV5 ice core snow accumulation rate,GV5.Frezzotti.2007.lpd
+name_file_mismatch,info,"Will be written as GV5 ice core snow accumulation rate.lpd, not GV5.Frezzotti.2007.lpd.",,GV5 ice core snow accumulation rate,,,GV5 ice core snow accumulation rate,GV5.Frezzotti.2007.lpd
+name_has_space,warn,"dataSetName contains a space; LiPDverse names do not, by convention.",,GV7 ice core snow accumulation rate,,,GV7 ice core snow accumulation rate,GV7.Frezzotti.2007.lpd
+name_not_conventional,warn,"dataSetName is not Site.Author.YYYY. Legitimate for a short code, otherwise worth fixing.",,GV7 ice core snow accumulation rate,,,GV7 ice core snow accumulation rate,GV7.Frezzotti.2007.lpd
+name_file_mismatch,info,"Will be written as GV7 ice core snow accumulation rate.lpd, not GV7.Frezzotti.2007.lpd.",,GV7 ice core snow accumulation rate,,,GV7 ice core snow accumulation rate,GV7.Frezzotti.2007.lpd
+name_has_space,warn,"dataSetName contains a space; LiPDverse names do not, by convention.",,Hercules Névé ice core snow accumulation rate,,,Hercules Névé ice core snow accumulation rate,HerculesNévé.Stenni.1999.lpd
+name_non_ascii,warn,"dataSetName contains non-ASCII characters, which travel badly through URLs and sheets.",,Hercules Névé ice core snow accumulation rate,,,Hercules Névé ice core snow accumulation rate,HerculesNévé.Stenni.1999.lpd
+name_not_conventional,warn,"dataSetName is not Site.Author.YYYY. Legitimate for a short code, otherwise worth fixing.",,Hercules Névé ice core snow accumulation rate,,,Hercules Névé ice core snow accumulation rate,HerculesNévé.Stenni.1999.lpd
+name_file_mismatch,info,"Will be written as Hercules Névé ice core snow accumulation rate.lpd, not HerculesNévé.Stenni.1999.lpd.",,Hercules Névé ice core snow accumulation rate,,,Hercules Névé ice core snow accumulation rate,HerculesNévé.Stenni.1999.lpd
+no_publication,warn,No publication recorded.,,KimHy.Hansen.2017,,,,KimHy.Hansen.2017.lpd
+no_publication,warn,No publication recorded.,,Kirirom.Nguyen.2021,,,,Kirirom.Nguyen.2021.lpd
+no_publication,warn,No publication recorded.,,KonKaKinh.Buckley.2019,,,,KonKaKinh.Buckley.2019.lpd
+name_not_conventional,warn,"dataSetName is not Site.Author.YYYY. Legitimate for a short code, otherwise worth fixing.",,LS15DOCH,,,LS15DOCH,LS15DOCH.lpd
+name_existing_update,info,Matches an existing dataset; will be treated as an update.,,LS15DOCH,,,LS15DOCH,LS15DOCH.lpd
+name_not_conventional,warn,"dataSetName is not Site.Author.YYYY. Legitimate for a short code, otherwise worth fixing.",,LS15DOSA,,,LS15DOSA,LS15DOSA.lpd
+name_existing_update,info,Matches an existing dataset; will be treated as an update.,,LS15DOSA,,,LS15DOSA,LS15DOSA.lpd
+no_publication,warn,No publication recorded.,,MaeHongSon.Buckley.2007,,,,MaeHongSon.Buckley.2007.lpd
+no_publication,warn,No publication recorded.,,Maingtha.DArrigo.2011,,,,Maingtha.DArrigo.2011.lpd
+no_publication,warn,No publication recorded.,,MuCangChai.Sano.2009,,,,MuCangChai.Sano.2009.lpd
+no_publication,warn,No publication recorded.,,NamNao.Buckley.1995,,,,NamNao.Buckley.1995.lpd
+name_not_conventional,warn,"dataSetName is not Site.Author.YYYY. Legitimate for a short code, otherwise worth fixing.",,PatagoniaARAR,,,PatagoniaARAR,PatagoniaARAR.lpd
+no_publication,warn,No publication recorded.,,Petchaburi.Nguyen.2021,,,,Petchaburi.Nguyen.2021.lpd
+no_publication,warn,No publication recorded.,,PhaTaem.Nguyen.2021,,,,PhaTaem.Nguyen.2021.lpd
+no_publication,warn,No publication recorded.,,PhouKhaoKhouay.Buckley.2007,,,,PhouKhaoKhouay.Buckley.2007.lpd
+no_publication,warn,No publication recorded.,,PhuKradung.DArrigo.1997,,,,PhuKradung.DArrigo.1997.lpd
+no_publication,warn,No publication recorded.,,PhuToei.Cook.2010,,,,PhuToei.Cook.2010.lpd
+name_not_conventional,warn,"dataSetName is not Site.Author.YYYY. Legitimate for a short code, otherwise worth fixing.",,PotomacRiver.EasternUS.Maxwell.2017,,,PotomacRiver.EasternUS.Maxwell.2017,PotomacRiver.EasternUS.Maxwell.2017.lpd
+no_publication,warn,No publication recorded.,,PuMat.Buckley.2019,,,,PuMat.Buckley.2019.lpd
+no_publication,warn,No publication recorded.,,QuangNam.Buckley.2017,,,,QuangNam.Buckley.2017.lpd
+name_not_conventional,warn,"dataSetName is not Site.Author.YYYY. Legitimate for a short code, otherwise worth fixing.",,GergisAshcroft.2013,,,GergisAshcroft.2013,SEAustralia.GergisAshcroft.2013GergisAshcroft.2013.lpd
+name_file_mismatch,info,"Will be written as GergisAshcroft.2013.lpd, not SEAustralia.GergisAshcroft.2013GergisAshcroft.2013.lpd.",,GergisAshcroft.2013,,,GergisAshcroft.2013,SEAustralia.GergisAshcroft.2013GergisAshcroft.2013.lpd
+no_publication,warn,No publication recorded.,,SalaengLuang.Buckley.1995,,,,SalaengLuang.Buckley.1995.lpd
+no_publication,warn,No publication recorded.,,SanLuang.Cook.2010,,,,SanLuang.Cook.2010.lpd
+name_non_ascii,warn,"dataSetName contains non-ASCII characters, which travel badly through URLs and sheets.",,SouthernMoravia.Büntgen.2011,,,SouthernMoravia.Büntgen.2011,SouthernMoravia.Büntgen.2011.lpd
+name_not_conventional,warn,"dataSetName is not Site.Author.YYYY. Legitimate for a short code, otherwise worth fixing.",,SouthernMoravia.Büntgen.2011,,,SouthernMoravia.Büntgen.2011,SouthernMoravia.Büntgen.2011.lpd
+name_has_space,warn,"dataSetName contains a space; LiPDverse names do not, by convention.",,Talos Dome ice core snow accumulation rate,,,Talos Dome ice core snow accumulation rate,TalosDome.Stenni.2000.lpd
+name_not_conventional,warn,"dataSetName is not Site.Author.YYYY. Legitimate for a short code, otherwise worth fixing.",,Talos Dome ice core snow accumulation rate,,,Talos Dome ice core snow accumulation rate,TalosDome.Stenni.2000.lpd
+name_file_mismatch,info,"Will be written as Talos Dome ice core snow accumulation rate.lpd, not TalosDome.Stenni.2000.lpd.",,Talos Dome ice core snow accumulation rate,,,Talos Dome ice core snow accumulation rate,TalosDome.Stenni.2000.lpd
+no_publication,warn,No publication recorded.,,WatChan.Buckley.1995,,,,WatChan.Buckley.1995.lpd
+no_publication,warn,No publication recorded.,,WiangHaeng.Nguyen.2021,,,,WiangHaeng.Nguyen.2021.lpd
