@@ -1,0 +1,14 @@
+{
+  "pin": "26ffbf53d7c09e6d8e70f982462b8e25",
+  "source": "https://lipdverse.org/lipdverse/standardTables.RDS",
+  "fetched_utc": "2026-08-03T21:17:46Z",
+  "tables": {
+    "paleoData_variableName": 2157,
+    "paleoData_units": 308,
+    "archiveType": 53,
+    "paleoData_proxy": 229,
+    "interpretation_seasonality": 347,
+    "paleoData_proxyGeneral": 16,
+    "interpretation_variable": 106
+  }
+}

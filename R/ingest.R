@@ -471,8 +471,123 @@ lv_ingest_validate <- function(dir, index, progress = TRUE) {
       }
     }
     if (!length(m$pub)) {
-      add("no_publication", "warn", "No publication recorded.", f, dsn)
+      # Informational, not a warning. Submissions routinely arrive with sparse
+      # metadata because it is easier to fill in through the QC sheet than in
+      # the file, so an absent publication is normal rather than a defect.
+      add("no_publication", "info",
+          "No publication recorded; often filled in later through the QC sheet.", f, dsn)
     }
   }
   issues
+}
+
+# Where each vocabulary key lives in a LiPD object. Only these fields are
+# touched: standardisation is a value operation, not a structural one.
+LV_STD_FIELDS <- list(
+  archiveType                = list(where = "root",   key = "archiveType"),
+  paleoData_variableName     = list(where = "column", key = "variableName"),
+  paleoData_units            = list(where = "column", key = "units"),
+  paleoData_proxy            = list(where = "column", key = "proxy"),
+  interpretation_variable    = list(where = "interp", key = "variable"),
+  interpretation_seasonality = list(where = "interp", key = "seasonality")
+)
+
+#' Standardize vocabulary in staged files
+#'
+#' Replaces `standardizeLipdBatch()`, which reaches the values by round-tripping
+#' the dataset through `as.lipdTsTibble()` / `as.lipd()`. That round trip pads
+#' every column to the dataset's maximum interpretation count, inventing empty
+#' entries with `scope = NA` -- the mechanism behind the empty interpretation
+#' shells in the database, and a live one: it adds them to every file it touches,
+#' including `year` columns. This walks the object and assigns six fields.
+#'
+#' Reports rather than guesses: an unmatched value is left exactly as it is and
+#' returned as an issue, for a curator to resolve into the vocabulary.
+#'
+#' @param dir Directory of files to standardize, usually a staging directory.
+#' @param out Output directory. Never writes in place.
+#' @param vocab From [lv_vocab()].
+#' @param progress Show progress.
+#' @return A list of `changes` (a tibble), `issues`, and the `pin` used.
+#' @export
+lv_ingest_standardize <- function(dir, out, vocab = lv_vocab(), progress = TRUE) {
+  if (missing(out)) cli::cli_abort("{.arg out} is required; this never writes in place.")
+  fs::dir_create(out)
+  paths <- fs::dir_ls(dir, glob = "*.lpd", type = "file")
+  if (progress) cli::cli_alert_info("Standardizing {length(paths)} file{?s}")
+
+  changes <- list(); issues <- lv_issues_empty()
+
+  std1 <- function(v, key, dsn, tsid) {
+    if (is.null(v)) return(NULL)
+    s <- as_chr1(v)
+    if (is.null(s) || is.na(s) || !nzchar(s)) return(NULL)
+    r <- vocab_standardize(s, key, vocab)
+    if (!r$matched) {
+      issues <<- lv_issues_bind(issues, lv_issues(
+        check = "unknown_vocabulary", severity = "warn",
+        message = sprintf("Not in the %s vocabulary; left unchanged.", key),
+        dataSetName = dsn, TSid = tsid, field = key, value = s))
+      return(NULL)
+    }
+    if (identical(r$value, s)) return(NULL)
+    changes[[length(changes) + 1L]] <<- tibble::tibble(
+      dataSetName = dsn, TSid = tsid %||% NA_character_, field = key,
+      from = s, to = r$value, rule = r$rule)
+    r$value
+  }
+
+  for (p in paths) {
+    L <- tryCatch(suppressWarnings(lipdR::readLipd(p)), error = function(e) NULL)
+    if (is.null(L)) {
+      issues <- lv_issues_bind(issues, lv_issues(
+        check = "unreadable", severity = "error",
+        message = "Could not read the file.", path = fs::path_file(p)))
+      next
+    }
+    dsn <- as_chr1(L$dataSetName) %||% fs::path_file(p)
+
+    v <- std1(L$archiveType, "archiveType", dsn, NA_character_)
+    if (!is.null(v)) L$archiveType <- v
+
+    for (blk in c("paleoData", "chronData")) {
+      for (pi in seq_along(L[[blk]])) {
+        for (ti in seq_along(L[[blk]][[pi]]$measurementTable)) {
+          tb <- L[[blk]][[pi]]$measurementTable[[ti]]
+          cols <- if (!is.null(tb$columns)) tb$columns else tb
+          for (cn in seq_along(cols)) {
+            cl <- cols[[cn]]
+            if (!is.list(cl) || is.null(cl$variableName)) next
+            tsid <- as_chr1(cl$TSid)
+
+            v <- std1(cl$variableName, "paleoData_variableName", dsn, tsid)
+            if (!is.null(v)) cl$variableName <- v
+            v <- std1(cl$units, "paleoData_units", dsn, tsid)
+            if (!is.null(v)) cl$units <- v
+            v <- std1(cl$proxy, "paleoData_proxy", dsn, tsid)
+            if (!is.null(v)) cl$proxy <- v
+
+            for (ii in seq_along(cl$interpretation)) {
+              it <- cl$interpretation[[ii]]
+              if (!is.list(it)) next
+              v <- std1(it$variable, "interpretation_variable", dsn, tsid)
+              if (!is.null(v)) it$variable <- v
+              v <- std1(it$seasonality, "interpretation_seasonality", dsn, tsid)
+              if (!is.null(v)) it$seasonality <- v
+              cl$interpretation[[ii]] <- it
+            }
+
+            if (!is.null(tb$columns)) tb$columns[[cn]] <- cl else tb[[names(cols)[cn]]] <- cl
+          }
+          L[[blk]][[pi]]$measurementTable[[ti]] <- tb
+        }
+      }
+    }
+    lipdR::writeLipd(L, path = out, removeNamesFromLists = TRUE)
+  }
+
+  list(changes = if (length(changes)) purrr::list_rbind(changes) else
+         tibble::tibble(dataSetName = character(), TSid = character(), field = character(),
+                        from = character(), to = character(), rule = character()),
+       issues = issues, pin = attr(vocab, "pin"))
 }

@@ -1,0 +1,17 @@
+paleoData_pastName,paleoData_pastId,lipdName,definition
+biological material,444,biogenic,"A term to group biologically produced, non assemblage, proxy types including biogenic silica, cellulose, marcofossils, total organic carbon, chlorophyll etc."
+organic compound,1596,biomarker,"Proxies based on organic molecules found in sediments, initially produced by a variety of organisms either on land or in the aquatic environment (examples include GDGT, TEX86, IP25 etc)"
+borehole,114,borehole,"Proxies based on air temperature measurements made in a deep, narrow hole in the ground or ice"
+,,cryophysical,"Proxies based on physical measurements made on ice (e.g. bubble density, ice melt, and ice accumulation)"
+,,dendrophysical,"Proxies based on physical measurements made on tree-rings (e.g. ring width, maximum latewood density)"
+,,elemental,"Proxies  based on elements in the periodic table (e.g. Ti, Ti/Ca, Mg/Ca, Sr/Ca etc.)"
+,,faunal assemblage,"Proxies based on a group of animal fossils (e.g. chironomid, dynocist, foraminifera, amoeba, etc.)"
+,,floral assemblage,"Proxies based on a group of plant fossils (e.g. pollen, diatoms, cocolyths etc)"
+historical,3460,historical,Proxies based on documented historical events
+isotope,4584,isotopic,"Proxies based on isotopes (e.g. d18O, d13C, d15N etc.)"
+,,mineral,"Proxies based on minerals (e.g. calcium carbonate, total inorganic carbon, calcite, calcification rate etc)"
+multiple proxies,3630,multiproxy,Records based on multiple proxy types
+fire history,115,pyrogenic,Proxies produced in fire (charcoal)
+reflectance,1005,reflectance,Proxies based on light reflectance (e.g. grayscale)
+,,sedimentology,"Proxies based on physical sediment properties (e.g. Bulk Density, Magnetic properties etc)"
+,,stratigraphy,"Proxies based on sediment layers (e.g. varves, flood layers, etc.)"
