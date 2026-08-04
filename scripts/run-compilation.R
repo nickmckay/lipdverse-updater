@@ -72,6 +72,36 @@ frame <- dplyr::bind_rows(frame, lv_membership_frame(idx, comp, ts))
 cat(sprintf("base        : %d cells\nsheet       : %d cells\nframe       : %d cells\n",
             nrow(base), nrow(sheet), nrow(frame)))
 
+# A dataset-level field repeats across every row of its dataset in the sheet, so
+# the rows should agree. Where they do not, one of them is wrong -- CO07CAFR
+# carries two pub1_citation values differing by an en-dash mangled into three
+# characters. The merge cannot see this: only the row that differs from the
+# baseline becomes a change, so by the time cells reach lv_apply_qc there is a
+# single value and nothing to compare. Checked here, against the sheet itself.
+
+# From the registry's cardinality, not from where the field is stored. Those are
+# different questions: minYear sits at the dataset root in the file but varies
+# per timeseries, so its rows are supposed to differ. Fields with no declared
+# cardinality (44 of them) are left alone rather than guessed at.
+reg <- lv_qc_fields()
+ds_level <- reg$qc_name[reg$cardinality %in% "dataset"]
+sd <- sheet[sheet$field %in% ds_level & !is.na(sheet$value), , drop = FALSE]
+sd$dataSetName <- unname(stats::setNames(idx$timeseries$dataSetName,
+                                         idx$timeseries$TSid)[sd$tsid])
+sd <- sd[!is.na(sd$dataSetName), , drop = FALSE]
+incon <- sd |>
+  dplyr::group_by(dataSetName, field) |>
+  dplyr::summarise(n = dplyr::n_distinct(value), .groups = "drop") |>
+  dplyr::filter(n > 1)
+if (nrow(incon)) {
+  cat(sprintf("\ninconsistent: %d dataset-level field%s differ between rows of the same dataset\n",
+              nrow(incon), if (nrow(incon) == 1) "" else "s"))
+  print(as.data.frame(head(dplyr::count(incon, field, sort = TRUE), 6)), right = FALSE)
+  readr::write_csv(dplyr::semi_join(sd, incon, by = c("dataSetName", "field")) |>
+                     dplyr::arrange(dataSetName, field),
+                   file.path(lv_run_dir(run), "inconsistent-dataset-fields.csv"), na = "")
+}
+
 # ---- merge -----------------------------------------------------------------
 
 plan <- qc_merge(base, sheet, frame)
@@ -137,6 +167,45 @@ if (nrow(write_cells)) {
 }
 staged <- list.files(stage, "[.]lpd$")
 cat(sprintf("staged      : %d file%s\n", length(staged), if (length(staged) == 1) "" else "s"))
+
+# ---- changelog -------------------------------------------------------------
+#
+# Per dataset, comparing what is staged against what is live. Each entry carries
+# the compilation and run_id, which createChangelog() never recorded: 56% of
+# datasets belong to two or more compilations and they share the fields stored
+# in the file, so without those an entry says what changed but not which run
+# did it.
+
+if (length(staged)) {
+  cl <- list()
+  for (f in staged) {
+    dsn <- sub("\\.lpd$", "", f)
+    live <- fs::path(db, f)
+    if (!fs::file_exists(live)) next
+    a <- tryCatch(suppressWarnings(lipdR::readLipd(live)), error = function(e) NULL)
+    b <- tryCatch(suppressWarnings(lipdR::readLipd(fs::path(stage, f))), error = function(e) NULL)
+    if (is.null(a) || is.null(b)) next
+    d <- lv_changelog_diff(a, b)
+    if (!nrow(d)) next
+    v <- lv_changelog_next_version(lv_changelog_last_version(b))
+    entry <- lv_changelog_entry(d, version = v,
+                                last_version = lv_changelog_last_version(b),
+                                compilation = comp, run_id = run)
+    b <- lv_changelog_append(b, entry)
+    lipdR::writeLipd(b, path = stage, removeNamesFromLists = TRUE)
+    cl[[length(cl) + 1L]] <- dplyr::mutate(d, dataSetName = dsn, version = v)
+  }
+  if (length(cl)) {
+    cl <- dplyr::bind_rows(cl)
+    readr::write_csv(cl, file.path(lv_run_dir(run), "changelog.csv"), na = "")
+    cat(sprintf("changelog   : %d change%s across %d dataset%s\n", nrow(cl),
+                if (nrow(cl) == 1) "" else "s", dplyr::n_distinct(cl$dataSetName),
+                if (dplyr::n_distinct(cl$dataSetName) == 1) "" else "s"))
+    print(as.data.frame(head(dplyr::count(cl, category, kind, sort = TRUE), 6)), right = FALSE)
+  } else {
+    cat("changelog   : no recordable changes\n")
+  }
+}
 
 # ---- invariant: no collateral change ---------------------------------------
 

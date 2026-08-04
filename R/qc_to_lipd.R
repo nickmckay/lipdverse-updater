@@ -143,8 +143,25 @@ lv_apply_to_lipd <- function(L, cells) {
   issues <- lv_issues_empty()
   dsn <- L$dataSetName %||% NA_character_
 
-  # Dataset-level values repeat across every timeseries, so take one.
+  # Dataset-level values repeat across every timeseries of a dataset, so one is
+  # taken. But they can disagree: hydroclimate2k's sheet holds two rows for
+  # CO07CAFR whose pub1_citation differs, one of them mojibake, and taking the
+  # first row silently wrote the mangled one. A field that is supposed to be the
+  # same for the whole dataset and is not is a conflict, not a coin toss.
   ds_cells <- cells[cells$level == "dataset", , drop = FALSE]
+  if (nrow(ds_cells)) {
+    disagree <- stats::aggregate(list(n = ds_cells$value), by = list(field = ds_cells$field),
+                                 FUN = function(v) length(unique(v[!is.na(v)])))
+    bad <- disagree$field[disagree$n > 1]
+    if (length(bad)) {
+      d <- ds_cells[ds_cells$field %in% bad, , drop = FALSE]
+      issues <- lv_issues_bind(issues, lv_issues(
+        check = "dataset_field_disagrees", severity = "warn",
+        message = "A dataset-level field has different values on different rows of this dataset; not applied.",
+        dataSetName = dsn, TSid = d$tsid, field = d$field, value = d$value))
+      ds_cells <- ds_cells[!ds_cells$field %in% bad, , drop = FALSE]
+    }
+  }
   ds_cells <- ds_cells[!duplicated(ds_cells$field), , drop = FALSE]
   for (i in seq_len(nrow(ds_cells))) {
     r <- ds_cells[i, ]

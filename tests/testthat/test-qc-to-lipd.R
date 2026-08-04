@@ -192,3 +192,25 @@ test_that("an existing scoped slot is updated in place, not appended", {
   expect_length(col$interpretation, 2)
   expect_equal(col$interpretation[[2]]$variable, "precipitationIsotope")
 })
+
+# A dataset-level field repeats across every row of its dataset in the QC sheet.
+# When two rows disagree, taking the first is a coin toss: hydroclimate2k's
+# sheet holds two rows for CO07CAFR whose pub1_citation differs by an en-dash
+# mangled into three characters, and the mangled row won on ordering alone.
+test_that("a dataset-level field that disagrees across rows is reported, not guessed", {
+  cells <- cellset("T1", "pub1_citation", "Smith 2001, pages 190-201",
+                   "T2", "pub1_citation", "Smith 2001, pages 190?201")
+  r <- apply_to(cells, "pub1_citation")
+
+  expect_true("dataset_field_disagrees" %in% r$issues$check)
+  expect_equal(r$issues$severity[r$issues$check == "dataset_field_disagrees"][1], "warn")
+  # The file is still staged, but neither value is applied: it keeps what it had.
+  expect_null(r$L$pub[[1]]$citation)
+})
+
+test_that("a dataset-level field agreeing across rows is applied once", {
+  r <- apply_to(cellset("T1", "geo_siteName", "Somewhere",
+                        "T2", "geo_siteName", "Somewhere"), "geo_siteName")
+  expect_equal(r$L$geo$siteName, "Somewhere")
+  expect_equal(nrow(r$issues), 0)
+})
