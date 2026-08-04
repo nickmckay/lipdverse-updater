@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# Run a LiPDverse update or ingest through Claude, using the lipdverse-update
+# skill in .claude/skills. Claude runs the safe stages, proposes the judgement
+# calls, and stops at every gate; it never writes to the database, the QC store
+# or a Google Sheet.
+#
+#   scripts/lv-claude hydroclimate2k              dry-run the update
+#   scripts/lv-claude hydroclimate2k --ingest DIR  ingest a batch first
+#
+# Add -p for a single non-interactive pass, e.g. from cron. Without it you get
+# an interactive session, which is what you want when the gates need discussing.
+set -euo pipefail
+
+comp="${1:?usage: lv-claude <compilation> [--ingest <dir>] [-p]}"; shift
+incoming=""; args=()
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --ingest) incoming="$2"; shift 2 ;;
+    *) args+=("$1"); shift ;;
+  esac
+done
+
+task="Use the lipdverse-update skill. Compilation: ${comp}."
+if [ -n "$incoming" ]; then
+  task="${task} Run the ingest stage first on ${incoming}, then the update."
+else
+  task="${task} Run the update only; there are no new files to ingest."
+fi
+task="${task} Stop at every gate and report. Do not pass dry_run = FALSE to anything."
+
+cd "$(dirname "$0")/.."
+exec claude "${args[@]+"${args[@]}"}" "$task"

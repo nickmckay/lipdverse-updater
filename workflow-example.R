@@ -126,6 +126,12 @@ lv_vocab_review(std$issues, rev)
 
 # Now open `rev` and fill in the `decision` column. Four options:
 #
+# (The file also has a `proposed_*` set of columns, plus confidence and
+# rationale. Those are for the Claude-driven path -- `scripts/lv-claude`, which
+# runs the same stages and fills in proposals. lv_vocab_apply_review() reads
+# only the `decision` side, so proposals sit inert until lv_vocab_accept()
+# copies the ones you want across. Working by hand, ignore them.)
+#
 #   synonym    the value means an existing term. Give map_to. Overlaid onto the
 #              vocabulary, so it matches from now on.
 #   new_term   a legitimate term the vocabulary lacks. Becomes canonical locally

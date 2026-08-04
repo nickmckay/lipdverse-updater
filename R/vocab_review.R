@@ -146,6 +146,9 @@ lv_vocab_review <- function(issues, out, vocab = lv_vocab_overlay(store = store)
     cli::cli_alert_success("Nothing left to review.")
     r <- tibble::tibble(field = character(), value = character(), n = integer(),
                         example = character(), candidates = character(),
+                        proposed_decision = character(), proposed_map_to = character(),
+                        proposed_also_field = character(), proposed_also_value = character(),
+                        confidence = character(), rationale = character(),
                         decision = character(), map_to = character(),
                         also_field = character(), also_value = character(), note = character())
     readr::write_csv(r, out, na = "")
@@ -162,6 +165,17 @@ lv_vocab_review <- function(issues, out, vocab = lv_vocab_overlay(store = store)
   agg$candidates <- vapply(seq_len(nrow(agg)), function(i) {
     paste(lv_vocab_candidates(agg$value[i], agg$field[i], vocab, n_candidates), collapse = " | ")
   }, character(1))
+
+  # Proposals and decisions are separate columns on purpose. An agent filling in
+  # this file writes only the `proposed_*` side; `lv_vocab_apply_review()` reads
+  # only `decision`. So a guess cannot become a decision by being written down,
+  # and you can always see which rows you ruled on yourself.
+  agg$proposed_decision <- NA_character_
+  agg$proposed_map_to <- NA_character_
+  agg$proposed_also_field <- NA_character_
+  agg$proposed_also_value <- NA_character_
+  agg$confidence <- NA_character_
+  agg$rationale <- NA_character_
 
   agg$decision <- NA_character_
   agg$map_to <- NA_character_
@@ -392,3 +406,68 @@ lv_actor <- function() {
 # never a useful suggestion.
 LV_VOCAB_PLACEHOLDERS <- c("deleteMe", "needsToBeChanged", "deleteThisColumn",
                            "changeMe", "TBD", "unknown")
+
+#' Accept proposed vocabulary decisions
+#'
+#' Copies the `proposed_*` columns of a review file into the `decision` columns,
+#' which is the only side [lv_vocab_apply_review()] reads. This is the step where
+#' a suggestion becomes your call, and it is deliberately explicit: an agent can
+#' fill in every proposal in the file and nothing happens until this runs.
+#'
+#' Rows that already carry a `decision` are never overwritten.
+#'
+#' @param path A review file.
+#' @param which Optional character vector of `value`s to accept. Default accepts
+#'   every proposed row permitted by `min_confidence`.
+#' @param min_confidence Accept only proposals at or above this confidence.
+#'   One of `"low"`, `"medium"`, `"high"`. Rows with no stated confidence are
+#'   treated as `"low"`.
+#' @param dry_run Report what would be accepted without editing the file.
+#' @return The updated review tibble, invisibly.
+#' @export
+lv_vocab_accept <- function(path, which = NULL, min_confidence = c("high", "medium", "low"),
+                            dry_run = TRUE) {
+  min_confidence <- match.arg(min_confidence)
+  rank <- c(low = 1L, medium = 2L, high = 3L)
+  r <- readr::read_csv(path, col_types = readr::cols(.default = readr::col_character()),
+                       na = "", progress = FALSE)
+  if (!"proposed_decision" %in% names(r)) {
+    cli::cli_abort("{.path {path}} has no {.field proposed_decision} column.",
+                   class = "lv_error_vocab")
+  }
+  conf <- rank[ifelse(is.na(r$confidence), "low", tolower(r$confidence))]
+  conf[is.na(conf)] <- 1L
+
+  take <- !is.na(r$proposed_decision) & nzchar(r$proposed_decision) &
+    (is.na(r$decision) | !nzchar(r$decision)) &
+    conf >= rank[[min_confidence]]
+  if (!is.null(which)) take <- take & r$value %in% which
+
+  if (!any(take)) {
+    cli::cli_alert_info("Nothing to accept at confidence {.val {min_confidence}} or above.")
+    return(invisible(r))
+  }
+
+  r$decision[take] <- r$proposed_decision[take]
+  r$map_to[take] <- r$proposed_map_to[take]
+  r$also_field[take] <- r$proposed_also_field[take]
+  r$also_value[take] <- r$proposed_also_value[take]
+
+  cli::cli_alert_info("Accepting {sum(take)} proposal{?s}:")
+  print(dplyr::count(r[take, ], field, decision), n = 50)
+
+  skipped <- !is.na(r$proposed_decision) & nzchar(r$proposed_decision) & !take &
+    (is.na(r$decision) | !nzchar(r$decision))
+  if (any(skipped)) {
+    cli::cli_alert_warning(
+      "{sum(skipped)} proposal{?s} left for you: below {.val {min_confidence}} confidence.")
+  }
+
+  if (dry_run) {
+    cli::cli_alert_info("Dry run. {.path {path}} unchanged.")
+    return(invisible(r))
+  }
+  readr::write_csv(r, path, na = "")
+  cli::cli_alert_success("Wrote {.path {path}}. Review it, then {.code lv_vocab_apply_review()}.")
+  invisible(r)
+}
