@@ -121,7 +121,10 @@ count(as_tibble(std$issues), field, sort = TRUE)   # unmatched, for a curator
 # once, and is also emitted as a patch file in that sheet's own schema, to be
 # appended upstream deliberately and in one batch.
 
-rev <- fs::path(lv_path("state"), "review", paste0("vocab-", comp, "-", run, ".csv"))
+# Next to the batch it describes, rather than in the state directory. Every
+# stage globs *.lpd explicitly, so a CSV here is inert: promote, scan and the
+# value hashes all ignore it, and the review travels with the batch.
+rev <- fs::path(stage_std, "vocab-review.csv")
 lv_vocab_review(std$issues, rev)
 
 # Now open `rev` and fill in the `decision` column. Four options:
