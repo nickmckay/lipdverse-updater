@@ -567,7 +567,9 @@ LV_STD_FIELDS <- list(
 #' @param progress Show progress.
 #' @return A list of `changes` (a tibble), `issues`, and the `pin` used.
 #' @export
-lv_ingest_standardize <- function(dir, out, vocab = lv_vocab(), progress = TRUE) {
+lv_ingest_standardize <- function(dir, out, vocab = lv_vocab_overlay(store = store),
+                                  store = qc_store(), remap = lv_vocab_remap(store),
+                                  progress = TRUE) {
   if (missing(out)) cli::cli_abort("{.arg out} is required; this never writes in place.")
   fs::dir_create(out)
   paths <- fs::dir_ls(dir, glob = "*.lpd", type = "file")
@@ -633,6 +635,13 @@ lv_ingest_standardize <- function(dir, out, vocab = lv_vocab(), progress = TRUE)
               if (!is.null(v)) it$seasonality <- v
               cl$interpretation[[ii]] <- it
             }
+
+            # `decompose` decisions, applied after standardizing so the second
+            # field is written from the value as the curator saw it. A synonym
+            # could not do this: it would rename the column and drop the season.
+            cl <- lv_apply_remap(cl, remap, dsn, tsid, log = function(e) {
+              changes[[length(changes) + 1L]] <<- e
+            })
 
             if (!is.null(tb$columns)) tb$columns[[cn]] <- cl else tb[[names(cols)[cn]]] <- cl
           }

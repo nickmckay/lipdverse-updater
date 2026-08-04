@@ -110,6 +110,49 @@ std$pin                                  # which vocabulary version was used
 count(std$changes, field, rule, sort = TRUE)
 count(as_tibble(std$issues), field, sort = TRUE)   # unmatched, for a curator
 
+## 1d-bis. Curator decisions on unrecognised vocabulary ----------------------
+# std$issues lists values the vocabulary does not recognise. They are left
+# exactly as they are rather than guessed at, so somebody has to decide. This is
+# where that happens, and the decision is recorded once and never asked again.
+#
+# The seven alignment Google Sheets are the source of truth for the vocabulary
+# (standardTables.RDS is built from them; see the "LiPD-PaST alignment
+# directory"). Nothing here writes to them. A decision takes effect locally at
+# once, and is also emitted as a patch file in that sheet's own schema, to be
+# appended upstream deliberately and in one batch.
+
+rev <- fs::path(lv_path("state"), "review", paste0("vocab-", comp, "-", run, ".csv"))
+lv_vocab_review(std$issues, rev)
+
+# Now open `rev` and fill in the `decision` column. Four options:
+#
+#   synonym    the value means an existing term. Give map_to. Overlaid onto the
+#              vocabulary, so it matches from now on.
+#   new_term   a legitimate term the vocabulary lacks. Becomes canonical locally
+#              and is proposed upstream.
+#   decompose  the value carries two facts at once. `MJJASO precip index` is
+#              precipitation AND a seasonality of MJJASO. Give map_to plus
+#              also_field and also_value. Deliberately not a synonym: a synonym
+#              would rewrite the name and drop the season.
+#   leave      correct as it stands, or not decidable yet. Recorded so it is not
+#              offered again.
+#
+# `candidates` ranks the vocabulary by similarity, preferring word-stem and
+# containment matches over raw edit distance, which is what surfaces
+# `precipitation` for the compound precip-index names.
+
+if (FALSE) {                     # once you have filled it in
+  lv_vocab_apply_review(rev)                      # dry run: what would be recorded
+  lv_vocab_apply_review(rev, dry_run = FALSE)     # record, and write upstream patches
+}
+
+# Then standardize again, with the decisions in force. lv_ingest_standardize()
+# reads the overlay by default, so this needs no argument.
+if (FALSE) {
+  std <- lv_ingest_standardize(stage_id, stage_std)
+  count(std$changes, rule)       # `decompose` rows write two fields per value
+}
+
 ## 1e. Duplicate screen -------------------------------------------------------
 # Metadata cannot tell "the same record under a different name" from "a
 # different record at the same site" -- pollen datasets all share variable

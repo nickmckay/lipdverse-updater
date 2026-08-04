@@ -26,6 +26,9 @@ registry directly.
 \item{\code{csm}}{Compilation-specific; lives under \code{csm} in the matching
 \code{inCompilation} entry, not in the shared namespace.}
 \item{\code{csm_pending}}{Destined for \code{csm}, target compilation not yet decided.}
+\item{\code{membership}}{Whether a timeseries is in the compilation. Merged
+like a curator-owned field, but applied to the \code{inCompilation} structure
+rather than written as a key.}
 \item{\code{key}}{Identifier. Never merged; disagreement is an error.}
 \item{\code{synonym}}{An alias; \code{canonical} names the field it resolves to.}
 \item{\code{control}}{An instruction column consumed by the pipeline.}
