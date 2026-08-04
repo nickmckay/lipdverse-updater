@@ -176,6 +176,27 @@ frame <- bind_rows(frame, lv_membership_frame(idx, comp, ts))
 
 nrow(base); nrow(sheet); nrow(frame)
 
+# A dataset-level field repeats across every row of its dataset in the sheet, so
+# those rows should agree. Where they do not, one of them is wrong: CO07CAFR
+# carries two pub1_citation values differing by an en-dash mangled into three
+# characters. The merge cannot see this -- only the row that differs from the
+# baseline becomes a change, so by the time cells reach lv_apply_qc there is a
+# single value and nothing to compare against.
+#
+# Scoped by the registry's cardinality, not by where the field is stored. Those
+# are different questions: minYear sits at the dataset root but varies per
+# timeseries, and going by storage location flags 438 fields, nearly all of them
+# legitimately varying.
+reg <- lv_qc_fields()
+ds_level <- reg$qc_name[reg$cardinality %in% "dataset"]
+sd <- sheet[sheet$field %in% ds_level & !is.na(sheet$value), ]
+sd$dataSetName <- unname(setNames(idx$timeseries$dataSetName, idx$timeseries$TSid)[sd$tsid])
+sd |>
+  filter(!is.na(dataSetName)) |>
+  group_by(dataSetName, field) |>
+  summarise(n = n_distinct(value), .groups = "drop") |>
+  filter(n > 1)
+
 ## 2c. Merge ------------------------------------------------------------------
 # Per cell: if only the sheet moved, the curator edited it; if only the files
 # moved, the files did; if both moved the same way, converged; if both moved
@@ -236,14 +257,41 @@ as.data.frame(iss)
 # Invariant: nothing outside the compilation was touched.
 setdiff(sub("\\.lpd$", "", list.files(stage, "[.]lpd$")), ds)
 
-## 2f. Verify without writing -------------------------------------------------
+## 2f. Changelog --------------------------------------------------------------
+# Per dataset, comparing staged against live. Each entry carries the compilation
+# and run_id, which createChangelog() never recorded -- 56% of datasets belong to
+# two or more compilations and they share the fields stored in the file, so an
+# entry saying only what changed cannot say which run did it.
+#
+# Writes the entries into the staged files, so promoting carries them along.
+
+for (f in list.files(stage, "[.]lpd$")) {
+  live <- fs::path(db, f)
+  if (!fs::file_exists(live)) next
+  a <- suppressWarnings(lipdR::readLipd(live))
+  b <- suppressWarnings(lipdR::readLipd(fs::path(stage, f)))
+  d <- lv_changelog_diff(a, b)
+  if (!nrow(d)) next
+  v <- lv_changelog_next_version(lv_changelog_last_version(b))
+  b <- lv_changelog_append(b, lv_changelog_entry(
+    d, version = v, last_version = lv_changelog_last_version(b),
+    compilation = comp, run_id = run))
+  lipdR::writeLipd(b, path = stage, removeNamesFromLists = TRUE)
+}
+
+# What one dataset's diff looks like, before it is rendered into an entry:
+lv_changelog_diff(
+  suppressWarnings(lipdR::readLipd(fs::path(db, list.files(stage, "[.]lpd$")[1]))),
+  suppressWarnings(lipdR::readLipd(fs::path(stage, list.files(stage, "[.]lpd$")[1]))))
+
+## 2g. Verify without writing -------------------------------------------------
 # Re-reads every staged file, runs validLipd, checks names and sizes. This is
 # the gate; a dry run tells you exactly what a commit would do.
 
 rec <- lv_promote(stage, db, run_id = run, partial = TRUE, dry_run = TRUE)
 rec
 
-## 2g. Version ----------------------------------------------------------------
+## 2h. Version ----------------------------------------------------------------
 # A_B_C: A ticks on publication, B when the dataset set changes (resetting C),
 # C when metadata changes. Take the membership this run WOULD produce, from the
 # plan -- re-reading the database on a dry run returns what you started with and
@@ -262,7 +310,7 @@ ds_before <- if (!is.null(prev) && fs::file_exists(vfile)) {
 ver <- lv_tick_version(prev, ds_before, ds_now)
 ver
 
-## 2h. COMMIT the update ------------------------------------------------------
+## 2i. COMMIT the update ------------------------------------------------------
 # Snapshot, write, record. lv_promote moves the originals to .trash rather than
 # deleting, so lv_write_rollback(run_id = run) undoes it.
 if (FALSE) {
