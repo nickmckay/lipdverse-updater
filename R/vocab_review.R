@@ -30,7 +30,8 @@
 NULL
 
 lv_vocab_decision_cols <- c("decided_utc", "actor", "field", "value", "decision",
-                            "map_to", "also_field", "also_value", "note", "run_id")
+                            "map_to", "also_field", "also_value", "past_name", "past_id",
+                            "note", "run_id")
 
 lv_vocab_decisions_path <- function(store = qc_store()) {
   fs::path(store$path, "vocab", "decisions.csv")
@@ -119,7 +120,8 @@ lv_vocab_remap <- function(store = qc_store()) {
 #' @return The review tibble, invisibly.
 #' @export
 lv_vocab_review <- function(issues, out, vocab = lv_vocab_overlay(store = store),
-                            store = qc_store(), n_candidates = 5, overwrite = FALSE) {
+                            store = qc_store(), n_candidates = 5, overwrite = FALSE,
+                            sources = NULL, past = NULL) {
   if (fs::file_exists(out) && !overwrite) {
     cli::cli_abort(c("{.path {out}} already exists.",
                      i = "Regenerating would discard decisions already recorded in it.",
@@ -146,11 +148,14 @@ lv_vocab_review <- function(issues, out, vocab = lv_vocab_overlay(store = store)
     cli::cli_alert_success("Nothing left to review.")
     r <- tibble::tibble(field = character(), value = character(), n = integer(),
                         example = character(), candidates = character(),
+                        past_candidates = character(), source_pdf = character(),
                         proposed_decision = character(), proposed_map_to = character(),
                         proposed_also_field = character(), proposed_also_value = character(),
+                        proposed_past_name = character(), proposed_past_id = character(),
                         confidence = character(), rationale = character(),
                         decision = character(), map_to = character(),
-                        also_field = character(), also_value = character(), note = character())
+                        also_field = character(), also_value = character(),
+                        past_name = character(), past_id = character(), note = character())
     readr::write_csv(r, out, na = "")
     return(invisible(r))
   }
@@ -159,12 +164,43 @@ lv_vocab_review <- function(issues, out, vocab = lv_vocab_overlay(store = store)
     dplyr::group_by(field, value) |>
     dplyr::summarise(n = dplyr::n(),
                      example = dplyr::first(stats::na.omit(dataSetName)),
+                     datasets = paste(utils::head(unique(stats::na.omit(dataSetName)), 6),
+                                      collapse = " | "),
                      .groups = "drop") |>
     dplyr::arrange(field, dplyr::desc(n))
 
   agg$candidates <- vapply(seq_len(nrow(agg)), function(i) {
     paste(lv_vocab_candidates(agg$value[i], agg$field[i], vocab, n_candidates), collapse = " | ")
   }, character(1))
+
+  # PaST alignment, for terms that may need adding. The alignment sheets carry
+  # paleoData_pastName and paleoData_pastId, so a proposed new term without one
+  # is a term someone has to look up later.
+  agg$past_candidates <- NA_character_
+  if (!isFALSE(past)) {
+    pt <- tryCatch(if (is.null(past)) lv_past() else past, error = function(e) NULL)
+    if (!is.null(pt)) {
+      agg$past_candidates <- vapply(agg$value, function(v) {
+        m <- lv_past_match(v, 3, pt)
+        if (!nrow(m)) return(NA_character_)
+        paste(sprintf("%s (%s, %s)", m$pastName, m$pastId, m$rule), collapse = " | ")
+      }, character(1), USE.NAMES = FALSE)
+    } else {
+      cli::cli_alert_warning("PaST thesaurus unavailable; {.field past_candidates} left empty.")
+    }
+  }
+
+  # The paper, where the submission arrived with one. A value like `HHI` cannot
+  # be resolved from the vocabulary at all, only from what the authors wrote.
+  agg$source_pdf <- NA_character_
+  if (!is.null(sources)) {
+    pdf_of <- stats::setNames(sources$pdfs, sources$dataSetName)
+    agg$source_pdf <- vapply(strsplit(agg$datasets, " \\| "), function(ds) {
+      f <- unique(stats::na.omit(unlist(pdf_of[ds])))
+      f <- f[nzchar(f)]
+      if (!length(f)) NA_character_ else paste(utils::head(f, 4), collapse = " | ")
+    }, character(1), USE.NAMES = FALSE)
+  }
 
   # Proposals and decisions are separate columns on purpose. An agent filling in
   # this file writes only the `proposed_*` side; `lv_vocab_apply_review()` reads
@@ -174,6 +210,8 @@ lv_vocab_review <- function(issues, out, vocab = lv_vocab_overlay(store = store)
   agg$proposed_map_to <- NA_character_
   agg$proposed_also_field <- NA_character_
   agg$proposed_also_value <- NA_character_
+  agg$proposed_past_name <- NA_character_
+  agg$proposed_past_id <- NA_character_
   agg$confidence <- NA_character_
   agg$rationale <- NA_character_
 
@@ -181,6 +219,8 @@ lv_vocab_review <- function(issues, out, vocab = lv_vocab_overlay(store = store)
   agg$map_to <- NA_character_
   agg$also_field <- NA_character_
   agg$also_value <- NA_character_
+  agg$past_name <- NA_character_
+  agg$past_id <- NA_character_
   agg$note <- NA_character_
 
   fs::dir_create(fs::path_dir(out))
@@ -293,6 +333,8 @@ lv_vocab_apply_review <- function(path, store = qc_store(), actor = lv_actor(),
     decided_utc = format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"),
     actor = actor, field = r$field, value = r$value, decision = r$decision,
     map_to = r$map_to, also_field = r$also_field, also_value = r$also_value,
+    past_name = if ("past_name" %in% names(r)) r$past_name else NA_character_,
+    past_id   = if ("past_id"   %in% names(r)) r$past_id   else NA_character_,
     note = r$note, run_id = run_id)
 
   patches <- lv_vocab_patches(d, vocab)
@@ -337,6 +379,12 @@ lv_vocab_patches <- function(decisions, vocab = lv_vocab()) {
       lipdName = ifelse(dk$decision == "new_term", dk$value, dk$map_to),
       synonym  = ifelse(dk$decision == "new_term", NA_character_, dk$value))
     for (nm in setdiff(names(tb), names(row))) row[[nm]] <- NA_character_
+    # The alignment columns are named per vocabulary: paleoData_pastName in the
+    # proxy sheet, pastName elsewhere. Fill whichever this sheet uses.
+    pn <- grep("pastName$", names(row), value = TRUE)
+    pi <- grep("pastId$", names(row), value = TRUE)
+    if (length(pn) && "past_name" %in% names(dk)) row[[pn[1]]] <- dk$past_name
+    if (length(pi) && "past_id" %in% names(dk)) row[[pi[1]]] <- dk$past_id
     out[[k]] <- row[, names(tb), drop = FALSE]
   }
   out
@@ -452,6 +500,8 @@ lv_vocab_accept <- function(path, which = NULL, min_confidence = c("high", "medi
   r$map_to[take] <- r$proposed_map_to[take]
   r$also_field[take] <- r$proposed_also_field[take]
   r$also_value[take] <- r$proposed_also_value[take]
+  if ("proposed_past_name" %in% names(r)) r$past_name[take] <- r$proposed_past_name[take]
+  if ("proposed_past_id" %in% names(r)) r$past_id[take] <- r$proposed_past_id[take]
 
   cli::cli_alert_info("Accepting {sum(take)} proposal{?s}:")
   print(dplyr::count(r[take, ], field, decision), n = 50)

@@ -124,8 +124,19 @@ count(as_tibble(std$issues), field, sort = TRUE)   # unmatched, for a curator
 # Next to the batch it describes, rather than in the state directory. Every
 # stage globs *.lpd explicitly, so a CSV here is inert: promote, scan and the
 # value hashes all ignore it, and the review travels with the batch.
+# Submissions arrive as a directory per dataset, usually with the paper beside
+# the .lpd. Ingest flattens them, losing that link; lv_ingest_sources() recovers
+# it so each review row can point at the paper that answers it. Values like HHI
+# are author shorthand that no vocabulary will ever contain.
+src <- lv_ingest_sources(incoming_download)   # the tree as downloaded, not `incoming`
+
 rev <- fs::path(stage_std, "vocab-review.csv")
-lv_vocab_review(std$issues, rev)
+lv_vocab_review(std$issues, rev, sources = src)
+
+# The review also carries past_candidates: the top PaST thesaurus matches for
+# each value, from lv_past(). Those matter for `new_term`, since the alignment
+# sheets carry pastName and pastId alongside every term.
+lv_past_match("Palmer Hydrological Drought Index", n = 5)
 
 # Now open `rev` and fill in the `decision` column. Four options:
 #

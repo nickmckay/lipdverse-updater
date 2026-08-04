@@ -10,7 +10,9 @@ lv_vocab_review(
   vocab = lv_vocab_overlay(store = store),
   store = qc_store(),
   n_candidates = 5,
-  overwrite = FALSE
+  overwrite = FALSE,
+  sources = NULL,
+  past = NULL
 )
 }
 \arguments{

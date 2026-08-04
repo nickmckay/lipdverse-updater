@@ -33,8 +33,9 @@ it wins, and say so.
 Concretely:
 
 - Write only `proposed_decision`, `proposed_map_to`, `proposed_also_field`,
-  `proposed_also_value`, `confidence`, `rationale`. Never `decision`, `map_to`,
-  `also_field`, `also_value`.
+  `proposed_also_value`, `proposed_past_name`, `proposed_past_id`, `confidence`,
+  `rationale`. Never `decision`, `map_to`, `also_field`, `also_value`,
+  `past_name`, `past_id`.
 - `lv_vocab_apply_review()` reads only the `decision` side, so a file full of
   your proposals is inert until Nick runs `lv_vocab_accept()`.
 - Never call `lv_vocab_accept()` yourself.
@@ -87,15 +88,60 @@ Gates, in order:
 
 ## Proposing vocabulary decisions
 
-Generate the review file with `lv_vocab_review(std$issues, path)`, then fill in
-the proposal columns.
+Generate the review file with `lv_vocab_review(std$issues, path, sources = src)`,
+then fill in the proposal columns.
+
+Two sources of evidence beyond the vocabulary, and you are expected to use both
+before saying a value is undecidable.
+
+### The papers
+
+Submissions arrive as a directory per dataset, usually with a PDF of the paper
+alongside the `.lpd`. Ingest flattens them into one staging directory, which
+loses the association, so recover it first:
+
+```r
+src <- lv_ingest_sources("~/path/to/downloaded/batch")   # dataSetName -> dir, lpd, pdfs
+```
+
+Pass `sources = src` to `lv_vocab_review()` and each row gains a `source_pdf`
+column listing the papers for the datasets that carry that value.
+
+**Read the PDF before leaving a row blank for being undecidable.** Values like
+`HHI` or `SPI12` are author shorthand: they are not in any vocabulary and never
+will be, and the paper defines them in the first page or two. Use `Read` on the
+PDF path. Say in `rationale` what the paper actually said, e.g. "Glaser & Kahle
+define HHI as their humidity index, section 2" rather than "read the paper".
+
+If a row has no `source_pdf`, say so rather than guessing.
+
+### PaST
+
+The alignment sheets carry `paleoData_pastName` and `paleoData_pastId`, so a new
+term without an alignment is one somebody has to look up later.
+
+`lv_vocab_review()` fills a `past_candidates` column with the top three matches
+for every row. That is a similarity ranking, so verify before using it.
+
+```r
+lv_past_match("Palmer Hydrological Drought Index", n = 5)   # id, name, rule, definition
+```
+
+**Whenever you propose `new_term`, look for a PaST alignment** and put it in
+`proposed_past_name` and `proposed_past_id`. Check the `definition` field, not
+just the label: `hydrogen index` scores well against `drought index` on string
+similarity and means something entirely different.
+
+If PaST genuinely has no matching concept, leave both blank and say so in the
+rationale. That absence is information: it usually means the term is a local
+coinage rather than a standard quantity, which raises the bar for adding it.
 
 Four decisions:
 
 | `proposed_decision` | when | also needs |
 |---|---|---|
 | `synonym` | the value means an existing `lipdName` | `proposed_map_to` |
-| `new_term` | a real concept the vocabulary lacks | — |
+| `new_term` | a real concept the vocabulary lacks | a PaST alignment, if one exists |
 | `decompose` | the value carries two facts at once | `proposed_map_to`, `proposed_also_field`, `proposed_also_value` |
 | `leave` | correct as it stands, or undecidable | — |
 
