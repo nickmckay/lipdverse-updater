@@ -169,9 +169,11 @@ Rules for proposing:
 Then report: how many rows, how many you proposed, the split by decision type
 and confidence, and the ones you deliberately left blank with the reason.
 
-Hand back exactly this:
+Hand back exactly this, offering the reviewer first, since a grouped review is
+usually faster than a confidence tier:
 
 ```r
+lv_vocab_review_app("<path>")                          # browser, grouped by decision
 lv_vocab_accept("<path>", min_confidence = "high")     # dry run, shows what it would take
 lv_vocab_accept("<path>", min_confidence = "high", dry_run = FALSE)
 lv_vocab_apply_review("<path>")                        # dry run

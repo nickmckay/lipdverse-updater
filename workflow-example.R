@@ -138,7 +138,13 @@ lv_vocab_review(std$issues, rev, sources = src)
 # sheets carry pastName and pastId alongside every term.
 lv_past_match("Palmer Hydrological Drought Index", n = 5)
 
-# Now open `rev` and fill in the `decision` column. Four options:
+# Review it in the browser rather than the spreadsheet. Values are grouped by
+# the decision they would take, so the 87 rows in the h2k batch are 12 groups,
+# and the papers open with a click. It writes the decision columns and nothing
+# else; applying stays a separate step.
+if (FALSE) lv_vocab_review_app(rev)
+
+# Or open `rev` directly and fill in the `decision` column. Four options:
 #
 # (The file also has a `proposed_*` set of columns, plus confidence and
 # rationale. Those are for the Claude-driven path -- `scripts/lv-claude`, which
