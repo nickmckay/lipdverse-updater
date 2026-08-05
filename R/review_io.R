@@ -85,7 +85,10 @@ lv_review_write <- function(r, path, meta = attr(r, "meta")) {
                      i = "Use a {.path .json} path, or {.fn lv_review_export_csv} for a spreadsheet copy."))
   }
   nul <- function(x) if (length(x) != 1 || is.na(x) || !nzchar(x)) NULL else unbox_chr(x)
-  getl <- function(x) if (is.null(x)) list() else as.list(unname(x))
+  # Each element must be an unboxed scalar, or jsonlite writes an array of
+  # single-element arrays rather than an array of strings.
+  getl <- function(x) if (is.null(x) || !length(x)) list() else
+    lapply(unname(as.character(x)), jsonlite::unbox)
 
   items <- lapply(seq_len(nrow(r)), function(i) {
     pc <- r$past_candidates[[i]]

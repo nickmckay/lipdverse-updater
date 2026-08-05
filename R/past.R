@@ -97,6 +97,14 @@ lv_past_match <- function(value, n = 3, past = lv_past()) {
   score <- d - 10 * exact - 8 * alt_exact - 1.2 * contain - 0.8 * rev_contain
 
   o <- order(score)[seq_len(min(n, nrow(past)))]
+  # Edit distance alone is meaningless once nothing actually matches: PaST has no
+  # concept resembling the proxy term "Documents", and ranking by distance
+  # answers "volume unit". A suggestion that bad is worse than none, so anything
+  # that neither matched a label nor came close is dropped.
+  keep <- exact[o] | alt_exact[o] | contain[o] | rev_contain[o] | d[o] <= 0.45
+  o <- o[keep]
+  if (!length(o)) return(past[0, c("pastId", "pastName", "definition")] |>
+                           (\(x) { x$rule <- character(); x[, c("pastId","pastName","rule","definition")] })())
   rule <- ifelse(exact[o], "exact",
           ifelse(alt_exact[o], "altLabel",
           ifelse(contain[o] | rev_contain[o], "contains", "similar")))
