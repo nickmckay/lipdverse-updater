@@ -130,7 +130,7 @@ count(as_tibble(std$issues), field, sort = TRUE)   # unmatched, for a curator
 # are author shorthand that no vocabulary will ever contain.
 src <- lv_ingest_sources(incoming_download)   # the tree as downloaded, not `incoming`
 
-rev <- fs::path(stage_std, "vocab-review.csv")
+rev <- fs::path(stage_std, "vocab-review.json")
 lv_vocab_review(std$issues, rev, sources = src)
 
 # The review also carries past_candidates: the top PaST thesaurus matches for

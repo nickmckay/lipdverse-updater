@@ -146,17 +146,8 @@ lv_vocab_review <- function(issues, out, vocab = lv_vocab_overlay(store = store)
 
   if (!nrow(x)) {
     cli::cli_alert_success("Nothing left to review.")
-    r <- tibble::tibble(field = character(), value = character(), n = integer(),
-                        example = character(), candidates = character(),
-                        past_candidates = character(), source_pdf = character(),
-                        proposed_decision = character(), proposed_map_to = character(),
-                        proposed_also_field = character(), proposed_also_value = character(),
-                        proposed_past_name = character(), proposed_past_id = character(),
-                        confidence = character(), rationale = character(),
-                        decision = character(), map_to = character(),
-                        also_field = character(), also_value = character(),
-                        past_name = character(), past_id = character(), note = character())
-    readr::write_csv(r, out, na = "")
+    r <- lv_review_empty()
+    lv_review_write(r, out, meta = list(created_utc = lv_now_utc(), vocab_pin = attr(vocab, "pin")))
     return(invisible(r))
   }
 
@@ -164,27 +155,23 @@ lv_vocab_review <- function(issues, out, vocab = lv_vocab_overlay(store = store)
     dplyr::group_by(field, value) |>
     dplyr::summarise(n = dplyr::n(),
                      example = dplyr::first(stats::na.omit(dataSetName)),
-                     datasets = paste(utils::head(unique(stats::na.omit(dataSetName)), 6),
-                                      collapse = " | "),
+                     datasets = list(unique(stats::na.omit(dataSetName))),
                      .groups = "drop") |>
     dplyr::arrange(field, dplyr::desc(n))
 
-  agg$candidates <- vapply(seq_len(nrow(agg)), function(i) {
-    paste(lv_vocab_candidates(agg$value[i], agg$field[i], vocab, n_candidates), collapse = " | ")
-  }, character(1))
+  agg$candidates <- lapply(seq_len(nrow(agg)), function(i)
+    lv_vocab_candidates(agg$value[i], agg$field[i], vocab, n_candidates))
 
   # PaST alignment, for terms that may need adding. The alignment sheets carry
   # paleoData_pastName and paleoData_pastId, so a proposed new term without one
   # is a term someone has to look up later.
-  agg$past_candidates <- NA_character_
+  empty_past <- tibble::tibble(pastId = character(), pastName = character(),
+                               rule = character(), definition = character())
+  agg$past_candidates <- rep(list(empty_past), nrow(agg))
   if (!isFALSE(past)) {
     pt <- tryCatch(if (is.null(past)) lv_past() else past, error = function(e) NULL)
     if (!is.null(pt)) {
-      agg$past_candidates <- vapply(agg$value, function(v) {
-        m <- lv_past_match(v, 3, pt)
-        if (!nrow(m)) return(NA_character_)
-        paste(sprintf("%s (%s, %s)", m$pastName, m$pastId, m$rule), collapse = " | ")
-      }, character(1), USE.NAMES = FALSE)
+      agg$past_candidates <- lapply(agg$value, function(v) lv_past_match(v, 3, pt))
     } else {
       cli::cli_alert_warning("PaST thesaurus unavailable; {.field past_candidates} left empty.")
     }
@@ -192,39 +179,28 @@ lv_vocab_review <- function(issues, out, vocab = lv_vocab_overlay(store = store)
 
   # The paper, where the submission arrived with one. A value like `HHI` cannot
   # be resolved from the vocabulary at all, only from what the authors wrote.
-  agg$source_pdf <- NA_character_
+  agg$source_pdfs <- rep(list(character()), nrow(agg))
   if (!is.null(sources)) {
     pdf_of <- stats::setNames(sources$pdfs, sources$dataSetName)
-    agg$source_pdf <- vapply(strsplit(agg$datasets, " \\| "), function(ds) {
+    agg$source_pdfs <- lapply(agg$datasets, function(ds) {
       f <- unique(stats::na.omit(unlist(pdf_of[ds])))
-      f <- f[nzchar(f)]
-      if (!length(f)) NA_character_ else paste(utils::head(f, 4), collapse = " | ")
-    }, character(1), USE.NAMES = FALSE)
+      f[nzchar(f)]
+    })
   }
 
   # Proposals and decisions are separate columns on purpose. An agent filling in
   # this file writes only the `proposed_*` side; `lv_vocab_apply_review()` reads
   # only `decision`. So a guess cannot become a decision by being written down,
   # and you can always see which rows you ruled on yourself.
-  agg$proposed_decision <- NA_character_
-  agg$proposed_map_to <- NA_character_
-  agg$proposed_also_field <- NA_character_
-  agg$proposed_also_value <- NA_character_
-  agg$proposed_past_name <- NA_character_
-  agg$proposed_past_id <- NA_character_
-  agg$confidence <- NA_character_
-  agg$rationale <- NA_character_
+  for (nm in LV_REVIEW_PROPOSED) agg[[paste0("proposed_", nm)]] <- NA_character_
+  for (nm in LV_REVIEW_DECIDED) agg[[nm]] <- NA_character_
 
-  agg$decision <- NA_character_
-  agg$map_to <- NA_character_
-  agg$also_field <- NA_character_
-  agg$also_value <- NA_character_
-  agg$past_name <- NA_character_
-  agg$past_id <- NA_character_
-  agg$note <- NA_character_
-
-  fs::dir_create(fs::path_dir(out))
-  readr::write_csv(agg, out, na = "")
+  agg <- agg[, c("field", "value", "n", "example", "datasets", "candidates",
+                 "source_pdfs", "past_candidates",
+                 paste0("proposed_", LV_REVIEW_PROPOSED), LV_REVIEW_DECIDED)]
+  lv_review_write(agg, out, meta = list(created_utc = lv_now_utc(),
+                                        vocab_pin = attr(vocab, "pin"),
+                                        n_values = nrow(agg)))
   cli::cli_alert_info(
     "{nrow(agg)} value{?s} to review in {.path {out}}. Decisions: {.val synonym}, {.val new_term}, {.val decompose}, {.val leave}.")
   invisible(agg)
@@ -291,8 +267,7 @@ lv_vocab_apply_review <- function(path, store = qc_store(), actor = lv_actor(),
                                   run_id = lv_run_id(),
                                   patch_dir = fs::path(store$path, "vocab", "patches"),
                                   dry_run = TRUE) {
-  r <- readr::read_csv(path, col_types = readr::cols(.default = readr::col_character()),
-                       na = "", progress = FALSE)
+  r <- lv_review_read(path)
   r <- r[!is.na(r$decision) & nzchar(r$decision), , drop = FALSE]
   if (!nrow(r)) {
     cli::cli_alert_info("No decisions filled in.")
@@ -477,13 +452,15 @@ lv_vocab_accept <- function(path, which = NULL, min_confidence = c("high", "medi
                             dry_run = TRUE) {
   min_confidence <- match.arg(min_confidence)
   rank <- c(low = 1L, medium = 2L, high = 3L)
-  r <- readr::read_csv(path, col_types = readr::cols(.default = readr::col_character()),
-                       na = "", progress = FALSE)
+  r <- lv_review_read(path)
   if (!"proposed_decision" %in% names(r)) {
     cli::cli_abort("{.path {path}} has no {.field proposed_decision} column.",
                    class = "lv_error_vocab")
   }
-  conf <- rank[ifelse(is.na(r$confidence), "low", tolower(r$confidence))]
+  # Confidence is part of the proposal, so it is `proposed_confidence`. Reading a
+  # bare `confidence` silently made every row look low and accepted nothing.
+  cf <- r$proposed_confidence
+  conf <- rank[ifelse(is.na(cf), "low", tolower(cf))]
   conf[is.na(conf)] <- 1L
 
   take <- !is.na(r$proposed_decision) & nzchar(r$proposed_decision) &
@@ -504,7 +481,7 @@ lv_vocab_accept <- function(path, which = NULL, min_confidence = c("high", "medi
   if ("proposed_past_id" %in% names(r)) r$past_id[take] <- r$proposed_past_id[take]
 
   cli::cli_alert_info("Accepting {sum(take)} proposal{?s}:")
-  print(dplyr::count(r[take, ], field, decision), n = 50)
+  print(dplyr::count(tibble::as_tibble(r[take, c("field", "decision")]), field, decision), n = 50)
 
   skipped <- !is.na(r$proposed_decision) & nzchar(r$proposed_decision) & !take &
     (is.na(r$decision) | !nzchar(r$decision))
@@ -517,7 +494,7 @@ lv_vocab_accept <- function(path, which = NULL, min_confidence = c("high", "medi
     cli::cli_alert_info("Dry run. {.path {path}} unchanged.")
     return(invisible(r))
   }
-  readr::write_csv(r, path, na = "")
+  lv_review_write(r, path)
   cli::cli_alert_success("Wrote {.path {path}}. Review it, then {.code lv_vocab_apply_review()}.")
   invisible(r)
 }

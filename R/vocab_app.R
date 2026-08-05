@@ -32,12 +32,11 @@ lv_vocab_review_app <- function(path, vocab = lv_vocab(), launch = TRUE, port = 
   }
   path <- path.expand(path)
   if (!fs::file_exists(path)) cli::cli_abort("Review file not found: {.path {path}}")
-
-  read_review <- function() {
-    readr::read_csv(path, col_types = readr::cols(.default = readr::col_character()),
-                    na = "", progress = FALSE)
+  if (grepl("\\.csv$", path, ignore.case = TRUE)) {
+    cli::cli_abort(c("{.path {path}} is a legacy CSV review.",
+                     i = "Convert it once with {.code lv_review_convert({.str {path}})}, then reopen."))
   }
-  r0 <- read_review()
+  r0 <- lv_review_read(path)
   need <- c("field", "value", "n", "proposed_decision", "decision")
   miss <- setdiff(need, names(r0))
   if (length(miss)) cli::cli_abort("Review file is missing {.field {miss}}.")
@@ -170,12 +169,16 @@ lv_vocab_review_app <- function(path, vocab = lv_vocab(), launch = TRUE, port = 
                    if (pre) shiny::tags$code(paste(x, collapse = "  |  "))
                    else shiny::div(paste(utils::head(x, 6), collapse = "  |  ")))
       }
-      pdfs <- unique(unlist(strsplit(stats::na.omit(r$source_pdf), " \\| ")))
+      pdfs <- unique(unlist(r$source_pdfs))
       shiny::tagList(
-        item("rationale", fld("rationale")),
-        item("vocabulary candidates", fld("candidates"), pre = TRUE),
-        item("PaST candidates", fld("past_candidates"), pre = TRUE),
-        item("datasets", unique(unlist(strsplit(stats::na.omit(r$datasets), " \\| ")))),
+        item("rationale", fld("proposed_rationale")),
+        item("vocabulary candidates", unique(unlist(r$candidates)), pre = TRUE),
+        item("PaST candidates", {
+          pc <- dplyr::bind_rows(r$past_candidates)
+          if (!nrow(pc)) character() else
+            unique(sprintf("%s (%s, %s)", pc$pastName, pc$pastId, pc$rule))
+        }, pre = TRUE),
+        item("datasets", unique(unlist(r$datasets))),
         if (length(pdfs)) shiny::div(
           class = "mb-2",
           shiny::div(class = "text-muted small text-uppercase", "papers"),
@@ -190,7 +193,7 @@ lv_vocab_review_app <- function(path, vocab = lv_vocab(), launch = TRUE, port = 
     # because this app is local by construction.
     shiny::observe({
       idx <- cur_idx()
-      pdfs <- unique(unlist(strsplit(stats::na.omit(rv$r$source_pdf[idx]), " \\| ")))
+      pdfs <- unique(unlist(rv$r$source_pdfs[idx]))
       lapply(seq_along(pdfs), function(i) {
         shiny::observeEvent(input[[paste0("pdf_", i)]], {
           try(system2(if (Sys.info()[["sysname"]] == "Darwin") "open" else "xdg-open",
@@ -203,7 +206,8 @@ lv_vocab_review_app <- function(path, vocab = lv_vocab(), launch = TRUE, port = 
       idx <- cur_idx()
       cols <- intersect(c("value", "n", "proposed_also_value", "decision", "map_to",
                           "also_value", "example"), names(rv$r))
-      DT::datatable(rv$r[idx, cols, drop = FALSE], rownames = FALSE,
+      tb <- as.data.frame(rv$r[idx, cols, drop = FALSE])
+      DT::datatable(tb, rownames = FALSE,
                     selection = "multiple",
                     options = list(pageLength = 12, dom = "tp", scrollX = TRUE))
     }, server = FALSE)
@@ -301,7 +305,7 @@ lv_vocab_review_app <- function(path, vocab = lv_vocab(), launch = TRUE, port = 
     })
 
     shiny::observeEvent(input$save, {
-      readr::write_csv(rv$r, path, na = "")
+      lv_review_write(rv$r, path)
       rv$msg <- sprintf("saved %s", format(Sys.time(), "%H:%M:%S"))
     })
     output$saved <- shiny::renderText(rv$msg)

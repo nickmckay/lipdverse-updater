@@ -89,7 +89,10 @@ Gates, in order:
 ## Proposing vocabulary decisions
 
 Generate the review file with `lv_vocab_review(std$issues, path, sources = src)`,
-then fill in the proposal columns.
+then fill in the proposal fields. The file is JSON: each item carries `datasets`,
+`candidates`, `source_pdfs` and `past_candidates` as arrays, and two parallel
+objects, `proposed` (yours) and `decision` (Nick's). Read and write it with
+`lv_review_read()` / `lv_review_write()` rather than parsing it by hand.
 
 Two sources of evidence beyond the vocabulary, and you are expected to use both
 before saying a value is undecidable.
