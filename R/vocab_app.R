@@ -90,12 +90,18 @@ lv_vocab_review_app <- function(path, vocab = lv_vocab(), launch = TRUE, port = 
           shiny::column(6, shiny::textInput("note", "note"))),
         shiny::uiOutput("validity"),
         shiny::div(
-          class = "d-flex gap-2 mt-2",
-          shiny::actionButton("accept", "Accept group", class = "btn-success"),
-          shiny::actionButton("accept_sel", "Accept selected rows"),
-          shiny::actionButton("leave", "Mark all `leave`"),
-          shiny::actionButton("clear", "Clear group"),
-          shiny::actionButton("nxt", "Next →", class = "ms-auto"))
+          class = "d-flex flex-wrap gap-2 mt-2 align-items-center",
+          shiny::actionButton("accept", "Accept proposals", class = "btn-success"),
+          shiny::actionButton("accept_sel", "Accept selected"),
+          shiny::span(class = "vr mx-1"),
+          shiny::actionButton("form", "Apply form"),
+          shiny::actionButton("leave", "Mark leave"),
+          shiny::actionButton("clear", "Clear"),
+          shiny::actionButton("nxt", "Next →", class = "ms-auto btn-outline-primary")),
+        shiny::div(class = "form-text mt-2",
+          shiny::strong("Accept proposals"), " takes each row's own proposal, so a group keeps its per-row seasons. ",
+          shiny::strong("Apply form"), " writes the boxes above instead. Both act on the selected rows if any are selected, otherwise the whole group. ",
+          "Edit the decision, map_to, also_value and note cells in the table directly to fix individual rows.")
       )
     )
   )
@@ -202,15 +208,45 @@ lv_vocab_review_app <- function(path, vocab = lv_vocab(), launch = TRUE, port = 
       })
     })
 
+    MCOLS <- c("value", "n", "proposed_decision", "proposed_also_value",
+               "decision", "map_to", "also_field", "also_value", "note")
+    # 0-based, and the first four are evidence rather than decisions.
+    MEDIT <- which(MCOLS %in% c("decision", "map_to", "also_field", "also_value", "note")) - 1L
+    mtab <- function(idx) as.data.frame(rv$r[idx, MCOLS, drop = FALSE])
+
     output$members <- DT::renderDT({
+      cur_key()                      # re-render on group change only
+      DT::datatable(
+        shiny::isolate(mtab(cur_idx())), rownames = FALSE, selection = "multiple",
+        editable = list(target = "cell", disable = list(columns = setdiff(seq_along(MCOLS) - 1L, MEDIT))),
+        options = list(pageLength = 15, dom = "tp", scrollX = TRUE,
+                       columnDefs = list(list(className = "text-muted", targets = 0:3))))
+    }, server = TRUE)
+
+    mproxy <- DT::dataTableProxy("members")
+    shiny::observe({
+      rv$r; DT::replaceData(mproxy, mtab(shiny::isolate(cur_idx())),
+                            rownames = FALSE, resetPaging = FALSE, clearSelection = "none")
+    })
+
+    # Inline edits are the fix for "the group is right except for two of them".
+    shiny::observeEvent(input$members_cell_edit, {
+      e <- input$members_cell_edit
       idx <- cur_idx()
-      cols <- intersect(c("value", "n", "proposed_also_value", "decision", "map_to",
-                          "also_value", "example"), names(rv$r))
-      tb <- as.data.frame(rv$r[idx, cols, drop = FALSE])
-      DT::datatable(tb, rownames = FALSE,
-                    selection = "multiple",
-                    options = list(pageLength = 12, dom = "tp", scrollX = TRUE))
-    }, server = FALSE)
+      col <- MCOLS[e$col + 1L]
+      if (!col %in% c("decision", "map_to", "also_field", "also_value", "note")) return()
+      v <- trimws(as.character(e$value))
+      r <- rv$r
+      i <- idx[e$row]
+      r[[col]][i] <- if (nzchar(v)) v else NA_character_
+      # Changing a row to a decision that takes no target leaves the old target
+      # behind otherwise, which is inert but writes noise into decisions.csv.
+      if (col == "decision" && v %in% c("leave", "new_term")) {
+        for (nm in c("map_to", "also_field", "also_value")) r[[nm]][i] <- NA_character_
+      }
+      rv$r <- r
+      rv$msg <- sprintf("%s <- %s", col, if (nzchar(v)) v else "(cleared)")
+    })
 
     # Seed the inputs from the group's proposal whenever the group changes.
     shiny::observeEvent(cur_key(), {
@@ -272,30 +308,53 @@ lv_vocab_review_app <- function(path, vocab = lv_vocab(), launch = TRUE, port = 
       rv$r <- r
     }
 
+    # Copy each row's own proposal across, verbatim. This is the common case and
+    # it is per-row by construction, so a group of 48 keeps its 24 seasons
+    # without anyone having to think about it.
+    accept_proposals <- function(idx) {
+      if (!length(idx)) return(0L)
+      r <- rv$r
+      has <- !is.na(r$proposed_decision[idx]) & nzchar(r$proposed_decision[idx])
+      idx <- idx[has]
+      if (!length(idx)) return(0L)
+      for (nm in LV_REVIEW_DECIDED) {
+        if (nm == "note") next
+        r[[nm]][idx] <- r[[paste0("proposed_", nm)]][idx]
+      }
+      rv$r <- r
+      length(idx)
+    }
+    target <- function() {
+      sel <- input$members_rows_selected
+      if (length(sel)) cur_idx()[sel] else cur_idx()
+    }
+
     shiny::observeEvent(input$accept, {
-      idx <- cur_idx()
-      # If the group's rows carry differing also_values, keep each row's own.
-      pv <- if ("proposed_also_value" %in% names(rv$r)) rv$r$proposed_also_value[idx] else NA
-      write_rows(idx, per_row_also = length(unique(stats::na.omit(pv))) > 1)
-      rv$msg <- sprintf("%d value%s set", length(idx), if (length(idx) == 1) "" else "s")
+      n <- accept_proposals(cur_idx())
+      skipped <- length(cur_idx()) - n
+      rv$msg <- sprintf("accepted %d proposal%s%s", n, if (n == 1) "" else "s",
+                        if (skipped) sprintf(" (%d had none)", skipped) else "")
     })
     shiny::observeEvent(input$accept_sel, {
       sel <- input$members_rows_selected
       if (!length(sel)) { rv$msg <- "no rows selected"; return() }
-      idx <- cur_idx()[sel]
-      pv <- if ("proposed_also_value" %in% names(rv$r)) rv$r$proposed_also_value[idx] else NA
-      write_rows(idx, per_row_also = length(unique(stats::na.omit(pv))) > 1)
-      rv$msg <- sprintf("%d selected row%s set", length(idx), if (length(idx) == 1) "" else "s")
+      n <- accept_proposals(cur_idx()[sel])
+      rv$msg <- sprintf("accepted %d selected", n)
+    })
+    shiny::observeEvent(input$form, {
+      idx <- target()
+      write_rows(idx, per_row_also = FALSE)
+      rv$msg <- sprintf("form applied to %d row%s", length(idx), if (length(idx) == 1) "" else "s")
     })
     shiny::observeEvent(input$leave, {
-      idx <- cur_idx(); r <- rv$r
+      idx <- target(); r <- rv$r
       r$decision[idx] <- "leave"
       r$map_to[idx] <- NA_character_; r$also_field[idx] <- NA_character_
       r$also_value[idx] <- NA_character_
       rv$r <- r; rv$msg <- sprintf("%d marked leave", length(idx))
     })
     shiny::observeEvent(input$clear, {
-      idx <- cur_idx(); r <- rv$r
+      idx <- target(); r <- rv$r
       for (nm in c("decision", "map_to", "also_field", "also_value", "past_name", "past_id"))
         if (nm %in% names(r)) r[[nm]][idx] <- NA_character_
       rv$r <- r; rv$msg <- "cleared"
