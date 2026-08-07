@@ -401,7 +401,19 @@ lv_vocab_patches <- function(decisions, vocab = lv_vocab()) {
     pi <- grep("pastId$", names(row), value = TRUE)
     if (length(pn) && "past_name" %in% names(dk)) row[[pn[1]]] <- dk$past_name
     if (length(pi) && "past_id" %in% names(dk)) row[[pi[1]]] <- dk$past_id
-    out[[k]] <- row[, names(tb), drop = FALSE]
+    row <- row[, names(tb), drop = FALSE]
+
+    # Five HHI values all create moistureIndex, and each produced its own
+    # identical row. These are rows destined for a shared sheet, so emit each
+    # once.
+    row <- dplyr::distinct(row)
+    # And never re-append what the vocabulary already has. A synonym that is
+    # already listed upstream would otherwise arrive as a duplicate.
+    have <- paste(tb$lipdName, if ("synonym" %in% names(tb)) tb$synonym else NA, sep = "\r")
+    key <- paste(row$lipdName, if ("synonym" %in% names(row)) row$synonym else NA, sep = "\r")
+    row <- row[!key %in% have, , drop = FALSE]
+    if (!nrow(row)) next
+    out[[k]] <- row
   }
   out
 }
