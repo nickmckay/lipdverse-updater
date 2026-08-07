@@ -65,6 +65,18 @@ if (length(orphan)) {
 
 base  <- qc_state_current(store, comp)
 sheet <- qc_sheet_pull(bk, cfg$qc_sheet_id, cfg$qc_tabs$qc)
+
+# Report text corruption, never repair it here. Repairing means writing to a
+# shared sheet, which is not something an unattended run should do. Reporting
+# means a run cannot quietly carry `‚Äì` and `Œ¥` into the files, which is how
+# they reached the database in the first place.
+moji <- lv_detect_mojibake(sheet$value)
+if (any(moji$is_mojibake)) {
+  cat(sprintf("\nWARNING: %d sheet cell%s carry mis-decoded text (e.g. %s)\n",
+              sum(moji$is_mojibake), if (sum(moji$is_mojibake) == 1) "" else "s",
+              substr(moji$input[which(moji$is_mojibake)[1]], 1, 60)))
+  cat("  Repair with lv_repair_mojibake(cfg, bk, dry_run = FALSE), then re-run.\n")
+}
 frame <- qc_frame(db, datasets = ds, progress = FALSE)
 frame <- frame[frame$tsid %in% ts, , drop = FALSE]
 # Membership is not stored as a field, so the file-side view is derived.

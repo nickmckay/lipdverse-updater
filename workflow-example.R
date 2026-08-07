@@ -238,6 +238,27 @@ members <- lv_compilation_timeseries(idx, comp)
 length(ds); length(ts); length(members)
 mem$missing                              # named by the sheet, absent from the database
 
+## 2a-bis. Text corruption in the sheet ---------------------------------------
+# Run this BEFORE pulling the sheet for the merge. The QC sheet carries UTF-8
+# bytes that were once decoded as Mac OS Roman: an en-dash reads as `‚Äì`, a
+# delta as `Œ¥`. Left alone the merge treats those as the curated value and
+# writes them into the files, which is how they reached the database before.
+#
+# Detection is a round trip, not a search for suspicious characters, because the
+# suspicious characters are ordinary ones: São, Büntgen and Ångström are all
+# fine and are left alone. A string counts only if re-encoding it yields bytes
+# that are valid UTF-8 and decode to something different, which makes the repair
+# exact rather than a guess.
+#
+# Only the mixed cases reach the §2b consistency check below, since that looks
+# for disagreement within a dataset. A dataset whose rows are uniformly mangled
+# agrees with itself and passes. So check here, not only there.
+
+lv_repair_mojibake(cfg, bk)                     # dry run: lists every cell
+if (FALSE) {
+  lv_repair_mojibake(cfg, bk, dry_run = FALSE)  # patches those cells only
+}
+
 ## 2b. The three inputs to the merge ------------------------------------------
 # base  what the store last recorded    (the baseline)
 # sheet what the QC sheet says now      (curator edits)
@@ -248,6 +269,7 @@ mem$missing                              # named by the sheet, absent from the d
 # see review/compilation-staleness.csv.
 
 base  <- qc_state_current(store, comp)
+# Re-pull after any repair above, or the merge still sees the corrupt values.
 sheet <- qc_sheet_pull(bk, cfg$qc_sheet_id, cfg$qc_tabs$qc)
 frame <- qc_frame(db, datasets = ds)
 frame <- frame[frame$tsid %in% ts, ]
