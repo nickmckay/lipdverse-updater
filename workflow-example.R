@@ -56,7 +56,12 @@ lv_validate_identity(idx)
 # no TSids, and some carry identifiers copied from whatever file was used as a
 # template. Each stage below reports before anything is written.
 
-incoming <- path.expand("~/lipdverse-staging/incoming-hydroclimate2k")
+# Two paths, and they are not the same thing. `incoming` is the flat directory
+# of .lpd files that ingest reads. `incoming_download` is the tree exactly as it
+# came off Drive, one directory per dataset with the paper alongside, which is
+# the only place the PDFs still exist once the .lpd files are flattened.
+incoming          <- path.expand("~/lipdverse-staging/incoming-hydroclimate2k")
+incoming_download <- path.expand("~/lipdverse-staging/h2k-source/ 4. InLipdPendingLipdverse")
 
 ## 1a. Names and required metadata -------------------------------------------
 # Errors exclude a file from the batch; warnings and info do not. Severity is
