@@ -58,6 +58,26 @@ lv_vocab_review_app <- function(path, vocab = lv_vocab(), launch = TRUE, port = 
   ui <- bslib::page_sidebar(
     title = paste0("Vocabulary review · ", fs::path_file(path)),
     theme = bslib::bs_theme(version = 5, preset = "shiny"),
+    # A group can hold 48 values with long rationales and a list of papers. Left
+    # to itself that pushes the decision controls off the bottom of the screen,
+    # which is where the whole exercise actually happens, so the evidence and the
+    # table each get a capped scrolling box and the controls are pinned.
+    shiny::tags$head(shiny::tags$style(shiny::HTML("
+      .lv-evidence { max-height: 22vh; overflow-y: auto; padding-right: .5rem; }
+      .lv-decide { position: sticky; bottom: 0; z-index: 5;
+                   background: var(--bs-body-bg);
+                   border-top: 1px solid var(--bs-border-color);
+                   padding: .6rem 0 .2rem; margin-top: .4rem; }
+      .lv-decide .form-group, .lv-decide .shiny-input-container { margin-bottom: .35rem; }
+      .lv-decide label { margin-bottom: .1rem; font-size: .8rem; }
+      .lv-decide .form-control, .lv-decide .form-select { padding: .2rem .5rem; height: auto; }
+      .dataTables_wrapper { font-size: .88rem; }
+      details.lv-more > summary { cursor: pointer; font-size: .8rem; color: var(--bs-secondary);
+                                  list-style: none; padding: .15rem 0; }
+      details.lv-more > summary::-webkit-details-marker { display: none; }
+      details.lv-more > summary::before { content: '▸ '; }
+      details.lv-more[open] > summary::before { content: '▾ '; }
+    "))),
     sidebar = bslib::sidebar(
       width = 340,
       shiny::uiOutput("progress"),
@@ -72,23 +92,26 @@ lv_vocab_review_app <- function(path, vocab = lv_vocab(), launch = TRUE, port = 
     bslib::card(
       bslib::card_header(shiny::uiOutput("ghead")),
       bslib::card_body(
-        shiny::uiOutput("evidence"),
-        shiny::hr(),
-        shiny::h6("Values in this group"),
+        shiny::div(class = "lv-evidence", shiny::uiOutput("evidence")),
+        shiny::h6(class = "mt-2 mb-1", "Values in this group"),
         DT::DTOutput("members"),
-        shiny::hr(),
-        shiny::h6("Decision"),
-        shiny::fluidRow(
-          shiny::column(3, shiny::selectInput("dec", "decision",
-                                              c("(leave blank)" = "", DECISIONS))),
-          shiny::column(3, shiny::textInput("map", "map_to")),
-          shiny::column(3, shiny::textInput("af", "also_field")),
-          shiny::column(3, shiny::textInput("av", "also_value"))),
-        shiny::fluidRow(
-          shiny::column(4, shiny::textInput("pn", "past_name")),
-          shiny::column(2, shiny::textInput("pid", "past_id")),
-          shiny::column(6, shiny::textInput("note", "note"))),
-        shiny::uiOutput("validity"),
+
+        shiny::div(
+          class = "lv-decide",
+          shiny::fluidRow(
+            shiny::column(3, shiny::selectInput("dec", "decision",
+                                                c("(leave blank)" = "", DECISIONS))),
+            shiny::column(3, shiny::textInput("map", "map_to")),
+            shiny::column(3, shiny::textInput("af", "also_field")),
+            shiny::column(3, shiny::textInput("av", "also_value"))),
+          shiny::tags$details(
+            class = "lv-more",
+            shiny::tags$summary("PaST alignment and note"),
+            shiny::fluidRow(
+              shiny::column(4, shiny::textInput("pn", "past_name")),
+              shiny::column(2, shiny::textInput("pid", "past_id")),
+              shiny::column(6, shiny::textInput("note", "note")))),
+          shiny::uiOutput("validity"),
         shiny::div(
           class = "d-flex flex-wrap gap-2 mt-2 align-items-center",
           shiny::actionButton("accept", "Accept proposals", class = "btn-success"),
@@ -101,7 +124,7 @@ lv_vocab_review_app <- function(path, vocab = lv_vocab(), launch = TRUE, port = 
         shiny::div(class = "form-text mt-2",
           shiny::strong("Accept proposals"), " takes each row's own proposal, so a group keeps its per-row seasons. ",
           shiny::strong("Apply form"), " writes the boxes above instead. Both act on the selected rows if any are selected, otherwise the whole group. ",
-          "Edit the decision, map_to, also_value and note cells in the table directly to fix individual rows.")
+          "Edit the decision, map_to, also_value and note cells in the table directly to fix individual rows."))
       )
     )
   )
@@ -219,7 +242,9 @@ lv_vocab_review_app <- function(path, vocab = lv_vocab(), launch = TRUE, port = 
       DT::datatable(
         shiny::isolate(mtab(cur_idx())), rownames = FALSE, selection = "multiple",
         editable = list(target = "cell", disable = list(columns = setdiff(seq_along(MCOLS) - 1L, MEDIT))),
-        options = list(pageLength = 15, dom = "tp", scrollX = TRUE,
+        options = list(paging = FALSE, dom = "ft", scrollX = TRUE,
+                       scrollY = "30vh", scrollCollapse = TRUE,
+                       language = list(search = "", searchPlaceholder = "filter values"),
                        columnDefs = list(list(className = "text-muted", targets = 0:3))))
     }, server = TRUE)
 
