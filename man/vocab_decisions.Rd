@@ -30,8 +30,14 @@ Four decisions:
 \describe{
 \item{\code{synonym}}{the value means an existing \code{lipdName}. Overlaid onto the
 pinned table, so \code{\link[=vocab_standardize]{vocab_standardize()}} matches it by the \code{synonym} rule.}
-\item{\code{new_term}}{the value is a legitimate term the vocabulary lacks. It
-becomes canonical locally, and is proposed upstream.}
+\item{\code{new_term}}{the vocabulary lacks a term this value needs. With no
+\code{map_to} the value itself becomes canonical. With a \code{map_to}, that name is
+created instead and the value maps onto it, which is what you want when
+the value is not a good term: \verb{Annual HHI} should not become a term, but
+\code{moistureIndex} should, with \verb{Annual HHI} pointing at it. Add
+\code{also_field} and \code{also_value} as well and the value decomposes onto the
+new term, so \verb{Annual HHI} becomes \code{moistureIndex} plus a seasonality of
+\code{Annual} rather than baking the season into the name.}
 \item{\code{decompose}}{the value carries two facts at once, e.g.
 \verb{MJJASO precip index} is \code{precipitation} \emph{plus} a seasonality of \code{MJJASO}.
 Deliberately \strong{not} overlaid as a synonym: a synonym would rewrite the

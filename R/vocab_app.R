@@ -295,13 +295,20 @@ lv_vocab_review_app <- function(path, vocab = lv_vocab(), launch = TRUE, port = 
       d <- input$dec; if (!nzchar(d)) return(character())
       p <- character()
       fld <- unique(rv$r$field[cur_idx()])[1]
+      known <- !is.null(vocab[[fld]]) && nzchar(input$map) && input$map %in% vocab[[fld]]$lipdName
       if (d %in% c("synonym", "decompose") && !nzchar(input$map))
         p <- c(p, "map_to is required")
-      if (nzchar(input$map) && !is.null(vocab[[fld]]) &&
-          !input$map %in% vocab[[fld]]$lipdName)
-        p <- c(p, sprintf("map_to '%s' is not a lipdName in %s", input$map, fld))
+      # For synonym and decompose map_to must exist; for new_term it must not,
+      # because that is the name being created.
+      if (d %in% c("synonym", "decompose") && nzchar(input$map) && !known)
+        p <- c(p, sprintf("map_to '%s' is not a lipdName in %s -- use new_term to create it",
+                          input$map, fld))
+      if (d == "new_term" && known)
+        p <- c(p, sprintf("'%s' already exists; use synonym or decompose", input$map))
       if (d == "decompose" && (!nzchar(input$af) || !nzchar(input$av)))
         p <- c(p, "decompose needs also_field and also_value")
+      if (d == "new_term" && (nzchar(input$af) != nzchar(input$av)))
+        p <- c(p, "also_field and also_value go together")
       if (d == "decompose" && nzchar(input$af) && grepl("^interpretation_", input$af)) {
         key <- input$af
         if (!is.null(vocab[[key]]) && nzchar(input$av) &&

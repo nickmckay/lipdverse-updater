@@ -15,8 +15,14 @@
 #' \describe{
 #'   \item{`synonym`}{the value means an existing `lipdName`. Overlaid onto the
 #'     pinned table, so [vocab_standardize()] matches it by the `synonym` rule.}
-#'   \item{`new_term`}{the value is a legitimate term the vocabulary lacks. It
-#'     becomes canonical locally, and is proposed upstream.}
+#'   \item{`new_term`}{the vocabulary lacks a term this value needs. With no
+#'     `map_to` the value itself becomes canonical. With a `map_to`, that name is
+#'     created instead and the value maps onto it, which is what you want when
+#'     the value is not a good term: `Annual HHI` should not become a term, but
+#'     `moistureIndex` should, with `Annual HHI` pointing at it. Add
+#'     `also_field` and `also_value` as well and the value decomposes onto the
+#'     new term, so `Annual HHI` becomes `moistureIndex` plus a seasonality of
+#'     `Annual` rather than baking the season into the name.}
 #'   \item{`decompose`}{the value carries two facts at once, e.g.
 #'     `MJJASO precip index` is `precipitation` *plus* a seasonality of `MJJASO`.
 #'     Deliberately **not** overlaid as a synonym: a synonym would rewrite the
@@ -72,9 +78,17 @@ lv_vocab_overlay <- function(vocab = lv_vocab(), store = qc_store()) {
   for (k in unique(d$field)) {
     dk <- d[d$field == k, , drop = FALSE]
     tb <- vocab[[k]]
+    named <- dk$decision == "new_term" & !is.na(dk$map_to) & nzchar(dk$map_to)
+    decomposing <- named & !is.na(dk$also_field) & nzchar(dk$also_field)
     add <- tibble::tibble(
-      lipdName = ifelse(dk$decision == "new_term", dk$value, dk$map_to),
-      synonym  = ifelse(dk$decision == "new_term", NA_character_, dk$value))
+      # new_term with a map_to creates that name; without one the value is the name.
+      lipdName = ifelse(dk$decision == "new_term",
+                        ifelse(named, dk$map_to, dk$value), dk$map_to),
+      # A value that decomposes onto its new term must not also be a synonym of
+      # it. A synonym would rewrite the name and drop the second field, which is
+      # the whole loss decompose exists to prevent.
+      synonym  = ifelse(dk$decision == "new_term" & (!named | decomposing),
+                        NA_character_, dk$value))
     for (nm in setdiff(names(tb), names(add))) add[[nm]] <- NA_character_
     add <- add[, names(tb), drop = FALSE]
     # A decision is the later authority: drop any pinned row claiming the same
@@ -93,7 +107,13 @@ lv_vocab_overlay <- function(vocab = lv_vocab(), store = qc_store()) {
 #' @export
 lv_vocab_remap <- function(store = qc_store()) {
   d <- lv_vocab_decisions(store)
-  d <- d[d$decision == "decompose", , drop = FALSE]
+  # A new_term that names its target and carries a second field decomposes onto
+  # that target exactly as `decompose` does; the only difference is that the
+  # target did not exist until this decision created it.
+  keep <- d$decision == "decompose" |
+    (d$decision == "new_term" & !is.na(d$map_to) & nzchar(d$map_to) &
+       !is.na(d$also_field) & nzchar(d$also_field))
+  d <- d[keep, , drop = FALSE]
   d[, c("field", "value", "map_to", "also_field", "also_value"), drop = FALSE]
 }
 
@@ -284,22 +304,39 @@ lv_vocab_apply_review <- function(path, store = qc_store(), actor = lv_actor(),
     cli::cli_abort(c("{sum(need_map)} row{?s} need {.field map_to}.",
                      i = "{.val {utils::head(r$value[need_map], 5)}}"), class = "lv_error_vocab")
   }
-  need_also <- r$decision == "decompose" &
-    (is.na(r$also_field) | !nzchar(r$also_field) | is.na(r$also_value) | !nzchar(r$also_value))
+  # A half-filled also_ pair silently drops the half that is there, on either
+  # decompose or a new_term that is decomposing onto its new name.
+  has_af <- !is.na(r$also_field) & nzchar(r$also_field)
+  has_av <- !is.na(r$also_value) & nzchar(r$also_value)
+  need_also <- (r$decision == "decompose" & !(has_af & has_av)) |
+               (r$decision == "new_term" & xor(has_af, has_av))
   if (any(need_also)) {
-    cli::cli_abort(c("{sum(need_also)} {.val decompose} row{?s} need {.field also_field} and {.field also_value}.",
+    cli::cli_abort(c("{sum(need_also)} row{?s} need both {.field also_field} and {.field also_value}.",
+                     i = "{.val {utils::head(r$value[need_also], 5)}}",
                      i = "That second field is the whole reason to decompose rather than map."),
                    class = "lv_error_vocab")
   }
-  # map_to must itself be a real term, or the decision just moves the problem.
   vocab <- lv_vocab()
+  # map_to must be a real term for synonym and decompose, or the decision just
+  # moves the problem. For new_term the opposite holds: map_to is the name being
+  # created, so one that already exists means this is a synonym.
   chk <- r[r$decision %in% c("synonym", "decompose"), , drop = FALSE]
   if (nrow(chk)) {
     unknown <- vapply(seq_len(nrow(chk)), function(i)
       !chk$map_to[i] %in% vocab[[chk$field[i]]]$lipdName, logical(1))
     if (any(unknown)) {
       cli::cli_abort(c("{sum(unknown)} {.field map_to} value{?s} not in the vocabulary: {.val {unique(chk$map_to[unknown])}}",
-                       i = "Use {.val new_term} to add a term, then map to it."),
+                       i = "Use {.val new_term} with that name as {.field map_to} to create it."),
+                     class = "lv_error_vocab")
+    }
+  }
+  nt <- r[r$decision == "new_term" & !is.na(r$map_to) & nzchar(r$map_to), , drop = FALSE]
+  if (nrow(nt)) {
+    exists_already <- vapply(seq_len(nrow(nt)), function(i)
+      nt$map_to[i] %in% vocab[[nt$field[i]]]$lipdName, logical(1))
+    if (any(exists_already)) {
+      cli::cli_abort(c("{sum(exists_already)} {.val new_term} row{?s} name a term that already exists: {.val {unique(nt$map_to[exists_already])}}",
+                       i = "Use {.val synonym} or {.val decompose} to map onto an existing term."),
                      class = "lv_error_vocab")
     }
   }
@@ -350,9 +387,13 @@ lv_vocab_patches <- function(decisions, vocab = lv_vocab()) {
   for (k in unique(d$field)) {
     dk <- d[d$field == k, , drop = FALSE]
     tb <- vocab[[k]]
+    named <- dk$decision == "new_term" & !is.na(dk$map_to) & nzchar(dk$map_to)
+    decomposing <- named & !is.na(dk$also_field) & nzchar(dk$also_field)
     row <- tibble::tibble(
-      lipdName = ifelse(dk$decision == "new_term", dk$value, dk$map_to),
-      synonym  = ifelse(dk$decision == "new_term", NA_character_, dk$value))
+      lipdName = ifelse(dk$decision == "new_term",
+                        ifelse(named, dk$map_to, dk$value), dk$map_to),
+      synonym  = ifelse(dk$decision == "new_term" & (!named | decomposing),
+                        NA_character_, dk$value))
     for (nm in setdiff(names(tb), names(row))) row[[nm]] <- NA_character_
     # The alignment columns are named per vocabulary: paleoData_pastName in the
     # proxy sheet, pastName elsewhere. Fill whichever this sheet uses.
