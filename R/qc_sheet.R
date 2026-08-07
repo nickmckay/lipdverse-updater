@@ -384,3 +384,29 @@ lv_col_letter <- function(i) {
     s
   }, character(1))
 }
+
+#' Append rows to a sheet tab
+#'
+#' Appends rather than rewriting, so existing rows and their formatting are
+#' untouched. A full rewrite of `datasetsInCompilation` would put 7,000 rows of
+#' other people's curation at risk to add ninety.
+#'
+#' @param backend From [sheet_backend_google()] or [sheet_backend_local()].
+#' @param id Sheet id.
+#' @param tab Tab name.
+#' @param x Data frame whose columns match the tab's.
+#' @export
+sheet_append <- function(backend, id, tab, x) UseMethod("sheet_append")
+
+#' @export
+sheet_append.lv_sheet_local <- function(backend, id, tab, x) {
+  cur <- sheet_read(backend, id, tab)
+  sheet_write(backend, id, tab, dplyr::bind_rows(cur, x))
+}
+
+#' @export
+sheet_append.lv_sheet_google <- function(backend, id, tab, x) {
+  sheet_auth(backend)
+  googlesheets4::sheet_append(id, x, sheet = tab)
+  invisible(nrow(x))
+}

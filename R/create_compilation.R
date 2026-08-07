@@ -332,3 +332,64 @@ lv_compilation_sheet <- function(cells, index, registry = lv_qc_fields()) {
 LV_MEMBERSHIP_INSTRUCTIONS <- paste(
   "Any datasets marked as FALSE will not be considered for the update,",
   "NA or TRUE will be considered.")
+
+#' Offer datasets to a compilation
+#'
+#' Writes names into the `datasetsInCompilation` tab so their timeseries appear
+#' in the QC tab on the next run, each with `inThisCompilation = FALSE`. This is
+#' the first half of the two-step: it makes a dataset *visible* to the leads, who
+#' then admit individual timeseries on the QC tab. It never adds anything to a
+#' compilation.
+#'
+#' Appends, and skips names already listed, so it is safe to re-run. Nothing is
+#' rewritten: the tab holds thousands of rows of other people's curation.
+#'
+#' @param names Dataset names. Typically the `add` rows of [lv_run_receipt()].
+#' @param cfg From [lv_config()].
+#' @param backend From [sheet_backend_google()].
+#' @param index From [lv_db_index()]; supplies each dataset's id.
+#' @param in_compilation Value for the `inComp` column. `TRUE` marks them as
+#'   considered, which is what makes them appear in the QC tab.
+#' @param dry_run Report without writing. Defaults to `TRUE`.
+#' @return The rows appended (or that would be), invisibly.
+#' @export
+lv_offer_to_compilation <- function(names, cfg, backend, index = NULL,
+                                    in_compilation = TRUE, dry_run = TRUE) {
+  names <- unique(stats::na.omit(as.character(names)))
+  tab <- sheet_read(backend, cfg$qc_sheet_id, cfg$qc_tabs$datasets)
+  cols <- base::names(tab)
+  if (!"dsn" %in% cols) {
+    cli::cli_abort("{.field dsn} column not found in {.val {cfg$qc_tabs$datasets}}; found {.val {cols}}.")
+  }
+
+  already <- intersect(names, tab$dsn)
+  todo <- setdiff(names, tab$dsn)
+  if (length(already)) {
+    cli::cli_alert_info("{length(already)} name{?s} already listed; skipping {?it/them}.")
+  }
+  if (!length(todo)) {
+    cli::cli_alert_success("Nothing to add.")
+    return(invisible(tab[0, , drop = FALSE]))
+  }
+
+  idx <- index %||% lv_db_index(lv_scan(lv_path("database")), cache = TRUE)
+  id_of <- stats::setNames(idx$datasets$datasetId, idx$datasets$dataSetName)
+  add <- tibble::tibble(dsn = todo, dsid = unname(id_of[todo]),
+                        inComp = in_compilation)
+  missing_id <- is.na(add$dsid)
+  if (any(missing_id)) {
+    cli::cli_alert_warning(
+      "{sum(missing_id)} dataset{?s} have no datasetId in the index: {.val {utils::head(add$dsn[missing_id], 5)}}")
+  }
+  # Match the tab's own columns, leaving any others (e.g. instructions) blank.
+  for (nm in setdiff(cols, base::names(add))) add[[nm]] <- NA
+  add <- add[, cols, drop = FALSE]
+
+  if (dry_run) {
+    cli::cli_alert_info("Dry run: would append {nrow(add)} row{?s} to {.val {cfg$qc_tabs$datasets}} ({nrow(tab)} rows now).")
+    return(invisible(add))
+  }
+  sheet_append(backend, cfg$qc_sheet_id, cfg$qc_tabs$datasets, add)
+  cli::cli_alert_success("Appended {nrow(add)} row{?s} to {.val {cfg$qc_tabs$datasets}}.")
+  invisible(add)
+}

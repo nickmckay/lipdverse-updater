@@ -127,6 +127,9 @@ lv_promote <- function(staging, dir = lv_path("database"), run_id = lv_run_id(),
     staged_path = as.character(new_files),
     live_path = fs::path(dir, new_names)
   )
+  plan$md5_new <- unname(tools::md5sum(plan$staged_path))
+  plan$md5_old <- ifelse(plan$action == "replace",
+                         unname(tools::md5sum(as.character(plan$live_path))), NA_character_)
   # With a partial staging, everything the run did not touch is untouched, not
   # deleted. Without this, promoting one changed file into the database reads as
   # deleting the other 7,176.
@@ -220,7 +223,11 @@ lv_promote <- function(staging, dir = lv_path("database"), run_id = lv_run_id(),
     list(run_id = run_id, dir = dir, at = format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"),
          n_replaced = sum(plan$action == "replace"), n_added = sum(plan$action == "add"),
          n_deleted = length(deletions), trash = as.character(d$trash),
-         files = plan$file, deletions = deletions),
+         # Per file, not just the name. The receipt is the only record of what a
+         # run did once staging has been emptied by the move into place, and
+         # "which datasets did this add" is the first thing asked afterwards.
+         files = plan[, c("file", "action", "md5_old", "md5_new")],
+         deletions = deletions),
     fs::path(d$runs, paste0(run_id, ".json")), auto_unbox = TRUE, pretty = TRUE)
 
   cli::cli_alert_success("Wrote {length(placed)} file{?s}; {length(moved)} moved to {.path {d$trash}}")
@@ -306,4 +313,38 @@ print.lv_write_receipt <- function(x, ...) {
     else "x" = "not committed"
   ))
   invisible(x)
+}
+
+#' What a committed run did
+#'
+#' Reads a run receipt back. Staging is emptied by the move into place, so after
+#' a promote the receipt is the only record of which datasets were added as
+#' opposed to replaced -- and that is exactly what the next step needs, since
+#' new datasets have to be offered to a compilation and updated ones do not.
+#'
+#' @param run_id Run identifier; defaults to the most recent run.
+#' @param dir Database directory.
+#' @return A tibble of `file`, `action`, `md5_old`, `md5_new`, with `run_id`,
+#'   `at` and `trash` attributes.
+#' @export
+lv_run_receipt <- function(run_id = NULL, dir = lv_path("database")) {
+  runs <- fs::dir_ls(fs::path(dir, ".runs"), glob = "*.json", type = "file")
+  if (!length(runs)) cli::cli_abort("No runs recorded in {.path {fs::path(dir, '.runs')}}")
+  f <- if (is.null(run_id)) runs[which.max(fs::file_info(runs)$modification_time)]
+       else fs::path(dir, ".runs", paste0(run_id, ".json"))
+  if (!fs::file_exists(f)) cli::cli_abort("No receipt for run {.val {run_id}}")
+  j <- jsonlite::read_json(f, simplifyVector = TRUE)
+
+  out <- if (is.data.frame(j$files)) tibble::as_tibble(j$files) else
+    # Receipts written before the schema carried actions hold names only. The
+    # trashed files are exactly the replaced ones, so the rest were adds.
+    tibble::tibble(file = as.character(j$files),
+                   action = ifelse(as.character(j$files) %in%
+                                     fs::path_file(fs::dir_ls(j$trash, glob = "*.lpd")),
+                                   "replace", "add"),
+                   md5_old = NA_character_, md5_new = NA_character_)
+  attr(out, "run_id") <- j$run_id
+  attr(out, "at") <- j$at
+  attr(out, "trash") <- j$trash
+  out
 }

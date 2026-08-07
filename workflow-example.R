@@ -201,12 +201,19 @@ if (FALSE) {
   system2("scripts/snapshot-database.sh")          # snapshot first, always
   lv_promote(stage_std, db, run_id = run, partial = TRUE, dry_run = FALSE)
 
-  # Membership is NOT written into the files. New datasets go into
-  # datasetsInCompilation as TRUE; their timeseries then appear in the QC tab
-  # with inThisCompilation = FALSE and you admit them there.
-  tab <- sheet_read(bk, cfg$qc_sheet_id, cfg$qc_tabs$datasets)
-  add <- setdiff(sub("\\.lpd$", "", list.files(stage_std, "[.]lpd$")), tab$dsn)
-  add
+  # Promoting MOVES the staged files into place, so stage_std is empty
+  # afterwards. Read what the run did from its receipt instead, which is the
+  # only record once staging has been emptied.
+  rec <- lv_run_receipt()
+  count(rec, action)                     # e.g. 91 add, 1 replace
+  added <- sub("\\.lpd$", "", rec$file[rec$action == "add"])
+
+  # Membership is NOT written into the files. New datasets are OFFERED to the
+  # compilation by listing them in datasetsInCompilation; their timeseries then
+  # appear in the QC tab with inThisCompilation = FALSE, and the leads admit
+  # them individually there. This adds nothing to the compilation itself.
+  lv_offer_to_compilation(added, cfg, bk)                   # dry run
+  lv_offer_to_compilation(added, cfg, bk, dry_run = FALSE)  # append
 }
 
 
