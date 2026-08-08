@@ -10,11 +10,13 @@
 # those are wrapped in `if (FALSE)` so they cannot run by accident. Read a
 # section, run it, look at the object it leaves behind, then move on.
 #
-# Every statement is kept on one line. A call split across lines and sent to the
-# RStudio console a line at a time trips its parse hook while devtools has the
-# package loaded, and reports
+# Two conventions here exist to keep the RStudio console happy, and both are
+# worth preserving when editing. Every statement is on one line, and no
+# assignment reuses the name of something on its own right-hand side. Statements
+# breaking either have twice reported
 #   Error in .rs.exprMutatesPackageLibrary(part) : argument "part" is missing
-# which names nothing real. Keep it that way when editing.
+# which is RStudio's own hook failing before your code runs, and names nothing
+# real. Distinct names on each side cost nothing and read better anyway.
 #
 # Two pipelines. Run them in this order when both apply:
 #
@@ -98,9 +100,9 @@ blocked
 # timeseries keeps its compilation memberships. Otherwise someone used an
 # existing file as a template, and it is re-minted.
 
-scan <- lv_ingest_scan(incoming)
-scan <- scan[!scan$file %in% blocked, ]
-plan_id <- lv_ingest_identity(scan, idx)
+scan_all <- lv_ingest_scan(incoming)
+scan     <- scan_all[!scan_all$file %in% blocked, ]
+plan_id  <- lv_ingest_identity(scan, idx)
 count(plan_id, action, reason, sort = TRUE)
 
 # Which datasets are being treated as updates rather than new records:
@@ -288,11 +290,11 @@ if (FALSE) {
 base  <- qc_state_current(store, comp)
 # Re-pull after any repair above, or the merge still sees the corrupt values.
 sheet <- qc_sheet_pull(bk, cfg$qc_sheet_id, cfg$qc_tabs$qc)
-frame <- qc_frame(db, datasets = ds)
-frame <- frame[frame$tsid %in% ts, ]
+frame_all <- qc_frame(db, datasets = ds)
+frame_ts  <- frame_all[frame_all$tsid %in% ts, ]
 
 # Membership is not stored as a field, so the file-side view is derived.
-frame <- bind_rows(frame, lv_membership_frame(idx, comp, ts))
+frame <- bind_rows(frame_ts, lv_membership_frame(idx, comp, ts))
 
 nrow(base); nrow(sheet); nrow(frame)
 
@@ -339,8 +341,8 @@ state <- qc_plan_state(plan)             # the resolved state
 # Only cells the sheet moved. "file" and "converged" mean the file already holds
 # the value. inThisCompilation is handled separately, as structure.
 
-write_cells <- plan$cells[plan$cells$resolution == "sheet" &
-                          plan$cells$field != "inThisCompilation", ]
+sheet_moved <- plan$cells$resolution == "sheet" & plan$cells$field != "inThisCompilation"
+write_cells <- plan$cells[sheet_moved, ]
 nrow(write_cells)
 count(as_tibble(write_cells), field, sort = TRUE) |> head(10)
 
@@ -353,8 +355,8 @@ as.data.frame(bad)
 # continuation that starts with a bare `by =` trips RStudio's parse hook when
 # devtools has the package loaded, and errors on .rs.exprMutatesPackageLibrary
 # rather than on anything real.
-write_cells <- lv_drop_cells(write_cells, bad)
-nrow(write_cells)
+write_ok <- lv_drop_cells(write_cells, bad)
+nrow(write_ok)
 
 ## 2e. Apply to staging -------------------------------------------------------
 
@@ -364,8 +366,8 @@ fs::dir_create(stage)
 
 # Membership first, from the merged plan so an admission leaves the same events
 # as any other curator edit.
-mplan <- plan$cells[plan$cells$field == "inThisCompilation" &
-                    plan$cells$resolution %in% c("sheet", "converged"), ]
+memb_moved <- plan$cells$field == "inThisCompilation" & plan$cells$resolution %in% c("sheet", "converged")
+mplan <- plan$cells[memb_moved, ]
 mres <- lv_apply_membership(mplan, idx, comp, dir = db, out = stage)
 length(mres$added); length(mres$removed)
 
@@ -376,7 +378,7 @@ if (length(mres$datasets)) {
   hit <- match(mres$datasets, aidx$datasets$fileDataSetName)
   aidx$datasets$path[hit] <- fs::path(stage, paste0(mres$datasets, ".lpd"))
 }
-iss <- lv_apply_qc(write_cells, db, stage, index = aidx)
+iss <- lv_apply_qc(write_ok, db, stage, index = aidx)
 as.data.frame(iss)
 
 # Invariant: nothing outside the compilation was touched.
@@ -428,8 +430,11 @@ if (length(staged)) {
 # Re-reads every staged file, runs validLipd, checks names and sizes. This is
 # the gate; a dry run tells you exactly what a commit would do.
 
-rec <- lv_promote(stage, db, run_id = run, partial = TRUE, dry_run = TRUE)
-rec
+# Guarded on `staged`: with nothing to write there is nothing to verify, and
+# lv_promote() rightly refuses an empty staging directory. That refusal is
+# correct but reads like a failure three sections after the actual news.
+if (length(staged)) rec <- lv_promote(stage, db, run_id = run, partial = TRUE, dry_run = TRUE)
+if (length(staged)) rec
 
 ## 2h. Version ----------------------------------------------------------------
 # A_B_C: A ticks on publication, B when the dataset set changes (resetting C),
@@ -437,8 +442,11 @@ rec
 # plan -- re-reading the database on a dry run returns what you started with and
 # makes every run look like a metadata change.
 
+# Also guarded. A version records a change to the compilation's data; a run that
+# wrote nothing is not a new version, and ticking one would claim a change that
+# did not happen.
 prev <- lv_version_current(store, comp)
-members_now <- union(setdiff(members, mres$removed), mres$added)
+members_now <- if (length(staged)) union(setdiff(members, mres$removed), mres$added) else members
 ds_now <- unique(idx$timeseries$dataSetName[idx$timeseries$TSid %in% members_now])
 
 vfile <- fs::path(store$path, "version_datasets.csv")
@@ -447,7 +455,7 @@ ds_before <- if (!is.null(prev) && fs::file_exists(vfile)) {
   v$dataset[v$compilation == comp & v$version == prev]
 } else ds_now
 
-ver <- lv_tick_version(prev, ds_before, ds_now)
+ver <- if (length(staged)) lv_tick_version(prev, ds_before, ds_now) else prev
 ver
 
 ## 2i. COMMIT the update ------------------------------------------------------
@@ -483,8 +491,10 @@ if (FALSE) {
 
 if (FALSE) {
   base2  <- qc_state_current(store, comp)
-  frame2 <- qc_frame(db, datasets = ds)
-  frame2 <- bind_rows(frame2[frame2$tsid %in% ts, ], lv_membership_frame(idx, comp, ts))
+  frame2_all <- qc_frame(db, datasets = ds)
+  frame2_ts  <- frame2_all[frame2_all$tsid %in% ts, ]
+  frame2     <- bind_rows(frame2_ts, lv_membership_frame(idx, comp, ts))
+  source(textConnection('frame2 <- bind_rows(frame2[frame2$tsid %in% ts, ], lv_membership_frame(idx, comp, ts))'))
   plan2  <- qc_merge(base2, qc_sheet_pull(bk, cfg$qc_sheet_id, cfg$qc_tabs$qc), frame2)
   plan2$summary$n_changed          # expect 0
 }
