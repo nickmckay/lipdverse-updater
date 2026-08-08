@@ -173,7 +173,11 @@ lv_compilation_datasets <- function(cfg, backend, index = NULL) {
   want <- unique(stats::na.omit(x[[nm[1]]][keep]))
 
   if (is.null(index)) index <- lv_db_index(lv_scan(cfg$lipd_dir), cache = TRUE)
-  have <- want %in% index$datasets$fileDataSetName
+  # Compare in one normal form. macOS hands back filenames in NFD while the
+  # metadata inside the file is NFC, so `Büntgen` on disk and `Büntgen` in the
+  # sheet are different strings that render identically -- and the dataset reads
+  # as missing from a database it is sitting in.
+  have <- lv_nfc(want) %in% index$datasets$fileDataSetName
   list(datasets = want[have], missing = want[!have],
        excluded = unique(stats::na.omit(x[[nm[1]]][!keep])))
 }
@@ -417,4 +421,20 @@ lv_qc_timeseries <- function(index, datasets = NULL, tsids = NULL) {
   if (!is.null(datasets)) keep <- keep & t$dataSetName %in% datasets
   if (!is.null(tsids)) keep <- keep & t$TSid %in% tsids
   unique(t$TSid[keep])
+}
+
+#' Normalise text for comparison
+#'
+#' macOS returns filenames decomposed (NFD) while the metadata inside a LiPD file
+#' is composed (NFC). The two render identically and compare unequal, which is
+#' how four datasets came to be reported as absent from a database that held
+#' them. Any comparison between a filename and a name from anywhere else has to
+#' go through this.
+#'
+#' @param x A character vector.
+#' @return `x`, in NFC.
+#' @export
+lv_nfc <- function(x) {
+  if (!requireNamespace("stringi", quietly = TRUE)) return(x)
+  stringi::stri_trans_nfc(x)
 }

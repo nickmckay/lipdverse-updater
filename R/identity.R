@@ -61,7 +61,11 @@ lv_db_index <- function(scan = lv_scan(), workers = NULL, cache = TRUE) {
   }))
   # The filename is the operational key: readLipd/writeLipd round-trip through
   # it, and lipdverseR names its in-memory list by it.
-  datasets$fileDataSetName <- sub("\\.lpd$", "", datasets$file)
+  # NFC at the source. macOS returns filenames decomposed while the metadata
+  # inside the file is composed, so every lookup keyed on this -- membership,
+  # path resolution, and the ingest identity check that decides update from
+  # template reuse -- would otherwise miss on any accented name.
+  datasets$fileDataSetName <- lv_nfc(sub("\\.lpd$", "", datasets$file))
 
   timeseries <- purrr::list_rbind(purrr::map(extracts, function(e) {
     if (!length(e$tsids)) return(tibble::tibble(TSid = character(), datasetId = character(),
