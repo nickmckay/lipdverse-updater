@@ -478,6 +478,11 @@ if (FALSE) {
   push_state <- state[state$tsid %in% ts, ]
   qc_sheet_push(push_state, bk, cfg$qc_sheet_id, cfg$qc_tabs$qc, mode = "full", dry_run = FALSE)
 
+  # The sheet's title is where most people read the version, so leaving it behind
+  # quietly misreports which version everyone is editing. Needs googledrive auth:
+  # renaming a document is a Drive operation, not a Sheets one.
+  lv_rename_qc_sheet(cfg, ver$version, dry_run = FALSE)
+
   # Optional: recolour the header by thematic group.
   qc_sheet_colour_groups(bk, cfg$qc_sheet_id, cfg$qc_tabs$qc, dry_run = FALSE)
 }

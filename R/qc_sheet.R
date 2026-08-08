@@ -440,3 +440,59 @@ sheet_append.lv_sheet_google <- function(backend, id, tab, x) {
   googlesheets4::sheet_append(id, x, sheet = tab)
   invisible(nrow(x))
 }
+
+#' The name a compilation's QC sheet should carry
+#'
+#' The sheet's title is where most people read the version, so a title left
+#' behind quietly misreports which version everyone is editing. hydroclimate2k
+#' sat at "v.0_4_0" while the ledger had moved to 0_5_0.
+#'
+#' Derived by substituting the version into the existing title rather than
+#' rebuilding it, so anything else in there survives. Titles vary more than they
+#' look: some carry a compilation alias, some a note.
+#'
+#' @param current The sheet's current title.
+#' @param version The version it should name, e.g. `"0_5_0"`.
+#' @param compilation Used only when `current` carries no version at all.
+#' @return The title it should have.
+#' @export
+lv_qc_sheet_name <- function(current, version, compilation = NULL) {
+  pat <- "v\\.?[0-9]+_[0-9]+_[0-9]+"
+  if (grepl(pat, current)) return(sub(pat, paste0("v.", version), current))
+  # No version in the title: append one rather than inventing a whole new title.
+  if (nzchar(trimws(current))) return(paste0(trimws(current), " v.", version))
+  paste0(compilation %||% "compilation", " v.", version, " QC sheet")
+}
+
+#' Rename a QC sheet to match its version
+#'
+#' Renames the spreadsheet document, not a tab, which is a Drive operation rather
+#' than a Sheets one. Refuses to run if the title already names the version, so
+#' it is safe to call on every run.
+#'
+#' @param cfg From [lv_config()].
+#' @param version Version to name.
+#' @param dry_run Report without renaming. Defaults to `TRUE`.
+#' @return The new title, invisibly.
+#' @export
+lv_rename_qc_sheet <- function(cfg, version, dry_run = TRUE) {
+  for (p in c("googlesheets4", "googledrive")) {
+    if (!requireNamespace(p, quietly = TRUE)) cli::cli_abort("{.pkg {p}} is required.")
+  }
+  current <- googlesheets4::gs4_get(cfg$qc_sheet_id)$name
+  target <- lv_qc_sheet_name(current, version, cfg$compilation)
+
+  if (identical(current, target)) {
+    cli::cli_alert_success("Title already names {.val {version}}: {.val {current}}")
+    return(invisible(current))
+  }
+  cli::cli_alert_info("{.val {current}}  ->  {.val {target}}")
+  if (dry_run) {
+    cli::cli_alert_info("Dry run. Not renamed.")
+    return(invisible(target))
+  }
+  # Drive, not Sheets: googlesheets4 renames tabs, not documents.
+  googledrive::drive_rename(googledrive::as_id(cfg$qc_sheet_id), name = target)
+  cli::cli_alert_success("Renamed to {.val {target}}")
+  invisible(target)
+}

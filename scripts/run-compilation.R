@@ -297,6 +297,11 @@ if (commit) {
                 mode = if (length(new_rows) || length(new_cols)) "full" else "patch",
                 dry_run = FALSE)
   cat("sheet       : pushed\n")
+  # The title is where most people read the version. try(): renaming needs Drive
+  # auth, and a scheduled run should not fail a completed update over a title.
+  renamed <- try(lv_rename_qc_sheet(cfg, ver$version, dry_run = FALSE), silent = TRUE)
+  cat(sprintf("title       : %s\n",
+              if (inherits(renamed, "try-error")) "NOT renamed (needs googledrive auth)" else renamed))
 } else {
   n <- nrow(qc_diff_to_events(base, state, source = "sheet"))
   cat(sprintf("store       : would append %d event%s\n", n, if (n == 1) "" else "s"))
