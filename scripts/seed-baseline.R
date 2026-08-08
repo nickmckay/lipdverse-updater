@@ -64,7 +64,7 @@ if (nrow(existing) && !force) {
 idx <- lv_db_index(lv_scan(db), cache = TRUE)
 mem <- lv_compilation_datasets(cfg, bk, idx)
 ds  <- mem$datasets
-ts  <- idx$timeseries$TSid[idx$timeseries$dataSetName %in% ds]
+ts <- lv_qc_timeseries(idx, datasets = ds)   # paleoData only
 cat(sprintf("considered  : %d datasets, %d timeseries\n", length(ds), length(ts)))
 
 frame <- qc_frame(db, datasets = ds, progress = FALSE)

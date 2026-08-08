@@ -252,3 +252,53 @@ print.lv_qc_store <- function(x, ...) {
   cli::cli_bullets(c("*" = "{.path {x$path}}", "*" = "{length(comps)} compilation{?s}"))
   invisible(x)
 }
+
+#' Retire cells from a compilation's QC state
+#'
+#' Appends tombstones rather than deleting anything: the store is append-only,
+#' so the history of a retired cell stays readable and the retirement itself is
+#' an event with a reason attached.
+#'
+#' Written for a specific mess. The hydroclimate2k baseline was seeded with 6,495
+#' chronData timeseries, each carrying a lone `inThisCompilation` flag and no
+#' dataSetName or archiveType, because the seeder took its scope straight off the
+#' index. Fixing the scope stops more arriving; it does not remove what was
+#' already recorded, and the merge would keep re-surfacing them.
+#'
+#' @param store From [qc_store()].
+#' @param compilation Compilation name.
+#' @param tsids Timeseries to retire. All their cells are tombstoned.
+#' @param reason Recorded on every event.
+#' @param actor Who did it.
+#' @param run_id Run identifier.
+#' @param dry_run Report without appending. Defaults to `TRUE`.
+#' @return The events appended (or that would be), invisibly.
+#' @export
+lv_qc_retire <- function(store, compilation, tsids, reason,
+                         actor = lv_actor(), run_id = lv_run_id(), dry_run = TRUE) {
+  if (missing(reason) || !nzchar(reason)) {
+    cli::cli_abort("{.arg reason} is required; a retirement without one is indistinguishable from a bug.")
+  }
+  state <- qc_state_current(store, compilation)
+  hit <- state[state$tsid %in% tsids, , drop = FALSE]
+  if (!nrow(hit)) {
+    cli::cli_alert_success("Nothing to retire.")
+    return(invisible(NULL))
+  }
+  ev <- tibble::tibble(
+    tsid = hit$tsid, field = hit$field,
+    old_value = hit$value, old_present = TRUE,
+    new_value = NA_character_, new_present = FALSE,
+    dataset_id = hit$dataset_id, source = "curator", actor = actor, reason = reason)
+
+  cli::cli_alert_info(
+    "{nrow(ev)} cell{?s} across {dplyr::n_distinct(ev$tsid)} timeseries would be retired.")
+  print(dplyr::count(ev, field, sort = TRUE), n = 10)
+  if (dry_run) {
+    cli::cli_alert_info("Dry run. Nothing appended.")
+    return(invisible(ev))
+  }
+  qc_store_append(store, compilation, ev, run_id = run_id)
+  cli::cli_alert_success("Retired {nrow(ev)} cell{?s}.")
+  invisible(ev)
+}
