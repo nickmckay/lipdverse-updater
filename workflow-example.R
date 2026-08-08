@@ -232,7 +232,7 @@ if (FALSE) {
 
 mem <- lv_compilation_datasets(cfg, bk, idx)
 ds  <- mem$datasets
-ts  <- idx$timeseries$TSid[idx$timeseries$dataSetName %in% ds]
+ts  <- lv_qc_timeseries(idx, datasets = ds)   # paleoData only; chron is not curated here
 members <- lv_compilation_timeseries(idx, comp)
 
 length(ds); length(ts); length(members)

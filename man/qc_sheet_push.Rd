@@ -11,7 +11,8 @@ qc_sheet_push(
   tab = "QC",
   mode = c("patch", "full"),
   registry = lv_qc_fields(),
-  dry_run = TRUE
+  dry_run = TRUE,
+  add_columns = FALSE
 )
 }
 \arguments{

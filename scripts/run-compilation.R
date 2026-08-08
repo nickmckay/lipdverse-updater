@@ -46,7 +46,7 @@ idx <- lv_db_index(lv_scan(db), cache = TRUE)
 # The QC tab is scoped to `considered`; the compilation is `members`.
 mem <- lv_compilation_datasets(cfg, bk, idx)
 ds  <- mem$datasets
-ts  <- idx$timeseries$TSid[idx$timeseries$dataSetName %in% ds]
+ts  <- lv_qc_timeseries(idx, datasets = ds)   # paleoData only; chron is not curated here
 members <- lv_compilation_timeseries(idx, comp)
 cat(sprintf("considered  : %d datasets, %d timeseries\n", length(ds), length(ts)))
 cat(sprintf("members     : %d timeseries in %d datasets\n", length(members),

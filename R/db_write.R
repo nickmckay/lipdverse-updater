@@ -127,6 +127,17 @@ lv_promote <- function(staging, dir = lv_path("database"), run_id = lv_run_id(),
     staged_path = as.character(new_files),
     live_path = fs::path(dir, new_names)
   )
+  # A run id names one write. Reusing it puts a second set of files into the
+  # first run's trash and overwrites its receipt, which is how an ingest of 91
+  # datasets came to be recorded as an update of 412: same id, two promotes,
+  # one surviving record and one rollback that would undo both at once.
+  prior <- fs::path(dir, ".runs", paste0(run_id, ".json"))
+  if (!dry_run && fs::file_exists(prior)) {
+    cli::cli_abort(c("Run {.val {run_id}} has already written to {.path {dir}}.",
+                     i = "Its receipt is {.path {prior}}.",
+                     i = "Use a fresh {.code run_id = lv_run_id()} for each promote."),
+                   class = "lv_error_write")
+  }
   plan$md5_new <- unname(tools::md5sum(plan$staged_path))
   plan$md5_old <- ifelse(plan$action == "replace",
                          unname(tools::md5sum(as.character(plan$live_path))), NA_character_)

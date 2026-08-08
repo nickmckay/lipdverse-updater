@@ -281,7 +281,8 @@ qc_cells_to_sheet <- function(cells, registry = lv_qc_fields(), template = NULL)
 #' @return A receipt list, invisibly.
 #' @export
 qc_sheet_push <- function(cells, backend, id, tab = "QC", mode = c("patch", "full"),
-                          registry = lv_qc_fields(), dry_run = TRUE) {
+                          registry = lv_qc_fields(), dry_run = TRUE,
+                          add_columns = FALSE) {
   mode <- match.arg(mode)
   current <- tryCatch(qc_sheet_pull(backend, id, tab, registry), error = function(e) qc_cells_empty())
   delta <- qc_diff_to_events(current, cells, source = "sheet")
@@ -294,6 +295,35 @@ qc_sheet_push <- function(cells, backend, id, tab = "QC", mode = c("patch", "ful
 
   template <- tryCatch(sheet_read(backend, id, tab), error = function(e) NULL)
   wide <- qc_cells_to_sheet(cells, registry, template)
+
+  # Columns are added by a curator, never by a run. Adding one silently commits
+  # a compilation to a field nobody asked for, and the sheet is where that
+  # decision belongs: to start curating a field, add a blank column for it.
+  #
+  # The block is written positionally from A1, so it must keep the sheet's exact
+  # column set and order. Simply dropping the surplus columns would leave a
+  # narrower block and shift every column after the first gap onto its
+  # neighbour's data.
+  if (!is.null(template) && !add_columns) {
+    extra <- setdiff(names(wide), names(template))
+    receipt$skipped_fields <- extra
+    if (length(extra)) {
+      cli::cli_alert_warning(
+        "{length(extra)} field{?s} have no column in {.val {tab}}, so {?it is/they are} not written: {.val {utils::head(extra, 8)}}")
+      cli::cli_alert_info("Add a blank column named for the field to start curating it.")
+    }
+    key <- intersect(c("TSid", "tsid"), names(template))[1]
+    out <- tibble::tibble(.rows = nrow(wide))
+    for (nm in names(template)) {
+      out[[nm]] <- if (nm %in% names(wide)) wide[[nm]]
+                   # A column this run has nothing for keeps what the sheet
+                   # already holds, rather than being blanked.
+                   else if (!is.na(key) && key %in% names(wide))
+                     template[[nm]][match(wide[[key]], template[[key]])]
+                   else NA
+    }
+    wide <- out
+  }
   # Values only: the QC tab's colour coding is how leads find their way around
   # it, and rewriting the worksheet would discard it.
   sheet_write_values(backend, id, tab, wide)

@@ -191,6 +191,11 @@ lv_compilation_datasets <- function(cfg, backend, index = NULL) {
 #' @return A cell table.
 #' @export
 lv_membership_frame <- function(index, compilation, tsids) {
+  # QC covers paleoData only. This function emits a row per TSid it is handed,
+  # so a chron TSid in `tsids` becomes a sheet row carrying nothing but a
+  # membership flag: no dataSetName, no archiveType, nothing to curate. That is
+  # how 6,495 chron rows reached the hydroclimate2k sheet.
+  tsids <- lv_qc_timeseries(index, tsids = tsids)
   members <- lv_compilation_timeseries(index, compilation)
   dsid <- index$timeseries$datasetId[match(tsids, index$timeseries$TSid)]
   tibble::tibble(
@@ -392,4 +397,24 @@ lv_offer_to_compilation <- function(names, cfg, backend, index = NULL,
   sheet_append(backend, cfg$qc_sheet_id, cfg$qc_tabs$datasets, add)
   cli::cli_alert_success("Appended {nrow(add)} row{?s} to {.val {cfg$qc_tabs$datasets}}.")
   invisible(add)
+}
+
+#' The timeseries QC covers
+#'
+#' paleoData only. Chron columns are lab IDs, dated materials and reservoir ages:
+#' real data, but not what a compilation's QC sheet is for, and the QC field
+#' registry has no vocabulary for them.
+#'
+#' @param index From [lv_db_index()].
+#' @param datasets Restrict to these dataset names.
+#' @param tsids Restrict to these TSids.
+#' @return A character vector of TSids.
+#' @export
+lv_qc_timeseries <- function(index, datasets = NULL, tsids = NULL) {
+  t <- index$timeseries
+  if (!"tableType" %in% names(t)) return(if (is.null(tsids)) t$TSid else tsids)
+  keep <- t$tableType %in% "paleo"
+  if (!is.null(datasets)) keep <- keep & t$dataSetName %in% datasets
+  if (!is.null(tsids)) keep <- keep & t$TSid %in% tsids
+  unique(t$TSid[keep])
 }
