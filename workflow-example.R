@@ -17,6 +17,12 @@
 #
 # =============================================================================
 
+# -----------------------------------------------------------------------------
+# SETUP -- run this block after any restart, then jump to whichever section you
+# are on. Everything below depends on these and nothing else, so resuming never
+# means starting over. The index is cached by file md5, so this is ~20 seconds.
+# -----------------------------------------------------------------------------
+
 library(dplyr)
 devtools::load_all("~/GitHub/lipdverse-updater")
 
@@ -41,6 +47,11 @@ cfg
 
 idx <- lv_db_index(lv_scan(db), cache = TRUE)
 idx
+
+# END OF SETUP ----------------------------------------------------------------
+#
+# A note on `run`: it names one write. lv_promote() refuses to commit twice under
+# the same id, so take a fresh one per session rather than carrying it forward.
 
 # Identity is checked before anything else. Duplicate TSids, duplicate
 # datasetIds and duplicate names are errors, not things to auto-rename.
