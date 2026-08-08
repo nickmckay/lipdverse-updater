@@ -376,6 +376,16 @@ as.data.frame(iss)
 # Invariant: nothing outside the compilation was touched.
 setdiff(sub("\\.lpd$", "", list.files(stage, "[.]lpd$")), ds)
 
+staged <- list.files(stage, "[.]lpd$")
+length(staged)
+
+# An empty staging directory is a real and ordinary outcome, not a failure: the
+# sheet moved nothing the files do not already hold. It usually means this update
+# has already been applied. Everything from here to the promote is then a no-op,
+# and there is nothing to promote -- doing it anyway would burn a version and
+# rewrite hundreds of files to no effect. Push the sheet and stop.
+if (!length(staged)) message("Nothing to write. Skip to the sheet push in 2i.")
+
 ## 2f. Changelog --------------------------------------------------------------
 # Per dataset, comparing staged against live. Each entry carries the compilation
 # and run_id, which createChangelog() never recorded -- 56% of datasets belong to
@@ -384,7 +394,7 @@ setdiff(sub("\\.lpd$", "", list.files(stage, "[.]lpd$")), ds)
 #
 # Writes the entries into the staged files, so promoting carries them along.
 
-for (f in list.files(stage, "[.]lpd$")) {
+for (f in staged) {
   live <- fs::path(db, f)
   if (!fs::file_exists(live)) next
   a <- suppressWarnings(lipdR::readLipd(live))
@@ -398,10 +408,15 @@ for (f in list.files(stage, "[.]lpd$")) {
   lipdR::writeLipd(b, path = stage, removeNamesFromLists = TRUE)
 }
 
-# What one dataset's diff looks like, before it is rendered into an entry:
-lv_changelog_diff(
-  suppressWarnings(lipdR::readLipd(fs::path(db, list.files(stage, "[.]lpd$")[1]))),
-  suppressWarnings(lipdR::readLipd(fs::path(stage, list.files(stage, "[.]lpd$")[1]))))
+# What one dataset's diff looks like, before it is rendered into an entry.
+# Guarded: with nothing staged, `staged[1]` is NA and readLipd is handed NA as a
+# path, which fails inside lipdR with a message about file extensions that says
+# nothing about the actual cause.
+if (length(staged)) {
+  lv_changelog_diff(
+    suppressWarnings(lipdR::readLipd(fs::path(db, staged[1]))),
+    suppressWarnings(lipdR::readLipd(fs::path(stage, staged[1]))))
+}
 
 ## 2g. Verify without writing -------------------------------------------------
 # Re-reads every staged file, runs validLipd, checks names and sizes. This is
