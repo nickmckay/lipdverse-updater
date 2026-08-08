@@ -455,7 +455,7 @@ ds_before <- if (!is.null(prev) && fs::file_exists(vfile)) {
   v$dataset[v$compilation == comp & v$version == prev]
 } else ds_now
 
-ver <- if (length(staged)) lv_tick_version(prev, ds_before, ds_now) else prev
+ver <- if (length(staged)) lv_tick_version(prev, ds_before, ds_now) else lv_version_unchanged(prev, ds_now)
 ver
 
 ## 2i. COMMIT the update ------------------------------------------------------

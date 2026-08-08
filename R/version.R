@@ -201,3 +201,29 @@ lv_version_append <- function(store, compilation, version, run_id = lv_run_id(),
 
   invisible(row)
 }
+
+#' An unchanged version
+#'
+#' The same shape [lv_tick_version()] returns, for a run that wrote nothing. A
+#' run with an empty staging directory has not produced a new version, but every
+#' consumer downstream still expects an `lv_version` -- and handing them the bare
+#' string [lv_version_current()] returns makes `ver$version` NULL, which then
+#' travels silently into a sheet title or a ledger row.
+#'
+#' @param prev The current version string, from [lv_version_current()].
+#' @param datasets The dataset set, unchanged.
+#' @return An `lv_version`.
+#' @export
+lv_version_unchanged <- function(prev, datasets = character()) {
+  p <- if (is.null(prev) || is.na(prev)) c(0L, 0L, 0L) else
+    as.integer(strsplit(prev, "_", fixed = TRUE)[[1]])
+  structure(list(
+    version = if (is.null(prev) || is.na(prev)) lv_version_string(0L, 0L, 0L) else prev,
+    previous = prev,
+    publication = p[1], dataset = p[2], metadata = p[3],
+    reason = "no change: nothing was written",
+    n_datasets = length(datasets), datasets = sort(datasets),
+    added = character(), removed = character(),
+    dataset_set_hash = lv_dataset_set_hash(datasets)
+  ), class = "lv_version")
+}
