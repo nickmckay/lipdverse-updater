@@ -258,8 +258,12 @@ lv_write_rollback <- function(dir = lv_path("database"), run_id, placed = NULL, 
   rec <- fs::path(d$runs, paste0(run_id, ".json"))
   if (is.null(placed) && fs::file_exists(rec)) {
     j <- jsonlite::read_json(rec, simplifyVector = TRUE)
-    placed <- j$files
-    moved <- c(j$files, j$deletions)
+    # Receipts written before the plan was recorded hold a character vector here;
+    # newer ones hold a table. Rollback is the recovery path, so it has to read
+    # both -- an old receipt is exactly the one most likely to need rolling back.
+    files <- if (is.data.frame(j$files)) j$files$file else as.character(j$files)
+    placed <- files
+    moved <- c(files, as.character(j$deletions %||% character()))
   }
   if (!fs::dir_exists(d$trash)) {
     cli::cli_abort("No trash for run {.val {run_id}} at {.path {d$trash}}", class = "lv_error_write")

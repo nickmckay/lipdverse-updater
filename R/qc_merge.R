@@ -76,15 +76,45 @@ values_equal <- function(x, y, numeric_ok = TRUE) {
   ok <- !is.na(nx) & !is.na(ny) & is.finite(nx) & is.finite(ny)
   if (!any(ok)) return(out)
 
-  # Digits after the decimal point: strip everything up to and including the
-  # first dot, leaving "" (and so 0) when there is no dot at all.
+  # Compare the numbers, not their spelling. This exists so "1.0" and "1", or
+  # "1.50" and "1.5", are one value written two ways rather than an edit on every
+  # run forever.
+  #
+  # It used to round both to the LESSER of the two precisions first, which made
+  # any difference beyond the shorter spelling invisible: 60.07 and 60.1 compared
+  # equal, so a coordinate rounded in one place could never be detected as
+  # differing from the unrounded one, and whichever side happened to be written
+  # last silently won. That is how four datasets lost their coordinate precision.
+  #
+  # The tolerance is for float representation only -- a value read back as
+  # 60.070000000000004 is the same number -- and is far tighter than any
+  # difference a person would type.
   decimals <- function(v) nchar(sub("^[^.]*\\.?", "", v))
   dp <- pmin(decimals(x[cand]), decimals(y[cand]))
+
   same_num <- rep(FALSE, sum(cand))
-  same_num[ok] <- round(nx[ok], dp[ok]) == round(ny[ok], dp[ok])
+  # Exactly equal as numbers: "1.0" and "1", "1e3" and "1000".
+  same_num[ok] <- nx[ok] == ny[ok]
+
+  # Otherwise compare at the precision the two have in common, which is what
+  # makes a value the sheet has rounded not read as an edit. But only when that
+  # shared precision is meaningful. It used to apply at any precision, so a value
+  # carrying one decimal swallowed a finer one -- 60.07 and 60.1 compared equal,
+  # and four datasets lost coordinate precision because nothing could see the
+  # difference. Two decimals is the line: enough for a sheet-rounded 1770.79167
+  # to still match 1770.7917, not enough for 60.1 to claim 60.07.
+  round_ok <- ok & !same_num & dp >= LV_MIN_SHARED_DECIMALS
+  if (any(round_ok)) {
+    same_num[round_ok] <- round(nx[round_ok], dp[round_ok]) ==
+                          round(ny[round_ok], dp[round_ok])
+  }
   out[cand] <- same_num
   out
 }
+
+# Below this many shared decimal places, two numbers that are not exactly equal
+# are treated as different. See values_equal().
+LV_MIN_SHARED_DECIMALS <- 2L
 
 LV_CLEAR_SENTINEL <- "<<CLEAR>>"
 
