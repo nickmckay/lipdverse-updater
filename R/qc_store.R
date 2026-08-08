@@ -96,9 +96,14 @@ validate_qc_events <- function(e) {
 qc_store_append <- function(store, compilation, events, run_id = lv_run_id()) {
   if (nrow(events) == 0) return(invisible(NULL))
   events$compilation <- compilation
-  if (all(is.na(events$run_id))) events$run_id <- run_id
-  if (all(is.na(events$ts))) events$ts <- format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
-  if (all(is.na(events$event_seq))) events$event_seq <- seq_len(nrow(events))
+  # Absent and all-NA both mean "fill this in". Testing the column directly
+  # warns about an uninitialised column when a caller builds events by hand,
+  # which is noise on every append -- and "uninitialised column" during a write
+  # to the store is exactly the kind of warning that should mean something.
+  unset <- function(nm) is.null(events[[nm]]) || all(is.na(events[[nm]]))
+  if (unset("run_id")) events$run_id <- run_id
+  if (unset("ts")) events$ts <- format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
+  if (unset("event_seq")) events$event_seq <- seq_len(nrow(events))
   validate_qc_events(events)
 
   d <- store_dir(store, compilation, "events")
