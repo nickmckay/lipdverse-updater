@@ -2,7 +2,7 @@
 % Please edit documentation in R/qc_store.R
 \name{qc_store_events}
 \alias{qc_store_events}
-\title{Read a compilation's whole event log}
+\title{Read a compilation\'s whole event log}
 \usage{
 qc_store_events(store, compilation)
 }
@@ -15,5 +15,5 @@ qc_store_events(store, compilation)
 An event tibble, oldest first.
 }
 \description{
-Read a compilation's whole event log
+Read a compilation\'s whole event log
 }

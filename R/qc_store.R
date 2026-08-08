@@ -112,14 +112,26 @@ qc_store_append <- function(store, compilation, events, run_id = lv_run_id()) {
   # appends inside the same second carry identical timestamps, and ordering by
   # anything else (run_id is random) would let a later event sort first and be
   # overwritten by the earlier one when materialising "latest wins".
-  n <- length(fs::dir_ls(d, glob = "*.csv"))
-  p <- fs::path(d, sprintf("%06d_%s_%s.csv", n + 1L,
+  n <- length(lv_store_event_files(d))
+  # Gzipped. The hydroclimate2k log reached 50 MB in one file and GitHub had
+  # already warned; events are long-format text and compress about tenfold. The
+  # sequence prefix still orders them, so the extension is free to change.
+  p <- fs::path(d, sprintf("%06d_%s_%s.csv.gz", n + 1L,
                            gsub("[^0-9]", "", events$ts[1]), events$run_id[1]))
   readr::write_csv(events[, LV_EVENT_COLS], p, na = "")
   invisible(p)
 }
 
-#' Read a compilation's whole event log
+# Event files, in append order. Both extensions: everything written before the
+# switch to gzip is plain .csv and stays readable, and the zero-padded sequence
+# prefix orders the two kinds together correctly.
+lv_store_event_files <- function(dir) {
+  if (!fs::dir_exists(dir)) return(character())
+  f <- fs::dir_ls(dir, regexp = "[.]csv([.]gz)?$", type = "file")
+  sort(f)
+}
+
+#' Read a compilation\'s whole event log
 #' @param store A store.
 #' @param compilation Compilation name.
 #' @return An event tibble, oldest first.
@@ -127,7 +139,7 @@ qc_store_append <- function(store, compilation, events, run_id = lv_run_id()) {
 qc_store_events <- function(store, compilation) {
   d <- store_dir(store, compilation, "events")
   if (!fs::dir_exists(d)) return(qc_events_empty())
-  f <- sort(fs::dir_ls(d, glob = "*.csv"))
+  f <- lv_store_event_files(d)
   if (!length(f)) return(qc_events_empty())
   e <- purrr::list_rbind(lapply(seq_along(f), function(i) {
     x <- readr::read_csv(f[i], col_types = readr::cols(
@@ -306,4 +318,77 @@ lv_qc_retire <- function(store, compilation, tsids, reason,
   qc_store_append(store, compilation, ev, run_id = run_id)
   cli::cli_alert_success("Retired {nrow(ev)} cell{?s}.")
   invisible(ev)
+}
+
+#' Compress a store's existing event logs
+#'
+#' Events are long-format text and compress about tenfold. The hydroclimate2k log
+#' reached 50 MB in a single file, which git stores whole on every change and
+#' which GitHub warns about; new appends are gzipped, and this brings the
+#' existing ones over.
+#'
+#' The property worth checking is that the materialised state does not move.
+#' Compression is lossless, so it should not, and this verifies it per
+#' compilation before deleting anything: the plain file is only removed once the
+#' gzipped one reads back to a byte-identical state hash.
+#'
+#' @param store From [qc_store()].
+#' @param compilations Which to compress. Default all.
+#' @param dry_run Report without writing. Defaults to `TRUE`.
+#' @return A tibble of what was done, invisibly.
+#' @export
+qc_store_compress <- function(store, compilations = NULL, dry_run = TRUE) {
+  comps <- compilations %||% {
+    d <- fs::path(store$path, "compilations")
+    if (fs::dir_exists(d)) basename(fs::dir_ls(d, type = "directory")) else character()
+  }
+  out <- list()
+  for (comp in comps) {
+    d <- store_dir(store, comp, "events")
+    if (!fs::dir_exists(d)) next
+    plain <- fs::dir_ls(d, regexp = "[.]csv$", type = "file")
+    if (!length(plain)) next
+
+    before_hash <- lv_state_hash(qc_state_current(store, comp))
+    before_size <- sum(fs::file_size(plain))
+
+    if (dry_run) {
+      out[[comp]] <- tibble::tibble(compilation = comp, files = length(plain),
+                                    before = before_size, after = NA_real_,
+                                    verified = NA)
+      cli::cli_alert_info("{comp}: {length(plain)} plain file{?s}, {prettyunits::pretty_bytes(as.numeric(before_size))}")
+      next
+    }
+
+    for (f in plain) {
+      x <- readr::read_csv(f, col_types = readr::cols(.default = readr::col_character()),
+                           na = "", progress = FALSE)
+      readr::write_csv(x, paste0(f, ".gz"), na = "")
+    }
+    # Verify before removing anything. If the state moved, put it back.
+    after_hash <- lv_state_hash(qc_state_current(store, comp))
+    if (!identical(before_hash, after_hash)) {
+      for (f in plain) fs::file_delete(paste0(f, ".gz"))
+      cli::cli_abort(c("{comp}: state changed after compressing; rolled back.",
+                       i = "before {before_hash}, after {after_hash}"),
+                     class = "lv_error_store")
+    }
+    for (f in plain) fs::file_delete(f)
+    after_size <- sum(fs::file_size(fs::dir_ls(d, regexp = "[.]csv[.]gz$", type = "file")))
+    cli::cli_alert_success(
+      "{comp}: {length(plain)} file{?s}, {prettyunits::pretty_bytes(as.numeric(before_size))} -> {prettyunits::pretty_bytes(as.numeric(after_size))}")
+    out[[comp]] <- tibble::tibble(compilation = comp, files = length(plain),
+                                  before = before_size, after = after_size, verified = TRUE)
+  }
+  res <- dplyr::bind_rows(out)
+  if (!nrow(res)) cli::cli_alert_success("Nothing to compress.")
+  invisible(res)
+}
+
+# A stable fingerprint of materialised state, for checking that a change to how
+# events are stored has not changed what they mean.
+lv_state_hash <- function(state) {
+  if (!nrow(state)) return("empty")
+  o <- order(state$tsid, state$field)
+  digest::digest(paste(state$tsid[o], state$field[o], state$value[o], state$present[o]))
 }
