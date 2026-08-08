@@ -4,7 +4,7 @@
 \alias{lv_ingest_apply}
 \title{Write the resolved identity into staged copies of the incoming files}
 \usage{
-lv_ingest_apply(plan, dir, out, index, progress = TRUE)
+lv_ingest_apply(plan, dir, out, index, compilation = NULL, progress = TRUE)
 }
 \arguments{
 \item{plan}{From \code{\link[=lv_ingest_identity]{lv_ingest_identity()}}.}

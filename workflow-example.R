@@ -114,7 +114,7 @@ unique(plan_id$dataSetName[grepl("^update", plan_id$reason)])
 # anything is deleted from staging and reported rather than promoted.
 
 stage_id <- path.expand("~/lipdverse-staging/wf-identity")
-res <- lv_ingest_apply(plan_id, incoming, stage_id, idx)
+res <- lv_ingest_apply(plan_id, incoming, stage_id, idx, compilation = comp)
 res$staged |> length()
 res$skipped
 res$issues |> as.data.frame()
@@ -251,7 +251,7 @@ if (FALSE) {
 
 mem <- lv_compilation_datasets(cfg, bk, idx)
 ds  <- mem$datasets
-ts  <- lv_qc_timeseries(idx, datasets = ds)   # paleoData only; chron is not curated here
+ts  <- lv_qc_timeseries(idx, datasets = ds)   # paleoData only, and no age/year/depth axes
 members <- lv_compilation_timeseries(idx, comp)
 
 length(ds); length(ts); length(members)
@@ -350,6 +350,21 @@ count(as_tibble(write_cells), field, sort = TRUE) |> head(10)
 # hold rather than letting one abort a several-hundred-file promote.
 bad <- lv_validate_values(write_cells)
 as.data.frame(bad)
+
+# Vocabulary, on the way to the files. This was only ever checked at ingest, so
+# archiveType drifted to "diatoms from lake core" and "w" with nothing noticing.
+# Reports rather than blocks: a run that has merged several hundred datasets
+# should not abort over one cell, and the cell is a curator's to resolve.
+vocab_issues <- lv_check_vocabulary(write_cells, index = idx)
+count(as_tibble(vocab_issues), field, value, sort = TRUE)
+
+# Resolve them the same way ingest does: the decisions land in the same store,
+# so a value is ruled on once and never asked again.
+if (nrow(vocab_issues)) {
+  vrev <- fs::path(lv_path("state"), "review", paste0("vocab-sheet-", comp, "-", run, ".json"))
+  lv_vocab_review(vocab_issues, vrev)
+  # lv_vocab_review_app(vrev); lv_vocab_apply_review(vrev, dry_run = FALSE)
+}
 
 # A no-op when `bad` is empty, which is the normal case. Kept on one line: a
 # continuation that starts with a bare `by =` trips RStudio's parse hook when

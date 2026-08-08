@@ -124,3 +124,55 @@ vocab_check <- function(x, key, vocab = lv_vocab()) {
             message = sprintf("Not in the %s vocabulary.", key),
             field = key, value = bad)
 }
+
+#' Check the values a run is about to write against the vocabulary
+#'
+#' Vocabulary was only ever enforced at ingest. Nothing looked at values arriving
+#' from a QC sheet, so `archiveType` drifted to `diatoms from lake core`, `w` and
+#' `Pollen` without anything noticing — a curator asked whether archiveType was
+#' a controlled vocabulary at all, which is a fair question when nothing enforces
+#' it.
+#'
+#' Reports rather than blocks. A run that has already merged several hundred
+#' datasets should not abort over one cell, and the cell is a curator's to
+#' resolve, not a run's to overwrite. The unmatched values come back as issues
+#' and go into a review file, the same shape [lv_vocab_review()] produces for
+#' ingest, so the decisions land in the same store and are asked once.
+#'
+#' @param cells Cells about to be written, from the merge plan.
+#' @param registry Field registry.
+#' @param vocab From [lv_vocab_overlay()].
+#' @param index From [lv_db_index()]; supplies the dataset each TSid belongs to.
+#' @return An `lv_issues` tibble, one row per offending cell.
+#' @export
+lv_check_vocabulary <- function(cells, registry = lv_qc_fields(),
+                                vocab = lv_vocab_overlay(), index = NULL) {
+  if (!nrow(cells)) return(lv_issues_empty())
+  keyed <- registry[!is.na(registry$vocab_key) & nzchar(registry$vocab_key), ]
+  if (!nrow(keyed)) return(lv_issues_empty())
+  key_of <- stats::setNames(keyed$vocab_key, keyed$qc_name)
+
+  x <- cells[cells$field %in% names(key_of) & !is.na(cells$value) & nzchar(cells$value), ,
+             drop = FALSE]
+  if (!nrow(x)) return(lv_issues_empty())
+
+  x$key <- unname(key_of[x$field])
+  # One lookup per distinct value, not per cell: archiveType repeats across every
+  # timeseries of a dataset.
+  u <- unique(x[, c("key", "value")])
+  u$ok <- vapply(seq_len(nrow(u)), function(i) {
+    if (!u$key[i] %in% names(vocab)) return(TRUE)
+    vocab_standardize(u$value[i], u$key[i], vocab)$matched
+  }, logical(1))
+
+  bad <- dplyr::inner_join(x, u[!u$ok, , drop = FALSE], by = c("key", "value"))
+  if (!nrow(bad)) return(lv_issues_empty())
+
+  dsn <- if (!is.null(index))
+    unname(stats::setNames(index$timeseries$dataSetName, index$timeseries$TSid)[bad$tsid])
+  else NA_character_
+
+  lv_issues(check = "unknown_vocabulary", severity = "warn",
+            message = sprintf("Not in the %s vocabulary; written as typed.", bad$key),
+            dataSetName = dsn, TSid = bad$tsid, field = bad$field, value = bad$value)
+}

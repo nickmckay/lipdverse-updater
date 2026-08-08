@@ -255,7 +255,7 @@ lv_ingest_walk <- function(L) {
 #' @param progress Show progress.
 #' @return A list of `staged` files, `skipped`, and `issues`.
 #' @export
-lv_ingest_apply <- function(plan, dir, out, index, progress = TRUE) {
+lv_ingest_apply <- function(plan, dir, out, index, compilation = NULL, progress = TRUE) {
   if (missing(out)) cli::cli_abort("{.arg out} is required; this never writes in place.")
   fs::dir_create(out)
   plan <- plan[plan$action != "error", , drop = FALSE]
@@ -263,6 +263,7 @@ lv_ingest_apply <- function(plan, dir, out, index, progress = TRUE) {
   if (progress) cli::cli_alert_info("Applying identity to {length(files)} file{?s}")
 
   taken_ds <- unique(stats::na.omit(index$datasets$datasetId))
+  known_tsids <- unique(stats::na.omit(index$timeseries$TSid))
   issues <- lv_issues_empty()
   staged <- character(); skipped <- character()
 
@@ -296,9 +297,21 @@ lv_ingest_apply <- function(plan, dir, out, index, progress = TRUE) {
       w <- walk[[i]]
       tsid <- want$new_TSid[i]
       if (is.na(tsid)) next
+      # New to LiPDverse, which is not the same as newly minted. A column can
+      # arrive carrying a TSid the LiPD editor assigned, which resolves as `keep`
+      # -- new variables added to a dataset that already exists come through
+      # exactly that way, and they are new. The test is whether the database
+      # already holds the id, not how this run arrived at it.
+      made <- !tsid %in% known_tsids
       if (w$ti <= w$n_meas) {
         tb <- L[[w$blk]][[w$pi]]$measurementTable[[w$ti]]
-        if (w$has_columns) tb$columns[[w$idx]]$TSid <- tsid else tb[[w$name]]$TSid <- tsid
+        if (w$has_columns) {
+          tb$columns[[w$idx]]$TSid <- tsid
+          if (made && !is.null(compilation)) tb$columns[[w$idx]]$createdBy <- compilation
+        } else {
+          tb[[w$name]]$TSid <- tsid
+          if (made && !is.null(compilation)) tb[[w$name]]$createdBy <- compilation
+        }
         L[[w$blk]][[w$pi]]$measurementTable[[w$ti]] <- tb
       } else {
         # Model tables are nested a level deeper; find the same flat position.
@@ -311,7 +324,13 @@ lv_ingest_apply <- function(plan, dir, out, index, progress = TRUE) {
               seen <- seen + 1L
               if (seen != k) next
               tb <- md[[slot]][[si]]
-              if (w$has_columns) tb$columns[[w$idx]]$TSid <- tsid else tb[[w$name]]$TSid <- tsid
+              if (w$has_columns) {
+                tb$columns[[w$idx]]$TSid <- tsid
+                if (made && !is.null(compilation)) tb$columns[[w$idx]]$createdBy <- compilation
+              } else {
+                tb[[w$name]]$TSid <- tsid
+                if (made && !is.null(compilation)) tb[[w$name]]$createdBy <- compilation
+              }
               L[[w$blk]][[w$pi]]$model[[mi]][[slot]][[si]] <- tb
             }
           }

@@ -85,7 +85,7 @@ if (length(upd)) cat(sprintf("\ntreated as updates: %s\n", paste(upd, collapse =
 # ---- apply and standardize -------------------------------------------------
 
 if (fs::dir_exists(stage_id)) fs::dir_delete(stage_id)
-res <- lv_ingest_apply(plan, inc, stage_id, idx, progress = FALSE)
+res <- lv_ingest_apply(plan, inc, stage_id, idx, progress = FALSE, compilation = comp)
 cat(sprintf("\nstaged      : %d, skipped: %d\n", length(res$staged), length(res$skipped)))
 if (nrow(res$issues)) {
   print(as.data.frame(res$issues[, c("check", "severity", "message", "dataSetName")]), right = FALSE)

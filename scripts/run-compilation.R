@@ -140,6 +140,18 @@ if (nrow(bad)) {
   print(as.data.frame(bad[, c("check", "TSid", "field", "value")]), right = FALSE)
   readr::write_csv(bad, file.path(lv_run_dir(run), "rejected-values.csv"), na = "")
   write_cells <- lv_drop_cells(write_cells, bad)
+
+  # Vocabulary on the sheet path. Reported, never blocking: an unattended run
+  # that has merged hundreds of datasets should not stop over one cell.
+  vi <- lv_check_vocabulary(write_cells, index = idx)
+  if (nrow(vi)) {
+    cat(sprintf("\nvocabulary : %d cell%s not in the controlled vocabulary\n",
+                nrow(vi), if (nrow(vi) == 1) "" else "s"))
+    print(as.data.frame(dplyr::count(tibble::as_tibble(vi), field, value, sort = TRUE)), right = FALSE)
+    vrev <- fs::path(lv_path("state"), "review", paste0("vocab-sheet-", comp, "-", run, ".json"))
+    lv_vocab_review(vi, vrev)
+    cat(sprintf("  review    : %s\n", vrev))
+  }
 }
 cat(sprintf("\nto write    : %d cell%s from the sheet\n", nrow(write_cells),
             if (nrow(write_cells) == 1) "" else "s"))
