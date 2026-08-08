@@ -342,8 +342,13 @@ count(as_tibble(write_cells), field, sort = TRUE) |> head(10)
 # hold rather than letting one abort a several-hundred-file promote.
 bad <- lv_validate_values(write_cells)
 as.data.frame(bad)
-write_cells <- anti_join(write_cells, bad[, c("TSid", "field")],
-                         by = c("tsid" = "TSid", "field" = "field"))
+
+# A no-op when `bad` is empty, which is the normal case. Kept on one line: a
+# continuation that starts with a bare `by =` trips RStudio's parse hook when
+# devtools has the package loaded, and errors on .rs.exprMutatesPackageLibrary
+# rather than on anything real.
+write_cells <- lv_drop_cells(write_cells, bad)
+nrow(write_cells)
 
 ## 2e. Apply to staging -------------------------------------------------------
 

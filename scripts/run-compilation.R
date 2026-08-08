@@ -139,8 +139,7 @@ if (nrow(bad)) {
               if (nrow(bad) == 1) "" else "s"))
   print(as.data.frame(bad[, c("check", "TSid", "field", "value")]), right = FALSE)
   readr::write_csv(bad, file.path(lv_run_dir(run), "rejected-values.csv"), na = "")
-  write_cells <- dplyr::anti_join(write_cells, bad[, c("TSid", "field")],
-                                  by = c("tsid" = "TSid", "field" = "field"))
+  write_cells <- lv_drop_cells(write_cells, bad)
 }
 cat(sprintf("\nto write    : %d cell%s from the sheet\n", nrow(write_cells),
             if (nrow(write_cells) == 1) "" else "s"))
