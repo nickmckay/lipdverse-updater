@@ -10,6 +10,12 @@
 # those are wrapped in `if (FALSE)` so they cannot run by accident. Read a
 # section, run it, look at the object it leaves behind, then move on.
 #
+# Every statement is kept on one line. A call split across lines and sent to the
+# RStudio console a line at a time trips its parse hook while devtools has the
+# package loaded, and reports
+#   Error in .rs.exprMutatesPackageLibrary(part) : argument "part" is missing
+# which names nothing real. Keep it that way when editing.
+#
 # Two pipelines. Run them in this order when both apply:
 #
 #   1. INGEST  bring newly contributed .lpd files into the database
@@ -452,18 +458,17 @@ if (FALSE) {
 
   lv_promote(stage, db, run_id = run, partial = TRUE, dry_run = FALSE)
 
-  qc_store_append(store, comp, qc_diff_to_events(base, state, source = "sheet"),
-                  run_id = run)
+  events <- qc_diff_to_events(base, state, source = "sheet")
+  qc_store_append(store, comp, events, run_id = run)
 
-  lv_version_append(store, comp, ver, run_id = run,
-                    db_fingerprint = lv_scan(db)$fingerprint)
+  fp <- lv_scan(db)$fingerprint
+  lv_version_append(store, comp, ver, run_id = run, db_fingerprint = fp)
 
   # Push the sheet. Scoped to considered datasets so a de-selected dataset drops
   # out of the tab. Uses range_write, which preserves the tab's colour coding --
   # write_sheet() would clear it.
   push_state <- state[state$tsid %in% ts, ]
-  qc_sheet_push(push_state, bk, cfg$qc_sheet_id, cfg$qc_tabs$qc,
-                mode = "full", dry_run = FALSE)
+  qc_sheet_push(push_state, bk, cfg$qc_sheet_id, cfg$qc_tabs$qc, mode = "full", dry_run = FALSE)
 
   # Optional: recolour the header by thematic group.
   qc_sheet_colour_groups(bk, cfg$qc_sheet_id, cfg$qc_tabs$qc, dry_run = FALSE)
@@ -479,8 +484,7 @@ if (FALSE) {
 if (FALSE) {
   base2  <- qc_state_current(store, comp)
   frame2 <- qc_frame(db, datasets = ds)
-  frame2 <- bind_rows(frame2[frame2$tsid %in% ts, ],
-                      lv_membership_frame(idx, comp, ts))
+  frame2 <- bind_rows(frame2[frame2$tsid %in% ts, ], lv_membership_frame(idx, comp, ts))
   plan2  <- qc_merge(base2, qc_sheet_pull(bk, cfg$qc_sheet_id, cfg$qc_tabs$qc), frame2)
   plan2$summary$n_changed          # expect 0
 }
