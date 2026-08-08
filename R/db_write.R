@@ -120,13 +120,21 @@ lv_promote <- function(staging, dir = lv_path("database"), run_id = lv_run_id(),
 
   new_names  <- fs::path_file(new_files)
   live_names <- fs::path_file(live_files)
+  # macOS returns filenames decomposed while a freshly written file takes its
+  # name from the metadata, which is composed. As strings the two differ, so a
+  # replace reads as an add: the live copy is never moved to trash and the run
+  # cannot be rolled back. The filesystem then resolves both to the same entry,
+  # so the write itself lands correctly and nothing looks wrong.
+  matched <- match(lv_nfc(new_names), lv_nfc(live_names))
 
   plan <- tibble::tibble(
-    file = new_names,
-    action = ifelse(new_names %in% live_names, "replace", "add"),
-    staged_path = as.character(new_files),
-    live_path = fs::path(dir, new_names)
+    # Target the name already on disk where there is one, so the move lands on
+    # the existing file rather than creating a second spelling of it.
+    file = ifelse(is.na(matched), new_names, live_names[matched]),
+    action = ifelse(is.na(matched), "add", "replace"),
+    staged_path = as.character(new_files)
   )
+  plan$live_path <- fs::path(dir, plan$file)
   # A run id names one write. Reusing it puts a second set of files into the
   # first run's trash and overwrites its receipt, which is how an ingest of 91
   # datasets came to be recorded as an update of 412: same id, two promotes,
@@ -144,7 +152,8 @@ lv_promote <- function(staging, dir = lv_path("database"), run_id = lv_run_id(),
   # With a partial staging, everything the run did not touch is untouched, not
   # deleted. Without this, promoting one changed file into the database reads as
   # deleting the other 7,176.
-  deletions <- if (partial) character() else setdiff(live_names, new_names)
+  deletions <- if (partial) character() else
+    live_names[!lv_nfc(live_names) %in% lv_nfc(new_names)]
 
   cli::cli_alert_info("{nrow(plan)} file{?s} to write ({sum(plan$action == 'replace')} replace, {sum(plan$action == 'add')} add), {length(deletions)} candidate deletion{?s}")
 

@@ -202,3 +202,39 @@ test_that("a partial promotion still rolls back cleanly", {
   lv_write_rollback(live, "P1")
   expect_equal(fingerprint(live), before)
 })
+
+test_that("a decomposed filename on disk is replaced, not added alongside", {
+  # macOS hands back filenames in NFD while a freshly written file takes its name
+  # from the metadata, which is NFC. Compared as strings they differ, so a
+  # replace read as an add: the live copy was never trashed and the run could not
+  # be rolled back. The filesystem then resolved both spellings to one entry, so
+  # the write landed correctly and nothing looked wrong.
+  live <- local_db(list(list(dataSetName = "A.Author.2001")))
+  stage <- local_db(list(list(dataSetName = "A.Author.2001")))
+  nfd <- stringi::stri_trans_nfd("Büntgen.Test.2011.lpd")
+  nfc <- stringi::stri_trans_nfc("Büntgen.Test.2011.lpd")
+  expect_false(identical(nfd, nfc))
+  fs::file_copy(fs::dir_ls(live, glob = "*.lpd")[1], fs::path(live, nfd))
+  fs::file_copy(fs::dir_ls(stage, glob = "*.lpd")[1], fs::path(stage, nfc))
+  fs::file_delete(fs::path(stage, "A.Author.2001.lpd"))
+
+  r <- lv_promote(stage, live, run_id = "N1", dry_run = TRUE, verify = FALSE, partial = TRUE)
+  expect_equal(r$plan$action, "replace")
+  # And it targets the spelling already on disk.
+  expect_equal(fs::path_file(r$plan$live_path), nfd)
+})
+
+test_that("the displaced copy of a decomposed name reaches the trash", {
+  live <- local_db(list(list(dataSetName = "A.Author.2001")))
+  stage <- local_db(list(list(dataSetName = "A.Author.2001")))
+  nfd <- stringi::stri_trans_nfd("Büntgen.Test.2011.lpd")
+  nfc <- stringi::stri_trans_nfc("Büntgen.Test.2011.lpd")
+  fs::file_copy(fs::dir_ls(live, glob = "*.lpd")[1], fs::path(live, nfd))
+  fs::file_copy(fs::dir_ls(stage, glob = "*.lpd")[1], fs::path(stage, nfc))
+  fs::file_delete(fs::path(stage, "A.Author.2001.lpd"))
+
+  lv_promote(stage, live, run_id = "N2", dry_run = FALSE, verify = FALSE, partial = TRUE)
+  trashed <- fs::path_file(fs::dir_ls(fs::path(live, ".trash", "N2")))
+  expect_length(trashed, 1)
+  expect_equal(lv_nfc(trashed), lv_nfc(nfd))
+})
