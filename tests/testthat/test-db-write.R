@@ -238,3 +238,19 @@ test_that("the displaced copy of a decomposed name reaches the trash", {
   expect_length(trashed, 1)
   expect_equal(lv_nfc(trashed), lv_nfc(nfd))
 })
+
+test_that("verification accepts a decomposed filename with a composed dataSetName", {
+  # The sibling NFC tests above both pass verify = FALSE, which is how this
+  # survived: the staged check compares the dataSetName inside the file (NFC)
+  # against a name derived from the filename (NFD on macOS) and read them as a
+  # mismatch, failing the whole promote on any accented dataset.
+  name <- stringi::stri_trans_nfc("Büntgen.Test.2011")
+  live <- local_db(list(list(dataSetName = "A.Author.2001")))
+  stage <- local_db(list(list(dataSetName = name)))
+  written <- fs::dir_ls(stage, glob = "*.lpd")[1]
+  nfd <- fs::path(stage, stringi::stri_trans_nfd(paste0(name, ".lpd")))
+  if (!identical(fs::path_file(written), fs::path_file(nfd))) fs::file_move(written, nfd)
+
+  r <- lv_promote(stage, live, run_id = "N3", dry_run = TRUE, verify = TRUE, partial = TRUE)
+  expect_equal(lv_n_issues(r$issues, "error"), 0)
+})

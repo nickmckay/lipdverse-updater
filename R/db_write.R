@@ -67,7 +67,15 @@ lv_verify_worker <- function(path, expect_name = NULL, min_bytes = 200,
   }
   dsn <- L$dataSetName
   if (is.null(dsn) || !nzchar(dsn)) return(bad("staged_no_name", "Staged file has no dataSetName."))
-  if (!is.null(expect_name) && !identical(as.character(dsn), as.character(expect_name))) {
+  # expect_name is derived from the filename, which macOS stores decomposed (NFD),
+  # while the dataSetName inside the file is composed (NFC). Comparing them raw
+  # fails on any accented name even though they are the same string. Normalized
+  # inline rather than through lv_nfc(): this worker is detached from the package
+  # namespace on purpose so it can run in a bare future worker.
+  nfc <- if (requireNamespace("stringi", quietly = TRUE))
+    stringi::stri_trans_nfc else identity
+  if (!is.null(expect_name) &&
+      !identical(nfc(as.character(dsn)), nfc(as.character(expect_name)))) {
     return(bad("staged_wrong_name",
                paste0("Staged file is '", dsn, "' but '", expect_name, "' was expected.")))
   }
