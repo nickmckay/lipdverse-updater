@@ -4,7 +4,7 @@
 \alias{lv_qc_timeseries}
 \title{The timeseries QC covers}
 \usage{
-lv_qc_timeseries(index, datasets = NULL, tsids = NULL)
+lv_qc_timeseries(index, datasets = NULL, tsids = NULL, axes = FALSE)
 }
 \arguments{
 \item{index}{From \code{\link[=lv_db_index]{lv_db_index()}}.}
@@ -12,6 +12,9 @@ lv_qc_timeseries(index, datasets = NULL, tsids = NULL)
 \item{datasets}{Restrict to these dataset names.}
 
 \item{tsids}{Restrict to these TSids.}
+
+\item{axes}{Include depth, age and year columns. They are not curated, so the
+default is to leave them out of the sheet.}
 }
 \value{
 A character vector of TSids.

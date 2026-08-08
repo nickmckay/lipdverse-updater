@@ -412,12 +412,20 @@ lv_offer_to_compilation <- function(names, cfg, backend, index = NULL,
 #' @param index From [lv_db_index()].
 #' @param datasets Restrict to these dataset names.
 #' @param tsids Restrict to these TSids.
+#' @param axes Include depth, age and year columns. They are not curated, so the
+#'   default is to leave them out of the sheet.
 #' @return A character vector of TSids.
 #' @export
-lv_qc_timeseries <- function(index, datasets = NULL, tsids = NULL) {
+lv_qc_timeseries <- function(index, datasets = NULL, tsids = NULL, axes = FALSE) {
   t <- index$timeseries
   if (!"tableType" %in% names(t)) return(if (is.null(tsids)) t$TSid else tsids)
   keep <- t$tableType %in% "paleo"
+  # Axis columns are not curated. They were 2,667 of the 7,525 rows in the
+  # hydroclimate2k sheet -- a third of it, all of it noise to whoever is working
+  # through the tab. lipdverseR hid them and so does this.
+  if (!axes && "variableName" %in% names(t)) {
+    keep <- keep & !tolower(trimws(t$variableName)) %in% LV_AXIS_QC_VARIABLES
+  }
   if (!is.null(datasets)) keep <- keep & t$dataSetName %in% datasets
   if (!is.null(tsids)) keep <- keep & t$TSid %in% tsids
   unique(t$TSid[keep])
@@ -438,3 +446,9 @@ lv_nfc <- function(x) {
   if (!requireNamespace("stringi", quietly = TRUE)) return(x)
   stringi::stri_trans_nfc(x)
 }
+
+# Columns that carry the axis rather than a measurement. Not curated, so they do
+# not belong in a QC sheet.
+LV_AXIS_QC_VARIABLES <- c("year", "age", "depth", "yearbp", "agebp", "age14c",
+                          "sampleid", "top", "bottom", "depthtop", "depthbottom",
+                          "year ad", "cal age", "calendar age")

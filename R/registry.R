@@ -91,6 +91,19 @@ validate_qc_fields <- function(x) {
 
   # Only curator-owned fields may be cleared by a blank cell. Anywhere else a
   # blank must mean "unchanged", which is what prevents the NA-as-deletion loss.
+  # A row marked for deletion whose canonical is a live merged field is not a
+  # deprecation, it is a synonym filed under the wrong role -- and the effect is
+  # invisible: lv_display_field() only consults synonyms, so the field has no
+  # column to be written to and silently vanishes from the sheet. `description`
+  # sat like that, which is why 6,516 stored descriptions reached no column.
+  dead <- x[x$role %in% "delete" & !is.na(x$canonical), ]
+  mis <- dead$qc_name[dead$canonical %in% merged$qc_name]
+  if (length(mis)) {
+    cli::cli_abort(c("{length(mis)} field{?s} marked {.val delete} but pointing at a live field: {.val {mis}}",
+                     i = "Mark {cli::qty(length(mis))}{?it/them} {.val synonym} so the column can still be written."),
+                   class = "lv_error_registry")
+  }
+
   wrong <- merged$qc_name[merged$nullable_by_curator == "TRUE" & merged$ownership != "curator"]
   if (length(wrong)) {
     cli::cli_abort(c("Only curator-owned fields may be nullable: {.val {wrong}}"),
