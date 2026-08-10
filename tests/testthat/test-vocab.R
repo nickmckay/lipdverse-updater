@@ -111,3 +111,35 @@ test_that("standardizing changes values without touching structure", {
 test_that("standardize refuses to write in place", {
   expect_error(lv_ingest_standardize("."), "never writes in place")
 })
+
+test_that("the sheet audit sorts bad values by what the run will do", {
+  cells <- function(...) tibble::tibble(tsid = c(...), field = "archiveType",
+                                        value = NA_character_, present = TRUE)
+  mk <- function(tsid, value) tibble::tibble(tsid = tsid, field = "archiveType",
+                                             value = value, present = TRUE)
+  # T1 the files correct it; T2 the files agree with the junk; T3 the sheet has
+  # moved; T4 has no file value at all.
+  sheet <- mk(c("T1", "T2", "T3", "T4"),
+              c("diatoms from lake core", "w", "w", "w"))
+  base  <- mk(c("T1", "T2", "T3", "T4"),
+              c("diatoms from lake core", "w", "LakeSediment", "w"))
+  frame <- mk(c("T1", "T2", "T3"), c("LakeSediment", "w", "LakeSediment"))
+
+  a <- lv_audit_vocabulary(sheet, base, frame)
+  d <- stats::setNames(a$disposition, paste(a$value, a$n_cells))
+  expect_setequal(a$disposition,
+                  c("the files will correct it", "in the files too",
+                    "the sheet has moved", "no value in the files"))
+  expect_equal(sum(a$n_cells), 4L)
+  # A value the files also hold is the one that needs a decision, and it must not
+  # be reported as self-correcting.
+  ent <- a[a$disposition == "in the files too", ]
+  expect_equal(ent$value, "w")
+  expect_equal(ent$n_cells, 1L)
+})
+
+test_that("the sheet audit is silent when everything is in the vocabulary", {
+  ok <- tibble::tibble(tsid = c("T1", "T2"), field = "archiveType",
+                       value = c("LakeSediment", "Wood"), present = TRUE)
+  expect_equal(nrow(lv_audit_vocabulary(ok, ok, ok)), 0L)
+})

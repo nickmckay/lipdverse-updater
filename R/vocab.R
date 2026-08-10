@@ -176,3 +176,80 @@ lv_check_vocabulary <- function(cells, registry = lv_qc_fields(),
             message = sprintf("Not in the %s vocabulary; written as typed.", bad$key),
             dataSetName = dsn, TSid = bad$tsid, field = bad$field, value = bad$value)
 }
+
+#' Audit the whole QC sheet against the controlled vocabularies
+#'
+#' [lv_check_vocabulary()] runs on the cells a merge is about to write, which is
+#' the right scope for catching a curator typing something new: that value wins
+#' and reaches the files. It is the wrong scope for finding what is already
+#' wrong. A bad value the sheet and the store both hold is not a change, so it
+#' never appears in the plan, and no merge-time check will ever see it.
+#'
+#' hydroclimate2k carried `diatoms from lake core`, `w` and three others across
+#' 16 rows that way. Nothing surfaced them until the sheet was read end to end.
+#'
+#' So this reads every cell, and then says what the run will do about each one,
+#' which is the part that decides whether it needs attention:
+#'
+#' \describe{
+#'   \item{`the files will correct it`}{The files hold a different, valid value
+#'     and the sheet has not moved from the baseline, so the files win and the
+#'     sheet is corrected on push. Nothing to do.}
+#'   \item{`in the files too`}{The files hold the same bad value. The run changes
+#'     nothing, and this is the case that needs a real decision -- either a
+#'     vocabulary entry or a correction at the source.}
+#'   \item{`the sheet has moved`}{The sheet differs from both the baseline and
+#'     the files. Ownership decides, so read the plan: for a curator-owned field
+#'     this value reaches the files.}
+#'   \item{`no value in the files`}{Nothing on the file side to correct it.}
+#' }
+#'
+#' Reports; never blocks. Intended as a pre-flight, before the merge.
+#'
+#' @param sheet Long cell tibble from [qc_sheet_pull()].
+#' @param base Long cell tibble from [qc_state_current()]. Optional.
+#' @param frame Long cell tibble from [qc_frame()]. Optional.
+#' @param registry Field registry.
+#' @param vocab Vocabulary tables, overlay included.
+#' @param index Database index, used to name datasets.
+#' @return One row per field, value and disposition, commonest first, with
+#'   `datasets` as a list column.
+#' @export
+lv_audit_vocabulary <- function(sheet, base = NULL, frame = NULL,
+                                registry = lv_qc_fields(),
+                                vocab = lv_vocab_overlay(), index = NULL) {
+  empty <- tibble::tibble(field = character(), value = character(),
+                          disposition = character(), n_cells = integer(),
+                          n_datasets = integer(), datasets = list())
+  iss <- lv_check_vocabulary(sheet, registry = registry, vocab = vocab, index = index)
+  if (!nrow(iss)) return(empty)
+
+  # A cell that is absent is not a value. Reading `present` here keeps a
+  # tombstone from looking like a real disagreement.
+  lookup <- function(x) {
+    if (is.null(x) || !nrow(x)) return(rep(NA_character_, nrow(iss)))
+    v <- as.character(x$value)
+    if ("present" %in% names(x)) v[!x$present] <- NA_character_
+    m <- stats::setNames(v, paste(x$tsid, x$field, sep = "\r"))
+    unname(m[paste(iss$TSid, iss$field, sep = "\r")])
+  }
+  bv <- lookup(base); fv <- lookup(frame); sv <- as.character(iss$value)
+  same <- function(a, b) !is.na(a) & !is.na(b) & a == b
+
+  disposition <- dplyr::case_when(
+    is.na(fv)    ~ "no value in the files",
+    same(sv, fv) ~ "in the files too",
+    same(sv, bv) ~ "the files will correct it",
+    TRUE         ~ "the sheet has moved"
+  )
+
+  out <- tibble::tibble(field = iss$field, value = sv, disposition = disposition,
+                        dataSetName = iss$dataSetName)
+  out <- dplyr::summarise(
+    dplyr::group_by(out, .data$field, .data$value, .data$disposition),
+    n_cells = dplyr::n(),
+    n_datasets = dplyr::n_distinct(.data$dataSetName[!is.na(.data$dataSetName)]),
+    datasets = list(sort(unique(.data$dataSetName[!is.na(.data$dataSetName)]))),
+    .groups = "drop")
+  out[order(-out$n_cells, out$field, out$value), ]
+}

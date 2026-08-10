@@ -2,6 +2,7 @@
 export(lv_scan, lv_fingerprint, lv_scan_diff)
 export(lv_path, lv_secret, lv_snapshot_file)
 export(lv_vocab, lv_vocab_pin, vocab_standardize, vocab_check)
+export(lv_check_vocabulary, lv_audit_vocabulary)
 export(lv_db_index, lv_validate_identity, lv_compilation_timeseries)
 export(lv_issues, lv_issues_empty, lv_issues_bind, lv_n_issues, lv_issues_check)
 export(lv_compilations, lv_config, lv_config_all)

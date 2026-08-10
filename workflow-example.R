@@ -319,6 +319,30 @@ sd |>
   summarise(n = n_distinct(value), .groups = "drop") |>
   filter(n > 1)
 
+## 2b-bis. Vocabulary across the whole sheet ----------------------------------
+# The check in 2d runs on the cells the merge is about to write, which catches a
+# curator typing something new -- that value wins and reaches the files. It does
+# not catch what is already wrong: a bad value the sheet and the store both hold
+# is not a change, so it never enters the plan and no merge-time check sees it.
+# hydroclimate2k carried five such values across 16 rows.
+#
+# So read every cell, and sort by what the run will actually do about each one.
+# Most need nothing: the files hold the right value and the sheet has not moved,
+# so the files win and the sheet is corrected on push.
+
+audit <- lv_audit_vocabulary(sheet, base, frame, index = idx)
+as.data.frame(audit[, c("field", "value", "disposition", "n_cells", "n_datasets")])
+
+# Worth attention: the files agree with the bad value, so nothing corrects it.
+# That is either a vocabulary gap or a correction to make at the source, and it
+# is the only bucket that needs a decision before running.
+as.data.frame(audit[audit$disposition == "in the files too", ])
+
+# Do not reach for lv_vocab_review() on the strength of this alone. A one-off
+# typo is not a synonym: accepting "w" as a synonym of Wood puts a single letter
+# into the shared vocabulary permanently. Review is for values that carry real
+# meaning the vocabulary lacks.
+
 ## 2c. Merge ------------------------------------------------------------------
 # Per cell: if only the sheet moved, the curator edited it; if only the files
 # moved, the files did; if both moved the same way, converged; if both moved
