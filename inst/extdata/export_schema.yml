@@ -70,10 +70,13 @@ tables:
 
   interpretations:
     key: [TSid, scope, rank]
-    description: One row per interpretation, numbered within its scope.
+    description: >
+      One row per interpretation, numbered within its scope. An interpretation
+      with no scope is labelled "unscoped" rather than left null, because scope
+      is part of the key and SQL joins do not match on null.
     columns:
       TSid:            {type: chr, required: true}
-      scope:           {type: chr, required: true}   # climate | environment | isotope | ...
+      scope:           {type: chr, required: true}   # climate | environment | isotope | unscoped
       rank:            {type: int, required: true}
       variable:        {type: chr}
       variableDetail:  {type: chr}

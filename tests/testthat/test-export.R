@@ -156,3 +156,67 @@ test_that("the manifest detects a file changed after it was written", {
   iss <- lv_export_verify(fs::path(out, "export_manifest.json"))
   expect_true(any(iss$check == "export_hash_mismatch"))
 })
+
+test_that("the duckdb build reproduces the parquet files and their joins", {
+  skip_if_not_installed("arrow")
+  skip_if_not_installed("duckdb")
+  withr::local_envvar(LIPDVERSE_STATE = withr::local_tempdir())
+  d <- withr::local_tempdir()
+  write_lpd(d, "A.Author.2001", tsids = c("T1", "T2"))
+  write_lpd(d, "B.Author.2002", tsids = "T3")
+  out <- withr::local_tempdir()
+  tbl <- lv_export_tables(d, progress = FALSE)
+  lv_export_write(tbl, out)
+
+  db <- lv_export_duckdb(out)
+  expect_true(fs::file_exists(db))
+  con <- DBI::dbConnect(duckdb::duckdb(), dbdir = db, read_only = TRUE)
+  on.exit(DBI::dbDisconnect(con, shutdown = TRUE), add = TRUE)
+
+  # Every contract table is present, `values` included -- it is a reserved SQL
+  # keyword, so it is the one most likely to be silently missing.
+  expect_true(all(names(tbl) %in% DBI::dbListTables(con)))
+  n <- DBI::dbGetQuery(con, 'SELECT count(*) AS n FROM "values"')$n
+  expect_equal(n, nrow(tbl$values))
+
+  # The join view is the reason the database exists.
+  v <- DBI::dbGetQuery(con, "SELECT TSid, dataSetName FROM v_timeseries_full ORDER BY TSid")
+  expect_equal(nrow(v), nrow(tbl$timeseries))
+  expect_false(anyNA(v$dataSetName))
+
+  # And the axis filter is applied for the consumer rather than by them.
+  expect_equal(DBI::dbGetQuery(con, "SELECT count(*) AS n FROM v_measurements")$n,
+               sum(tbl$timeseries$tableKind == "measurement" & !tbl$timeseries$isAxis))
+})
+
+test_that("an incomplete export is refused rather than half-built", {
+  skip_if_not_installed("arrow")
+  skip_if_not_installed("duckdb")
+  withr::local_envvar(LIPDVERSE_STATE = withr::local_tempdir())
+  d <- withr::local_tempdir()
+  write_lpd(d, "A.Author.2001", tsids = "T1")
+  out <- withr::local_tempdir()
+  lv_export_write(lv_export_tables(d, progress = FALSE), out)
+  fs::file_delete(fs::path(out, "interpretations.parquet"))
+
+  expect_error(lv_export_duckdb(out), class = "lv_error_export")
+  # Nothing left behind for the next run to trip over.
+  expect_length(fs::dir_ls(out, glob = "*.building"), 0)
+})
+
+test_that("an interpretation with no scope is labelled, not left NA", {
+  # scope is part of the key. A null there does not join and does not dedupe,
+  # so an unscoped interpretation would silently vanish from any query that
+  # went through it. Real datasets have them.
+  d <- withr::local_tempdir()
+  write_lpd(d, "A.Author.2001", tsids = "T1")
+  L <- suppressWarnings(lipdR::readLipd(fs::path(d, "A.Author.2001.lpd")))
+  nm <- names(lv_cols_of(L$paleoData[[1]]$measurementTable[[1]]))[1]
+  L$paleoData[[1]]$measurementTable[[1]][[nm]]$interpretation <- list(
+    list(variable = "P"), list(scope = "climate", variable = "T"))
+  x <- lv_export_one(L)
+
+  expect_false(anyNA(x$interpretations$scope))
+  expect_true("unscoped" %in% x$interpretations$scope)
+  expect_equal(nrow(lv_export_validate(x)), 0)
+})

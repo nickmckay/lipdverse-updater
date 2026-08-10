@@ -28,6 +28,12 @@ lv_export_schema <- function(path = NULL) {
   yaml::read_yaml(path)
 }
 
+# Whether a bare future worker could attach this package. Not the same question
+# as whether it is loaded: devtools::load_all() loads it without installing it.
+lv_pkg_installed <- function() {
+  length(find.package("lipdverseUpdater", lib.loc = .libPaths(), quiet = TRUE)) > 0
+}
+
 lv_pkg_root <- function() {
   p <- tryCatch(system.file(package = "lipdverseUpdater"), error = function(e) "")
   if (nzchar(p) && fs::file_exists(fs::path(p, "DESCRIPTION"))) return(p)
@@ -129,11 +135,14 @@ lv_export_one <- function(L, file_md5 = NA_character_) {
         for (it in cl$interpretation) {
           if (!is.list(it)) next
           sc <- tolower(s1(it$scope) %||% "")
-          if (is.na(sc)) sc <- ""
+          # Unscoped interpretations exist in the database, and scope is part of
+          # the key. NA in a key is worse than a label: SQL joins do not match on
+          # NULL, and the duplicate check cannot see them. So they get a name.
+          if (is.na(sc) || !nzchar(sc)) sc <- "unscoped"
           k <- if (sc %in% names(seen)) seen[[sc]] + 1L else 1L
           seen[[sc]] <- k
           interp[[length(interp) + 1L]] <- tibble::tibble(
-            TSid = tsid, scope = if (nzchar(sc)) sc else NA_character_, rank = k,
+            TSid = tsid, scope = sc, rank = k,
             variable = s1(it$variable), variableDetail = s1(it$variableDetail),
             direction = s1(it$direction), seasonality = s1(it$seasonality),
             basis = s1(it$basis),
@@ -315,7 +324,7 @@ lv_export_validate <- function(tables, schema = lv_export_schema()) {
 #' @return A named list of tibbles covering every dataset read.
 #' @export
 lv_export_tables <- function(dir = lv_path("database"), datasets = NULL,
-                             progress = TRUE) {
+                             progress = TRUE, parallel = NA) {
   paths <- if (inherits(dir, "lv_scan")) dir$files$path else
     fs::dir_ls(dir, glob = "*.lpd", type = "file")
   if (!is.null(datasets))
@@ -330,8 +339,17 @@ lv_export_tables <- function(dir = lv_path("database"), datasets = NULL,
     tryCatch(lv_export_one(L, file_md5 = unname(tools::md5sum(p))),
              error = function(e) NULL)
   }
-  parts <- furrr::future_map(unname(paths), one,
-                             .options = furrr::furrr_options(seed = TRUE, packages = "lipdR"))
+  # The worker needs this package, and a future worker can only attach what is
+  # actually installed -- under devtools::load_all() there is nothing to attach,
+  # so parallelising there fails with a misleading "no package called" error.
+  # Decide from the library rather than from whether the package is loaded.
+  if (is.na(parallel)) parallel <- lv_pkg_installed()
+  parts <- if (parallel) {
+    furrr::future_map(unname(paths), one, .options = furrr::furrr_options(
+      seed = TRUE, packages = c("lipdR", "lipdverseUpdater")))
+  } else {
+    purrr::map(unname(paths), one)
+  }
   ok <- !vapply(parts, is.null, logical(1))
   if (any(!ok)) cli::cli_alert_warning("{sum(!ok)} file{?s} could not be exported.")
   parts <- parts[ok]
@@ -405,4 +423,90 @@ lv_export_verify <- function(manifest_path) {
         severity = "error", message = sprintf("%s does not match its recorded sha256.", f$name)))
   }
   iss
+}
+
+#' @rdname export
+#' @details
+#' `lv_export_duckdb()` builds a database from the parquet files already
+#' written. The parquet files remain the contract: the database is derived,
+#' disposable, and rebuildable from them at any time, so nothing should read
+#' from it that cannot also be answered from the files.
+#'
+#' Its value is the joins. Every consumer otherwise re-derives the same
+#' timeseries-to-dataset join, and they will not all get the axis filter or the
+#' compilation membership right.
+#'
+#' @param dir An export directory holding the parquet files.
+#' @param file Database filename, written inside `dir`.
+#' @param overwrite Replace an existing database.
+#' @return Path to the database, invisibly.
+#' @export
+lv_export_duckdb <- function(dir, file = "lipdverse.duckdb", overwrite = TRUE) {
+  if (!requireNamespace("duckdb", quietly = TRUE))
+    cli::cli_abort("The {.pkg duckdb} package is required.", class = "lv_error_export")
+  nms <- names(lv_export_schema()$tables)
+  missing <- nms[!fs::file_exists(fs::path(dir, paste0(nms, ".parquet")))]
+  if (length(missing))
+    cli::cli_abort(c("Export at {.path {dir}} is incomplete.",
+                     i = "Missing: {.val {missing}}"), class = "lv_error_export")
+
+  path <- fs::path(dir, file)
+  # Built into a temporary file and moved into place, so an interrupted build
+  # never leaves a half-populated database where a complete one used to be.
+  if (fs::file_exists(path)) {
+    if (!overwrite) cli::cli_abort("{.path {path}} exists.", class = "lv_error_export")
+  }
+  tmp <- fs::path(dir, paste0(".", file, ".building"))
+  if (fs::file_exists(tmp)) fs::file_delete(tmp)
+
+  con <- DBI::dbConnect(duckdb::duckdb(), dbdir = tmp)
+  on.exit({ DBI::dbDisconnect(con, shutdown = TRUE) }, add = TRUE)
+
+  # Identifiers are quoted throughout: `values` is a reserved SQL keyword, so an
+  # unquoted CREATE TABLE values fails outright.
+  for (n in nms) {
+    src <- fs::path(dir, paste0(n, ".parquet"))
+    DBI::dbExecute(con, sprintf(
+      'CREATE TABLE "%s" AS SELECT * FROM read_parquet(\'%s\')', n, src))
+  }
+
+  # One row per timeseries with its dataset alongside: the join every consumer
+  # would otherwise write, including the axis flag they would forget.
+  DBI::dbExecute(con, "
+    CREATE VIEW v_timeseries_full AS
+    SELECT t.*, d.dataSetName, d.archiveType, d.version AS datasetVersion,
+           d.geo_latitude, d.geo_longitude, d.geo_elevation, d.geo_siteName
+    FROM timeseries t LEFT JOIN datasets d USING (datasetId)")
+
+  # Measurements only, axes excluded. The common case, and the one most likely
+  # to be got wrong by hand.
+  DBI::dbExecute(con, "
+    CREATE VIEW v_measurements AS
+    SELECT * FROM v_timeseries_full
+    WHERE tableKind = 'measurement' AND NOT isAxis")
+
+  DBI::dbExecute(con, "
+    CREATE VIEW v_compilation_members AS
+    SELECT c.compilation, c.compilationVersion, c.inThisCompilation,
+           t.TSid, t.variableName, t.units, t.tableType,
+           d.datasetId, d.dataSetName, d.archiveType
+    FROM compilations c
+    JOIN timeseries t USING (TSid)
+    LEFT JOIN datasets d ON d.datasetId = t.datasetId")
+
+  # Values with enough context to be readable on their own.
+  DBI::dbExecute(con, '
+    CREATE VIEW v_values AS
+    SELECT v.TSid, v.row_index, v.value_num, v.value_chr,
+           t.variableName, t.units, t.datasetId, d.dataSetName
+    FROM "values" v
+    JOIN timeseries t USING (TSid)
+    LEFT JOIN datasets d ON d.datasetId = t.datasetId')
+
+  DBI::dbDisconnect(con, shutdown = TRUE)
+  on.exit(NULL)
+  if (fs::file_exists(path)) fs::file_delete(path)
+  fs::file_move(tmp, path)
+  cli::cli_alert_success("Built {.path {path}}")
+  invisible(path)
 }
