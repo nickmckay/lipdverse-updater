@@ -1,0 +1,122 @@
+# Canonical export schema.
+#
+# This is a contract, not documentation. The site generator reads these files and
+# nothing else, so a column removed or retyped here breaks a downstream repo that
+# cannot be edited in the same commit. Tests assert every table against this
+# file, so changing the shape means changing this file deliberately.
+#
+# Adding an optional column is compatible. Removing one, renaming one, or
+# changing a type is not, and needs the version below bumped.
+version: 1
+
+# Types are the R types the builder produces; the parquet writer maps them.
+#   chr = character, dbl = double, int = integer, lgl = logical, ts = POSIXct
+tables:
+
+  datasets:
+    key: [datasetId]
+    description: One row per dataset.
+    columns:
+      datasetId:        {type: chr, required: true}
+      dataSetName:      {type: chr, required: true}
+      archiveType:      {type: chr}
+      version:          {type: chr}
+      geo_latitude:     {type: dbl}
+      geo_longitude:    {type: dbl}
+      geo_elevation:    {type: dbl}
+      geo_siteName:     {type: chr}
+      minYear:          {type: dbl}
+      maxYear:          {type: dbl}
+      hasChron:         {type: lgl}
+      hasChronEnsemble: {type: lgl}
+      hasPaleoEnsemble: {type: lgl}
+      n_timeseries:     {type: int}
+      file_md5:         {type: chr}
+
+  timeseries:
+    key: [TSid]
+    description: One row per column that carries a TSid.
+    columns:
+      TSid:              {type: chr, required: true}
+      datasetId:         {type: chr, required: true}
+      tableType:         {type: chr, required: true}   # paleo | chron
+      tableKind:         {type: chr}                   # measurement | summary | ensemble | distribution
+      variableName:      {type: chr}
+      standardName:      {type: chr}
+      units:             {type: chr}
+      proxy:             {type: chr}
+      proxyGeneral:      {type: chr}
+      description:       {type: chr}
+      primaryTimeseries: {type: lgl}
+      isAxis:            {type: lgl}                   # year/age/depth and friends
+      createdBy:         {type: chr}
+      minYear:           {type: dbl}
+      maxYear:           {type: dbl}
+      medianResolution:  {type: dbl}
+      n_values:          {type: int}
+
+  values:
+    key: [TSid, row_index]
+    description: >
+      Long, deliberately. A wide table forces one type per row across every
+      column, which is how a string or logical column becomes NaN on the way
+      through a numeric matrix. Splitting into value_num and value_chr makes
+      that coercion impossible to express.
+    columns:
+      TSid:      {type: chr, required: true}
+      row_index: {type: int, required: true}
+      value_num: {type: dbl}
+      value_chr: {type: chr}
+
+  interpretations:
+    key: [TSid, scope, rank]
+    description: One row per interpretation, numbered within its scope.
+    columns:
+      TSid:            {type: chr, required: true}
+      scope:           {type: chr, required: true}   # climate | environment | isotope | ...
+      rank:            {type: int, required: true}
+      variable:        {type: chr}
+      variableDetail:  {type: chr}
+      direction:       {type: chr}
+      seasonality:     {type: chr}
+      basis:           {type: chr}
+      isAnnual:        {type: lgl}
+
+  publications:
+    key: [datasetId, pubIndex]
+    description: Authors stay a list rather than a joined string.
+    columns:
+      datasetId: {type: chr, required: true}
+      pubIndex:  {type: int, required: true}
+      pubKind:   {type: chr}
+      authors:   {type: list_chr}
+      year:      {type: int}
+      title:     {type: chr}
+      journal:   {type: chr}
+      doi:       {type: chr}
+      citeKey:   {type: chr}
+
+  compilations:
+    key: [datasetId, compilation, TSid]
+    description: Exploded compilation membership, one row per timeseries per compilation.
+    columns:
+      datasetId:          {type: chr, required: true}
+      TSid:               {type: chr, required: true}
+      compilation:        {type: chr, required: true}
+      compilationVersion: {type: chr}
+      inThisCompilation:  {type: lgl}
+
+manifest:
+  file: export_manifest.json
+  fields:
+    - schema_version
+    - compilation
+    - version
+    - generated_at
+    - generator_version      # lipdverseUpdater
+    - lipdr_version
+    - db_fingerprint
+    - vocab_pin
+    - qc_state_hash
+    - run_id
+    - files                  # name, n_rows, sha256, bytes

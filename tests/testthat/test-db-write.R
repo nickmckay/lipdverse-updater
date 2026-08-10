@@ -254,3 +254,35 @@ test_that("verification accepts a decomposed filename with a composed dataSetNam
   r <- lv_promote(stage, live, run_id = "N3", dry_run = TRUE, verify = TRUE, partial = TRUE)
   expect_equal(lv_n_issues(r$issues, "error"), 0)
 })
+
+test_that("a run id cannot write twice", {
+  # Reusing an id puts the second set of files into the first run's trash and
+  # overwrites its receipt. That is how an ingest of 91 datasets came to be
+  # recorded as an update of 412, leaving one surviving record, no pre-ingest
+  # copy, and a rollback that would have undone both promotes at once.
+  withr::local_envvar(LIPDVERSE_STATE = withr::local_tempdir())
+  live <- local_db(list(list(dataSetName = "A.Author.2001")))
+  one  <- local_db(list(list(dataSetName = "A.Author.2001", tsids = c("T1", "T9"))))
+  two  <- local_db(list(list(dataSetName = "A.Author.2001", tsids = c("T1", "T8"))))
+
+  lv_promote(one, live, run_id = "R1", dry_run = FALSE, verify = FALSE, partial = TRUE)
+  expect_error(
+    lv_promote(two, live, run_id = "R1", dry_run = FALSE, verify = FALSE, partial = TRUE),
+    class = "lv_error_write")
+
+  # The first run's record and its trash survive intact.
+  expect_true(fs::file_exists(fs::path(live, ".runs", "R1.json")))
+  expect_length(fs::dir_ls(fs::path(live, ".trash", "R1")), 1)
+})
+
+test_that("a dry run does not consume the run id", {
+  # Previewing must stay free: a dry run writes no receipt, so the same id can
+  # still be used for the real promote that follows it.
+  withr::local_envvar(LIPDVERSE_STATE = withr::local_tempdir())
+  live <- local_db(list(list(dataSetName = "A.Author.2001")))
+  stage <- local_db(list(list(dataSetName = "A.Author.2001", tsids = c("T1", "T9"))))
+
+  lv_promote(stage, live, run_id = "R2", dry_run = TRUE, verify = FALSE, partial = TRUE)
+  expect_no_error(
+    lv_promote(stage, live, run_id = "R2", dry_run = FALSE, verify = FALSE, partial = TRUE))
+})
