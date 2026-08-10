@@ -2,15 +2,16 @@
 # bag/data/metadata.jsonld matches the layout the database actually uses
 # (columns in an unnamed list under a `columns` key).
 
-make_column <- function(tsid, variableName = "temperature") {
-  list(TSid = tsid, variableName = variableName, units = "degC",
-       values = list(1, 2, 3))
+make_column <- function(tsid, variableName = "temperature", col_extra = NULL) {
+  c(list(TSid = tsid, variableName = variableName, units = "degC",
+         values = list(1, 2, 3)),
+    col_extra %||% list())
 }
 
 make_metadata <- function(dataSetName, datasetId, tsids,
                           version = "1.0.0", archiveType = "LakeSediment",
-                          legacy_columns = FALSE) {
-  cols <- lapply(tsids, make_column)
+                          legacy_columns = FALSE, col_extra = NULL) {
+  cols <- lapply(tsids, make_column, col_extra = col_extra)
   tbl <- if (legacy_columns) {
     # Older writers stored each column as a named entry of the table.
     stats::setNames(cols, paste0("var", seq_along(cols)))

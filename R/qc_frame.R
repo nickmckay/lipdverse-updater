@@ -38,7 +38,8 @@ qc_frame <- function(dir = lv_path("database"), registry = lv_qc_fields(),
   wanted$bare <- sub("^(paleoData|chronData|geo|pub[0-9]*|calibration)_", "", wanted$qc_name)
   canonical <- lv_canonical_field(wanted$qc_name, registry)
   canon <- list(bare = stats::setNames(canonical, wanted$bare),
-                full = stats::setNames(canonical, wanted$qc_name))
+                full = stats::setNames(canonical, wanted$qc_name),
+                dataset_level = unique(canonical[wanted$cardinality %in% "dataset"]))
 
   if (progress) cli::cli_alert_info("Reading QC state from {length(paths)} file{?s}")
   parts <- lapply(paths, function(p) qc_frame_one(p, canon))
@@ -169,6 +170,14 @@ qc_frame_one <- function(path, canon) {
           }
           if (is.list(col[[nm]])) next
           if (is.null(cn(nm))) next
+          # A dataset-level field describes the dataset, so the root wins. Some
+          # files also carry a stale copy of one on every column -- archiveType
+          # on 1,131 files, 4,086 of them disagreeing with their own root -- and
+          # letting the column overwrite the root put "diatoms from lake core"
+          # and "tree" into the QC sheet while the root read LakeSediment and
+          # Wood. Read that way the junk is not a change to anything, so the
+          # merge never corrects it.
+          if (cn(nm) %in% canon$dataset_level && !is.null(root[[cn(nm)]])) next
           v <- scalar_chr(col[[nm]])
           if (length(v) == 1 && !is.na(v) && nzchar(v)) vals[[cn(nm)]] <- v
         }
