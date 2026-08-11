@@ -68,3 +68,49 @@ test_that("fields are ordered for working, not alphabetically", {
   # An unknown field sorts last rather than leading silently.
   expect_gt(lv_field_rank("something_new"), lv_field_rank("archiveType"))
 })
+
+test_that("decisions carry into a regenerated review", {
+  # Regenerating is how the review gains example values and a better ordering,
+  # and it must not cost the decisions already made.
+  mk <- function(vals, dec = NA_character_) {
+    r <- tibble::tibble(field = "paleoData_variableName", value = vals, n = 1L,
+                        example = NA_character_,
+                        datasets = vector("list", length(vals)),
+                        candidates = vector("list", length(vals)),
+                        source_pdfs = vector("list", length(vals)),
+                        examples = vector("list", length(vals)),
+                        siblings = vector("list", length(vals)),
+                        past_candidates = rep(list(tibble::tibble()), length(vals)))
+    for (nm in LV_REVIEW_PROPOSED) r[[paste0("proposed_", nm)]] <- NA_character_
+    for (nm in LV_REVIEW_DECIDED) r[[nm]] <- NA_character_
+    r$decision <- dec
+    r
+  }
+  old <- mk(c("a", "b", "gone"), c("synonym", NA, "leave"))
+  old$map_to <- c("A", NA, NA)
+  new <- mk(c("a", "b", "c"))
+
+  m <- lv_review_carry(old, new)
+  expect_equal(m$decision, c("synonym", NA, NA))
+  expect_equal(m$map_to[1], "A")
+  # A value that vanished from the new batch is reported, not silently lost.
+  expect_equal(attr(m, "carried")$lost, "gone")
+  expect_equal(attr(m, "carried")$moved, 1L)
+})
+
+test_that("carrying never overwrites a decision already made in the target", {
+  # The target is the file being worked in now; the source is history.
+  mk1 <- function(dec, map) {
+    r <- tibble::tibble(field = "paleoData_units", value = "z-scores", n = 1L,
+                        example = NA_character_, datasets = list(character()),
+                        candidates = list(character()), source_pdfs = list(character()),
+                        examples = list(character()), siblings = list(character()),
+                        past_candidates = list(tibble::tibble()))
+    for (nm in LV_REVIEW_PROPOSED) r[[paste0("proposed_", nm)]] <- NA_character_
+    for (nm in LV_REVIEW_DECIDED) r[[nm]] <- NA_character_
+    r$decision <- dec; r$map_to <- map; r
+  }
+  m <- lv_review_carry(mk1("synonym", "old"), mk1("synonym", "kept"))
+  expect_equal(m$map_to, "kept")
+  expect_equal(attr(m, "carried")$moved, 0L)
+})

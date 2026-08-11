@@ -210,3 +210,57 @@ lv_review_convert <- function(path, out = sub("\\.csv$", ".json", path)) {
   cli::cli_alert_success("Converted {nrow(r)} value{?s} to {.path {out}}")
   invisible(out)
 }
+
+#' Carry decisions from an old review file into a newly generated one
+#'
+#' A review file is generated once and then owned by the person editing it, so
+#' [lv_vocab_review()] refuses to overwrite. That is the right default and it
+#' makes one thing awkward: when the review format gains something worth having
+#' -- example values, a better ordering -- the choice is between losing recorded
+#' decisions and going without.
+#'
+#' This copies the decision side across by `(field, value)`, leaving everything
+#' else to come from the new file. Only rows that are actually decided are
+#' copied, and a row already decided in the target is never overwritten.
+#'
+#' Values that no longer appear are reported rather than dropped silently: they
+#' usually mean the new file was generated from a different batch, which is
+#' worth noticing before deciding anything on top of it.
+#'
+#' @param from Path to the review holding the decisions.
+#' @param to Path to the newly generated review, or the tibble itself.
+#' @return The merged tibble, with a `carried` attribute naming what moved and
+#'   what did not.
+#' @export
+lv_review_carry <- function(from, to) {
+  old <- if (is.character(from)) lv_review_read(from) else from
+  new <- if (is.character(to)) lv_review_read(to) else to
+
+  has <- function(r) !is.na(r$decision) & nzchar(r$decision)
+  src <- old[has(old), , drop = FALSE]
+  if (!nrow(src)) {
+    cli::cli_alert_info("Nothing to carry: no decisions in {.path {from}}.")
+    return(invisible(new))
+  }
+
+  k_new <- paste(new$field, new$value, sep = "\r")
+  k_old <- paste(src$field, src$value, sep = "\r")
+  i <- match(k_new, k_old)
+
+  moved <- 0L; skipped <- character()
+  for (j in which(!is.na(i))) {
+    if (has(new)[j]) { skipped <- c(skipped, new$value[j]); next }
+    for (nm in LV_REVIEW_DECIDED) new[[nm]][j] <- src[[nm]][i[j]]
+    moved <- moved + 1L
+  }
+  lost <- src$value[!k_old %in% k_new]
+
+  cli::cli_alert_success("Carried {moved} decision{?s}.")
+  if (length(skipped))
+    cli::cli_alert_info("{length(skipped)} row{?s} already decided in the target, left alone.")
+  if (length(lost))
+    cli::cli_alert_warning(c("{length(lost)} decided value{?s} not present in the new review: {.val {utils::head(lost, 5)}}"))
+
+  attr(new, "carried") <- list(moved = moved, skipped = skipped, lost = lost)
+  new
+}
