@@ -141,7 +141,8 @@ lv_vocab_remap <- function(store = qc_store()) {
 #' @export
 lv_vocab_review <- function(issues, out, vocab = lv_vocab_overlay(store = store),
                             store = qc_store(), n_candidates = 5, overwrite = FALSE,
-                            sources = NULL, past = NULL) {
+                            sources = NULL, past = NULL, dir = NULL,
+                            n_examples = 3L) {
   if (fs::file_exists(out) && !overwrite) {
     cli::cli_abort(c("{.path {out}} already exists.",
                      i = "Regenerating would discard decisions already recorded in it.",
@@ -177,10 +178,21 @@ lv_vocab_review <- function(issues, out, vocab = lv_vocab_overlay(store = store)
                      example = dplyr::first(stats::na.omit(dataSetName)),
                      datasets = list(unique(stats::na.omit(dataSetName))),
                      .groups = "drop") |>
-    dplyr::arrange(field, dplyr::desc(n))
+    dplyr::arrange(lv_field_rank(.data$field), .data$field, dplyr::desc(.data$n))
 
   agg$candidates <- lapply(seq_len(nrow(agg)), function(i)
     lv_vocab_candidates(agg$value[i], agg$field[i], vocab, n_candidates))
+
+  # What the column actually holds, and what it sits next to. The value alone
+  # often does not say what kind of column it is: "d13C code" and "d18O code"
+  # could not be decided from their names, where a handful of repeated small
+  # integers would have settled them at a glance. Captured here rather than
+  # looked up live, so the file stays readable without the staged LiPD files.
+  ctx <- lv_review_context(x, dir, n_examples)
+  agg$examples <- ctx$examples[match(paste(agg$field, agg$value), ctx$key)]
+  agg$siblings <- ctx$siblings[match(paste(agg$field, agg$value), ctx$key)]
+  agg$examples[vapply(agg$examples, is.null, logical(1))] <- list(character())
+  agg$siblings[vapply(agg$siblings, is.null, logical(1))] <- list(character())
 
   # PaST alignment, for terms that may need adding. The alignment sheets carry
   # paleoData_pastName and paleoData_pastId, so a proposed new term without one
@@ -216,7 +228,7 @@ lv_vocab_review <- function(issues, out, vocab = lv_vocab_overlay(store = store)
   for (nm in LV_REVIEW_DECIDED) agg[[nm]] <- NA_character_
 
   agg <- agg[, c("field", "value", "n", "example", "datasets", "candidates",
-                 "source_pdfs", "past_candidates",
+                 "source_pdfs", "examples", "siblings", "past_candidates",
                  paste0("proposed_", LV_REVIEW_PROPOSED), LV_REVIEW_DECIDED)]
   lv_review_write(agg, out, meta = list(created_utc = lv_now_utc(),
                                         vocab_pin = attr(vocab, "pin"),
@@ -314,6 +326,25 @@ lv_vocab_apply_review <- function(path, store = qc_store(), actor = lv_actor(),
     cli::cli_abort(c("{sum(need_also)} row{?s} need both {.field also_field} and {.field also_value}.",
                      i = "{.val {utils::head(r$value[need_also], 5)}}",
                      i = "That second field is the whole reason to decompose rather than map."),
+                   class = "lv_error_vocab")
+  }
+  # also_* on a synonym is silently discarded: only decompose and a naming
+  # new_term reach the remap table. Caught here because by apply time the
+  # decision is recorded and looks applied.
+  syn_also <- r$decision == "synonym" & (has_af | has_av)
+  if (any(syn_also)) {
+    cli::cli_abort(c("{sum(syn_also)} {.val synonym} row{?s} carry {.field also_field} or {.field also_value}: {.val {utils::head(r$value[syn_also], 5)}}",
+                     i = "A synonym maps one value to one term; the second field would be dropped.",
+                     i = "Use {.val decompose} to keep it."),
+                   class = "lv_error_vocab")
+  }
+  # And a second field with nowhere to go is the same silent loss one step later.
+  af_bad <- has_af & !grepl("^interpretation_", r$also_field) &
+    is.na(vapply(ifelse(has_af, r$also_field, "x"), lv_col_key, character(1)))
+  if (any(af_bad)) {
+    cli::cli_abort(c("{sum(af_bad)} row{?s} name an {.field also_field} that is not a column-level field: {.val {unique(r$also_field[af_bad])}}",
+                     i = "Column fields are the paleoData_/chronData_ ones, or interpretation_*.",
+                     i = "It does not need to be on a QC sheet, but it does need to be a key a column can hold."),
                    class = "lv_error_vocab")
   }
   vocab <- lv_vocab()
@@ -433,27 +464,21 @@ lv_vocab_patches <- function(decisions, vocab = lv_vocab()) {
 lv_apply_remap <- function(cl, remap, dsn, tsid, log = function(e) NULL) {
   if (is.null(remap) || !nrow(remap)) return(cl)
 
-  get <- function(field) {
-    switch(field,
-           paleoData_variableName = cl$variableName,
-           paleoData_units = cl$units,
-           paleoData_proxy = cl$proxy,
-           NULL)
-  }
   for (i in seq_len(nrow(remap))) {
-    cur <- as_chr1(get(remap$field[i]))
+    cur <- as_chr1(lv_col_get(cl, remap$field[i]))
     if (is.null(cur) || is.na(cur) || !identical(cur, remap$value[i])) next
 
-    switch(remap$field[i],
-           paleoData_variableName = cl$variableName <- remap$map_to[i],
-           paleoData_units        = cl$units <- remap$map_to[i],
-           paleoData_proxy        = cl$proxy <- remap$map_to[i])
+    cl <- lv_col_set(cl, remap$field[i], remap$map_to[i])
     log(tibble::tibble(dataSetName = dsn, TSid = tsid %||% NA_character_,
                        field = remap$field[i], from = cur, to = remap$map_to[i],
                        rule = "decompose"))
 
     af <- remap$also_field[i]
     if (is.na(af) || !nzchar(af)) next
+    # The second field is written whether or not it appears on any QC sheet.
+    # The file is the target; whether a curator ever sees the field is a
+    # separate choice made in Google Sheets. summaryStatistic is the case that
+    # exposed this -- it is on 87,810 columns and no sheet.
     if (grepl("^interpretation_", af)) {
       slot <- sub("^interpretation_", "", af)
       if (!length(cl$interpretation)) cl$interpretation <- list(list())
@@ -464,9 +489,76 @@ lv_apply_remap <- function(cl, remap, dsn, tsid, log = function(e) NULL) {
                            field = af, from = NA_character_, to = remap$also_value[i],
                            rule = "decompose"))
       }
+    } else {
+      have <- as_chr1(lv_col_get(cl, af))
+      if (is.null(have) || is.na(have) || !nzchar(have)) {
+        cl <- lv_col_set(cl, af, remap$also_value[i])
+        log(tibble::tibble(dataSetName = dsn, TSid = tsid %||% NA_character_,
+                           field = af, from = NA_character_, to = remap$also_value[i],
+                           rule = "decompose"))
+      }
     }
   }
   cl
+}
+
+# A column key for a qc-style field name. Column-level fields are the
+# paleoData_/chronData_ ones, and the file stores them bare. Everything else --
+# archiveType, geo_*, pub* -- describes the dataset, not the column, and has no
+# column key at all.
+lv_col_key <- function(field) {
+  if (is.na(field) || !nzchar(field)) return(NA_character_)
+  if (grepl("^interpretation_", field)) return(NA_character_)
+  if (grepl("^(paleoData|chronData)_", field))
+    return(sub("^(paleoData|chronData)_", "", field))
+  if (field %in% LV_DATASET_LEVEL_FIELDS) return(NA_character_)
+  field
+}
+
+# Fields that describe the dataset. Writing one onto a column is the flattening
+# artifact that put "diatoms from lake core" into the hydroclimate2k QC sheet
+# while the file's own root read LakeSediment.
+LV_DATASET_LEVEL_FIELDS <- c("archiveType", "dataSetName", "datasetId")
+
+lv_col_get <- function(cl, field) {
+  k <- lv_col_key(field)
+  if (is.na(k)) return(NULL)
+  cl[[k]]
+}
+
+lv_col_set <- function(cl, field, value) {
+  k <- lv_col_key(field)
+  if (is.na(k)) return(cl)
+  cl[[k]] <- value
+  cl
+}
+
+#' Which remap targets can actually be written
+#'
+#' A decision that cannot be applied is worse than one that is refused: it is
+#' recorded, reported as applied, and quietly does nothing. This reports the
+#' rows whose `field` or `also_field` has no column to write to.
+#'
+#' @param remap From [lv_vocab_remap()].
+#' @return An `lv_issues` tibble.
+#' @export
+lv_remap_check <- function(remap) {
+  if (is.null(remap) || !nrow(remap)) return(lv_issues_empty())
+  iss <- lv_issues_empty()
+  bad_f <- is.na(vapply(remap$field, lv_col_key, character(1)))
+  if (any(bad_f)) iss <- lv_issues_bind(iss, lv_issues(
+    check = "remap_field_not_writable", severity = "error",
+    field = remap$field[bad_f], value = remap$value[bad_f],
+    message = "Not a column-level field, so the mapping cannot be applied."))
+  af <- remap$also_field
+  has <- !is.na(af) & nzchar(af)
+  bad_a <- has & !grepl("^interpretation_", af) &
+    is.na(vapply(ifelse(has, af, "x"), lv_col_key, character(1)))
+  if (any(bad_a)) iss <- lv_issues_bind(iss, lv_issues(
+    check = "remap_also_field_not_writable", severity = "error",
+    field = af[bad_a], value = remap$value[bad_a],
+    message = "Not a column-level field, so the second value would be dropped."))
+  iss
 }
 
 #' Who is making a decision
@@ -476,6 +568,20 @@ lv_apply_remap <- function(cl, remap, dsn, tsid, log = function(e) NULL) {
 lv_actor <- function() {
   Sys.getenv("LIPDVERSE_ACTOR",
              unset = paste0(Sys.info()[["user"]], "@", Sys.info()[["nodename"]]))
+}
+
+# The order a review is worked in. Not alphabetical: the fields constrain each
+# other in this direction. A variableName decision determines what the units and
+# proxy should be, and a decompose on variableName creates the seasonality an
+# interpretation row then refers to. Deciding the other way round means going
+# back. Anything unlisted sorts after, alphabetically, so a new field shows up
+# at the end rather than silently leading.
+LV_FIELD_ORDER <- c("paleoData_variableName", "paleoData_units", "paleoData_proxy",
+                    "paleoData_proxyGeneral", "paleoData_proxyDetail", "archiveType")
+
+lv_field_rank <- function(field) {
+  i <- match(field, LV_FIELD_ORDER)
+  ifelse(is.na(i), length(LV_FIELD_ORDER) + 1L, i)
 }
 
 # Placeholders that exist in the alignment sheets as work markers. They are
@@ -550,4 +656,64 @@ lv_vocab_accept <- function(path, which = NULL, min_confidence = c("high", "medi
   lv_review_write(r, path)
   cli::cli_alert_success("Wrote {.path {path}}. Review it, then {.code lv_vocab_apply_review()}.")
   invisible(r)
+}
+
+# Example values and sibling variableNames for each reviewed value.
+#
+# Reads the staged files the issues came from. Bounded on purpose: a few columns
+# per value, a few values per column. A review file is read by a person, and a
+# thousand numbers would bury the one fact that decides the row.
+lv_review_context <- function(x, dir, n_examples = 3L, n_values = 6L) {
+  key <- paste(x$field, x$value)
+  empty <- list(key = character(), examples = list(), siblings = list())
+  if (is.null(dir) || !fs::dir_exists(dir)) return(empty)
+
+  want <- unique(x[, c("field", "value", "dataSetName")])
+  want <- want[!is.na(want$dataSetName), , drop = FALSE]
+  if (!nrow(want)) return(empty)
+
+  out_ex <- list(); out_sib <- list(); out_key <- character()
+  for (k in unique(paste(want$field, want$value))) {
+    rows <- want[paste(want$field, want$value) == k, , drop = FALSE]
+    ex <- character(); sib <- character()
+    for (dsn in utils::head(unique(rows$dataSetName), n_examples)) {
+      p <- fs::path(dir, paste0(dsn, ".lpd"))
+      if (!fs::file_exists(p)) next
+      L <- tryCatch(suppressWarnings(lipdR::readLipd(p)), error = function(e) NULL)
+      if (is.null(L)) next
+      tsids <- x$TSid[paste(x$field, x$value) == k & x$dataSetName %in% dsn]
+      for (blk in c("paleoData", "chronData")) {
+        for (pd in L[[blk]]) for (tb in pd$measurementTable) {
+          if (!is.list(tb)) next
+          cols <- if (!is.null(tb$columns)) tb$columns else
+            tb[!names(tb) %in% c("filename", "tableName", "missingValue")]
+          names_here <- vapply(cols, function(cl)
+            if (is.list(cl)) as_chr1(cl[["variableName"]]) %||% NA_character_ else NA_character_,
+            character(1))
+          for (cl in cols) {
+            if (!is.list(cl) || is.null(cl[["TSid"]])) next
+            if (!as.character(cl[["TSid"]])[1] %in% tsids) next
+            # Non-missing values, not the first few. A column that begins with
+            # NAs would otherwise read as empty when it is not -- and a column
+            # that really is empty says so through the fill count, which is
+            # itself the answer for a flag column that was never populated.
+            all_v <- as.character(unlist(cl[["values"]]))
+            filled <- all_v[!is.na(all_v) & nzchar(trimws(all_v)) &
+                              !trimws(all_v) %in% c("NA", "NaN")]
+            v <- utils::head(filled, n_values)
+            ex <- c(ex, sprintf("%s [%s]: %s  (%d of %d values)",
+                                as_chr1(cl[["variableName"]]) %||% "?",
+                                as_chr1(cl[["units"]]) %||% "no units",
+                                if (length(v)) paste(v, collapse = ", ") else "empty",
+                                length(filled), length(all_v)))
+            sib <- c(sib, stats::na.omit(names_here))
+          }
+        }
+      }
+    }
+    out_key <- c(out_key, k)
+    out_ex[[length(out_ex) + 1L]] <- unique(ex)
+    out_sib[[length(out_sib) + 1L]] <- unique(sib)
+  }
+  list(key = out_key, examples = out_ex, siblings = out_sib)
 }

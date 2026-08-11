@@ -28,7 +28,9 @@ LV_REVIEW_DECIDED  <- c("decision", "map_to", "also_field", "also_value",
 #' @rdname review_io
 #' @param path A `.json` (or legacy `.csv`) review file.
 #' @return A tibble of one row per value, with `datasets`, `candidates`,
-#'   `source_pdfs` and `past_candidates` as list columns, and a `meta` attribute.
+#'   `source_pdfs`, `examples`, `siblings` and `past_candidates` as list columns,
+#'   and a `meta` attribute. `examples` and `siblings` are absent from files
+#'   written before they existed, and read back empty rather than failing.
 #' @export
 lv_review_read <- function(path) {
   path <- path.expand(path)
@@ -52,6 +54,8 @@ lv_review_read <- function(path) {
     datasets    = lapply(it, function(e) lst(e$datasets)),
     candidates  = lapply(it, function(e) lst(e$candidates)),
     source_pdfs = lapply(it, function(e) lst(e$source_pdfs)),
+    examples    = lapply(it, function(e) lst(e$examples)),
+    siblings    = lapply(it, function(e) lst(e$siblings)),
     past_candidates = lapply(it, function(e) {
       p <- e$past_candidates
       if (is.null(p) || !length(p)) return(tibble::tibble(
@@ -100,6 +104,8 @@ lv_review_write <- function(r, path, meta = attr(r, "meta")) {
       datasets = getl(r$datasets[[i]]),
       candidates = getl(r$candidates[[i]]),
       source_pdfs = getl(r$source_pdfs[[i]]),
+      examples = getl(if ("examples" %in% names(r)) r$examples[[i]] else NULL),
+      siblings = getl(if ("siblings" %in% names(r)) r$siblings[[i]] else NULL),
       past_candidates = if (is.null(pc) || !nrow(pc)) list() else
         lapply(seq_len(nrow(pc)), function(k) list(
           pastId = unbox_chr(pc$pastId[k]), pastName = unbox_chr(pc$pastName[k]),
@@ -127,7 +133,7 @@ unbox_chr <- function(x) jsonlite::unbox(as.character(x)[1])
 #' @export
 lv_review_export_csv <- function(r, path) {
   flat <- r
-  for (nm in c("datasets", "candidates", "source_pdfs")) {
+  for (nm in c("datasets", "candidates", "source_pdfs", "examples", "siblings")) {
     flat[[nm]] <- vapply(r[[nm]], function(x) paste(x, collapse = " | "), character(1))
   }
   flat$past_candidates <- vapply(r$past_candidates, function(p) {
@@ -149,6 +155,8 @@ lv_review_read_csv <- function(path) {
     field = x$field, value = x$value, n = as.integer(x$n),
     example = x$example %||% NA_character_,
     datasets = if ("datasets" %in% names(x)) split1(x$datasets) else vector("list", nrow(x)),
+    examples = if ("examples" %in% names(x)) split1(x$examples) else vector("list", nrow(x)),
+    siblings = if ("siblings" %in% names(x)) split1(x$siblings) else vector("list", nrow(x)),
     candidates = if ("candidates" %in% names(x)) split1(x$candidates) else vector("list", nrow(x)),
     source_pdfs = if ("source_pdf" %in% names(x)) split1(x$source_pdf) else vector("list", nrow(x)))
   r$datasets[vapply(r$datasets, is.null, logical(1))] <- list(character())

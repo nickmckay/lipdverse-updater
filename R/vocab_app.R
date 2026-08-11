@@ -43,17 +43,20 @@ lv_vocab_review_app <- function(path, vocab = lv_vocab(), launch = TRUE, port = 
 
   DECISIONS <- c("synonym", "new_term", "decompose", "leave")
 
-  # A group is one decision applied to many values. Undecided rows still group,
-  # by field, so they can be worked through together rather than scattered.
+  # A group is one decision applied to many values, so a group can be ruled on
+  # once -- that is what collapses 87 rows to 12. The field leads the label so
+  # the list reads by type, which is how a review is actually worked: all the
+  # variableNames, then units, then proxy.
   group_key <- function(r) {
     ifelse(is.na(r$proposed_decision) | !nzchar(r$proposed_decision),
-           paste0("undecided · ", r$field),
-           paste0(r$proposed_decision, " · ",
-                  ifelse(is.na(r$proposed_map_to), "", r$proposed_map_to),
+           paste0(r$field, " · undecided"),
+           paste0(r$field, " · ", r$proposed_decision,
+                  ifelse(is.na(r$proposed_map_to) | !nzchar(r$proposed_map_to), "",
+                         paste0(" · ", r$proposed_map_to)),
                   ifelse(is.na(r$proposed_also_field) | !nzchar(r$proposed_also_field), "",
-                         paste0(" + ", r$proposed_also_field)),
-                  " · ", r$field))
+                         paste0(" + ", r$proposed_also_field))))
   }
+
 
   ui <- bslib::page_sidebar(
     title = paste0("Vocabulary review · ", fs::path_file(path)),
@@ -135,8 +138,13 @@ lv_vocab_review_app <- function(path, vocab = lv_vocab(), launch = TRUE, port = 
     groups <- shiny::reactive({
       g <- group_key(rv$r)
       u <- unique(g)
-      # Biggest first: the repetitive families are where the time goes.
-      u[order(-vapply(u, function(k) sum(as.integer(rv$r$n[g == k])), numeric(1)))]
+      # By field first, so the list reads by type. Within a field the biggest
+      # group leads, since the repetitive families are where the time goes, and
+      # anything still undecided sorts last.
+      fld <- vapply(u, function(k) rv$r$field[match(k, g)], character(1))
+      und <- grepl(" · undecided$", u)
+      sz  <- vapply(u, function(k) sum(as.integer(rv$r$n[g == k])), numeric(1))
+      u[order(lv_field_rank(fld), fld, und, -sz, u)]
     })
     cur_key <- shiny::reactive({
       gs <- groups(); gs[max(1L, min(rv$gi, length(gs)))]
@@ -201,6 +209,11 @@ lv_vocab_review_app <- function(path, vocab = lv_vocab(), launch = TRUE, port = 
       pdfs <- unique(unlist(r$source_pdfs))
       shiny::tagList(
         item("rationale", fld("proposed_rationale")),
+        # What the column holds and what it sits beside. These decide the rows
+        # the name alone cannot: a column of repeated small integers is a flag,
+        # a column of -8.2, -7.9 is a measurement.
+        item("example values", unique(unlist(r$examples)), pre = TRUE),
+        item("other variables in the same table", unique(unlist(r$siblings))),
         item("vocabulary candidates", unique(unlist(r$candidates)), pre = TRUE),
         item("PaST candidates", {
           pc <- dplyr::bind_rows(r$past_candidates)
