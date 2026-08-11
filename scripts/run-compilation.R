@@ -358,11 +358,18 @@ if (commit) {
                 mode = if (length(new_rows) && !force_patch) "full" else "patch",
                 dry_run = FALSE)
   cat("sheet       : pushed\n")
-  # The title is where most people read the version. try(): renaming needs Drive
-  # auth, and a scheduled run should not fail a completed update over a title.
+  # The title is where most people read the version, so it is part of the update
+  # rather than an optional extra. It goes through the Sheets API, which the
+  # existing token covers; the try() remains only so a transient API failure
+  # cannot fail an otherwise complete run, and it says so loudly.
   renamed <- try(lv_rename_qc_sheet(cfg, ver$version, dry_run = FALSE), silent = TRUE)
-  cat(sprintf("title       : %s\n",
-              if (inherits(renamed, "try-error")) "NOT renamed (needs googledrive auth)" else renamed))
+  if (inherits(renamed, "try-error")) {
+    cat(sprintf("title       : FAILED -- %s\n",
+                sub("\n.*", "", conditionMessage(attr(renamed, "condition")))))
+    cat("              rerun: lv_rename_qc_sheet(lv_config(comp), ver$version, dry_run = FALSE)\n")
+  } else {
+    cat(sprintf("title       : %s\n", renamed))
+  }
 } else {
   n <- nrow(qc_diff_to_events(base, state, source = "sheet"))
   cat(sprintf("store       : would append %d event%s\n", n, if (n == 1) "" else "s"))

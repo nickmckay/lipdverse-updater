@@ -140,3 +140,41 @@ test_that("appending can be declined", {
   expect_equal(nrow(sheet_read(bk, "S1", "QC")), 1)
   expect_equal(r$rows_not_added, "T3")
 })
+
+test_that("sheet rows are ordered by dataSetName, not TSid", {
+  # A curator works a dataset at a time, so its variables belong together. TSid
+  # order scatters them, and a TSid is not a name anyone recognises.
+  cells <- tibble::tibble(
+    tsid = c("Z1", "A1", "Z2"),
+    field = rep(c("dataSetName", "paleoData_units"), length.out = 6)[1:3],
+    value = c("Alpha.Author.2001", "degC", "Alpha.Author.2001"),
+    present = TRUE)
+  cells <- tibble::tibble(
+    tsid = c("Z1", "A1", "Z2"),
+    field = "dataSetName",
+    value = c("Beta.Author.2002", "Zulu.Author.2003", "alpha.Author.2001"),
+    present = TRUE)
+
+  w <- qc_cells_to_sheet(cells, lv_qc_fields())
+  expect_equal(w$dataSetName, c("alpha.Author.2001", "Beta.Author.2002", "Zulu.Author.2003"))
+  # Case-insensitive: "alpha" leads "Beta", which a case-sensitive sort reverses.
+})
+
+test_that("rows of one dataset stay together and in TSid order", {
+  cells <- tibble::tibble(
+    tsid = c("T2", "T1", "T3"), field = "dataSetName",
+    value = c("Same.Author.2001", "Same.Author.2001", "Other.Author.2002"),
+    present = TRUE)
+  w <- qc_cells_to_sheet(cells, lv_qc_fields())
+  expect_equal(w$TSid, c("T3", "T1", "T2"))
+})
+
+test_that("a row with no dataSetName sorts last rather than leading the sheet", {
+  # An unnamed row is an anomaly; putting it at the top hides it behind the
+  # assumption that the first rows are the normal ones.
+  cells <- tibble::tibble(
+    tsid = c("T1", "T2"), field = "dataSetName",
+    value = c(NA_character_, "Alpha.Author.2001"), present = TRUE)
+  w <- qc_cells_to_sheet(cells, lv_qc_fields())
+  expect_equal(w$TSid, c("T2", "T1"))
+})

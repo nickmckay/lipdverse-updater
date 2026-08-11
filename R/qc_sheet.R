@@ -261,7 +261,20 @@ qc_cells_to_sheet <- function(cells, registry = lv_qc_fields(), template = NULL)
     wide <- wide[, c("TSid", lv_sheet_column_order(setdiff(names(wide), "TSid"), registry)),
                  drop = FALSE]
   }
-  wide
+  lv_sheet_row_order(wide)
+}
+
+# Rows are ordered by dataSetName, not by TSid. A curator works a dataset at a
+# time, so its variables belong together; TSid order scatters them, and a TSid
+# is not a name anyone recognises. Case-insensitive, to match how Google sorts
+# and so a manual re-sort does not fight the next push.
+lv_sheet_row_order <- function(wide) {
+  if (!"dataSetName" %in% names(wide) || !nrow(wide)) return(wide)
+  d <- as.character(wide$dataSetName)
+  # NA names sort last rather than first: an unnamed row is an anomaly, and
+  # burying it at the top of the sheet hides it.
+  key <- ifelse(is.na(d) | !nzchar(trimws(d)), "\uffff", tolower(trimws(d)))
+  wide[order(key, as.character(wide$TSid), method = "radix"), , drop = FALSE]
 }
 
 #' Push canonical state to a QC sheet
@@ -554,8 +567,8 @@ lv_qc_sheet_name <- function(current, version, compilation = NULL) {
 #' @return The new title, invisibly.
 #' @export
 lv_rename_qc_sheet <- function(cfg, version, dry_run = TRUE) {
-  for (p in c("googlesheets4", "googledrive")) {
-    if (!requireNamespace(p, quietly = TRUE)) cli::cli_abort("{.pkg {p}} is required.")
+  if (!requireNamespace("googlesheets4", quietly = TRUE)) {
+    cli::cli_abort("{.pkg googlesheets4} is required.")
   }
   current <- googlesheets4::gs4_get(cfg$qc_sheet_id)$name
   target <- lv_qc_sheet_name(current, version, cfg$compilation)
@@ -569,8 +582,20 @@ lv_rename_qc_sheet <- function(cfg, version, dry_run = TRUE) {
     cli::cli_alert_info("Dry run. Not renamed.")
     return(invisible(target))
   }
-  # Drive, not Sheets: googlesheets4 renames tabs, not documents.
-  googledrive::drive_rename(googledrive::as_id(cfg$qc_sheet_id), name = target)
+  # The Sheets API renames the document through updateSpreadsheetProperties, so
+  # the googlesheets4 token already carries the scope. This used to go through
+  # googledrive::drive_rename(), which needs a second authorisation that a
+  # scheduled run does not have -- so the title silently stayed a version
+  # behind, which is where most people read the version.
+  #
+  # googlesheets4::sheet_rename() is not this: it renames a tab.
+  req <- googlesheets4::request_generate(
+    "sheets.spreadsheets.batchUpdate",
+    params = list(
+      spreadsheetId = cfg$qc_sheet_id,
+      requests = list(list(updateSpreadsheetProperties = list(
+        properties = list(title = target), fields = "title")))))
+  googlesheets4::request_make(req)
   cli::cli_alert_success("Renamed to {.val {target}}")
   invisible(target)
 }

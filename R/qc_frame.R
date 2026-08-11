@@ -37,7 +37,22 @@ qc_frame <- function(dir = lv_path("database"), registry = lv_qc_fields(),
   # calibration/geo/paleoData.
   wanted$bare <- sub("^(paleoData|chronData|geo|pub[0-9]*|calibration)_", "", wanted$qc_name)
   canonical <- lv_canonical_field(wanted$qc_name, registry)
-  canon <- list(bare = stats::setNames(canonical, wanted$bare),
+
+  # The bare map is only consulted for column keys, so where a bare name is
+  # shared it must resolve to the column-level field. `createdBy` is the case
+  # that matters: at the dataset root it is the tool that wrote the file
+  # (matlab, sisal2lipd), and on a column it is the compilation that added the
+  # variable (hydroclimate2k). Both are registry fields, and taking whichever
+  # came first put the compilation's value into the dataset's field, where it
+  # collided with the tool name and never reached paleoData_createdBy's column.
+  # `notes` collides four ways for the same reason.
+  rank <- ifelse(grepl("^paleoData_", wanted$qc_name), 1L,
+                 ifelse(wanted$cardinality %in% "timeseries", 2L, 3L))
+  o <- order(rank)
+  bare_map <- stats::setNames(canonical[o], wanted$bare[o])
+  bare_map <- bare_map[!duplicated(names(bare_map))]
+
+  canon <- list(bare = bare_map,
                 full = stats::setNames(canonical, wanted$qc_name),
                 dataset_level = unique(canonical[wanted$cardinality %in% "dataset"]))
 
