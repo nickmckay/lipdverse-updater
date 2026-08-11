@@ -110,11 +110,12 @@ lv_vocab_remap <- function(store = qc_store()) {
   # A new_term that names its target and carries a second field decomposes onto
   # that target exactly as `decompose` does; the only difference is that the
   # target did not exist until this decision created it.
-  keep <- d$decision == "decompose" |
+  keep <- d$decision %in% c("decompose", "remove") |
     (d$decision == "new_term" & !is.na(d$map_to) & nzchar(d$map_to) &
        !is.na(d$also_field) & nzchar(d$also_field))
   d <- d[keep, , drop = FALSE]
-  d[, c("field", "value", "map_to", "also_field", "also_value"), drop = FALSE]
+  d$action <- ifelse(d$decision == "remove", "remove", "decompose")
+  d[, c("field", "value", "map_to", "also_field", "also_value", "action"), drop = FALSE]
 }
 
 #' Build a review file for unrecognised vocabulary
@@ -313,7 +314,7 @@ lv_vocab_apply_review <- function(path, store = qc_store(), actor = lv_actor(),
     return(invisible(list(decisions = NULL, patches = NULL, remap = NULL)))
   }
 
-  ok <- c("synonym", "new_term", "decompose", "leave")
+  ok <- c("synonym", "new_term", "decompose", "leave", "remove")
   bad <- setdiff(unique(r$decision), ok)
   if (length(bad)) {
     cli::cli_abort("Unknown decision{?s} {.val {bad}}. Use {.val {ok}}.", class = "lv_error_vocab")
@@ -335,6 +336,23 @@ lv_vocab_apply_review <- function(path, store = qc_store(), actor = lv_actor(),
                      i = "That second field is the whole reason to decompose rather than map."),
                    class = "lv_error_vocab")
   }
+  # `remove` clears the value: it is not a term, so it takes no target. A
+  # map_to on it would look like a mapping and do nothing.
+  rm_extra <- r$decision == "remove" &
+    ((!is.na(r$map_to) & nzchar(r$map_to)) | has_af | has_av)
+  if (any(rm_extra)) {
+    cli::cli_abort(c("{sum(rm_extra)} {.val remove} row{?s} carry a target: {.val {utils::head(r$value[rm_extra], 5)}}",
+                     i = "{.val remove} clears the value; it maps to nothing."),
+                   class = "lv_error_vocab")
+  }
+  # A column must keep its name and its identity. Everything else can be blank.
+  rm_bad <- r$decision == "remove" & r$field %in% LV_NEVER_REMOVABLE
+  if (any(rm_bad)) {
+    cli::cli_abort(c("{.val remove} is not allowed on {.val {unique(r$field[rm_bad])}}.",
+                     i = "A column without a variableName cannot be read at all."),
+                   class = "lv_error_vocab")
+  }
+
   # also_* on a synonym is silently discarded: only decompose and a naming
   # new_term reach the remap table. Caught here because by apply time the
   # decision is recorded and looks applied.
@@ -471,9 +489,21 @@ lv_vocab_patches <- function(decisions, vocab = lv_vocab()) {
 lv_apply_remap <- function(cl, remap, dsn, tsid, log = function(e) NULL) {
   if (is.null(remap) || !nrow(remap)) return(cl)
 
+  action <- if ("action" %in% names(remap)) remap$action else rep("decompose", nrow(remap))
   for (i in seq_len(nrow(remap))) {
     cur <- as_chr1(lv_col_get(cl, remap$field[i]))
     if (is.null(cur) || is.na(cur) || !identical(cur, remap$value[i])) next
+
+    # A value that should not be there is removed rather than mapped. `Depth`
+    # in paleoData_proxy is the case: depth is an axis, and no proxy term is
+    # the right answer for it.
+    if (identical(action[i], "remove")) {
+      cl <- lv_col_set(cl, remap$field[i], NULL)
+      log(tibble::tibble(dataSetName = dsn, TSid = tsid %||% NA_character_,
+                         field = remap$field[i], from = cur, to = NA_character_,
+                         rule = "remove"))
+      next
+    }
 
     cl <- lv_col_set(cl, remap$field[i], remap$map_to[i])
     log(tibble::tibble(dataSetName = dsn, TSid = tsid %||% NA_character_,
@@ -526,6 +556,9 @@ lv_col_key <- function(field) {
 # artifact that put "diatoms from lake core" into the hydroclimate2k QC sheet
 # while the file's own root read LakeSediment.
 LV_DATASET_LEVEL_FIELDS <- c("archiveType", "dataSetName", "datasetId")
+
+# Fields a column cannot do without. Everything else may legitimately be blank.
+LV_NEVER_REMOVABLE <- c("paleoData_variableName", "chronData_variableName")
 
 lv_col_get <- function(cl, field) {
   k <- lv_col_key(field)

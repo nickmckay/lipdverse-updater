@@ -157,3 +157,29 @@ test_that("proposals carry across a regeneration alongside decisions", {
   expect_equal(m$decision, "synonym")
   expect_equal(m$proposed_rationale, "plural of an existing unit")
 })
+
+test_that("remove takes no target and cannot strip a variableName", {
+  base <- function(field, dec, map = NA_character_) {
+    r <- tibble::tibble(field = field, value = "Depth", n = 1L, example = NA_character_,
+                        datasets = list(character()), candidates = list(character()),
+                        source_pdfs = list(character()), examples = list(character()),
+                        siblings = list(character()), past_candidates = list(tibble::tibble()))
+    for (nm in LV_REVIEW_PROPOSED) r[[paste0("proposed_", nm)]] <- NA_character_
+    for (nm in LV_REVIEW_DECIDED) r[[nm]] <- NA_character_
+    r$decision <- dec; r$map_to <- map; r
+  }
+  p <- withr::local_tempfile(fileext = ".json")
+  store <- qc_store(withr::local_tempdir())
+
+  # A target on a remove looks like a mapping and would do nothing.
+  lv_review_write(base("paleoData_proxy", "remove", "grain size"), p)
+  expect_error(lv_vocab_apply_review(p, store = store), class = "lv_error_vocab")
+
+  # A column without a name cannot be read at all.
+  lv_review_write(base("paleoData_variableName", "remove"), p)
+  expect_error(lv_vocab_apply_review(p, store = store), class = "lv_error_vocab")
+
+  # And the ordinary case is accepted.
+  lv_review_write(base("paleoData_proxy", "remove"), p)
+  expect_no_error(lv_vocab_apply_review(p, store = store))
+})

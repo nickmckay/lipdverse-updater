@@ -41,7 +41,7 @@ lv_vocab_review_app <- function(path, vocab = lv_vocab(), launch = TRUE, port = 
   miss <- setdiff(need, names(r0))
   if (length(miss)) cli::cli_abort("Review file is missing {.field {miss}}.")
 
-  DECISIONS <- c("synonym", "new_term", "decompose", "leave")
+  DECISIONS <- c("synonym", "new_term", "decompose", "leave", "remove")
 
   # A group is one decision applied to many values, so a group can be ruled on
   # once -- that is what collapses 87 rows to 12. The field leads the label so

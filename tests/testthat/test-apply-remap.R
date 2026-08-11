@@ -67,3 +67,47 @@ test_that("lv_remap_check reports targets that cannot be written", {
   expect_equal(nrow(lv_remap_check(ok)), 0)
   expect_true(any(lv_remap_check(bad)$check == "remap_also_field_not_writable"))
 })
+
+test_that("remove clears the value instead of mapping it", {
+  # paleoData_proxy = "Depth" is the case: depth is an axis, and no proxy term
+  # is the right answer. Mapping it anywhere would put a wrong fact in the file.
+  r <- tibble::tibble(field = "paleoData_proxy", value = "Depth",
+                      map_to = NA_character_, also_field = NA_character_,
+                      also_value = NA_character_, action = "remove")
+  c0 <- list(TSid = "T1", variableName = "depth", proxy = "Depth", values = list(1))
+  out <- lv_apply_remap(c0, r, "D", "T1")
+  expect_null(out$proxy)
+  expect_equal(out$variableName, "depth")
+})
+
+test_that("removing is logged as a removal, not a change to nothing", {
+  seen <- list()
+  r <- tibble::tibble(field = "paleoData_proxy", value = "Depth", map_to = NA_character_,
+                      also_field = NA_character_, also_value = NA_character_,
+                      action = "remove")
+  c0 <- list(TSid = "T1", proxy = "Depth", values = list(1))
+  lv_apply_remap(c0, r, "D", "T1", log = function(e) seen[[length(seen) + 1L]] <<- e)
+  expect_length(seen, 1)
+  expect_equal(seen[[1]]$rule, "remove")
+  expect_equal(seen[[1]]$from, "Depth")
+  expect_true(is.na(seen[[1]]$to))
+})
+
+test_that("a column whose proxy differs is left alone", {
+  r <- tibble::tibble(field = "paleoData_proxy", value = "Depth", map_to = NA_character_,
+                      also_field = NA_character_, also_value = NA_character_,
+                      action = "remove")
+  c0 <- list(TSid = "T1", proxy = "ring width", values = list(1))
+  expect_equal(lv_apply_remap(c0, r, "D", "T1")$proxy, "ring width")
+})
+
+test_that("a remap table without an action column still decomposes", {
+  # Decisions recorded before `remove` existed have no action; they must keep
+  # working rather than being read as removals.
+  r <- tibble::tibble(field = "paleoData_variableName", value = "Jan precip",
+                      map_to = "precipitation",
+                      also_field = "interpretation_seasonality", also_value = "Jan")
+  c0 <- list(TSid = "T1", variableName = "Jan precip", values = list(1))
+  out <- lv_apply_remap(c0, r, "D", "T1")
+  expect_equal(out$variableName, "precipitation")
+})
