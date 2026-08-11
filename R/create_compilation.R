@@ -452,3 +452,83 @@ lv_nfc <- function(x) {
 LV_AXIS_QC_VARIABLES <- c("year", "age", "depth", "yearbp", "agebp", "age14c",
                           "sampleid", "top", "bottom", "depthtop", "depthbottom",
                           "year ad", "cal age", "calendar age")
+
+#' Resolve a compilation seed to TSids
+#'
+#' A compilation usually starts as a list someone has to hand, and that list is
+#' as likely to be dataset names or datasetIds as TSids. This resolves any of
+#' them to the TSids that membership is actually written against.
+#'
+#' The kind of identifier is detected by matching, not by pattern: TSids,
+#' datasetIds and dataSetNames have no reliable shape between them, and a guess
+#' from appearance would be wrong quietly. Each column is tried and the one that
+#' matches best wins, with the counts reported so a half-matching list is
+#' visible rather than silently truncated.
+#'
+#' For a dataset-level seed the QC scope is used: paleo measurement columns,
+#' axes excluded. A compilation of `year` and `depth` columns is not meaningful,
+#' and including them would put them in the QC sheet, which is the thing the
+#' hydroclimate2k curators asked to have removed. `scope = "all"` overrides.
+#'
+#' @param seed Character vector of TSids, datasetIds or dataSetNames.
+#' @param index An `lv_index` from [lv_db_index()].
+#' @param by Force an interpretation rather than detecting one.
+#' @param scope For dataset-level seeds: `"qc"` for the QC scope, `"all"` for
+#'   every timeseries in the dataset.
+#' @return A list of `tsids`, the `by` used, the `matched` and `unmatched` seed
+#'   values, and an `lv_issues` tibble.
+#' @export
+lv_resolve_seed <- function(seed, index, by = c("auto", "TSid", "datasetId", "dataSetName"),
+                            scope = c("qc", "all")) {
+  by <- match.arg(by); scope <- match.arg(scope)
+  seed <- unique(stats::na.omit(as.character(seed)))
+  seed <- seed[nzchar(trimws(seed))]
+  if (!length(seed)) cli::cli_abort("Seed is empty.", class = "lv_error_compilation")
+
+  ts <- index$timeseries
+  ds <- index$datasets
+  pools <- list(
+    TSid = unique(stats::na.omit(ts$TSid)),
+    datasetId = unique(stats::na.omit(c(ts$datasetId, ds$datasetId))),
+    dataSetName = unique(stats::na.omit(c(ts$dataSetName, ds$dataSetName, ds$fileDataSetName))))
+  # Compare normalised: a name that differs only by unicode composition is the
+  # same name, and macOS supplies both forms.
+  hits <- vapply(pools, function(p) sum(lv_nfc(seed) %in% lv_nfc(p)), integer(1))
+
+  if (by == "auto") {
+    if (max(hits) == 0)
+      cli::cli_abort(c("None of the {length(seed)} seed value{?s} matched a TSid, datasetId or dataSetName.",
+                       i = "Checked against {nrow(ts)} timeseries in {nrow(ds)} datasets."),
+                     class = "lv_error_compilation")
+    by <- names(hits)[which.max(hits)]
+    tied <- names(hits)[hits == max(hits)]
+    if (length(tied) > 1)
+      cli::cli_abort(c("Seed is ambiguous: it matches {.val {tied}} equally well.",
+                       i = "Pass {.arg by} to choose."), class = "lv_error_compilation")
+  }
+
+  key <- lv_nfc(seed)
+  matched <- seed[key %in% lv_nfc(pools[[by]])]
+  unmatched <- setdiff(seed, matched)
+
+  tsids <- if (by == "TSid") {
+    ts$TSid[lv_nfc(ts$TSid) %in% lv_nfc(matched)]
+  } else {
+    col <- if (by == "datasetId") ts$datasetId else ts$dataSetName
+    in_ds <- lv_nfc(col) %in% lv_nfc(matched)
+    if (scope == "all") ts$TSid[in_ds] else {
+      dsn <- unique(ts$dataSetName[in_ds])
+      lv_qc_timeseries(index, datasets = dsn, axes = FALSE)
+    }
+  }
+  tsids <- unique(stats::na.omit(tsids))
+
+  issues <- if (length(unmatched)) {
+    lv_issues(check = "seed_not_found", severity = "warn",
+              message = sprintf("Seed value did not match any %s.", by),
+              value = unmatched)
+  } else lv_issues_empty()
+
+  list(tsids = tsids, by = by, matched = matched, unmatched = unmatched,
+       hits = hits, issues = issues)
+}
