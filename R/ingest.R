@@ -635,24 +635,32 @@ lv_ingest_standardize <- function(dir, out, vocab = lv_vocab_overlay(store = sto
           cols <- if (!is.null(tb$columns)) tb$columns else tb
           for (cn in seq_along(cols)) {
             cl <- cols[[cn]]
-            if (!is.list(cl) || is.null(cl$variableName)) next
-            tsid <- as_chr1(cl$TSid)
+            if (!is.list(cl) || is.null(cl[["variableName"]])) next
+            tsid <- as_chr1(cl[["TSid"]])
 
-            v <- std1(cl$variableName, "paleoData_variableName", dsn, tsid)
-            if (!is.null(v)) cl$variableName <- v
-            v <- std1(cl$units, "paleoData_units", dsn, tsid)
-            if (!is.null(v)) cl$units <- v
-            v <- std1(cl$proxy, "paleoData_proxy", dsn, tsid)
-            if (!is.null(v)) cl$proxy <- v
+            # `[[` throughout, never `$`. On a list, `$` falls back to partial
+            # matching when the exact name is absent, so a column carrying
+            # proxyObservationType but no proxy had its variableName read as a
+            # proxy and offered for review as one. `Depth` and `% sand` reached
+            # the hydroclimate2k review that way, and a decision on either would
+            # have written a proxy key onto a column that never had one. The
+            # same exposure exists for units against unitsOriginal, and for an
+            # interpretation's variable against variableDetail.
+            v <- std1(cl[["variableName"]], "paleoData_variableName", dsn, tsid)
+            if (!is.null(v)) cl[["variableName"]] <- v
+            v <- std1(cl[["units"]], "paleoData_units", dsn, tsid)
+            if (!is.null(v)) cl[["units"]] <- v
+            v <- std1(cl[["proxy"]], "paleoData_proxy", dsn, tsid)
+            if (!is.null(v)) cl[["proxy"]] <- v
 
-            for (ii in seq_along(cl$interpretation)) {
-              it <- cl$interpretation[[ii]]
+            for (ii in seq_along(cl[["interpretation"]])) {
+              it <- cl[["interpretation"]][[ii]]
               if (!is.list(it)) next
-              v <- std1(it$variable, "interpretation_variable", dsn, tsid)
-              if (!is.null(v)) it$variable <- v
-              v <- std1(it$seasonality, "interpretation_seasonality", dsn, tsid)
-              if (!is.null(v)) it$seasonality <- v
-              cl$interpretation[[ii]] <- it
+              v <- std1(it[["variable"]], "interpretation_variable", dsn, tsid)
+              if (!is.null(v)) it[["variable"]] <- v
+              v <- std1(it[["seasonality"]], "interpretation_seasonality", dsn, tsid)
+              if (!is.null(v)) it[["seasonality"]] <- v
+              cl[["interpretation"]][[ii]] <- it
             }
 
             # `decompose` decisions, applied after standardizing so the second

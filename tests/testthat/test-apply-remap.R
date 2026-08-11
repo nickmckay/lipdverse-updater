@@ -111,3 +111,34 @@ test_that("a remap table without an action column still decomposes", {
   out <- lv_apply_remap(c0, r, "D", "T1")
   expect_equal(out$variableName, "precipitation")
 })
+
+test_that("a field is read by its exact name, never by prefix", {
+  # `$` on a list partial-matches when the exact name is absent. A column with
+  # proxyObservationType and no proxy had its variableName read as a proxy, so
+  # "Depth" and "% sand" were offered for review as proxy values. Deciding
+  # either would have written a proxy onto a column that never had one.
+  cl <- list(TSid = "T1", variableName = "Depth",
+             proxyObservationType = "Depth", unitsOriginal = "cm")
+  expect_null(cl[["proxy"]])
+  expect_null(cl[["units"]])
+  # This is what the old code saw:
+  expect_equal(cl$proxy, "Depth")
+  expect_equal(cl$units, "cm")
+})
+
+test_that("standardizing leaves a column with no real proxy alone", {
+  withr::local_envvar(LIPDVERSE_STATE = withr::local_tempdir())
+  d <- withr::local_tempdir()
+  write_lpd(d, "A.Author.2001", tsids = "T1",
+            col_extra = list(proxyObservationType = "Depth"))
+  out <- withr::local_tempdir()
+  std <- lv_ingest_standardize(d, out, progress = FALSE)
+
+  # proxyObservationType is a stale variableName copy, not a proxy, so nothing
+  # about it should be reported as an unknown proxy value.
+  iss <- tibble::as_tibble(std$issues)
+  expect_false(any(iss$field == "paleoData_proxy" & iss$value == "Depth"))
+  L <- suppressWarnings(lipdR::readLipd(fs::path(out, "A.Author.2001.lpd")))
+  cols <- lv_cols_of(L$paleoData[[1]]$measurementTable[[1]])
+  expect_true(all(vapply(cols, function(c) is.null(c[["proxy"]]), logical(1))))
+})
