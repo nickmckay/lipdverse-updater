@@ -317,8 +317,9 @@ if (length(new_rows) && length(new_rows) <= 40) {
 # cannot add rows, so any new ones are reported and left for a deliberate pass.
 force_patch <- "--patch" %in% args
 if (force_patch && length(new_rows)) {
-  cat(sprintf("  --patch: %d new row%s will NOT be added; formatting is kept.\n",
+  cat(sprintf("  --patch: %d new row%s will be appended at the bottom, unformatted;\n",
               length(new_rows), if (length(new_rows) == 1) "" else "s"))
+  cat("           existing rows and their colour coding are untouched.\n")
 }
 
 if (commit) {

@@ -282,7 +282,7 @@ qc_cells_to_sheet <- function(cells, registry = lv_qc_fields(), template = NULL)
 #' @export
 qc_sheet_push <- function(cells, backend, id, tab = "QC", mode = c("patch", "full"),
                           registry = lv_qc_fields(), dry_run = TRUE,
-                          add_columns = FALSE) {
+                          add_columns = FALSE, add_rows = TRUE) {
   mode <- match.arg(mode)
   current <- tryCatch(qc_sheet_pull(backend, id, tab, registry), error = function(e) qc_cells_empty())
   delta <- qc_diff_to_events(current, cells, source = "sheet")
@@ -345,6 +345,29 @@ qc_sheet_push <- function(cells, backend, id, tab = "QC", mode = c("patch", "ful
       sheet_write_cells(backend, id, tab, addr, val)
     }
     receipt$n_written <- sum(ok)
+
+    # A timeseries with no row yet is appended, not skipped. Appending leaves
+    # every existing row and its formatting untouched, which is the whole reason
+    # to patch; the new rows arrive at the bottom, unformatted and out of the
+    # tab's grouping, because the alternative is a curator never seeing them.
+    fresh <- setdiff(unique(cells$tsid), template[[key]])
+    if (add_rows && length(fresh)) {
+      w <- qc_cells_to_sheet(cells[cells$tsid %in% fresh, , drop = FALSE], registry)
+      out <- tibble::tibble(.rows = nrow(w))
+      for (nm in names(template)) {
+        out[[nm]] <- if (nm %in% names(w)) as.character(w[[nm]]) else NA_character_
+      }
+      if (key %in% names(w)) out[[key]] <- as.character(w[[key]])
+      sheet_append(backend, id, tab, out)
+      receipt$n_appended <- nrow(out)
+      cli::cli_alert_success("Appended {nrow(out)} new row{?s} to {.val {tab}}.")
+    } else {
+      receipt$n_appended <- 0L
+      if (length(fresh)) {
+        receipt$rows_not_added <- fresh
+        cli::cli_alert_info("{length(fresh)} new row{?s} not added ({.code add_rows = FALSE}).")
+      }
+    }
     cli::cli_alert_success("Patched {sum(ok)} cell{?s} in {.val {tab}}.")
     return(invisible(receipt))
   }

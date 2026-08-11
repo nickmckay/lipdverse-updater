@@ -64,21 +64,23 @@ test_that("a patch writes only the changed cells and leaves the rest alone", {
   expect_equal(r$n_written, 1)
 })
 
-test_that("a patch skips a change with no cell rather than writing it elsewhere", {
+test_that("a patch never writes a value into the wrong row", {
+  # The hazard that makes address-based writing worth testing: a TSid with no
+  # row must not have its value land on whichever row happens to be there.
   d <- withr::local_tempdir()
   bk <- sheet_backend_local(d)
-  sheet_write(bk, "S1", "QC", data.frame(TSid = c("T1"), units = "degC",
+  sheet_write(bk, "S1", "QC", data.frame(TSid = "T1", units = "degC",
                                           stringsAsFactors = FALSE))
   cells <- tibble::tibble(
     tsid = c("T1", "T9"), field = "paleoData_units",
-    value = c("K", "K"), present = TRUE, dataset_id = "D1")
+    value = c("K", "cm"), present = TRUE, dataset_id = "D1")
 
   r <- qc_sheet_push(cells, bk, "S1", "QC", mode = "patch", dry_run = FALSE)
   back <- sheet_read(bk, "S1", "QC")
-  expect_equal(back$units, "K")
-  expect_equal(nrow(back), 1)
+  expect_equal(back$units[back$TSid == "T1"], "K")     # its own value, not T9's
+  expect_equal(back$units[back$TSid == "T9"], "cm")    # appended, not merged
   expect_equal(r$n_written, 1)
-  expect_equal(r$skipped_cells$tsid, "T9")
+  expect_equal(r$n_appended, 1)
 })
 
 test_that("a patch leaves rows this run does not cover alone", {
@@ -101,4 +103,40 @@ test_that("a patch leaves rows this run does not cover alone", {
   expect_equal(back$units[back$TSid == "T1"], "K")
   expect_equal(nrow(back), 3)
   expect_equal(r$n_written, 1)
+})
+
+test_that("a patch appends a new timeseries rather than skipping it", {
+  # A new row has no cell to address, but appending adds one without touching
+  # the existing rows or their formatting. Skipping means a curator never sees
+  # the timeseries; rewriting costs the colour coding.
+  d <- withr::local_tempdir()
+  bk <- sheet_backend_local(d)
+  sheet_write(bk, "S1", "QC", data.frame(
+    TSid = c("T1", "T2"), units = c("degC", "permil"), stringsAsFactors = FALSE))
+
+  cells <- tibble::tibble(
+    tsid = c("T1", "T2", "T3"), field = "paleoData_units",
+    value = c("K", "permil", "cm"), present = TRUE, dataset_id = "D1")
+  r <- qc_sheet_push(cells, bk, "S1", "QC", mode = "patch", dry_run = FALSE)
+  back <- sheet_read(bk, "S1", "QC")
+
+  expect_equal(nrow(back), 3)
+  expect_equal(r$n_appended, 1)
+  expect_equal(back$units[back$TSid == "T3"], "cm")
+  expect_equal(back$units[back$TSid == "T1"], "K")     # patched
+  expect_equal(back$units[back$TSid == "T2"], "permil")
+  expect_setequal(names(back), c("TSid", "units"))     # no new columns
+})
+
+test_that("appending can be declined", {
+  d <- withr::local_tempdir()
+  bk <- sheet_backend_local(d)
+  sheet_write(bk, "S1", "QC", data.frame(TSid = "T1", units = "degC",
+                                          stringsAsFactors = FALSE))
+  cells <- tibble::tibble(tsid = c("T1", "T3"), field = "paleoData_units",
+                          value = c("K", "cm"), present = TRUE, dataset_id = "D1")
+  r <- qc_sheet_push(cells, bk, "S1", "QC", mode = "patch", dry_run = FALSE,
+                     add_rows = FALSE)
+  expect_equal(nrow(sheet_read(bk, "S1", "QC")), 1)
+  expect_equal(r$rows_not_added, "T3")
 })
