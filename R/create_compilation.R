@@ -393,6 +393,14 @@ lv_offer_to_compilation <- function(names, cfg, backend, index = NULL,
   # Match the tab's own columns, leaving any others (e.g. instructions) blank.
   for (nm in setdiff(cols, base::names(add))) add[[nm]] <- NA
   add <- add[, cols, drop = FALSE]
+  # And match its types. Sheets are read as all-character on purpose, so
+  # appending a logical TRUE to a character inComp column is a type clash --
+  # which the local backend refuses outright and Google coerces silently.
+  for (nm in cols) {
+    if (is.character(tab[[nm]]) && !is.character(add[[nm]])) {
+      add[[nm]] <- as.character(add[[nm]])
+    }
+  }
 
   if (dry_run) {
     cli::cli_alert_info("Dry run: would append {nrow(add)} row{?s} to {.val {cfg$qc_tabs$datasets}} ({nrow(tab)} rows now).")
@@ -594,3 +602,46 @@ lv_membership_tsids <- function(L, compilation) {
 }
 
 lv_count_membership <- function(L, compilation) length(lv_membership_tsids(L, compilation))
+
+#' Datasets a compilation brought into LiPDverse
+#'
+#' The ingest stamps `createdBy` on every column it mints for a compilation, so
+#' the files themselves record which compilation a dataset arrived for. That is
+#' the durable signal: a run receipt covers one batch, and the question outlives
+#' the batch.
+#'
+#' Used to catch datasets ingested for a compilation that never reached its
+#' `datasetsInCompilation` tab. Until they do, nobody can curate them: the QC
+#' sheet is scoped to that tab, so an ingest that stops at the files leaves the
+#' data invisible to the people it was ingested for.
+#'
+#' @param names Dataset names to check. Keep it small; this reads files.
+#' @param compilation Compilation name.
+#' @param dir Database directory.
+#' @return The subset of `names` whose files carry `createdBy` for this
+#'   compilation.
+#' @export
+lv_datasets_created_by <- function(names, compilation, dir = lv_path("database")) {
+  names <- unique(stats::na.omit(as.character(names)))
+  if (!length(names)) return(character())
+  keep <- vapply(names, function(dsn) {
+    p <- fs::path(dir, paste0(dsn, ".lpd"))
+    if (!fs::file_exists(p)) return(FALSE)
+    L <- tryCatch(suppressWarnings(lipdR::readLipd(p)), error = function(e) NULL)
+    if (is.null(L)) return(FALSE)
+    for (blk in c("paleoData", "chronData")) {
+      for (pd in L[[blk]]) for (tb in pd$measurementTable) {
+        if (!is.list(tb)) next
+        cols <- if (!is.null(tb[["columns"]])) tb[["columns"]] else
+          tb[!base::names(tb) %in% c("filename", "tableName", "missingValue")]
+        for (cl in cols) {
+          # Exact name: `$` would partial-match createdByVersion and friends.
+          cb <- if (is.list(cl)) cl[["createdBy"]] else NULL
+          if (!is.null(cb) && identical(as.character(cb)[1], compilation)) return(TRUE)
+        }
+      }
+    }
+    FALSE
+  }, logical(1))
+  names[keep]
+}

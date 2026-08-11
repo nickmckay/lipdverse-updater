@@ -44,6 +44,27 @@ idx <- lv_db_index(lv_scan(db), cache = TRUE)
 #   members     timeseries actually carrying an inCompilation entry.
 #
 # The QC tab is scoped to `considered`; the compilation is `members`.
+# A dataset ingested for this compilation that never reached the membership tab
+# is invisible: the QC tab is scoped to that tab, so nobody can curate it. The
+# files record which compilation minted them, so this is self-healing rather
+# than dependent on remembering at ingest time.
+#
+# Only datasets absent from the tab are read, which is a handful.
+tab_now <- sheet_read(bk, cfg$qc_sheet_id, cfg$qc_tabs$datasets)
+absent <- setdiff(idx$datasets$fileDataSetName, tab_now$dsn)
+orphans <- if (length(absent)) lv_datasets_created_by(absent, comp, db) else character()
+if (length(orphans)) {
+  cat(sprintf("to offer    : %d dataset%s ingested for %s but not on %s
+",
+              length(orphans), if (length(orphans) == 1) "" else "s", comp, cfg$qc_tabs$datasets))
+  for (o in utils::head(sort(orphans), 30)) cat("   ", o, "
+")
+  # Added before membership is read, so they are curatable in this same run
+  # rather than waiting for the next one.
+  lv_offer_to_compilation(orphans, cfg, bk, idx, in_compilation = TRUE,
+                          dry_run = !commit)
+}
+
 mem <- lv_compilation_datasets(cfg, bk, idx)
 ds  <- mem$datasets
 ts  <- lv_qc_timeseries(idx, datasets = ds)   # paleoData only; chron is not curated here
