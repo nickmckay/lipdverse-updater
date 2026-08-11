@@ -459,11 +459,15 @@ LV_AXIS_QC_VARIABLES <- c("year", "age", "depth", "yearbp", "agebp", "age14c",
 #' as likely to be dataset names or datasetIds as TSids. This resolves any of
 #' them to the TSids that membership is actually written against.
 #'
-#' The kind of identifier is detected by matching, not by pattern: TSids,
-#' datasetIds and dataSetNames have no reliable shape between them, and a guess
-#' from appearance would be wrong quietly. Each column is tried and the one that
-#' matches best wins, with the counts reported so a half-matching list is
-#' visible rather than silently truncated.
+#' `by` is required. Detecting the kind would mean deciding, on the caller's
+#' behalf, what a list of strings means, and a wrong guess does not fail: it
+#' produces a plausible compilation of the wrong things. [lv_seed_kind()]
+#' answers the question when it is genuinely unknown, and reports rather than
+#' acts.
+#'
+#' Values matching nothing are reported rather than dropped. A half-matching
+#' list is the dangerous case, where the compilation comes out smaller than
+#' intended and nothing says so.
 #'
 #' For a dataset-level seed the QC scope is used: paleo measurement columns,
 #' axes excluded. A compilation of `year` and `depth` columns is not meaningful,
@@ -472,39 +476,35 @@ LV_AXIS_QC_VARIABLES <- c("year", "age", "depth", "yearbp", "agebp", "age14c",
 #'
 #' @param seed Character vector of TSids, datasetIds or dataSetNames.
 #' @param index An `lv_index` from [lv_db_index()].
-#' @param by Force an interpretation rather than detecting one.
+#' @param by Which of those the seed holds. Required; see [lv_seed_kind()].
 #' @param scope For dataset-level seeds: `"qc"` for the QC scope, `"all"` for
 #'   every timeseries in the dataset.
 #' @return A list of `tsids`, the `by` used, the `matched` and `unmatched` seed
 #'   values, and an `lv_issues` tibble.
 #' @export
-lv_resolve_seed <- function(seed, index, by = c("auto", "TSid", "datasetId", "dataSetName"),
-                            scope = c("qc", "all")) {
-  by <- match.arg(by); scope <- match.arg(scope)
+lv_resolve_seed <- function(seed, index, by, scope = c("qc", "all")) {
+  if (missing(by)) {
+    cli::cli_abort(c("{.arg by} is required: say whether the seed holds TSids, datasetIds or dataSetNames.",
+                     i = "A wrong guess would not fail; it would build a plausible compilation of the wrong things.",
+                     i = "Use {.code lv_seed_kind(seed, index)} if you are unsure what the list holds."),
+                   class = "lv_error_compilation")
+  }
+  by <- match.arg(by, c("TSid", "datasetId", "dataSetName"))
+  scope <- match.arg(scope)
   seed <- unique(stats::na.omit(as.character(seed)))
   seed <- seed[nzchar(trimws(seed))]
   if (!length(seed)) cli::cli_abort("Seed is empty.", class = "lv_error_compilation")
 
   ts <- index$timeseries
-  ds <- index$datasets
-  pools <- list(
-    TSid = unique(stats::na.omit(ts$TSid)),
-    datasetId = unique(stats::na.omit(c(ts$datasetId, ds$datasetId))),
-    dataSetName = unique(stats::na.omit(c(ts$dataSetName, ds$dataSetName, ds$fileDataSetName))))
-  # Compare normalised: a name that differs only by unicode composition is the
-  # same name, and macOS supplies both forms.
+  pools <- lv_seed_pools(index)
   hits <- vapply(pools, function(p) sum(lv_nfc(seed) %in% lv_nfc(p)), integer(1))
-
-  if (by == "auto") {
-    if (max(hits) == 0)
-      cli::cli_abort(c("None of the {length(seed)} seed value{?s} matched a TSid, datasetId or dataSetName.",
-                       i = "Checked against {nrow(ts)} timeseries in {nrow(ds)} datasets."),
-                     class = "lv_error_compilation")
-    by <- names(hits)[which.max(hits)]
-    tied <- names(hits)[hits == max(hits)]
-    if (length(tied) > 1)
-      cli::cli_abort(c("Seed is ambiguous: it matches {.val {tied}} equally well.",
-                       i = "Pass {.arg by} to choose."), class = "lv_error_compilation")
+  if (hits[[by]] == 0) {
+    other <- names(hits)[hits > 0]
+    cli::cli_abort(c("None of the {length(seed)} seed value{?s} matched a {by}.",
+                     i = if (length(other)) "The list does match as {.val {other}}." else
+                       "It matches nothing in the database.",
+                     i = "See {.code lv_seed_kind(seed, index)}."),
+                   class = "lv_error_compilation")
   }
 
   key <- lv_nfc(seed)
@@ -531,4 +531,38 @@ lv_resolve_seed <- function(seed, index, by = c("auto", "TSid", "datasetId", "da
 
   list(tsids = tsids, by = by, matched = matched, unmatched = unmatched,
        hits = hits, issues = issues)
+}
+
+# The three identifier pools a seed can be drawn from. Names are compared
+# unicode-normalised: a dataset name differing only by composition is the same
+# name, and macOS supplies both forms.
+lv_seed_pools <- function(index) {
+  ts <- index$timeseries; ds <- index$datasets
+  list(TSid = unique(stats::na.omit(ts$TSid)),
+       datasetId = unique(stats::na.omit(c(ts$datasetId, ds$datasetId))),
+       dataSetName = unique(stats::na.omit(c(ts$dataSetName, ds$dataSetName,
+                                             ds$fileDataSetName))))
+}
+
+#' What kind of identifiers does a list hold?
+#'
+#' Reports how many of the values match as TSids, datasetIds and dataSetNames,
+#' so [lv_resolve_seed()] can be told which it is rather than guessing. Answers
+#' the question; does not act on the answer.
+#'
+#' A list that matches two kinds is worth knowing about before it is used: it
+#' usually means the list is mixed, or that it was pasted from two sources.
+#'
+#' @param seed Character vector.
+#' @param index An `lv_index` from [lv_db_index()].
+#' @return A tibble of one row per kind, with the match count and share.
+#' @export
+lv_seed_kind <- function(seed, index) {
+  seed <- unique(stats::na.omit(as.character(seed)))
+  seed <- seed[nzchar(trimws(seed))]
+  if (!length(seed)) cli::cli_abort("Seed is empty.", class = "lv_error_compilation")
+  pools <- lv_seed_pools(index)
+  n <- vapply(pools, function(p) sum(lv_nfc(seed) %in% lv_nfc(p)), integer(1))
+  tibble::tibble(kind = names(n), matched = unname(n), of = length(seed),
+                 share = round(unname(n) / length(seed), 3))[order(-n), ]
 }
