@@ -138,6 +138,66 @@ tables:
       compilationVersion: {type: chr}
       inThisCompilation:  {type: lgl}
 
+  # --- context tables -------------------------------------------------------
+  # Not derived from the LiPD files but from the store, the registry and the
+  # version ledger. They are what makes an export interpretable on its own:
+  # what changed, what the curators decided, and which vocabulary was in force.
+
+  changelog:
+    key: [datasetId, version, seq]
+    description: >
+      Per-dataset version history, flattened from each file's changelog. Carries
+      compilation and run_id so a change can be attributed to the run that made
+      it, which is what a cross-compilation overwrite otherwise hides.
+    columns:
+      datasetId:   {type: chr, required: true}
+      version:     {type: chr, required: true}
+      seq:         {type: int, required: true}
+      lastVersion: {type: chr}
+      curator:     {type: chr}
+      timestamp:   {type: chr}
+      compilation: {type: chr}
+      run_id:      {type: chr}
+      n_changes:   {type: int}
+
+  qc_state:
+    key: [tsid, field]
+    description: >
+      The curated state as the store holds it, for the compilation being
+      exported. Present is carried explicitly: absent is not the same as blank,
+      and collapsing them is the loss this project exists to prevent.
+    columns:
+      tsid:       {type: chr, required: true}
+      field:      {type: chr, required: true}
+      value:      {type: chr}
+      present:    {type: lgl, required: true}
+      dataset_id: {type: chr}
+      updated_at: {type: chr}
+      source:     {type: chr}
+      actor:      {type: chr}
+
+  versions:
+    key: [compilation, version]
+    description: The version ledger, so a published figure can name what it used.
+    columns:
+      compilation: {type: chr, required: true}
+      version:     {type: chr, required: true}
+      created_at:  {type: chr}
+      run_id:      {type: chr}
+      n_datasets:  {type: int}
+      notes:       {type: chr}
+
+  vocab:
+    key: [field, lipdName, synonym]
+    description: >
+      The controlled vocabulary in force at export time, overlay included, so a
+      value can be checked against what was current then rather than what is
+      current now.
+    columns:
+      field:    {type: chr, required: true}
+      lipdName: {type: chr, required: true}
+      synonym:  {type: chr, required: true}
+
 manifest:
   file: export_manifest.json
   fields:

@@ -197,6 +197,25 @@ lv_export_one <- function(L, file_md5 = NA_character_) {
       journal = s1(p$journal), doi = s1(p$doi %||% p$DOI), citeKey = s1(p$citeKey))
   }
 
+  # Flattened from the file's own changelog. seq preserves the order entries
+  # appear in, since versions are strings and do not sort reliably.
+  chg <- list()
+  for (i in seq_along(L$changelog)) {
+    e <- L$changelog[[i]]
+    if (!is.list(e)) next
+    chg[[length(chg) + 1L]] <- tibble::tibble(
+      datasetId = dsid, version = s1(e$version) %|NA|% NA_character_,
+      seq = i, lastVersion = s1(e$lastVersion), curator = s1(e$curator),
+      timestamp = s1(e$timestamp), compilation = s1(e$compilation),
+      run_id = s1(e$run_id),
+      n_changes = as.integer(length(e$changes %||% list())))
+  }
+  chg <- if (length(chg)) dplyr::bind_rows(chg) else lv_export_empty("changelog")
+  # A changelog entry with no version cannot be keyed on, and a handful of old
+  # files have one. Dropped rather than exported with a null key.
+  chg <- chg[!is.na(chg$version), , drop = FALSE]
+  chg <- chg[!duplicated(paste(chg$datasetId, chg$version, chg$seq)), , drop = FALSE]
+
   list(
     datasets = tibble::tibble(
       datasetId = dsid, dataSetName = dsn, archiveType = s1(L$archiveType),
@@ -213,10 +232,20 @@ lv_export_one <- function(L, file_md5 = NA_character_) {
     values_ensemble = if (length(ens)) dplyr::bind_rows(ens) else lv_export_empty("values_ensemble"),
     interpretations = if (length(interp)) dplyr::bind_rows(interp) else lv_export_empty("interpretations"),
     publications = if (length(pubs)) dplyr::bind_rows(pubs) else lv_export_empty("publications"),
-    compilations = if (length(comp)) dplyr::bind_rows(comp) else lv_export_empty("compilations"))
+    compilations = if (length(comp)) dplyr::bind_rows(comp) else lv_export_empty("compilations"),
+    changelog = chg,
+    # A single dataset has no version ledger and no curated state of its own.
+    # They are returned empty rather than omitted so that one dataset's output
+    # is still a complete export, and the contract check stays strict about
+    # missing tables everywhere.
+    qc_state = lv_export_empty("qc_state"),
+    versions = lv_export_empty("versions"),
+    vocab = lv_export_empty("vocab"))
 }
 
 lv_finite <- function(x) if (length(x) != 1 || !is.finite(x)) NA_real_ else x
+
+`%|NA|%` <- function(x, y) if (is.null(x) || length(x) != 1 || is.na(x) || !nzchar(x)) y else x
 
 # minYear/maxYear describe the span a timeseries covers, which is a property of
 # its table's axis rather than of the column itself.
@@ -336,13 +365,15 @@ lv_export_validate <- function(tables, schema = lv_export_schema()) {
 #' @return A named list of tibbles covering every dataset read.
 #' @export
 lv_export_tables <- function(dir = lv_path("database"), datasets = NULL,
-                             progress = TRUE, parallel = NA) {
+                             progress = TRUE, parallel = NA,
+                             compilation = NULL, store = NULL) {
   paths <- if (inherits(dir, "lv_scan")) dir$files$path else
     fs::dir_ls(dir, glob = "*.lpd", type = "file")
   if (!is.null(datasets))
     paths <- paths[sub("\\.lpd$", "", fs::path_file(paths)) %in% datasets]
   nms <- names(lv_export_schema()$tables)
   if (!length(paths)) return(stats::setNames(lapply(nms, lv_export_empty), nms))
+
 
   if (progress) cli::cli_alert_info("Exporting {length(paths)} file{?s}")
   one <- function(p) {
@@ -367,7 +398,16 @@ lv_export_tables <- function(dir = lv_path("database"), datasets = NULL,
   parts <- parts[ok]
   out <- stats::setNames(lapply(nms, function(n)
     dplyr::bind_rows(lapply(parts, `[[`, n))), nms)
-  out
+
+  # Context tables come from the store rather than the files. Without a
+  # compilation there is no curated state to speak of, so they stay empty
+  # rather than being guessed at.
+  ctx <- if (!is.null(compilation))
+    lv_export_context(compilation, store = store %||% qc_store())
+  else stats::setNames(lapply(c("qc_state", "versions", "vocab"), lv_export_empty),
+                       c("qc_state", "versions", "vocab"))
+  for (n in names(ctx)) out[[n]] <- ctx[[n]]
+  out[nms]
 }
 
 #' @rdname export
@@ -614,4 +654,56 @@ lv_export_duckdb <- function(dir, file = "lipdverse.duckdb", overwrite = TRUE,
   fs::file_move(tmp, path)
   cli::cli_alert_success("Built {.path {path}}")
   invisible(path)
+}
+
+#' @rdname export
+#' @details
+#' `lv_export_context()` builds the tables that do not come from the LiPD files:
+#' the curated state, the version ledger and the vocabulary in force. They are
+#' what lets an export be read years later without the rest of this system --
+#' the vocabulary especially, since checking a value against today's terms
+#' answers a different question from checking it against the ones that applied.
+#'
+#' @param compilation Compilation name.
+#' @param store From [qc_store()].
+#' @param vocab Vocabulary tables, overlay included.
+#' @return A named list of the context tibbles.
+#' @export
+lv_export_context <- function(compilation, store = qc_store(),
+                              vocab = lv_vocab_overlay(store = store)) {
+  st <- tryCatch(qc_state_current(store, compilation), error = function(e) NULL)
+  qc <- if (is.null(st) || !nrow(st)) lv_export_empty("qc_state") else {
+    keep <- intersect(names(lv_export_schema()$tables$qc_state$columns), names(st))
+    x <- tibble::as_tibble(st)[, keep, drop = FALSE]
+    for (k in c("updated_at", "source", "actor", "dataset_id", "value"))
+      if (k %in% names(x)) x[[k]] <- as.character(x[[k]])
+    if ("present" %in% names(x)) x$present <- as.logical(x$present)
+    # present is required, and a row with an unknown present is not a fact.
+    x[!is.na(x$present), , drop = FALSE]
+  }
+
+  vs <- tryCatch(lv_versions(store), error = function(e) NULL)
+  ver <- if (is.null(vs) || !nrow(vs)) lv_export_empty("versions") else {
+    x <- tibble::as_tibble(vs)
+    x <- x[x$compilation %in% compilation, , drop = FALSE]
+    out <- lv_export_empty("versions")
+    for (k in names(out)) out[[k]] <- if (k %in% names(x)) {
+      if (identical(k, "n_datasets")) suppressWarnings(as.integer(x[[k]])) else as.character(x[[k]])
+    } else rep(if (identical(k, "n_datasets")) NA_integer_ else NA_character_, nrow(x))
+    out
+  }
+
+  vb <- list()
+  for (f in names(vocab)) {
+    v <- vocab[[f]]
+    if (!is.data.frame(v) || !"lipdName" %in% names(v)) next
+    syn <- if ("synonym" %in% names(v)) as.character(v$synonym) else as.character(v$lipdName)
+    vb[[length(vb) + 1L]] <- tibble::tibble(
+      field = f, lipdName = as.character(v$lipdName), synonym = syn)
+  }
+  vbt <- if (length(vb)) dplyr::bind_rows(vb) else lv_export_empty("vocab")
+  vbt <- vbt[!is.na(vbt$lipdName) & !is.na(vbt$synonym), , drop = FALSE]
+  vbt <- vbt[!duplicated(paste(vbt$field, vbt$lipdName, vbt$synonym)), , drop = FALSE]
+
+  list(qc_state = qc, versions = ver, vocab = vbt)
 }

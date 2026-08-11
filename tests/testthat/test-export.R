@@ -295,3 +295,65 @@ test_that("verification notices the shared ensemble store changing underneath", 
   iss2 <- lv_export_verify(fs::path(out, "export_manifest.json"))
   expect_true(any(iss2$check == "export_external_file_count"))
 })
+
+test_that("the changelog is flattened per dataset and keeps its attribution", {
+  # compilation and run_id are the fields that make a cross-compilation
+  # overwrite attributable. Exporting the changelog without them would keep the
+  # history and lose the only evidence of who changed what.
+  d <- withr::local_tempdir()
+  write_lpd(d, "A.Author.2001", tsids = "T1", version = "1.0.3")
+  L <- suppressWarnings(lipdR::readLipd(fs::path(d, "A.Author.2001.lpd")))
+  L$changelog <- list(
+    list(version = "1.0.0", curator = "a"),
+    list(version = "1.0.3", lastVersion = "1.0.0", curator = "b",
+         compilation = "hydroclimate2k", run_id = "R9",
+         changes = list(list(field = "units"), list(field = "proxy"))))
+  x <- lv_export_one(L)
+
+  expect_equal(nrow(x$changelog), 2)
+  expect_equal(x$changelog$seq, c(1L, 2L))
+  last <- x$changelog[x$changelog$version == "1.0.3", ]
+  expect_equal(last$compilation, "hydroclimate2k")
+  expect_equal(last$run_id, "R9")
+  expect_equal(last$n_changes, 2L)
+  expect_equal(nrow(lv_export_validate(x)), 0)
+})
+
+test_that("a changelog entry with no version is dropped rather than keyed on null", {
+  d <- withr::local_tempdir()
+  write_lpd(d, "A.Author.2001", tsids = "T1")
+  L <- suppressWarnings(lipdR::readLipd(fs::path(d, "A.Author.2001.lpd")))
+  L$changelog <- list(list(curator = "a"), list(version = "1.0.1", curator = "b"))
+  x <- lv_export_one(L)
+
+  expect_equal(nrow(x$changelog), 1)
+  expect_equal(x$changelog$version, "1.0.1")
+  expect_equal(nrow(lv_export_validate(x)), 0)
+})
+
+test_that("context tables carry the curated state, versions and vocabulary", {
+  # An export read years later needs the vocabulary that applied then: checking
+  # a value against today's terms answers a different question.
+  store <- qc_store(withr::local_tempdir())
+  ev <- tibble::tibble(
+    run_id = "R1", event_seq = 1:2, ts = "2026-01-01T00:00:00Z",
+    compilation = "testcomp", tsid = c("T1", "T2"), dataset_id = "D1",
+    field = "paleoData_units", old_value = NA_character_, old_present = FALSE,
+    new_value = c("degC", "permil"), new_present = TRUE,
+    source = "sheet", actor = "nick", reason = NA_character_)
+  qc_store_append(store, "testcomp", ev)
+
+  ctx <- lv_export_context("testcomp", store = store,
+                           vocab = list(paleoData_units = tibble::tibble(
+                             lipdName = c("degC", "permil"), synonym = c("deg C", "per mil"))))
+  expect_equal(nrow(ctx$qc_state), 2)
+  expect_setequal(ctx$qc_state$tsid, c("T1", "T2"))
+  # present is carried explicitly: absent and blank are different facts.
+  expect_true(all(ctx$qc_state$present))
+  expect_equal(nrow(ctx$vocab), 2)
+  expect_setequal(ctx$vocab$synonym, c("deg C", "per mil"))
+
+  full <- c(lv_export_tables(withr::local_tempdir(), progress = FALSE)[
+    setdiff(names(lv_export_schema()$tables), names(ctx))], ctx)
+  expect_equal(nrow(lv_export_validate(full)), 0)
+})
