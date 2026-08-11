@@ -212,6 +212,13 @@ lv_vocab_review <- function(issues, out, vocab = lv_vocab_overlay(store = store)
   # The paper, where the submission arrived with one. A value like `HHI` cannot
   # be resolved from the vocabulary at all, only from what the authors wrote.
   agg$source_pdfs <- rep(list(character()), nrow(agg))
+  if (is.null(sources)) {
+    # Silence here reads as "these submissions had no papers", which is a
+    # different thing from "nobody passed sources". A value like `HHI` cannot be
+    # resolved from the vocabulary at all, only from what the authors wrote.
+    cli::cli_alert_warning(
+      "No {.arg sources}, so no papers are linked. Pass {.code lv_ingest_sources(<download dir>)}.")
+  }
   if (!is.null(sources)) {
     pdf_of <- stats::setNames(sources$pdfs, sources$dataSetName)
     agg$source_pdfs <- lapply(agg$datasets, function(ds) {
