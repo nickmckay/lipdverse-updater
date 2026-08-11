@@ -47,15 +47,7 @@ lv_vocab_review_app <- function(path, vocab = lv_vocab(), launch = TRUE, port = 
   # once -- that is what collapses 87 rows to 12. The field leads the label so
   # the list reads by type, which is how a review is actually worked: all the
   # variableNames, then units, then proxy.
-  group_key <- function(r) {
-    ifelse(is.na(r$proposed_decision) | !nzchar(r$proposed_decision),
-           paste0(r$field, " · undecided"),
-           paste0(r$field, " · ", r$proposed_decision,
-                  ifelse(is.na(r$proposed_map_to) | !nzchar(r$proposed_map_to), "",
-                         paste0(" · ", r$proposed_map_to)),
-                  ifelse(is.na(r$proposed_also_field) | !nzchar(r$proposed_also_field), "",
-                         paste0(" + ", r$proposed_also_field))))
-  }
+  group_key <- lv_review_group_key
 
 
   ui <- bslib::page_sidebar(

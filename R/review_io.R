@@ -227,12 +227,17 @@ lv_review_convert <- function(path, out = sub("\\.csv$", ".json", path)) {
 #' usually mean the new file was generated from a different batch, which is
 #' worth noticing before deciding anything on top of it.
 #'
+#' Proposals are carried too. They are inert -- nothing reads the `proposed_*`
+#' side but a person -- and the rationale behind a suggestion is the context
+#' that made it reviewable in the first place.
+#'
 #' @param from Path to the review holding the decisions.
 #' @param to Path to the newly generated review, or the tibble itself.
+#' @param proposals Also carry the `proposed_*` columns where the target has none.
 #' @return The merged tibble, with a `carried` attribute naming what moved and
 #'   what did not.
 #' @export
-lv_review_carry <- function(from, to) {
+lv_review_carry <- function(from, to, proposals = TRUE) {
   old <- if (is.character(from)) lv_review_read(from) else from
   new <- if (is.character(to)) lv_review_read(to) else to
 
@@ -253,6 +258,15 @@ lv_review_carry <- function(from, to) {
     for (nm in LV_REVIEW_DECIDED) new[[nm]][j] <- src[[nm]][i[j]]
     moved <- moved + 1L
   }
+  if (proposals) {
+    for (j in which(!is.na(i))) {
+      for (nm in LV_REVIEW_PROPOSED) {
+        k <- paste0("proposed_", nm)
+        cur <- new[[k]][j]
+        if (is.na(cur) || !nzchar(cur)) new[[k]][j] <- src[[k]][i[j]]
+      }
+    }
+  }
   lost <- src$value[!k_old %in% k_new]
 
   cli::cli_alert_success("Carried {moved} decision{?s}.")
@@ -263,4 +277,33 @@ lv_review_carry <- function(from, to) {
 
   attr(new, "carried") <- list(moved = moved, skipped = skipped, lost = lost)
   new
+}
+
+#' The group a review row belongs to
+#'
+#' A group is one decision applied to many values, so it can be ruled on once.
+#' The field leads, so the list reads by type; the decision follows, so a group
+#' stays small enough to hold in your head.
+#'
+#' The recorded decision takes precedence over the proposal. Reading only the
+#' proposal put every already-decided row into a single "undecided" bucket per
+#' field, which collapsed fifteen variableNames onto one page.
+#'
+#' @param r A review tibble.
+#' @return A character vector of group keys, one per row.
+#' @export
+lv_review_group_key <- function(r) {
+  pick <- function(a, b) {
+    a <- if (is.null(a)) NA_character_ else a
+    b <- if (is.null(b)) NA_character_ else b
+    ifelse(!is.na(a) & nzchar(a), a, b)
+  }
+  dec <- pick(r$decision, r$proposed_decision)
+  mto <- pick(r$map_to, r$proposed_map_to)
+  alf <- pick(r$also_field, r$proposed_also_field)
+  ifelse(is.na(dec) | !nzchar(dec),
+         paste0(r$field, " · undecided"),
+         paste0(r$field, " · ", dec,
+                ifelse(is.na(mto) | !nzchar(mto), "", paste0(" · ", mto)),
+                ifelse(is.na(alf) | !nzchar(alf), "", paste0(" + ", alf))))
 }

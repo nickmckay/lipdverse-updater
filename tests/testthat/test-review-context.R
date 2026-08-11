@@ -114,3 +114,46 @@ test_that("carrying never overwrites a decision already made in the target", {
   expect_equal(m$map_to, "kept")
   expect_equal(attr(m, "carried")$moved, 0L)
 })
+
+test_that("groups split by decision, not just by field", {
+  # Grouping on field alone put 15 variableNames on one page. A group is meant
+  # to be a few similar values that one ruling covers.
+  r <- tibble::tibble(
+    field = rep("paleoData_variableName", 4),
+    decision = c("synonym", "synonym", "decompose", NA),
+    map_to = c("d18O", "d13C", "precipitation", NA),
+    also_field = c(NA, NA, "interpretation_seasonality", NA),
+    proposed_decision = NA_character_, proposed_map_to = NA_character_,
+    proposed_also_field = NA_character_)
+  k <- lv_review_group_key(r)
+  expect_equal(length(unique(k)), 4)
+  expect_true(any(grepl("undecided$", k)))
+  expect_true(any(grepl("decompose · precipitation \\+ interpretation_seasonality", k)))
+})
+
+test_that("a recorded decision groups the row, not the proposal it replaced", {
+  # The row is decided; grouping it as undecided is what buried the decisions.
+  r <- tibble::tibble(field = "paleoData_units", decision = "synonym", map_to = "z score",
+                      also_field = NA_character_, proposed_decision = NA_character_,
+                      proposed_map_to = NA_character_, proposed_also_field = NA_character_)
+  expect_false(grepl("undecided", lv_review_group_key(r)))
+  expect_true(grepl("z score", lv_review_group_key(r)))
+})
+
+test_that("proposals carry across a regeneration alongside decisions", {
+  # The rationale is the context that made a row reviewable; losing it on
+  # regeneration means re-deriving why a suggestion was made.
+  mk <- function(dec, rat) {
+    r <- tibble::tibble(field = "paleoData_units", value = "z-scores", n = 1L,
+                        example = NA_character_, datasets = list(character()),
+                        candidates = list(character()), source_pdfs = list(character()),
+                        examples = list(character()), siblings = list(character()),
+                        past_candidates = list(tibble::tibble()))
+    for (nm in LV_REVIEW_PROPOSED) r[[paste0("proposed_", nm)]] <- NA_character_
+    for (nm in LV_REVIEW_DECIDED) r[[nm]] <- NA_character_
+    r$decision <- dec; r$proposed_rationale <- rat; r
+  }
+  m <- lv_review_carry(mk("synonym", "plural of an existing unit"), mk(NA, NA))
+  expect_equal(m$decision, "synonym")
+  expect_equal(m$proposed_rationale, "plural of an existing unit")
+})
