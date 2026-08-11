@@ -60,3 +60,12 @@ make_db <- function(specs) {
   for (s in specs) do.call(write_lpd, c(list(dir = d), s))
   d
 }
+
+# An ensemble table with its own TSid, for testing the values/values_ensemble
+# split. Reusing a measurement table would put one TSid in two tables, which the
+# export's key check rejects -- correctly.
+make_ensemble_table <- function(tsid = "E1", n = 3) {
+  list(tableName = "chron0model0ensemble0", filename = "e.csv",
+       columns = list(list(TSid = tsid, variableName = "ageEnsemble",
+                           units = "yr BP", values = as.list(seq_len(n)))))
+}

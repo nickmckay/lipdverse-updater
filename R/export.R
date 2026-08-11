@@ -98,7 +98,7 @@ lv_export_one <- function(L, file_md5 = NA_character_) {
   geo <- lv_geo_of_object(L)
   tabs <- lv_tables_of(L)
 
-  ts <- list(); vals <- list(); interp <- list(); comp <- list()
+  ts <- list(); vals <- list(); ens <- list(); interp <- list(); comp <- list()
   has_chron_ens <- FALSE; has_paleo_ens <- FALSE; has_chron <- FALSE
 
   for (t in tabs) {
@@ -124,8 +124,19 @@ lv_export_one <- function(L, file_md5 = NA_character_) {
         minYear = NA_real_, maxYear = NA_real_,
         medianResolution = NA_real_, n_values = as.integer(n))
 
-      if (n) vals[[length(vals) + 1L]] <- tibble::tibble(
-        TSid = tsid, row_index = seq_len(n), value_num = sv$num, value_chr = sv$chr)
+      # Ensembles go to their own table. They are 88.9% of all value rows and
+      # the most expensive per row, so keeping them here would make the table
+      # everyone reads twenty times bigger than it needs to be.
+      if (n) {
+        if (t$kind %in% c("ensemble", "distribution")) {
+          ens[[length(ens) + 1L]] <- tibble::tibble(
+            datasetId = dsid, TSid = tsid, row_index = seq_len(n),
+            value_num = sv$num, value_chr = sv$chr)
+        } else {
+          vals[[length(vals) + 1L]] <- tibble::tibble(
+            TSid = tsid, row_index = seq_len(n), value_num = sv$num, value_chr = sv$chr)
+        }
+      }
 
       # Interpretations are numbered within their scope, not by list position:
       # environmentInterpretation1 is the first environment one. Numbering them
@@ -199,6 +210,7 @@ lv_export_one <- function(L, file_md5 = NA_character_) {
       n_timeseries = nrow(ts_t), file_md5 = file_md5),
     timeseries = ts_t,
     values = if (length(vals)) dplyr::bind_rows(vals) else lv_export_empty("values"),
+    values_ensemble = if (length(ens)) dplyr::bind_rows(ens) else lv_export_empty("values_ensemble"),
     interpretations = if (length(interp)) dplyr::bind_rows(interp) else lv_export_empty("interpretations"),
     publications = if (length(pubs)) dplyr::bind_rows(pubs) else lv_export_empty("publications"),
     compilations = if (length(comp)) dplyr::bind_rows(comp) else lv_export_empty("compilations"))
@@ -365,7 +377,8 @@ lv_export_tables <- function(dir = lv_path("database"), datasets = NULL,
 #' @param strict Abort on a contract violation rather than warn.
 #' @return The manifest, invisibly.
 #' @export
-lv_export_write <- function(tables, path, meta = list(), strict = TRUE) {
+lv_export_write <- function(tables, path, meta = list(), strict = TRUE,
+                            ensemble_dir = NULL) {
   if (!requireNamespace("arrow", quietly = TRUE))
     cli::cli_abort("The {.pkg arrow} package is required to write the export.",
                    class = "lv_error_export")
@@ -377,8 +390,16 @@ lv_export_write <- function(tables, path, meta = list(), strict = TRUE) {
   }
   fs::dir_create(path)
 
+  schema <- lv_export_schema()
+  # Tables the schema marks external are written once, somewhere shared, and
+  # referenced rather than copied. Duplicating the ensembles into every
+  # compilation would be 3.43 GB a time.
+  ext <- names(schema$tables)[vapply(schema$tables,
+    function(t) isTRUE(t$external), logical(1))]
+  ens_dir <- ensemble_dir %||% fs::path(path, "values_ensemble")
+
   files <- list()
-  for (nm in names(tables)) {
+  for (nm in setdiff(names(tables), ext)) {
     f <- fs::path(path, paste0(nm, ".parquet"))
     arrow::write_parquet(tables[[nm]], f)
     files[[length(files) + 1L]] <- list(
@@ -386,6 +407,32 @@ lv_export_write <- function(tables, path, meta = list(), strict = TRUE) {
       n_rows = jsonlite::unbox(nrow(tables[[nm]])),
       bytes = jsonlite::unbox(as.numeric(fs::file_size(f))),
       sha256 = jsonlite::unbox(digest::digest(file = f, algo = "sha256")))
+  }
+
+  external <- list()
+  for (nm in intersect(ext, names(tables))) {
+    x <- tables[[nm]]
+    key <- schema$tables[[nm]]$partition_by
+    fs::dir_create(ens_dir)
+    if (nrow(x)) {
+      # Hive layout: <dir>/<key>=<value>/part-0.parquet, which arrow and duckdb
+      # both prune on when the query filters the key.
+      arrow::write_dataset(x, ens_dir, partitioning = key, format = "parquet",
+                           existing_data_behavior = "overwrite")
+    }
+    parts <- fs::dir_ls(ens_dir, glob = "*.parquet", recurse = TRUE, type = "file")
+    # One hash over the sorted per-file hashes: a directory has no hash of its
+    # own, and this is the same shape as the database fingerprint.
+    ph <- sort(vapply(parts, function(p) digest::digest(file = p, algo = "sha256"), character(1)))
+    external[[length(external) + 1L]] <- list(
+      name = jsonlite::unbox(nm),
+      dir = jsonlite::unbox(as.character(ens_dir)),
+      partition_by = jsonlite::unbox(key),
+      n_rows = jsonlite::unbox(nrow(x)),
+      n_partitions = jsonlite::unbox(length(unique(as.character(x[[key]])))),
+      n_files = jsonlite::unbox(length(parts)),
+      bytes = jsonlite::unbox(sum(as.numeric(fs::file_size(parts)))),
+      sha256 = jsonlite::unbox(digest::digest(paste(ph, collapse = ""), algo = "sha256")))
   }
 
   # The manifest is what makes an export reproducible after the fact: it records
@@ -396,7 +443,7 @@ lv_export_write <- function(tables, path, meta = list(), strict = TRUE) {
     list(generated_at = jsonlite::unbox(format(Sys.time(), "%Y-%m-%dT%H:%M:%S%z")),
          generator_version = jsonlite::unbox(as.character(utils::packageVersion("lipdverseUpdater"))),
          lipdr_version = jsonlite::unbox(as.character(utils::packageVersion("lipdR"))),
-         files = files))
+         files = files, external = external))
   jsonlite::write_json(man, fs::path(path, "export_manifest.json"),
                        pretty = TRUE, auto_unbox = FALSE, null = "null")
   cli::cli_alert_success("Wrote {length(files)} table{?s} to {.path {path}}")
@@ -422,6 +469,30 @@ lv_export_verify <- function(manifest_path) {
       iss <- lv_issues_bind(iss, lv_issues(check = "export_hash_mismatch",
         severity = "error", message = sprintf("%s does not match its recorded sha256.", f$name)))
   }
+  # External tables are a directory of partitions rather than one file, so the
+  # recorded hash is over the sorted per-file hashes. An export that references
+  # a shared store is only trustworthy if that store is checked too -- it is the
+  # part most likely to have moved on since.
+  for (e in man$external %||% list()) {
+    if (!fs::dir_exists(e$dir)) {
+      iss <- lv_issues_bind(iss, lv_issues(check = "export_external_missing",
+        severity = "error",
+        message = sprintf("%s: no directory at %s.", e$name, e$dir)))
+      next
+    }
+    parts <- fs::dir_ls(e$dir, glob = "*.parquet", recurse = TRUE, type = "file")
+    if (length(parts) != e$n_files) {
+      iss <- lv_issues_bind(iss, lv_issues(check = "export_external_file_count",
+        severity = "error",
+        message = sprintf("%s: %d partition file%s, manifest recorded %d.",
+                          e$name, length(parts), if (length(parts) == 1) "" else "s", e$n_files)))
+    }
+    ph <- sort(vapply(parts, function(p) digest::digest(file = p, algo = "sha256"), character(1)))
+    if (!identical(digest::digest(paste(ph, collapse = ""), algo = "sha256"), e$sha256))
+      iss <- lv_issues_bind(iss, lv_issues(check = "export_hash_mismatch",
+        severity = "error",
+        message = sprintf("%s does not match its recorded sha256.", e$name)))
+  }
   iss
 }
 
@@ -441,14 +512,31 @@ lv_export_verify <- function(manifest_path) {
 #' @param overwrite Replace an existing database.
 #' @return Path to the database, invisibly.
 #' @export
-lv_export_duckdb <- function(dir, file = "lipdverse.duckdb", overwrite = TRUE) {
+lv_export_duckdb <- function(dir, file = "lipdverse.duckdb", overwrite = TRUE,
+                             ensemble_dir = NULL) {
   if (!requireNamespace("duckdb", quietly = TRUE))
     cli::cli_abort("The {.pkg duckdb} package is required.", class = "lv_error_export")
-  nms <- names(lv_export_schema()$tables)
+  schema <- lv_export_schema()
+  ext <- names(schema$tables)[vapply(schema$tables,
+    function(t) isTRUE(t$external), logical(1))]
+  nms <- setdiff(names(schema$tables), ext)
   missing <- nms[!fs::file_exists(fs::path(dir, paste0(nms, ".parquet")))]
   if (length(missing))
     cli::cli_abort(c("Export at {.path {dir}} is incomplete.",
                      i = "Missing: {.val {missing}}"), class = "lv_error_export")
+
+  # The external tables live wherever the manifest says, which is usually not
+  # inside this directory. Take it from there rather than assuming.
+  man_path <- fs::path(dir, "export_manifest.json")
+  ens_dirs <- list()
+  if (is.null(ensemble_dir) && fs::file_exists(man_path)) {
+    man <- jsonlite::fromJSON(man_path, simplifyVector = FALSE)
+    for (e in man$external %||% list()) ens_dirs[[e$name]] <- e$dir
+  }
+  for (nm in ext) {
+    if (!is.null(ensemble_dir)) ens_dirs[[nm]] <- ensemble_dir
+    else if (is.null(ens_dirs[[nm]])) ens_dirs[[nm]] <- fs::path(dir, nm)
+  }
 
   path <- fs::path(dir, file)
   # Built into a temporary file and moved into place, so an interrupted build
@@ -468,6 +556,23 @@ lv_export_duckdb <- function(dir, file = "lipdverse.duckdb", overwrite = TRUE) {
     src <- fs::path(dir, paste0(n, ".parquet"))
     DBI::dbExecute(con, sprintf(
       'CREATE TABLE "%s" AS SELECT * FROM read_parquet(\'%s\')', n, src))
+  }
+
+  # External tables become views, not tables: copying 3.43 GB of ensembles into
+  # every compilation's database would undo the reason they were split out.
+  # A view over the hive layout still prunes partitions when the query filters
+  # on the partition key.
+  for (nm in ext) {
+    d <- ens_dirs[[nm]]
+    if (is.null(d) || !fs::dir_exists(d)) {
+      cli::cli_alert_warning("{nm}: no data at {.path {d %||% '<unset>'}}; view not created.")
+      next
+    }
+    parts <- fs::dir_ls(d, glob = "*.parquet", recurse = TRUE, type = "file")
+    if (!length(parts)) next
+    DBI::dbExecute(con, sprintf(
+      'CREATE VIEW "%s" AS SELECT * FROM read_parquet(\'%s/**/*.parquet\', hive_partitioning = true)',
+      nm, d))
   }
 
   # One row per timeseries with its dataset alongside: the join every consumer

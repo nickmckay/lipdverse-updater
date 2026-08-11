@@ -137,8 +137,10 @@ test_that("the export round-trips through parquet with types intact", {
   pubs <- arrow::read_parquet(fs::path(out, "publications.parquet"))
   expect_true(is.list(pubs$authors))
   # And the written tables still satisfy the contract after the round trip.
-  rt <- stats::setNames(lapply(names(tbl), function(n)
-    tibble::as_tibble(arrow::read_parquet(fs::path(out, paste0(n, ".parquet"))))), names(tbl))
+  local_tables <- setdiff(names(tbl), "values_ensemble")   # external, a directory
+  rt <- stats::setNames(lapply(local_tables, function(n)
+    tibble::as_tibble(arrow::read_parquet(fs::path(out, paste0(n, ".parquet"))))), local_tables)
+  rt$values_ensemble <- tbl$values_ensemble
   expect_equal(nrow(lv_export_validate(rt)), 0)
 })
 
@@ -173,9 +175,10 @@ test_that("the duckdb build reproduces the parquet files and their joins", {
   con <- DBI::dbConnect(duckdb::duckdb(), dbdir = db, read_only = TRUE)
   on.exit(DBI::dbDisconnect(con, shutdown = TRUE), add = TRUE)
 
-  # Every contract table is present, `values` included -- it is a reserved SQL
-  # keyword, so it is the one most likely to be silently missing.
-  expect_true(all(names(tbl) %in% DBI::dbListTables(con)))
+  # Every contract table is reachable, `values` included -- it is a reserved SQL
+  # keyword, so it is the one most likely to be silently missing. Ensembles are
+  # a view over the shared store rather than a copied table.
+  expect_true(all(setdiff(names(tbl), "values_ensemble") %in% DBI::dbListTables(con)))
   n <- DBI::dbGetQuery(con, 'SELECT count(*) AS n FROM "values"')$n
   expect_equal(n, nrow(tbl$values))
 
@@ -219,4 +222,76 @@ test_that("an interpretation with no scope is labelled, not left NA", {
   expect_false(anyNA(x$interpretations$scope))
   expect_true("unscoped" %in% x$interpretations$scope)
   expect_equal(nrow(lv_export_validate(x)), 0)
+})
+
+test_that("ensembles are split out of values", {
+  # Measured over the whole database, ensembles are 88.9% of 437M value rows and
+  # cost 8.82 bytes each against 3.93 for measurements. Together they are ~3.6 GB;
+  # apart, the table nearly everyone reads is ~189 MB.
+  d <- withr::local_tempdir()
+  write_lpd(d, "A.Author.2001", tsids = "T1")
+  L <- suppressWarnings(lipdR::readLipd(fs::path(d, "A.Author.2001.lpd")))
+  # An ensemble table of its own, with its own TSid: reusing the measurement
+  # table would put one TSid in two tables, which the key check rejects.
+  L$chronData <- list(list(model = list(list(ensembleTable = list(
+    make_ensemble_table("E1"))))))
+  x <- lv_export_one(L)
+
+  expect_true(all(x$values_ensemble$TSid == "E1"))
+  expect_gt(nrow(x$values_ensemble), 0)
+  # The ensemble rows are not also in values.
+  expect_equal(nrow(x$values), 3)
+  # And the partition key travels with them, since a reader needs it before
+  # opening anything.
+  expect_true("datasetId" %in% names(x$values_ensemble))
+  expect_false(anyNA(x$values_ensemble$datasetId))
+  expect_equal(nrow(lv_export_validate(x)), 0)
+})
+
+test_that("the ensemble store is written once and referenced, not copied", {
+  skip_if_not_installed("arrow")
+  withr::local_envvar(LIPDVERSE_STATE = withr::local_tempdir())
+  d <- withr::local_tempdir()
+  write_lpd(d, "A.Author.2001", tsids = "T1")
+  L <- suppressWarnings(lipdR::readLipd(fs::path(d, "A.Author.2001.lpd")))
+  L$chronData <- list(list(model = list(list(
+    ensembleTable = list(make_ensemble_table("E1"))))))
+  x <- lv_export_one(L)
+
+  shared <- withr::local_tempdir()
+  out <- withr::local_tempdir()
+  man <- lv_export_write(x, out, ensemble_dir = shared)
+
+  # Not a parquet file in the compilation directory.
+  expect_false(fs::file_exists(fs::path(out, "values_ensemble.parquet")))
+  # Hive layout in the shared store, so a reader can prune by dataset.
+  parts <- fs::dir_ls(shared, glob = "*.parquet", recurse = TRUE)
+  expect_gt(length(parts), 0)
+  expect_true(any(grepl("datasetId=", fs::path_dir(parts))))
+  # The manifest points at it and records enough to check it later.
+  expect_equal(as.character(man$external[[1]]$name), "values_ensemble")
+  expect_equal(nrow(lv_export_verify(fs::path(out, "export_manifest.json"))), 0)
+})
+
+test_that("verification notices the shared ensemble store changing underneath", {
+  # The failure mode the split introduces: an export is no longer self-contained,
+  # so the store can move on without the compilation directory knowing.
+  skip_if_not_installed("arrow")
+  withr::local_envvar(LIPDVERSE_STATE = withr::local_tempdir())
+  d <- withr::local_tempdir()
+  write_lpd(d, "A.Author.2001", tsids = "T1")
+  L <- suppressWarnings(lipdR::readLipd(fs::path(d, "A.Author.2001.lpd")))
+  L$chronData <- list(list(model = list(list(
+    ensembleTable = list(make_ensemble_table("E1"))))))
+  shared <- withr::local_tempdir(); out <- withr::local_tempdir()
+  lv_export_write(lv_export_one(L), out, ensemble_dir = shared)
+
+  parts <- fs::dir_ls(shared, glob = "*.parquet", recurse = TRUE)
+  arrow::write_parquet(data.frame(x = 1), parts[1])
+  iss <- lv_export_verify(fs::path(out, "export_manifest.json"))
+  expect_true(any(iss$check == "export_hash_mismatch"))
+
+  fs::file_delete(parts[1])
+  iss2 <- lv_export_verify(fs::path(out, "export_manifest.json"))
+  expect_true(any(iss2$check == "export_external_file_count"))
 })

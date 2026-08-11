@@ -7,7 +7,14 @@
 #
 # Adding an optional column is compatible. Removing one, renaming one, or
 # changing a type is not, and needs the version below bumped.
-version: 1
+#
+# v2 splits the ensembles out of `values`. Measured across the whole database,
+# ensembles are 88.9% of all 437 million value rows and the most expensive per
+# row (8.82 bytes against 3.93), so a combined table is ~3.6 GB while the part
+# nearly every consumer reads is ~189 MB. Keeping them together meant either
+# duplicating 3.6 GB into each of 19 compilation directories, or not shipping a
+# self-contained export at all.
+version: 2
 
 # Types are the R types the builder produces; the parquet writer maps them.
 #   chr = character, dbl = double, int = integer, lgl = logical, ts = POSIXct
@@ -58,11 +65,33 @@ tables:
   values:
     key: [TSid, row_index]
     description: >
+      Measurement and summary values: everything except the ensembles. 11% of
+      the rows and what nearly every consumer actually reads.
+
       Long, deliberately. A wide table forces one type per row across every
       column, which is how a string or logical column becomes NaN on the way
       through a numeric matrix. Splitting into value_num and value_chr makes
       that coercion impossible to express.
     columns:
+      TSid:      {type: chr, required: true}
+      row_index: {type: int, required: true}
+      value_num: {type: dbl}
+      value_chr: {type: chr}
+
+  values_ensemble:
+    key: [TSid, row_index]
+    partition_by: datasetId
+    external: true
+    description: >
+      Ensemble and distribution values, the same shape as `values`. Written
+      once, globally, Hive-partitioned by datasetId, and referenced by a
+      compilation's manifest rather than copied into it: 815 of 7,268 datasets
+      have ensembles at all, and they account for 3.43 GB of the 3.6 GB total.
+
+      Carries datasetId, which `values` does not, because it is the partition
+      key and a reader needs it before opening anything.
+    columns:
+      datasetId: {type: chr, required: true}
       TSid:      {type: chr, required: true}
       row_index: {type: int, required: true}
       value_num: {type: dbl}
