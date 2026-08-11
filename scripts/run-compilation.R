@@ -289,11 +289,16 @@ print(ver)
 push_state <- state[state$tsid %in% ts, , drop = FALSE]
 wide <- qc_cells_to_sheet(push_state, registry = lv_qc_fields())
 new_rows <- setdiff(wide$TSid, sheet$tsid)
-new_cols <- setdiff(names(wide), c("TSid", unique(lv_display_field(sheet$field, lv_qc_fields()))))
-cat(sprintf("\nsheet       : %d row%s, %d new row%s, %d new column%s\n",
+# Fields the store holds that the sheet has no column for. They are NOT written:
+# a column is added by a curator on the sheet, never by a run. Reporting them as
+# "new columns" read as though the run would create them, which is alarming and
+# wrong -- and worse, it fed the mode choice below, so an informational count
+# silently escalated a patch into a full rewrite.
+no_column <- setdiff(names(wide), c("TSid", unique(lv_display_field(sheet$field, lv_qc_fields()))))
+cat(sprintf("\nsheet       : %d row%s, %d new row%s, %d stored field%s with no column (not written)\n",
             nrow(wide), if (nrow(wide) == 1) "" else "s",
             length(new_rows), if (length(new_rows) == 1) "" else "s",
-            length(new_cols), if (length(new_cols) == 1) "" else "s"))
+            length(no_column), if (length(no_column) == 1) "" else "s"))
 
 if (commit) {
   ev <- qc_diff_to_events(base, state, source = "sheet")
@@ -304,9 +309,10 @@ if (commit) {
                     db_fingerprint = lv_scan(db)$fingerprint,
                     qc_state_hash = lv_dataset_set_hash(paste(state$tsid, state$field, state$value)))
   cat(sprintf("version     : %s\n", ver$version))
-  # Full rewrite whenever the shape changes; a patch cannot add rows.
+  # Full rewrite only when rows are added, since a patch cannot add rows.
+  # Columns never change the shape: the push writes the sheet's own column set.
   qc_sheet_push(push_state, bk, cfg$qc_sheet_id, cfg$qc_tabs$qc,
-                mode = if (length(new_rows) || length(new_cols)) "full" else "patch",
+                mode = if (length(new_rows)) "full" else "patch",
                 dry_run = FALSE)
   cat("sheet       : pushed\n")
   # The title is where most people read the version. try(): renaming needs Drive

@@ -566,3 +566,31 @@ lv_seed_kind <- function(seed, index) {
   tibble::tibble(kind = names(n), matched = unname(n), of = length(seed),
                  share = round(unname(n) / length(seed), 3))[order(-n), ]
 }
+
+# TSids in a dataset carrying a given compilation. Exact names throughout:
+# `$` partial-matches, and inCompilation sits beside inCompilationBeta.
+lv_membership_tsids <- function(L, compilation) {
+  out <- character()
+  for (blk in c("paleoData", "chronData")) {
+    for (pd in L[[blk]]) for (tb in pd$measurementTable) {
+      if (!is.list(tb)) next
+      cols <- if (!is.null(tb[["columns"]])) tb[["columns"]] else
+        tb[!names(tb) %in% c("filename", "tableName", "missingValue", "googWorkSheetKey")]
+      for (cl in cols) {
+        if (!is.list(cl) || is.null(cl[["TSid"]])) next
+        for (nm in grep("^inCompilation", names(cl), value = TRUE)) {
+          for (ic in cl[[nm]]) {
+            if (!is.list(ic)) next
+            cn <- unlist(ic[["compilationName"]])
+            if (length(cn) && identical(as.character(cn)[1], compilation)) {
+              out <- c(out, as.character(cl[["TSid"]])[1])
+            }
+          }
+        }
+      }
+    }
+  }
+  unique(out)
+}
+
+lv_count_membership <- function(L, compilation) length(lv_membership_tsids(L, compilation))
