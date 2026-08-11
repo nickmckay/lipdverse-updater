@@ -771,14 +771,24 @@ lv_duplicate_screen <- function(incoming, existing, index) {
   existing <- existing[lengths(existing) > 0]
   if (!length(incoming) || !length(existing)) return(lv_duplicate_empty())
 
-  a <- tibble::tibble(new = rep(names(incoming), lengths(incoming)), hash = unlist(incoming))
-  b <- tibble::tibble(existing = rep(names(existing), lengths(existing)), hash = unlist(existing))
+  # Unlisted first, deliberately. tibble() evaluates its arguments in sequence
+  # under data masking, so a column named `existing` shadows the argument of the
+  # same name and `unlist(existing)` resolves to the column just built -- giving
+  # a hash column full of dataset names. The screen matched nothing for every
+  # ingest before this was found. `new` escaped it only because the argument is
+  # called `incoming`.
+  inc_hash <- unlist(incoming, use.names = FALSE)
+  ex_hash  <- unlist(existing, use.names = FALSE)
+  a <- tibble::tibble(new = rep(names(incoming), lengths(incoming)), hash = inc_hash)
+  b <- tibble::tibble(existing = rep(names(existing), lengths(existing)), hash = ex_hash)
   m <- dplyr::inner_join(a, b, by = "hash", relationship = "many-to-many")
   if (!nrow(m)) return(lv_duplicate_empty())
 
   m <- dplyr::count(m, new, existing, name = "shared")
-  m$n_new <- lengths(incoming)[m$new]
-  m$n_existing <- lengths(existing)[m$existing]
+  # unname: indexing a named vector carries the names onto the column, which
+  # then travel into containment and make every comparison against it awkward.
+  m$n_new <- unname(lengths(incoming)[m$new])
+  m$n_existing <- unname(lengths(existing)[m$existing])
   m$containment <- m$shared / pmin(m$n_new, m$n_existing)
   m$same_name <- m$new == m$existing
 
