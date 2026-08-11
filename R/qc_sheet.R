@@ -294,6 +294,61 @@ qc_sheet_push <- function(cells, backend, id, tab = "QC", mode = c("patch", "ful
   if (dry_run || nrow(delta) == 0) return(invisible(receipt))
 
   template <- tryCatch(sheet_read(backend, id, tab), error = function(e) NULL)
+
+  # A patch writes only the cells that changed, addressed by (TSid, column), and
+  # leaves everything else -- including the colour coding the leads navigate by,
+  # which a rewrite discards. It cannot add or remove rows, so the caller asks
+  # for `full` when the row set changes.
+  #
+  # `mode` used to be accepted, recorded in the receipt, and ignored, so every
+  # push was a rewrite whatever was asked for.
+  if (identical(mode, "patch") && !is.null(template)) {
+    key <- intersect(c("TSid", "tsid"), names(template))[1]
+    if (is.na(key)) {
+      cli::cli_abort("Cannot patch {.val {tab}}: no TSid column to address rows by.",
+                     class = "lv_error_sheet")
+    }
+    # A patch only touches the (TSid, field) cells this run actually carries.
+    # The diff reports everything else on the sheet as a deletion, because the
+    # state is partial by row and by field alike: hydroclimate2k's state covers
+    # 4,849 of the sheet's 7,525 rows, and only the fields in the registry.
+    # Patching that wholesale would blank the 2,676 axis rows meant to be left
+    # for deliberate removal, along with every column the run does not track.
+    managed <- paste(delta$tsid, delta$field, sep = "\r") %in%
+      paste(cells$tsid, cells$field, sep = "\r")
+    if (any(!managed)) {
+      receipt$unmanaged_cells <- sum(!managed)
+      cli::cli_alert_info(
+        "{sum(!managed)} sheet cell{?s} are outside this run and left untouched.")
+    }
+    delta <- delta[managed, , drop = FALSE]
+    if (!nrow(delta)) {
+      cli::cli_alert_success("Nothing to patch.")
+      receipt$n_written <- 0L
+      return(invisible(receipt))
+    }
+    disp <- lv_display_field(delta$field, registry)
+    row <- match(delta$tsid, template[[key]])
+    col <- match(disp, names(template))
+    ok <- !is.na(row) & !is.na(col)
+    if (any(!ok)) {
+      # A cell with nowhere to go is skipped, not written somewhere else.
+      cli::cli_alert_warning(
+        "{sum(!ok)} change{?s} have no cell in {.val {tab}} and are not written.")
+      receipt$skipped_cells <- delta[!ok, c("tsid", "field")]
+    }
+    if (any(ok)) {
+      addr <- paste0(lv_col_letter(col[ok]), row[ok] + 1L)   # +1 for the header
+      # A curator's clear writes an empty cell, not the word NA.
+      val <- delta$new_value[ok]
+      val[is.na(val)] <- ""
+      sheet_write_cells(backend, id, tab, addr, val)
+    }
+    receipt$n_written <- sum(ok)
+    cli::cli_alert_success("Patched {sum(ok)} cell{?s} in {.val {tab}}.")
+    return(invisible(receipt))
+  }
+
   wide <- qc_cells_to_sheet(cells, registry, template)
 
   # Columns are added by a curator, never by a run. Adding one silently commits

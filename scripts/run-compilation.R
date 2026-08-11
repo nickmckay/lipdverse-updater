@@ -288,7 +288,12 @@ print(ver)
 # membership tab.
 push_state <- state[state$tsid %in% ts, , drop = FALSE]
 wide <- qc_cells_to_sheet(push_state, registry = lv_qc_fields())
-new_rows <- setdiff(wide$TSid, sheet$tsid)
+# Against the sheet's own rows, not the pulled cells: a TSid with no cells in
+# the pull is still a row on the sheet, so comparing against `sheet$tsid`
+# reported rows as new that were already there -- 11 of them, all present.
+sheet_rows <- tryCatch(sheet_read(bk, cfg$qc_sheet_id, cfg$qc_tabs$qc), error = function(e) NULL)
+existing_rows <- if (!is.null(sheet_rows) && "TSid" %in% names(sheet_rows)) sheet_rows$TSid else sheet$tsid
+new_rows <- setdiff(wide$TSid, existing_rows)
 # Fields the store holds that the sheet has no column for. They are NOT written:
 # a column is added by a curator on the sheet, never by a run. Reporting them as
 # "new columns" read as though the run would create them, which is alarming and
@@ -299,6 +304,22 @@ cat(sprintf("\nsheet       : %d row%s, %d new row%s, %d stored field%s with no c
             nrow(wide), if (nrow(wide) == 1) "" else "s",
             length(new_rows), if (length(new_rows) == 1) "" else "s",
             length(no_column), if (length(no_column) == 1) "" else "s"))
+# Name them while the list is short. A new row is a timeseries a curator has
+# not seen, so which ones matters more than how many.
+if (length(new_rows) && length(new_rows) <= 40) {
+  nr <- idx$timeseries[idx$timeseries$TSid %in% new_rows, , drop = FALSE]
+  cat("  new rows:\n")
+  for (i in seq_len(nrow(nr))) {
+    cat(sprintf("    %-34s %-16s %s\n", nr$dataSetName[i], nr$variableName[i], nr$TSid[i]))
+  }
+}
+# --patch keeps the tab's formatting, which a full rewrite discards. A patch
+# cannot add rows, so any new ones are reported and left for a deliberate pass.
+force_patch <- "--patch" %in% args
+if (force_patch && length(new_rows)) {
+  cat(sprintf("  --patch: %d new row%s will NOT be added; formatting is kept.\n",
+              length(new_rows), if (length(new_rows) == 1) "" else "s"))
+}
 
 if (commit) {
   ev <- qc_diff_to_events(base, state, source = "sheet")
@@ -312,7 +333,7 @@ if (commit) {
   # Full rewrite only when rows are added, since a patch cannot add rows.
   # Columns never change the shape: the push writes the sheet's own column set.
   qc_sheet_push(push_state, bk, cfg$qc_sheet_id, cfg$qc_tabs$qc,
-                mode = if (length(new_rows)) "full" else "patch",
+                mode = if (length(new_rows) && !force_patch) "full" else "patch",
                 dry_run = FALSE)
   cat("sheet       : pushed\n")
   # The title is where most people read the version. try(): renaming needs Drive
