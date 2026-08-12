@@ -300,9 +300,28 @@ qc_sheet_push <- function(cells, backend, id, tab = "QC", mode = c("patch", "ful
   current <- tryCatch(qc_sheet_pull(backend, id, tab, registry), error = function(e) qc_cells_empty())
   delta <- qc_diff_to_events(current, cells, source = "sheet")
 
+  # Scope the delta to what a patch would actually write, before the receipt is
+  # built. The diff reports every other cell on the sheet as a deletion, because
+  # the state is partial by row and by field alike, and a patch ignores those --
+  # but the dry run used to report them anyway. Asked to fill 60 blank cells it
+  # answered "261,663 changes", which is not a preview of the write, it is a
+  # reason not to trust the preview. A dry run has to say what the write does.
+  unmanaged <- 0L
+  if (identical(mode, "patch")) {
+    managed <- paste(delta$tsid, delta$field, sep = "\r") %in%
+      paste(cells$tsid, cells$field, sep = "\r")
+    unmanaged <- sum(!managed)
+    delta <- delta[managed, , drop = FALSE]
+  }
+
   receipt <- list(id = id, tab = tab, mode = mode, dry_run = dry_run,
                   n_cells = nrow(cells), n_changed = nrow(delta),
                   changed = delta[, c("tsid", "field", "old_value", "new_value")])
+  if (unmanaged > 0) {
+    receipt$unmanaged_cells <- unmanaged
+    cli::cli_alert_info(
+      "{unmanaged} sheet cell{?s} are outside this run and left untouched.")
+  }
 
   if (dry_run || nrow(delta) == 0) return(invisible(receipt))
 
@@ -321,20 +340,11 @@ qc_sheet_push <- function(cells, backend, id, tab = "QC", mode = c("patch", "ful
       cli::cli_abort("Cannot patch {.val {tab}}: no TSid column to address rows by.",
                      class = "lv_error_sheet")
     }
-    # A patch only touches the (TSid, field) cells this run actually carries.
-    # The diff reports everything else on the sheet as a deletion, because the
-    # state is partial by row and by field alike: hydroclimate2k's state covers
-    # 4,849 of the sheet's 7,525 rows, and only the fields in the registry.
-    # Patching that wholesale would blank the 2,676 axis rows meant to be left
-    # for deliberate removal, along with every column the run does not track.
-    managed <- paste(delta$tsid, delta$field, sep = "\r") %in%
-      paste(cells$tsid, cells$field, sep = "\r")
-    if (any(!managed)) {
-      receipt$unmanaged_cells <- sum(!managed)
-      cli::cli_alert_info(
-        "{sum(!managed)} sheet cell{?s} are outside this run and left untouched.")
-    }
-    delta <- delta[managed, , drop = FALSE]
+    # `delta` is already scoped to the (TSid, field) cells this run carries; see
+    # the note above. hydroclimate2k's state covers 4,849 of the sheet's 7,525
+    # rows and only the fields in the registry, so patching the raw diff would
+    # blank the 2,676 axis rows meant to be left for deliberate removal, along
+    # with every column the run does not track.
     if (!nrow(delta)) {
       cli::cli_alert_success("Nothing to patch.")
       receipt$n_written <- 0L

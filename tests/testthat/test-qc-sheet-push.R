@@ -211,3 +211,32 @@ test_that("a patch refuses to write if the rows moved underneath it", {
   # Nothing was written: the values are as they were.
   expect_equal(real(bk, "S1", "QC")$units, before$units)
 })
+
+test_that("a patch dry run reports the write, not the whole sheet", {
+  # The diff between a partial state and a full sheet calls every untouched cell
+  # a deletion. A patch ignores those, so counting them in the receipt made the
+  # dry run report 261,663 changes for a write of 60 cells -- a preview that
+  # could not be used to decide whether to proceed.
+  d <- withr::local_tempdir()
+  bk <- sheet_backend_local(d)
+  sheet_write(bk, "S1", "QC", data.frame(
+    TSid = c("T1", "T2"), units = c("degC", "permil"),
+    archiveType = c("Wood", "LakeSediment"), stringsAsFactors = FALSE))
+
+  fill <- tibble::tibble(tsid = "T1", field = "paleoData_units", value = "mm",
+                         present = TRUE, dataset_id = "D1")
+
+  r <- qc_sheet_push(fill, bk, "S1", "QC", mode = "patch", dry_run = TRUE)
+  expect_equal(r$n_changed, 1)
+  expect_equal(r$changed$tsid, "T1")
+  # Everything else is reported as untouched rather than as a change.
+  expect_gt(r$unmanaged_cells, 0)
+
+  # And the dry run's count is what the real write then does.
+  w <- qc_sheet_push(fill, bk, "S1", "QC", mode = "patch", dry_run = FALSE,
+                     add_rows = FALSE)
+  expect_equal(w$n_written, r$n_changed)
+  back <- sheet_read(bk, "S1", "QC")
+  expect_equal(back$units, c("mm", "permil"))
+  expect_equal(back$archiveType, c("Wood", "LakeSediment"))
+})
