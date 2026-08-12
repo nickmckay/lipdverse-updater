@@ -44,9 +44,16 @@ print(as.data.frame(count(d, class, sort = TRUE)), right = FALSE)
 cat("\nfields diverging most:\n")
 print(as.data.frame(head(count(d, field, class, sort = TRUE), 12)), right = FALSE)
 
-dir.create("review", showWarnings = FALSE)
-out <- if (length(comps) == 1) file.path("review", paste0("replay-", comps, ".csv")) else
-  file.path("review", "replay-all.csv")
+# The divergence table is a large derived artefact -- hydroclimate2k alone is
+# ~97 MB -- so it goes to the run directory, not into the repository. Only the
+# per-run summary is small enough to keep alongside the code.
+run <- lv_run_id()
+dir.create(lv_run_dir(run), recursive = TRUE, showWarnings = FALSE)
+out <- file.path(lv_run_dir(run),
+                 if (length(comps) == 1) paste0("replay-", comps, ".csv") else "replay-all.csv")
 readr::write_csv(d, out, na = "")
-readr::write_csv(s, sub("\\.csv$", "-summary.csv", out), na = "")
-cat("\nwrote", out, "and its summary\n")
+dir.create("review", showWarnings = FALSE)
+sum_out <- file.path("review", if (length(comps) == 1)
+  paste0("replay-", comps, "-summary.csv") else "replay-all-summary.csv")
+readr::write_csv(s, sum_out, na = "")
+cat("\ndivergences:", out, "\nsummary    :", sum_out, "\n")

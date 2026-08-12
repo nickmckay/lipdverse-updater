@@ -10,3 +10,7 @@ renv/staging/
 *.Rproj
 inst/doc
 RRR
+
+# Replay divergences are large derived artefacts, not review material:
+# a single compilation's run is ~100 MB. The summary is small enough to keep.
+review/replay-*.csv
