@@ -119,7 +119,10 @@ lv_csm_frame <- function(dir = lv_path("database"), compilation,
   paths <- if (inherits(dir, "lv_scan")) dir$files$path else
     fs::dir_ls(dir, glob = "*.lpd", type = "file")
   if (!is.null(datasets)) {
-    paths <- paths[sub("\\.lpd$", "", basename(paths)) %in% datasets]
+    # Normalised on both sides, for the reason given in qc_frame(): a filename
+    # is NFD and everything else is NFC, and an accented dataset otherwise reads
+    # as absent from a database holding it.
+    paths <- paths[lv_nfc(sub("\\.lpd$", "", basename(paths))) %in% lv_nfc(datasets)]
   }
   if (!length(paths)) return(qc_cells_empty())
 

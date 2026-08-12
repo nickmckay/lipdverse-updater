@@ -70,6 +70,7 @@ climateInterpretation2_seasonality,climateInterpretation2_seasonality,climateInt
 climateInterpretation2_variable,climateInterpretation2_variable,climateInterpretation*_variable,merged,curator,TRUE,timeseries,character,,,,,,interpretation_climate,7,FALSE,1,17
 climateInterpretation2_variableDetail,climateInterpretation2_variableDetail,climateInterpretation*_variableDetail,merged,curator,TRUE,timeseries,character,,,,,,interpretation_climate,7,FALSE,1,7
 collectionYear,collectionYear,collectionYear,merged,shared,FALSE,dataset,character,,,,,,chronology,5,FALSE,1,1102
+distinctYearsInCommonEra,,distinctYearsInCommonEra,merged,machine,FALSE,,,,,,,,chronology,5,FALSE,1,4738
 dynamicalSystemBasis,,dynamicalSystemBasis,merged,curator,TRUE,,,,,,,,interpretation_other,10,FALSE,1,9
 dynamicalSystemDirection,,dynamicalSystemDirection,merged,curator,TRUE,,,,,,,,interpretation_other,10,FALSE,1,10
 environmentInterpretation1_basis,environmentInterpretation1_basis,environmentInterpretation*_basis,merged,curator,TRUE,timeseries,character,,,,,,interpretation_environment,8,FALSE,1,34
@@ -140,7 +141,6 @@ paleoData_QCRemainingIssues,,paleoData_QCRemainingIssues,csm,curator,FALSE,,,,,H
 paleoData_iso2kUI,,paleoData_iso2kUI,csm,curator,FALSE,,,,,iso2k,iso2kUI,iso2k_csm_iso2kUI,identity,1,FALSE,2,1411
 additionalDataUrl,additionalDataUrl,additionalDataUrl,csm,curator,FALSE,dataset,character,,,CoralHydro2k,additionalDataUrl,CoralHydro2k_csm_additionalDataUrl,other,14,FALSE,1,72
 calibration_gbrCentredEquationNotes,calibration_gbrCentredEquationNotes,calibration_gbrCentredEquationNotes,csm,curator,FALSE,timeseries,character,,,GBRCD,centredEquationNotes,GBRCD_csm_centredEquationNotes,calibration,11,FALSE,1,20
-distinctYearsInCommonEra,,distinctYearsInCommonEra,csm,curator,FALSE,,,,,hydroclimate2k,distinctYearsInCommonEra,hydroclimate2k_csm_distinctYearsInCommonEra,chronology,5,FALSE,1,4738
 gbrCompositeCalibrationList,gbrCompositeCalibrationList,gbrCompositeCalibrationList,csm,curator,FALSE,dataset,character,,,GBRCD,compositeCalibrationList,GBRCD_csm_compositeCalibrationList,other,14,FALSE,1,85
 gbrCoreIDOtherStudyList,gbrCoreIDOtherStudyList,gbrCoreIDOtherStudyList,csm,curator,FALSE,dataset,character,,,GBRCD,coreIDOtherStudyList,GBRCD_csm_coreIDOtherStudyList,other,14,FALSE,1,519
 gbrHasAlternateCalibration,gbrHasAlternateCalibration,gbrHasAlternateCalibration,csm,curator,FALSE,dataset,character,,,GBRCD,hasAlternateCalibration,GBRCD_csm_hasAlternateCalibration,other,14,FALSE,1,1199

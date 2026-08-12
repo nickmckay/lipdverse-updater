@@ -217,3 +217,15 @@ test_that("what apply writes is what the frame reads back", {
   expect_equal(back$field, "paleoData_hydroclimate2kCertification")
   expect_equal(back$value, "NPM")
 })
+
+test_that("lv_csm_frame reads an accented dataset name too", {
+  # Same NFD/NFC trap as qc_frame(); the dataset filter is the same shape and
+  # was copied with the same defect.
+  nfd <- stringi::stri_trans_nfd("CentralEurope.Büntgen.2011")
+  d <- withr::local_tempdir()
+  write_lpd(d, nfd, tsids = "T1",
+            col_extra = in_comp(comp_entry("hydroclimate2k", list(QCCertification = "NPM"))))
+  f <- lv_csm_frame(d, "hydroclimate2k", registry = csm_reg(),
+                    datasets = "CentralEurope.Büntgen.2011", progress = FALSE)
+  expect_equal(f$value, "NPM")
+})

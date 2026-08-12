@@ -23,7 +23,13 @@ qc_frame <- function(dir = lv_path("database"), registry = lv_qc_fields(),
                      datasets = NULL, progress = TRUE) {
   paths <- if (inherits(dir, "lv_scan")) dir$files$path else fs::dir_ls(dir, glob = "*.lpd", type = "file")
   if (!is.null(datasets)) {
-    paths <- paths[sub("\\.lpd$", "", basename(paths)) %in% datasets]
+    # Both sides normalised. macOS hands back filenames decomposed (NFD) while
+    # `datasets` comes from the sheet or the index, composed (NFC), so the raw
+    # comparison silently skipped every accented dataset: five hydroclimate2k
+    # datasets -- Büntgen, Dobrovolný, Névé -- were read from no file, and their
+    # QC rows carried nothing but a TSid and a membership flag. Normalising only
+    # one side does not help; the mismatch is between the two.
+    paths <- paths[lv_nfc(sub("\\.lpd$", "", basename(paths))) %in% lv_nfc(datasets)]
   }
   if (!length(paths)) return(qc_cells_empty())
 

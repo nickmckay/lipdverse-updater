@@ -35,3 +35,29 @@ test_that("a timeseries-level field is still read from the column", {
   f <- qc_frame(d, progress = FALSE)
   expect_equal(unique(f$value[f$field == "paleoData_units"]), "degC")
 })
+
+test_that("an accented dataset name is read despite a decomposed filename", {
+  # The live database sits in Dropbox, which stores filenames decomposed (NFD)
+  # while the name inside the file is composed (NFC). The two render identically
+  # and compare unequal, so `basename(paths) %in% datasets` skipped every
+  # accented dataset: five hydroclimate2k rows reached the QC sheet carrying
+  # nothing but a TSid and a membership flag, which is what the curators saw.
+  #
+  # The fixture forces the decomposition rather than relying on the filesystem
+  # to supply it: a temp dir on APFS preserves whatever name it is given, so a
+  # plain accented name here would not reproduce the mismatch at all.
+  nfc <- "CentralEurope.Büntgen.2011"
+  nfd <- stringi::stri_trans_nfd(nfc)
+  d <- withr::local_tempdir()
+  write_lpd(d, nfd, tsids = "T1")
+  expect_false(identical(nfc, nfd))
+
+  f <- qc_frame(d, datasets = nfc, progress = FALSE)
+  expect_gt(nrow(f), 0)
+  expect_true("archiveType" %in% f$field)
+
+  # And the other direction, since which side is decomposed depends on where the
+  # name came from.
+  g <- qc_frame(d, datasets = nfd, progress = FALSE)
+  expect_equal(nrow(g), nrow(f))
+})

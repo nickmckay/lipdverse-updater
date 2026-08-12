@@ -84,6 +84,13 @@ std_lut <- std |> transmute(n_syn = nz(synonym), disposition, std_canonical = li
 # writer after 400 files have been staged.
 NUMERIC <- c("geo_latitude", "geo_longitude", "geo_elevation")
 
+# Fields recomputed from the data on every update rather than curated or read.
+# They are machine-owned, so the sheet displays them and never writes them, and
+# they stay in the shared namespace even where only one compilation shows the
+# column: which compilations get a value is decided by whether their QC sheet
+# carries the column, not by the registry.
+LV_CALCULATED <- c("minYear", "maxYear", "distinctYearsInCommonEra")
+
 VOCAB <- c(paleoData_variableName = "variableName", paleoData_units = "units",
            archiveType = "archiveType", paleoData_proxy = "proxy",
            interpretation_seasonality = "seasonality", interpretation_variable = "interpretationVariable")
@@ -111,6 +118,16 @@ reg <- terms |>
       # let the files overrule a curator adding a timeseries.
       qc_name == "inThisCompilation"             ~ "membership",
       category == "key"                          ~ "key",
+      # A calculated field is derived from the data on every update, so it is
+      # machine-owned and belongs in the shared namespace no matter which
+      # compilations happen to show it. distinctYearsInCommonEra was classed
+      # csm because only hydroclimate2k has the column, but being unique to one
+      # compilation is not the same as being that compilation's judgement about
+      # a dataset -- and once csm merged, the misclassification would have
+      # written 4,503 sheet values into hydroclimate2k's inCompilation.
+      # Which compilations it is computed for is decided by their QC sheets,
+      # not by the registry. See LV_CALCULATED.
+      qc_name %in% LV_CALCULATED                 ~ "merged",
       # An identifier is an identifier regardless of which review file said so:
       # paleoData_TSid is the canonical form of the TSid column and must never
       # be merged.
@@ -132,6 +149,10 @@ reg <- terms |>
       TRUE                                       ~ "merged"),
     ownership = case_when(
       role == "key"        ~ "key",
+      # Derived on every run, so the files are the only source and a sheet edit
+      # must never win. Stated before the general `merged` rule because these
+      # fields carry whatever ownership their review row happened to give them.
+      qc_name %in% LV_CALCULATED ~ "machine",
       role == "merged"     ~ ownership,
       # The curator decides membership; the files only report it.
       role == "membership" ~ "curator",
@@ -199,6 +220,12 @@ LV_GROUP_ORDER <- c("identity", "archive", "publication", "geography", "chronolo
                     "compilation", "provenance", "other")
 
 out <- reg |>
+  # A calculated field keeps no csm targets. Leaving them behind is only
+  # cosmetic today -- lv_csm_fields() selects on role -- but a stale
+  # `csm_compilation` on a machine-owned field reads as though some compilation
+  # owns it, which is the belief this change exists to correct.
+  mutate(across(c(csm_compilation, csm_field, csm_flat_key),
+                ~ ifelse(qc_name %in% LV_CALCULATED, NA_character_, .x))) |>
   mutate(group = lv_group(qc_name),
          group_order = match(group, LV_GROUP_ORDER)) |>
   transmute(qc_name, ts_name, family, role, ownership, nullable_by_curator,
