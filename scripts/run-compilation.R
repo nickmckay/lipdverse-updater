@@ -247,10 +247,12 @@ if (length(calcs)) {
   write_cells <- dplyr::bind_rows(write_cells, calc_cells)
 }
 
-cat(sprintf("\nto write    : %d cell%s -- %d curator edit%s, %d compilation-specific\n",
+n_edits <- nrow(write_cells) - if (exists("calc_cells")) nrow(calc_cells) else 0L
+cat(sprintf("\nto write    : %d cell%s -- %d curator edit%s, %d recalculated, %d compilation-specific\n",
             nrow(write_cells) + nrow(csm_cells),
             if (nrow(write_cells) + nrow(csm_cells) == 1) "" else "s",
-            nrow(write_cells), if (nrow(write_cells) == 1) "" else "s", nrow(csm_cells)))
+            n_edits, if (n_edits == 1) "" else "s",
+            if (exists("calc_cells")) nrow(calc_cells) else 0L, nrow(csm_cells)))
 
 # ---- apply -----------------------------------------------------------------
 
