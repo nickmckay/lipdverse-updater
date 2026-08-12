@@ -126,14 +126,35 @@ sheet_write_cells.lv_sheet_local <- function(backend, id, tab, cells, values) {
 }
 
 #' @export
-sheet_write_cells.lv_sheet_google <- function(backend, id, tab, cells, values) {
+sheet_write_cells.lv_sheet_google <- function(backend, id, tab, cells, values,
+                                              chunk = 500L) {
   sheet_auth(backend)
-  for (k in seq_along(cells)) {
-    googlesheets4::range_write(
-      id, data.frame(x = values[k]), sheet = tab, range = cells[k],
-      col_names = FALSE, reformat = FALSE)
+  if (!length(cells)) return(invisible(0L))
+
+  # One request per cell hits the per-minute write quota and then crawls behind
+  # exponential backoff: 485 cells took minutes and four 429s. The values
+  # batchUpdate endpoint takes many disjoint ranges in a single call, so a whole
+  # patch is one request.
+  #
+  # reformat is not a concern here: writing values to a range leaves the cell's
+  # formatting alone, which is the whole reason a patch is preferable to a
+  # rewrite.
+  val <- as.character(values)
+  val[is.na(val)] <- ""
+  n <- length(cells)
+  for (i in seq(1, n, by = chunk)) {
+    j <- i:min(i + chunk - 1L, n)
+    data <- lapply(j, function(k) list(
+      range = paste0("'", tab, "'!", cells[k]),
+      majorDimension = "ROWS",
+      values = list(list(val[k]))))
+    req <- googlesheets4::request_generate(
+      "sheets.spreadsheets.values.batchUpdate",
+      params = list(spreadsheetId = id, data = data,
+                    valueInputOption = "USER_ENTERED"))
+    googlesheets4::request_make(req)
   }
-  invisible(length(cells))
+  invisible(n)
 }
 
 #' @rdname lv_col_letter

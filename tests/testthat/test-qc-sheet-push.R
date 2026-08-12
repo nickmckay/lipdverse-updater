@@ -178,3 +178,36 @@ test_that("a row with no dataSetName sorts last rather than leading the sheet", 
   w <- qc_cells_to_sheet(cells, lv_qc_fields())
   expect_equal(w$TSid, c("T2", "T1"))
 })
+
+test_that("a patch refuses to write if the rows moved underneath it", {
+  # Curators sort their sheets. Sorting between the read and the write would
+  # send every value to the wrong row, silently, which is worse than failing.
+  d <- withr::local_tempdir()
+  bk <- sheet_backend_local(d)
+  sheet_write(bk, "S1", "QC", data.frame(
+    TSid = c("T1", "T2", "T3"), units = c("degC", "permil", "cm"),
+    stringsAsFactors = FALSE))
+  before <- sheet_read(bk, "S1", "QC")
+
+  cells <- tibble::tibble(tsid = c("T1", "T2", "T3"), field = "paleoData_units",
+                          value = c("K", "permil", "cm"), present = TRUE,
+                          dataset_id = "D1")
+
+  # Return the sheet in a different row order on the verification read, as a
+  # sort landing mid-run would.
+  calls <- 0L
+  real <- sheet_read
+  testthat::local_mocked_bindings(
+    sheet_read = function(backend, id, tab, ...) {
+      calls <<- calls + 1L
+      x <- real(backend, id, tab, ...)
+      if (calls >= 3L) x[c(3, 1, 2), , drop = FALSE] else x
+    },
+    .package = "lipdverseUpdater")
+
+  expect_error(
+    qc_sheet_push(cells, bk, "S1", "QC", mode = "patch", dry_run = FALSE),
+    class = "lv_error_sheet")
+  # Nothing was written: the values are as they were.
+  expect_equal(real(bk, "S1", "QC")$units, before$units)
+})

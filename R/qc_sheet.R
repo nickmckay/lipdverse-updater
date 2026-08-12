@@ -355,6 +355,23 @@ qc_sheet_push <- function(cells, backend, id, tab = "QC", mode = c("patch", "ful
       # A curator's clear writes an empty cell, not the word NA.
       val <- delta$new_value[ok]
       val[is.na(val)] <- ""
+
+      # Curators sort and filter their sheets, which is fine: rows are addressed
+      # by matching TSid, not by remembered position. The one hazard is a sort
+      # landing between the read above and the write below, which would send
+      # every value to the wrong row silently. Re-read the key column and check
+      # the mapping still holds; one extra read is cheap against that.
+      now <- tryCatch(sheet_read(backend, id, tab), error = function(e) NULL)
+      if (!is.null(now) && key %in% names(now)) {
+        moved <- !identical(as.character(now[[key]]), as.character(template[[key]]))
+        if (moved) {
+          cli::cli_abort(c(
+            "{.val {tab}} changed while this run was preparing its write.",
+            i = "Rows have moved, so the addresses computed a moment ago no longer point at the right timeseries.",
+            i = "Nothing was written. Re-run when the sheet is settled."),
+            class = "lv_error_sheet")
+        }
+      }
       sheet_write_cells(backend, id, tab, addr, val)
     }
     receipt$n_written <- sum(ok)
