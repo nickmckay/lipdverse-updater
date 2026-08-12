@@ -714,16 +714,44 @@ lv_value_hashes <- function(dir, cache = NULL, progress = TRUE) {
   }
   if (progress) cli::cli_alert_info("Hashing measurement values in {length(paths)} file{?s}")
 
-  out <- lapply(paths, function(p) {
+  out <- lapply(paths, lv_value_hashes_one)
+  names(out) <- sub("\\.lpd$", "", fs::path_file(paths))
+
+  if (!is.null(cache)) {
+    fs::dir_create(fs::path_dir(cache))
+    saveRDS(list(fingerprint = lv_scan(dir)$fingerprint, hashes = out), cache)
+  }
+  out
+}
+
+#' Hash the measurement values of a single file
+#'
+#' Split out of [lv_value_hashes()] so a caller can parallelise over files. A
+#' whole-database screen is 7,000-odd files of unzip-and-parse, which is the only
+#' slow part of the screen.
+#'
+#' @param p Path to a `.lpd` file.
+#' @param detail Return a tibble carrying the block, variable name and value
+#'   count alongside each hash, rather than the bare hash vector. A screen needs
+#'   those to tell a diagnostic column from a boilerplate one.
+#' @return A character vector of unique column md5s, or a tibble when `detail`.
+#' @keywords internal
+#' @export
+lv_value_hashes_one <- function(p, detail = FALSE) {
+    empty <- if (detail) {
+      tibble::tibble(hash = character(), block = character(), variable = character(),
+                     n = integer(), n_unique = integer())
+    } else character()
     nm <- tryCatch(utils::unzip(p, list = TRUE)$Name, error = function(e) NULL)
     j <- grep("jsonld$", nm, value = TRUE)
-    if (!length(j)) return(character())
+    if (!length(j)) return(empty)
     con <- unz(p, j[1])
     m <- tryCatch(jsonlite::fromJSON(paste(readLines(con, warn = FALSE), collapse = "\n"),
                                      simplifyVector = FALSE), error = function(e) NULL)
     close(con)
-    if (is.null(m)) return(character())
+    if (is.null(m)) return(empty)
     h <- character()
+    det <- list()
     for (blk in c("paleoData", "chronData")) for (pd in m[[blk]]) for (tb in pd$measurementTable) {
       fn <- as_chr1(tb$filename)
       if (is.null(fn)) next
@@ -742,19 +770,19 @@ lv_value_hashes <- function(dir, cache = NULL, progress = TRUE) {
         if (tolower(as_chr1(cl$variableName) %||% "") %in% LV_AXIS_VARIABLES) next
         v <- suppressWarnings(as.numeric(d[[k]])); v <- v[!is.na(v)]
         if (length(v) < 20) next
-        h <- c(h, digest::digest(paste(sprintf("%.6g", v), collapse = ","),
-                                 algo = "md5", serialize = FALSE))
+        hh <- digest::digest(paste(sprintf("%.6g", v), collapse = ","),
+                             algo = "md5", serialize = FALSE)
+        h <- c(h, hh)
+        if (detail) det[[length(det) + 1L]] <- tibble::tibble(
+          hash = hh, block = blk, variable = as_chr1(cl$variableName) %||% NA_character_,
+          n = length(v), n_unique = length(unique(v)))
       }
     }
+    if (detail) {
+      if (!length(det)) return(empty)
+      return(dplyr::distinct(dplyr::bind_rows(det), hash, .keep_all = TRUE))
+    }
     unique(h)
-  })
-  names(out) <- sub("\\.lpd$", "", fs::path_file(paths))
-
-  if (!is.null(cache)) {
-    fs::dir_create(fs::path_dir(cache))
-    saveRDS(list(fingerprint = lv_scan(dir)$fingerprint, hashes = out), cache)
-  }
-  out
 }
 
 #' Screen incoming datasets against the database for duplicates
