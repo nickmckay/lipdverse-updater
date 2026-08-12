@@ -41,3 +41,24 @@ test_that("offering appends only the datasets not already listed", {
   # The existing row is untouched: this appends, it does not rewrite.
   expect_equal(back$dsid[back$dsn == "Old.Author.2000"], "D0")
 })
+
+test_that("a new compilation's sheet has somewhere to record QC", {
+  # Certification columns come from the registry, not from the data: a brand new
+  # compilation has no certification values, so building columns only from the
+  # cells leaves a curator able to review but unable to record it.
+  reg <- lv_qc_fields()
+  cells <- tibble::tibble(tsid = "T1", field = "paleoData_variableName",
+                          value = "temperature", present = TRUE)
+  idx <- list(timeseries = tibble::tibble(TSid = "T1", dataSetName = "A.Author.2001"),
+              datasets = tibble::tibble(fileDataSetName = "A.Author.2001",
+                                        datasetId = "D1"))
+
+  plain <- lv_compilation_sheet(cells, idx, reg)
+  withcsm <- lv_compilation_sheet(cells, idx, reg, compilation = "hydroclimate2k")
+
+  expect_false(any(grepl("Certification", names(plain$QC))))
+  expect_true(any(grepl("Certification", names(withcsm$QC))))
+  # Blank, not invented.
+  cert <- grep("Certification", names(withcsm$QC), value = TRUE)[1]
+  expect_true(all(is.na(withcsm$QC[[cert]])))
+})

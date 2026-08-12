@@ -121,7 +121,10 @@ validate_qc_fields <- function(x) {
   # and every part must be well formed, not just the first.
   csm <- x[x$role == "csm", ]
   ok <- vapply(csm$csm_flat_key, function(k) {
-    !is.na(k) && all(grepl("^[A-Za-z0-9]+_csm_.+", strsplit(k, ";", fixed = TRUE)[[1]]))
+    # Hyphens are legitimate in a compilation name -- NAm21k-noPollen,
+    # SISAL-LiPD, LegacyClimate-LiPD -- and the first of those to gain a csm
+    # field failed this check for that reason alone.
+    !is.na(k) && all(grepl("^[A-Za-z0-9-]+_csm_.+", strsplit(k, ";", fixed = TRUE)[[1]]))
   }, logical(1), USE.NAMES = FALSE)
   if (any(!ok)) {
     cli::cli_abort("csm field{?s} with a malformed flat key: {.val {csm$qc_name[!ok]}}",

@@ -179,7 +179,13 @@ lv_apply_to_lipd <- function(L, cells) {
       # would silently relocate the value to a different publication.
       if (j <= length(L$pub) + 1L) {
         if (j > length(L$pub)) L$pub[[j]] <- list()
-        L$pub[[j]][[r$key]] <- v
+        # An author is an array of records in LiPD, and the QC sheet shows it
+        # as one string. Writing the string straight back makes the pub section
+        # invalid -- validLipd reports "author field should be a list" -- so it
+        # is rebuilt into the shape it came from. The read flattens; the write
+        # has to unflatten, or the round trip is lossy in a way the sheet hides.
+        L$pub[[j]][[r$key]] <- if (r$key %in% LV_PUB_AUTHOR_KEYS)
+          lv_author_records(v) else v
       } else {
         issues <- lv_issues_bind(issues, lv_issues(
           check = "pub_index_gap", severity = "warn",
@@ -280,4 +286,18 @@ lv_coerce_value <- function(x) {
   n <- suppressWarnings(as.numeric(x))
   if (!is.na(n) && grepl("^\\s*-?[0-9.]+([eE][-+]?[0-9]+)?\\s*$", x)) return(n)
   x
+}
+
+# Publication keys that hold an array of author records rather than a string.
+LV_PUB_AUTHOR_KEYS <- c("author", "authors")
+
+# Rebuild the author array from the flattened string the sheet carries.
+# lv_scalar_value() joins names with "; ", so that is what splits them again.
+lv_author_records <- function(v) {
+  s <- trimws(as.character(v)[1])
+  if (is.na(s) || !nzchar(s)) return(NULL)
+  parts <- trimws(strsplit(s, ";", fixed = TRUE)[[1]])
+  parts <- parts[nzchar(parts)]
+  if (!length(parts)) return(NULL)
+  lapply(parts, function(p) list(name = p))
 }

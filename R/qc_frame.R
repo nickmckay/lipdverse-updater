@@ -72,6 +72,20 @@ qc_frame <- function(dir = lv_path("database"), registry = lv_qc_fields(),
   out[!duplicated(paste(out$tsid, out$field)), , drop = FALSE]
 }
 
+# A value flattened to one string. Publication authors arrive as an array of
+# records -- list(list(name = "Castaneda, Isla S.")) -- and as.character() on
+# that returns the R source text, so "list(name = \"Castaneda, Isla S.\")" was
+# what reached the QC sheet. Cosmetic until a curator edits a neighbouring cell,
+# at which point the merge writes that string back into the file as an author.
+lv_scalar_value <- function(v) {
+  if (is.list(v)) {
+    nm <- unlist(lapply(v, function(e) if (is.list(e)) e[["name"]] else e), use.names = FALSE)
+    if (!length(nm)) nm <- unlist(v, use.names = FALSE)
+    v <- paste(as.character(nm[!is.na(nm) & nzchar(as.character(nm))]), collapse = "; ")
+  }
+  scalar_chr(v)
+}
+
 qc_frame_one <- function(path, canon) {
   m <- tryCatch({
     nms <- utils::unzip(path, list = TRUE)$Name
@@ -95,7 +109,7 @@ qc_frame_one <- function(path, canon) {
   add_root <- function(k, v) {
     nm <- cnq(k)
     if (is.null(nm)) return(invisible())
-    s <- scalar_chr(v)
+    s <- lv_scalar_value(v)
     if (length(s) != 1 || is.na(s) || !nzchar(s)) return(invisible())
     root[[nm]] <<- s
   }

@@ -313,12 +313,28 @@ lv_drop_membership <- function(L, tsids, compilation) {
 #' @param registry Field registry.
 #' @return A named list of data frames, one per tab.
 #' @export
-lv_compilation_sheet <- function(cells, index, registry = lv_qc_fields()) {
+lv_compilation_sheet <- function(cells, index, registry = lv_qc_fields(),
+                                 compilation = NULL) {
   # Thematic, not alphabetical. qc_cells_to_sheet already orders this way when
   # given no template; sorting again here undid it, and a newly created sheet is
   # exactly where the grouping matters most -- there is no existing layout for a
   # lead to fall back on.
   qc <- qc_cells_to_sheet(cells, registry)
+
+  # A new compilation has no certification values yet, so those columns cannot
+  # come from the cells -- and a sheet with nowhere to record that a timeseries
+  # was reviewed is a sheet a curator cannot finish. They are added blank, which
+  # is also the sanctioned way a column comes into being: created on the sheet,
+  # for someone to fill.
+  if (!is.null(compilation)) {
+    csm <- registry[registry$role %in% "csm" &
+                      !is.na(registry$csm_compilation) &
+                      registry$csm_compilation %in% compilation, , drop = FALSE]
+    for (f in csm$qc_name) {
+      nm <- lv_display_field(f, registry)
+      if (!nm %in% names(qc)) qc[[nm]] <- NA_character_
+    }
+  }
 
   # The membership tab catalogues the *whole database*, not just the members.
   # That is what makes a new dataset visible: a curator flips it to TRUE here,

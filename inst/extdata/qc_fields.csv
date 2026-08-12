@@ -254,3 +254,7 @@ hasResolution_nominal,,hasResolution_nominal,delete,,,,,,,,,,other,14,TRUE,1,285
 paleoData_hasUncertainty,,paleoData_hasUncertainty,delete,,,,,,,,,,measurement,6,TRUE,1,7
 description,paleoData_description,description,synonym,,,timeseries,character,,paleoData_description,,,,other,14,TRUE,0,0
 paleoData_inCompilation,,paleoData_inCompilation,csm_pending,,,,,,,,,,compilation,12,FALSE,4,1622
+paleoData_NAm21k-noPollenCertification,,paleoData_NAm21k-noPollenCertification,csm,,,,,,,NAm21k-noPollen,QCCertification,NAm21k-noPollen_csm_QCCertification,compilation,12,FALSE,1,0
+paleoData_NAm21k-noPollenQCnotes,,paleoData_NAm21k-noPollenQCnotes,csm,,,,,,,NAm21k-noPollen,QCnotes,NAm21k-noPollen_csm_QCnotes,compilation,12,FALSE,1,0
+NAm21k-noPollen Certification,paleoData_NAm21k-noPollenCertification,NAm21k-noPollen Certification,synonym,,,timeseries,character,,paleoData_NAm21k-noPollenCertification,,,,compilation,12,FALSE,0,0
+NAm21k-noPollen QC notes,paleoData_NAm21k-noPollenQCnotes,NAm21k-noPollen QC notes,synonym,,,timeseries,character,,paleoData_NAm21k-noPollenQCnotes,,,,compilation,12,FALSE,0,0
