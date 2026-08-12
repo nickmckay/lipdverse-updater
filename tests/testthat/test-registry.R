@@ -71,14 +71,24 @@ test_that("non-merged roles need no ownership", {
 })
 
 test_that("csm fields must carry a well-formed flat key", {
-  expect_error(validate_qc_fields(reg(role = "csm", ownership = NA_character_,
-                                      nullable_by_curator = NA_character_,
+  expect_error(validate_qc_fields(reg(role = "csm", ownership = "curator",
+                                      nullable_by_curator = "FALSE",
                                       csm_flat_key = "not a csm key")),
                class = "lv_error_registry")
-  expect_silent(validate_qc_fields(reg(role = "csm", ownership = NA_character_,
-                                       nullable_by_curator = NA_character_,
+  expect_silent(validate_qc_fields(reg(role = "csm", ownership = "curator",
+                                       nullable_by_curator = "FALSE",
                                        csm_compilation = "iso2k", csm_field = "certification",
                                        csm_flat_key = "iso2k_csm_certification")))
+})
+
+test_that("a csm field without an ownership rule is refused", {
+  # csm is merged like any other field, so without a rule every real curator
+  # edit lands as a conflict, which retains base and looks like a quiet run.
+  expect_error(validate_qc_fields(reg(role = "csm", ownership = NA_character_,
+                                      nullable_by_curator = NA_character_,
+                                      csm_compilation = "iso2k", csm_field = "certification",
+                                      csm_flat_key = "iso2k_csm_certification")),
+               class = "lv_error_registry")
 })
 
 test_that("a synonym pointing nowhere warns but does not abort", {

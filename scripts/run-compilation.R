@@ -87,6 +87,26 @@ if (length(orphan)) {
 base  <- qc_state_current(store, comp)
 sheet <- qc_sheet_pull(bk, cfg$qc_sheet_id, cfg$qc_tabs$qc)
 
+# A QC sheet can carry another compilation's csm column -- sheets are copied
+# from one another, and the registry has a synonym for iso2k's certification
+# column. Held back here rather than at write time, so a cross-compilation csm
+# conflict cannot arise: a foreign cell that reaches the plan also reaches the
+# resolved state, and from there the store and the sheet push.
+#
+# The store is deliberately not scoped. A cell the store holds and the state
+# does not becomes a tombstone, so filtering the baseline would record deletions
+# of another compilation's values instead of leaving them alone.
+scoped <- lv_csm_scope(sheet, comp)
+sheet <- scoped$cells
+if (nrow(scoped$foreign)) {
+  cat(sprintf("\nforeign csm : %d cell%s in %d column%s belonging to another compilation; not merged\n",
+              nrow(scoped$foreign), if (nrow(scoped$foreign) == 1) "" else "s",
+              dplyr::n_distinct(scoped$foreign$field),
+              if (dplyr::n_distinct(scoped$foreign$field) == 1) "" else "s"))
+  print(as.data.frame(count(tibble::as_tibble(scoped$foreign), field)), right = FALSE)
+  readr::write_csv(scoped$foreign, file.path(lv_run_dir(run), "foreign-csm.csv"), na = "")
+}
+
 # Report text corruption, never repair it here. Repairing means writing to a
 # shared sheet, which is not something an unattended run should do. Reporting
 # means a run cannot quietly carry `‚Äì` and `Œ¥` into the files, which is how
@@ -102,6 +122,10 @@ frame <- qc_frame(db, datasets = ds, progress = FALSE)
 frame <- frame[frame$tsid %in% ts, , drop = FALSE]
 # Membership is not stored as a field, so the file-side view is derived.
 frame <- dplyr::bind_rows(frame, lv_membership_frame(idx, comp, ts))
+# Compilation-specific metadata lives inside the inCompilation entry rather than
+# in the shared namespace, so qc_frame() cannot see it and it arrives separately.
+frame <- dplyr::bind_rows(frame, lv_csm_frame(db, comp, datasets = ds, tsids = ts,
+                                              progress = FALSE))
 cat(sprintf("base        : %d cells\nsheet       : %d cells\nframe       : %d cells\n",
             nrow(base), nrow(sheet), nrow(frame)))
 
@@ -174,8 +198,17 @@ if (nrow(bad)) {
     cat(sprintf("  review    : %s\n", vrev))
   }
 }
-cat(sprintf("\nto write    : %d cell%s from the sheet\n", nrow(write_cells),
-            if (nrow(write_cells) == 1) "" else "s"))
+# csm goes into the inCompilation entry, not into the shared namespace, so it is
+# written by its own applier. Split after validation, so a curator's csm value is
+# screened like any other, and before apply, because lv_apply_qc() drops these
+# cells silently -- which is how they reached no file for as long as they did.
+is_csm <- lv_field_rule(write_cells$field)$role %in% "csm"
+csm_cells <- write_cells[is_csm, , drop = FALSE]
+write_cells <- write_cells[!is_csm, , drop = FALSE]
+
+cat(sprintf("\nto write    : %d cell%s from the sheet, %d of them compilation-specific\n",
+            nrow(write_cells) + nrow(csm_cells),
+            if (nrow(write_cells) + nrow(csm_cells) == 1) "" else "s", nrow(csm_cells)))
 
 # ---- apply -----------------------------------------------------------------
 
@@ -195,16 +228,32 @@ if (length(mres$added) || length(mres$removed)) {
 }
 if (lv_n_issues(mres$issues, "error")) stop("membership produced errors; not promoting")
 
+# Point the index at staging for datasets an earlier stage already rewrote, so
+# the stages compose into one file. Reading those from the database again would
+# silently drop the earlier change when the next stage writes the same filename.
+aidx <- idx
+point_at_stage <- function(dsns) {
+  if (!length(dsns)) return(invisible())
+  hit <- match(dsns, aidx$datasets$fileDataSetName)
+  hit <- hit[!is.na(hit)]
+  aidx$datasets$path[hit] <<- fs::path(stage, paste0(aidx$datasets$fileDataSetName[hit], ".lpd"))
+}
+point_at_stage(mres$datasets)
+
+# csm after membership and before the shared fields: it writes into the
+# inCompilation entry membership may have just created, so a timeseries admitted
+# and certified in the same run gets both.
+if (nrow(csm_cells)) {
+  cres <- lv_apply_csm(csm_cells, aidx, comp, dir = db, out = stage, progress = FALSE)
+  cat(sprintf("csm         : %d cell%s across %d dataset%s\n", cres$n,
+              if (cres$n == 1) "" else "s", length(cres$datasets),
+              if (length(cres$datasets) == 1) "" else "s"))
+  if (nrow(cres$issues)) print(as.data.frame(count(tibble::as_tibble(cres$issues), check, severity)))
+  if (lv_n_issues(cres$issues, "error")) stop("csm produced errors; not promoting")
+  point_at_stage(cres$datasets)
+}
+
 if (nrow(write_cells)) {
-  # Point the index at staging for datasets membership already rewrote, so the
-  # two stages compose into one file. Reading those from the database again
-  # would silently drop the membership change when this stage writes the same
-  # filename.
-  aidx <- idx
-  if (length(mres$datasets)) {
-    hit <- match(mres$datasets, aidx$datasets$fileDataSetName)
-    aidx$datasets$path[hit] <- fs::path(stage, paste0(mres$datasets, ".lpd"))
-  }
   iss <- lv_apply_qc(write_cells, db, stage, index = aidx, progress = FALSE)
   if (nrow(iss)) print(as.data.frame(count(tibble::as_tibble(iss), check, severity)))
   if (lv_n_issues(iss, "error")) stop("apply produced errors; not promoting")
@@ -405,6 +454,10 @@ if (commit) {
   base2  <- qc_state_current(store, comp)
   frame2 <- qc_frame(db, datasets = ds, progress = FALSE)
   frame2 <- frame2[frame2$tsid %in% ts, , drop = FALSE]
+  # Including csm, so a csm value that failed to reach its file shows up here as
+  # a cell the run would write again rather than passing as idempotent.
+  frame2 <- dplyr::bind_rows(frame2, lv_csm_frame(db, comp, datasets = ds, tsids = ts,
+                                                  progress = FALSE))
   plan2  <- qc_merge(base2, qc_sheet_pull(bk, cfg$qc_sheet_id, cfg$qc_tabs$qc), frame2)
   n2 <- plan2$summary$n_changed
   cat(sprintf("changes on a second run: %d\n", n2))

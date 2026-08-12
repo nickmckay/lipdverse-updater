@@ -143,6 +143,19 @@ validate_qc_fields <- function(x) {
     cli::cli_abort("csm field{?s} with a malformed flat key: {.val {csm$qc_name[!ok]}}",
                    class = "lv_error_registry")
   }
+  # csm is merged under the same rules as any other field, so it needs the same
+  # ownership rule. Absent, `qc_merge()` has nothing to consult on divergence and
+  # every real curator edit to a certification lands as a conflict instead of a
+  # change -- silently, since a conflict retains base and looks like a quiet run.
+  bad_csm <- csm$qc_name[!csm$ownership %in% c("curator", "machine", "shared")]
+  if (length(bad_csm)) {
+    cli::cli_abort(c(
+      "{length(bad_csm)} csm field{?s} without an ownership rule.",
+      i = "{.val {utils::head(bad_csm, 8)}}",
+      i = "Set it in {.path data-raw/build_qc_fields.R} and rebuild."
+    ), class = "lv_error_registry")
+  }
+
   # The number of targets must match the number of compilations named.
   n_key <- lengths(strsplit(csm$csm_flat_key, ";", fixed = TRUE))
   n_comp <- lengths(strsplit(csm$csm_compilation %||% "", ";", fixed = TRUE))

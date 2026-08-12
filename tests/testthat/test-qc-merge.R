@@ -214,8 +214,11 @@ test_that("a curator value is never lost across the whole rule table", {
 })
 
 test_that("fields outside the merge roles are ignored", {
+  # `control` is an instruction column the pipeline consumes, not a value: it
+  # has no place in a file, so it must not survive the merge. csm was the
+  # example here until csm gained a file side of its own.
   reg <- dplyr::mutate(test_registry(),
-                       role = ifelse(qc_name == "archiveType", "csm", role))
+                       role = ifelse(qc_name == "archiveType", "control", role))
   p <- qc_merge(cells("T1","archiveType","coral"),
                 cells("T1","archiveType","Coral"),
                 cells("T1","archiveType","coral"),

@@ -135,13 +135,22 @@ reg <- terms |>
       role == "merged"     ~ ownership,
       # The curator decides membership; the files only report it.
       role == "membership" ~ "curator",
+      # csm is a judgement the compilation makes about a dataset, so its QC
+      # sheet is the authority. Without a rule here the merge has nothing to
+      # consult on divergence and every genuine edit lands as a conflict.
+      role == "csm"        ~ "curator",
       TRUE                 ~ NA_character_),
     # Not nullable: a blank means "no opinion", not "remove this timeseries".
     # Most cells in a real QC tab are blank, so a blank clearing membership
     # would drop most of a compilation on its first run. Removal requires an
     # explicit FALSE.
-    nullable_by_curator = ifelse(role %in% c("merged", "membership"),
-                                 ifelse(role == "membership", "FALSE", nullable_by_curator),
+    #
+    # csm is FALSE for the same reason. A certification column is mostly blank,
+    # and those blanks are "not reviewed yet", not "un-certify this". Deleting a
+    # csm value stays possible through the <<CLEAR>> sentinel, which says so.
+    nullable_by_curator = ifelse(role %in% c("merged", "membership", "csm"),
+                                 ifelse(role %in% c("membership", "csm"), "FALSE",
+                                        nullable_by_curator),
                                  NA_character_),
     cardinality = case_when(
       same_across_dataset == "TRUE"  ~ "dataset",

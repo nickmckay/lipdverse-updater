@@ -158,11 +158,16 @@ qc_merge <- function(base, sheet, frame, registry = lv_qc_fields(),
   cells$nullable <- rule$nullable_by_curator %in% TRUE
   cells$known_field <- rule$known
 
-  # Only fields that participate in the merge. `membership` is merged by the
-  # same rules as a curator-owned field -- it just gets applied to the
-  # inCompilation structure rather than written as a key. Everything else (csm,
-  # synonym, control, unused, delete) is handled elsewhere or not at all.
-  cells <- cells[cells$role %in% c("merged", "membership", "key") | !cells$known_field,
+  # Only fields that participate in the merge. `membership` and `csm` are merged
+  # by the same rules as a curator-owned field -- they just get applied to the
+  # inCompilation structure rather than written as a key. Everything else
+  # (synonym, control, unused, delete) is handled elsewhere or not at all.
+  #
+  # csm used to fall out here, and out of qc_frame() on the other side, so a
+  # certification a curator typed reached no file at all: hydroclimate2k's store
+  # held 248,428 cells and not one of them was csm. The file side now arrives
+  # from lv_csm_frame() and is written by lv_apply_csm().
+  cells <- cells[cells$role %in% c("merged", "membership", "csm", "key") | !cells$known_field,
                  , drop = FALSE]
 
   # With no rows, ifelse() below returns logical(0) and case_when cannot

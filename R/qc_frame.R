@@ -8,8 +8,10 @@
 #' depended on which fields happened to be populated, so a field absent from
 #' every loaded dataset simply vanished from the comparison.
 #'
-#' Only fields the registry marks `merged` or `key` are extracted; compilation
-#' metadata now lives in `csm` and is not part of the shared merge.
+#' Only fields the registry marks `merged` or `key` are extracted. Compilation
+#' metadata lives in `csm` inside `inCompilation`, which is a different shape and
+#' has to be read per compilation: [lv_csm_frame()] does that, and the runner
+#' binds the two frames together before merging.
 #'
 #' @param dir Directory of `.lpd` files, or an `lv_scan`.
 #' @param registry Field registry.

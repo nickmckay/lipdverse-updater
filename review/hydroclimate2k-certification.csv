@@ -1,0 +1,504 @@
+tsid,dataSetName,class,suggested_action,suggested_value,decision,sheet_value,csm_value,flat_private,flat_shared,is_member,sheet_membership,on_qc_tab,file_value_in_sheet_vocabulary
+LS01HOCH,LS01HOCH,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,MJ,,,TRUE,TRUE,TRUE,TRUE
+LS03RUED,LS03RUED,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,MJ,,,TRUE,TRUE,TRUE,TRUE
+LS05HOAG01,LS05HOAG,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,MJ,,,TRUE,TRUE,TRUE,TRUE
+LS05HOAG02,LS05HOAG,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,MJ,,,TRUE,TRUE,TRUE,TRUE
+LS05HOAG03,LS05HOAG,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,MJ,,,TRUE,TRUE,TRUE,TRUE
+LS06STFO,LS06STFO,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,MJ,,,TRUE,TRUE,TRUE,TRUE
+LS07LAHA,LS07LAHA,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,MJ,,,TRUE,TRUE,TRUE,TRUE
+LS07ROTI,LS07ROTI,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,MJ,,,TRUE,TRUE,TRUE,TRUE
+LS08STCR,LS08STCR,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,MJ,,,TRUE,TRUE,TRUE,TRUE
+LS10HEQI01a,LS10HEQI,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,MJ,,,TRUE,TRUE,TRUE,TRUE
+LS11BIPU01a,LS11BIPU,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,MJ,,,TRUE,TRUE,TRUE,TRUE
+LS11NECA,LS11NECA,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,MJ,,,TRUE,TRUE,TRUE,TRUE
+LS13STEL,LS13STEL,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,MJ,,,TRUE,TRUE,TRUE,TRUE
+LS14LESA01a,LS14LESA,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,MJ,,,TRUE,TRUE,TRUE,TRUE
+LS14PRLO01a,LS14PRLO,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,MJ,,,TRUE,TRUE,TRUE,TRUE
+LS15BHAL,LS15BHAL,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,MJ,,,TRUE,TRUE,TRUE,TRUE
+WEBab3eac63,LS17STNU01,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,MJ,,,TRUE,TRUE,TRUE,TRUE
+LS91HOMI,LS91HOMI,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,MJ,,,TRUE,TRUE,TRUE,TRUE
+LS96VOAM01_iso2k,LS96VOAM,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,MJ,,,TRUE,TRUE,TRUE,TRUE
+LS97HOKA1a,LS97HOKA,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,MJ,,,TRUE,TRUE,TRUE,TRUE
+WEB8e0a7386,Bunkercave.Fohlmeister.2012,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,CH,,,TRUE,TRUE,TRUE,FALSE
+Ocean2kHR_006_iso2k,CO03CHBA,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DMT (1/14/19),,,TRUE,TRUE,TRUE,FALSE
+Ocean2kHR_171_iso2k,CO03CHBU,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DMT (1/14/19),,,TRUE,TRUE,TRUE,FALSE
+CO04MGNG01A,CO04MGNG,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DMT (1/14/19),,,TRUE,TRUE,TRUE,FALSE
+Ocean2kHR_107_iso2k,CO06MOPE,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DMT (1/14/19),,,TRUE,TRUE,TRUE,FALSE
+Ocean2kHR_110_iso2k,CO06MOTO,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DMT (1/14/19),,,TRUE,TRUE,TRUE,FALSE
+Ocean2kHR_193_iso2k,CO07CAFR,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DMT (1/14/19),,,TRUE,TRUE,TRUE,FALSE
+Ocean2kHR_162_iso2k,CO11NUPM,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DMT (1/14/19; updated 12/31/19),,,TRUE,TRUE,TRUE,FALSE
+Ocean2kHR_154_iso2k,CO12GOVA,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DMT (1/14/19),,,TRUE,TRUE,TRUE,FALSE
+WEB396032ca,CO13DESC01A,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DMT (1/14/19),,,TRUE,TRUE,TRUE,FALSE
+WEBa131bf7e,CO13DESC01A,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DMT (1/14/19),,,TRUE,TRUE,TRUE,FALSE
+CO13HENG02A,CO13HENG,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DMT (1/14/19),,,TRUE,TRUE,TRUE,FALSE
+CO13HENG03A,CO13HENG,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DMT (1/14/19),,,TRUE,TRUE,TRUE,FALSE
+CO14CABT01B,CO14CABT,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DMT (1/14/19; updated 12/31/19),,,TRUE,TRUE,TRUE,FALSE
+CO14CABT01B2,CO14CABT,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DMT (1/14/19; updated 12/31/19),,,TRUE,TRUE,TRUE,FALSE
+CO14CATI01B,CO14CATI,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DMT (1/14/19; updated 12/31/19),,,TRUE,TRUE,TRUE,FALSE
+Ocean2kHR_181_iso2k,CO14OSPA,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DMT (1/14/19),,,TRUE,TRUE,TRUE,FALSE
+Ocean2kHR_183_iso2k,CO14OSPA,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DMT (1/14/19),,,TRUE,TRUE,TRUE,FALSE
+WEB832ffc0e,CO17DESC01A,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DMT (1/14/19),,,TRUE,TRUE,TRUE,FALSE
+WEBe86ec079,CO17DESC01A,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DMT (1/14/19; updated 12/31/19),,,TRUE,TRUE,TRUE,FALSE
+WEB832ffc0e222,CO17DESC04A,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DMT (1/14/19),,,TRUE,TRUE,TRUE,FALSE
+WEBe86ec079222,CO17DESC04A,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DMT (1/14/19; updated 12/31/19),,,TRUE,TRUE,TRUE,FALSE
+WEB1a9fc096,CO17MUMA,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DMT (12/30/19),,,TRUE,TRUE,TRUE,FALSE
+WEB0e874eb3,CO17RAPA,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DMT (1/14/19; updated 12/31/19),,,TRUE,TRUE,TRUE,FALSE
+WEB9aced55a,CO17RAPA,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DMT (1/14/19; updated 12/31/19),,,TRUE,TRUE,TRUE,FALSE
+WEBa131bf7e2,CO17XISC01A,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DMT (1/14/19; updated 12/31/19),,,TRUE,TRUE,TRUE,FALSE
+WEBc0eedb9c,CO18HECO01A,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DMT (1/14/19),,,TRUE,TRUE,TRUE,FALSE
+Ocean2kHR_178_iso2k,CO93COTW,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DMT (1/14/19),,,TRUE,TRUE,TRUE,FALSE
+Ocean2kHR_138_iso2k,CO94LISE,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DMT (1/14/19); KLD,,,TRUE,TRUE,TRUE,FALSE
+Ocean2kHR_172_iso2k,CO95TUNG,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DMT (1/14/19; updated 12/31/19),,,TRUE,TRUE,TRUE,FALSE
+CO96SWBB01A,CO96SWBB,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DMT (1/14/19),,,TRUE,TRUE,TRUE,FALSE
+CO96SWFB01A,CO96SWFB,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DMT (1/14/19),,,TRUE,TRUE,TRUE,FALSE
+CO98SWPR01A,CO98SWPR,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DMT (1/14/19),,,TRUE,TRUE,TRUE,FALSE
+CO99SWFB01A,CO99SWFB,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DMT (1/14/19),,,TRUE,TRUE,TRUE,FALSE
+S2LROeXqCyQIUp,Chaaracave.AitBrahim.2018,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"CH, CR",,,TRUE,TRUE,TRUE,FALSE
+S2LRU6xGJ9gjMj,Chaaracave.AitBrahim.2018,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"CH, CR",,,TRUE,TRUE,TRUE,FALSE
+S2LR8y2zPv8frL,CuevadeAsiul.Smith.2016,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,CH,,,TRUE,TRUE,TRUE,FALSE
+S2LRaRacqzp90y,DeSotocaverns.Aharon.2013,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,CH,,,TRUE,TRUE,TRUE,FALSE
+WEBe297c3e8,Delingha.Yang.2021,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,CR,,,TRUE,TRUE,TRUE,FALSE
+S2LRbPwlTL981A,Donggecave.Yuan.2004,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"CH, CR",,,TRUE,TRUE,TRUE,FALSE
+GHd57f7596,GRIP_accumulation.Vinther.2006,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,CH,,,TRUE,TRUE,TRUE,FALSE
+WEB-49aac-c148-4e76-809a-362e4,GeoB10065-7.Steinke.2014,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,CR,,,TRUE,TRUE,TRUE,FALSE
+lcRlao41kuFDZ74153k,GooseBayMarsh.Rippke.2010,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,CH,,,TRUE,TRUE,TRUE,FALSE
+S2LRUj7txiX4BK,GrottedePiste.AitBrahim.2018,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"CH, CR",,,TRUE,TRUE,TRUE,FALSE
+S2LR984dImqQzT,Heshangcave.C..2008,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"CH, CR",,,TRUE,TRUE,TRUE,FALSE
+S2LRAwkFTDejje,Hoqcave.VanRampelbergh.2013,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"CH, CR",,,TRUE,TRUE,TRUE,FALSE
+S2LRYaQyDMwILZ,Hoqcave.VanRampelbergh.2013,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"CH, CR",,,TRUE,TRUE,TRUE,FALSE
+S2LRBXVhP2hFuP,Huagapocave.Kanner.2013,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"CH, CR",,,TRUE,TRUE,TRUE,FALSE
+IC00COPR01A,IC00COPR,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO (01/15/2019),,,TRUE,TRUE,TRUE,FALSE
+IC00EIGG01A,IC00EIGG,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC00OE0202A,IC00OE02,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO (01/15/2019),,,TRUE,TRUE,TRUE,FALSE
+IC00OE0302A,IC00OE03,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO (01/15/2019),,,TRUE,TRUE,TRUE,FALSE
+IC00OE0503A,IC00OE05,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO (01/15/2019),,,TRUE,TRUE,TRUE,FALSE
+IC00OE1101A,IC00OE11,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO (01/15/2019),,,TRUE,TRUE,TRUE,FALSE
+IC00OE1201A,IC00OE12,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO (01/15/2019),,,TRUE,TRUE,TRUE,FALSE
+IC00OE1301A,IC00OE13,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO (01/15/2019),,,TRUE,TRUE,TRUE,FALSE
+IC00OE1401A,IC00OE14,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO (01/15/2019),,,TRUE,TRUE,TRUE,FALSE
+IC00OE1501A,IC00OE15,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO (01/15/2019),,,TRUE,TRUE,TRUE,FALSE
+IC00OE1601A,IC00OE16,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO (01/15/2019),,,TRUE,TRUE,TRUE,FALSE
+IC00OE1801A,IC00OE18,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO (01/15/2019),,,TRUE,TRUE,TRUE,FALSE
+IC00OE1901A,IC00OE19,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO (01/15/2019),,,TRUE,TRUE,TRUE,FALSE
+IC00OE2001A,IC00OE20,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO (01/15/2019),,,TRUE,TRUE,TRUE,FALSE
+IC00OE2101A,IC00OE21,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO (01/15/2019),,,TRUE,TRUE,TRUE,FALSE
+IC00OE2201A,IC00OE22,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO (01/15/2019),,,TRUE,TRUE,TRUE,FALSE
+IC00OE2301A,IC00OE23,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO (01/15/2019),,,TRUE,TRUE,TRUE,FALSE
+IC00OEKC01A,IC00OEKC,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO (01/15/2019),,,TRUE,TRUE,TRUE,FALSE
+IC00SC1601A,IC00SC16,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC00SC1801A,IC00SC18,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC00SC2101A,IC00SC21,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC00SC2601A,IC00SC26,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC00SC2901A,IC00SC29,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC00STHN01A,IC00STHN,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO (01/15/2019),,,TRUE,TRUE,TRUE,FALSE
+IC00STTY01A,IC00STTY,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO (01/15/2019),,,TRUE,TRUE,TRUE,FALSE
+IC00THDS03A,IC00THDS,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC00THDS03B,IC00THDS,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC01JO0101A,IC01JO01,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO (01/15/2019),,,TRUE,TRUE,TRUE,FALSE
+IC02GR0501A,IC02GR05,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO (01/15/2019),,,TRUE,TRUE,TRUE,FALSE
+IC02GR0701A,IC02GR07,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO (01/15/2019),,,TRUE,TRUE,TRUE,FALSE
+IC02GR1701A,IC02GR17,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO (01/15/2019),,,TRUE,TRUE,TRUE,FALSE
+IC02HEWD01A,IC02HEWD,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC02MUBI01A,IC02MUBI,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO (01/16/2019),,,TRUE,TRUE,TRUE,FALSE
+IC02SCGN01A,IC02SCGN,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO (01/16/2019),,,TRUE,TRUE,TRUE,FALSE
+IC02STTA02A,IC02STTA,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO (01/16/2019),,,TRUE,TRUE,TRUE,FALSE
+IC02THKI02A,IC02THKI,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC02THKI03A,IC02THKI,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC02THKI04A,IC02THKI,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC02THKI05A,IC02THKI,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC03HOIL01A,IC03HOIL,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC03HORB01A,IC03HORB,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC04FIML01A,IC04FIML,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC05ISAU01A,IC05ISAU,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"DVD, TO",,,TRUE,TRUE,TRUE,FALSE
+IC06KAS101A,IC06KAS1,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO (01/16/2019),,,TRUE,TRUE,TRUE,FALSE
+IC06THDD01A,IC06THDD,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC06THPR01A,IC06THPR,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC06THPR02A,IC06THPR,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC06THPR02B,IC06THPR,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC06VID301A,IC06VID3,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC06VIGR01A,IC06VIGR,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC06VING01A,IC06VING,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC06WAML01A,IC06WAML,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC07KADF01A,IC07KADF,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO (01/16/2019),,,TRUE,TRUE,TRUE,FALSE
+IC07KARB01A,IC07KARB,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC08DILO01A,IC08DILO,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC08HODF02A,IC08HODF,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC08THGZ01A,IC08THGZ,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC08VI7901A,IC08VI79,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC08VI8401A,IC08VI84,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC08VI8701A,IC08VI87,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC08VIRE01A,IC08VIRE,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC09EIBE01A,IC09EIBE,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC09KA7901A,IC09KA79,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC09KAD301A,IC09KAD3,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC09KANG01A,IC09KANG,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC09OPAN01A,IC09OPAN,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"DVD, TO",,,TRUE,TRUE,TRUE,FALSE
+IC09OPAN01B,IC09OPAN,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"DVD, TO",,,TRUE,TRUE,TRUE,FALSE
+IC09OPAN01C,IC09OPAN,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"DVD, TO",,,TRUE,TRUE,TRUE,FALSE
+IC09VIA800A,IC09VIA8,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC09VICC01A,IC09VICC,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC09VIRE01A,IC09VIRE,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC10NAB501A,IC10NAB5,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC10VICR01A,IC10VICR,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC10VID302A,IC10VID3,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC10VIGI01B,IC10VIGI,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC10VIGR01A,IC10VIGR,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC10VIMI01B,IC10VIMI,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC10VIP100B,IC10VIP1,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC10VIP200B,IC10VIP2,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC10VIP300B,IC10VIP3,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC10VIRE01B,IC10VIRE,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC10VISA01B,IC10VISA,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC10VISD01B,IC10VISD,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC10VISE01B,IC10VISE,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC10VISG01B,IC10VISG,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC11BEVL01A,IC11BEVL,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC11DILO01A,IC11DILO,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC11KIPW01A,IC11KIPW,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC11LAB401A,IC11LAB4,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC11LIMI01A,IC11LIMI,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC11STTA01A,IC11STTA,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC12MUJR01A,IC12MUJR,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC12RHME01A,IC12RHME,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC12SIWG01A,IC12SIWG,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC12WACD01A,IC12WACD,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC13BOCG02A,IC13BOCG,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC13BOCG03A,IC13BOCG,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC13BOCG04A,IC13BOCG,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC13OPAN01A,IC13OPAN,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"DVD, TO",,,TRUE,TRUE,TRUE,FALSE
+IC13PALD01A,IC13PALD,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC13ST0101A,IC13ST01,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC13ST0401A,IC13ST04,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC13ST0501A,IC13ST05,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC13ST1201A,IC13ST12,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC13ST1301A,IC13ST13,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC13ST1501A,IC13ST15,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC13ST2101A,IC13ST21,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC13ST2201A,IC13ST22,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC13ST2401A,IC13ST24,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC13ST9101A,IC13ST91,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC13STN701A,IC13STN7,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC13STN801A,IC13STN8,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC13STSP01A,IC13STSP,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC13STWD02A,IC13STWD,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC13THFE01A,IC13THFE,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+SAm_035_iso2k,IC13THQU,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"RN, IAM",,,TRUE,TRUE,TRUE,FALSE
+IC14EKVK00A,IC14EKVK,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC14VL1K01A,IC14VL1K,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC15GANK01A,IC15GANK,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC15MANE00A,IC15MANE,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC15MANE01B,IC15MANE,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC16GOBP01A,IC16GOBP,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC16WE1701A,IC16WE17,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC16WE1901A,IC16WE19,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC16WE2001A,IC16WE20,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC16WE2201A,IC16WE22,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC16WE2301A,IC16WE23,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC16WE2701A,IC16WE27,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC16WE2801A,IC16WE28,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC16WE3001A,IC16WE30,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC16WENG00A,IC16WENG,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC17BERI01A,IC17BERI,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC17EK4K01A,IC17EK4K,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC17EKN101A,IC17EKN1,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC17KOEL00B,IC17KOEL,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC17KOEL00D,IC17KOEL,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC76FIDE01A,IC76FIDE,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC76FIDE02A,IC76FIDE,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+IC82STVE01A,IC82STVE,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC82STVE01B,IC82STVE,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC82STVE01C,IC82STVE,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC85LAD201A,IC85LAD2,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC92HOML01A,IC92HOML,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC93BAGI01A,IC93BAGI,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC93BAGI02A,IC93BAGI,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC94THDP01A,IC94THDP,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC95FI8701A,IC95FI87,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC95THHU01B_iso2k,IC95THHU,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC95THHU02A_iso2k,IC95THHU,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC95THHU02B_iso2k,IC95THHU,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC95THHU02C_iso2k,IC95THHU,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC96ISE901A,IC96ISE9,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC96MOSS01A,IC96MOSS,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC97GRGI01A,IC97GRGI,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC97THGL01A,IC97THGL,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TO,,,TRUE,TRUE,TRUE,FALSE
+IC98FIPE01A,IC98FIPE,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DVD,,,TRUE,TRUE,TRUE,FALSE
+IC99OE0101A,IC99OE01,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC99OE0201A,IC99OE02,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC99OE0301A,IC99OE03,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC99OE0401A,IC99OE04,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC99OE0502A,IC99OE05,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC99OE0601A,IC99OE06,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC99OE0702A,IC99OE07,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC99OE0801A,IC99OE08,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC99OE0901A,IC99OE09,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+IC99OE1001A,IC99OE10,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AO,,,TRUE,TRUE,TRUE,FALSE
+S2LRmFyj5UzbmJ,Jaragucave.Novello.2017,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"CH,CR",,,TRUE,TRUE,TRUE,FALSE
+S2LRCb8IVUAAAd,Jiuxiancave.Cai.2010,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"CH, CR",,,TRUE,TRUE,TRUE,FALSE
+S2LRhTtQNZMrVu,KNI-51.Denniston.2013,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"CH, CR",,,TRUE,TRUE,TRUE,FALSE
+LS02ROSA-dup,LS02ROSA,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,BK_20191230,,,TRUE,TRUE,TRUE,FALSE
+LS13KOLA01A,LS13KOLA,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,ET,,,TRUE,TRUE,TRUE,FALSE
+LS13WASU01B,LS13WASU,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,ET,,,TRUE,TRUE,TRUE,FALSE
+LS14ATJU01A,LS14ATJU,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AA,,,TRUE,,FALSE,FALSE
+LS14ATJU01B,LS14ATJU,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,ET,,,TRUE,,FALSE,FALSE
+LS14KOSA01A,LS14KOSA,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,ET,,,TRUE,TRUE,TRUE,FALSE
+LS96CUPUb,LS96CUPU,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DK,,,TRUE,TRUE,TRUE,FALSE
+LS98CUPE,LS98CUPE,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DK,,,TRUE,TRUE,TRUE,FALSE
+LS99CUVAb,LS99CUVA,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DK,,,TRUE,TRUE,TRUE,FALSE
+LS99CUVAc,LS99CUVA,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,DK,,,TRUE,TRUE,TRUE,FALSE
+WEB98bf1888,LagunaPumacocha.Bird.2011,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,CR,,,TRUE,TRUE,TRUE,FALSE
+LPDa57620f7bb,Leviathan.Lachniet.2014,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,CR,,,TRUE,TRUE,TRUE,FALSE
+LPD17fc7c77,LimeLake.Steinman.2016,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,CR,,,TRUE,TRUE,TRUE,FALSE
+LPDd6c25776,LimeLake.Steinman.2016,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,CR,,,TRUE,TRUE,TRUE,FALSE
+WEB2606fc74,MS07JRGM,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,LJ 20/02/2019,,,TRUE,TRUE,TRUE,FALSE
+MS07LSPG01b,MS07LSPG,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,LJ 20/02/2019,,,TRUE,TRUE,TRUE,FALSE
+MS07LSSP01b,MS07LSSP,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,LJ 20/02/2019,,,TRUE,TRUE,TRUE,FALSE
+MS07MMNP01b,MS07MMNP,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,REMOVE,,,TRUE,TRUE,TRUE,FALSE
+MS09DOIP01b,MS09DOIP,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,LJ 12/12/2018,,,TRUE,TRUE,TRUE,FALSE
+MS09TRFD01b,MS09TRFD,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,LJ 12/12/2018,,,TRUE,TRUE,TRUE,FALSE
+MS10BLMS01b,MS10BLMS,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,LJ 12/12/2018 isotope data have depth,,,TRUE,TRUE,TRUE,FALSE
+MS10JTMA001,MS10JTMA,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,GL and LJ,,,TRUE,TRUE,TRUE,FALSE
+MS11ANMN01b,MS11ANMN,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,LJ 12/12/2018,,,TRUE,TRUE,TRUE,FALSE
+MS11ANMS01b,MS11ANMS,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,LJ 12/12/2018,,,TRUE,TRUE,TRUE,FALSE
+MS11CSCN01b,MS11CSCN,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,LJ 12/12/2018,,,TRUE,TRUE,TRUE,FALSE
+MS11CSCS01b,MS11CSCS,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,LJ 12/12/2018,,,TRUE,TRUE,TRUE,FALSE
+MS12CCCH01b,MS12CCCH,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,LJ 12/12/2018,,,TRUE,TRUE,TRUE,FALSE
+MS14MOLS01b,MS14MOLS,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,LJ 12/12/2018,,,TRUE,TRUE,TRUE,FALSE
+MS14MOLS02b,MS14MOLS,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,LJ 12/12/2018,,,TRUE,TRUE,TRUE,FALSE
+MS14MORR01b,MS14MORR,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,LJ 12/12/2018,,,TRUE,TRUE,TRUE,FALSE
+MS14CCBC01b,MS15VIBC,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,LJ 12/12/2018,,,TRUE,TRUE,TRUE,FALSE
+S2LR9DSUVgi2FG,MacalChasm.Akers.2016,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"CH, CR",,,TRUE,TRUE,TRUE,FALSE
+S2LRE5ZXEOA0gV,MacalChasm.Akers.2016,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"CH, CR",,,TRUE,TRUE,TRUE,FALSE
+WEB85c563b9,MiddenCluster2.Harbert.2018,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AD,,,TRUE,,FALSE,FALSE
+WEBc9823492,MiddenCluster2.Harbert.2018,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,AD,,,TRUE,,FALSE,FALSE
+lcR3ODiGVrOdeMTGOjO,MoonLake.Laird.1996,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,CH,,,TRUE,TRUE,TRUE,FALSE
+WEB88fe721c,Nar.Roberts.2016,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,SHA,,,TRUE,TRUE,TRUE,FALSE
+WEB75eec6a6,NevadaPrecip.Hughes.1996,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,SHA,,,TRUE,TRUE,TRUE,FALSE
+S2LRKkd7T4UOdy,Paraisocave.Wang.2017,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"CH, CR",,,TRUE,TRUE,TRUE,FALSE
+WEBb3fd19e6,RebeccaLagoon.Saunders.2012,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,CH,,,TRUE,TRUE,TRUE,FALSE
+SP05MAAT01A,SP05MAAT,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,LCB,,,TRUE,TRUE,TRUE,FALSE
+SP12FOAT01A,SP12FOAT,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,MF (31/12/19),,,TRUE,TRUE,TRUE,FALSE
+SP13SUSA01A,SP13SUSA,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+Ocean2kHR_126_iso2k,SS03HAJA,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,KLD (12/31/19); DMT (12/31/19),,,TRUE,TRUE,TRUE,FALSE
+Ocean2kHR_128_iso2k,SS03HAJA,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,KLD (12/31/19); DMT (12/31/19),,,TRUE,TRUE,TRUE,FALSE
+S2LRuTFfyRE5aJ,Sahiyacave.Sinha.2015,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"CH, CR",,,TRUE,TRUE,TRUE,FALSE
+S2LRFanjoqsyzm,Shatucacave.Bustamante.2016,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"CH,CR",,,TRUE,TRUE,TRUE,FALSE
+TR06TRBO00,TR06TRBO,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+TR07RECA01,TR07RECA,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+TR07REVI01,TR07REVI,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+TR08HORA01,TR08HORA,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+TR08THCO00,TR08THCO,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+TR08VOOL00,TR08VOOL,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+TR10ANMO00,TR10ANMO,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+TR11BAPU02,TR11BAPU,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+TR11BAVO01,TR11BAVO,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+TR11BAVO02,TR11BAVO,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+WEB7c902e21,TR11GRTP,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+TR11MAJA01,TR11MAJA,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+TR11MAJA02,TR11MAJA,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+TR11MAPE01,TR11MAPE,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+WEB3638db18,TR11SAHU00,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+TR11SIMO01,TR11SIMO,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+TR11XUPH01,TR11XUPH,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+TR11XUPH02,TR11XUPH,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+TR11XUPH03,TR11XUPH,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+TR11XUPH04,TR11XUPH,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+TR11XUPH05,TR11XUPH,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+TR11XUPH06,TR11XUPH,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+TR11XUPH07,TR11XUPH,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+WEB9ec53927,TR12BECO,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+WEB1fa7c61b,TR12BRBO,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+TR12SAMU01,TR12SAMU,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+TR12SAMU02,TR12SAMU,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+TR12SAMU03,TR12SAMU,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+TR12SAMU04,TR12SAMU,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+TR12SAMU05,TR12SAMU,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+TR12SAMU06,TR12SAMU,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+WEB1393eb44,TR13JOAR,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+WEB2a8bacaa,TR13JOAR,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+WEB942f4ab3,TR13JOAR,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+WEBbe879e76,TR13JOAR,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+WEBc909cb91,TR13JOAR,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+WEBd4a1702f,TR13JOAR,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+WEB68260459,TR13JOJS,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+WEB79b7abaa,TR13JOJS,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+WEB9251bbf1,TR13JOJS,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+WEBb58581f1,TR13JOJS,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+WEBf2452ae3,TR13JOJS,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+WEBfbf93fe8,TR13JOJS,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+WEB7105d7a6,TR13JOPC,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+WEB81ca9328,TR13JOPC,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+WEB93ccadc2,TR13JOPC,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+WEBa9c47a40,TR13JOPC,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+WEBaba520fa,TR13JOPC,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+WEBad27530f,TR13JOPC,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+WEBd5fd45b6,TR13JOPC,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+WEBd9f73e6a,TR13JOPC,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+WEB4de479a5,TR13POMA,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+WEBa8749551,TR13SAWA00,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+TR13SIKO01,TR13SIKO,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+WEBb0fd9bd0,TR14KOSP,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+WEB255443f2,TR15BABO,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+TR15NACA00,TR15NACA,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+TR15YOLL00,TR15YOLL,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+TR15YONW00,TR15YONW,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+TR16LAAN00,TR16LAAN,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+TR16LAFO00,TR16LAFO,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+WEB3e43f177,TR16WEMI,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+WEB640da8ea,TR16WEXI,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+WEB45a0b5cd,TR17EDSW,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+WEB1d361c0a,TR17GRTP,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+WEB30c97fa8,TR17SAMA,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+WEBcdcf63cd,TR18GRPM,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+WEB4632d6d9,TR18XUGA00,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+WEB0738fe31,TR18XUJA00,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"OCh-S, ZK, SM",,,TRUE,TRUE,TRUE,FALSE
+WEB302321b9,TR19LEBR,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+WEBbc9c2816,TR19LEBR,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+WEB67f8c5ec,TR19LEFC,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+WEB77324fc3,TR19LEFC,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+WEBd22ea8c1,TR19LEOU,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,TP,,,TRUE,TRUE,TRUE,FALSE
+WEBaa6ac386,WAISDivide.Cuffey.2016,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,CH,,,TRUE,TRUE,TRUE,FALSE
+WEB-25055-627a-46a8-868d-f4a69,WuyaCave.Tan.2020,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,CR,,,TRUE,TRUE,TRUE,FALSE
+S2LR4OJ4DeyWph,Xinyacave.TingYong.2007,"csm only, sheet never had it",remove from hydroclimate2k csm; not this compilation's value,,,,"CH, CR",,,TRUE,TRUE,TRUE,FALSE
+WEB-b8f9f-03c9-48fc-8fa4-06e82,Brule.Lafontaine-Boyer.2014,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,Check for duplicate,,Check for duplicate,,FALSE,FALSE,TRUE,FALSE
+WEB-fc26e-ea21-49ce-8e7e-fdeb2,Brule.Lafontaine-Boyer.2014,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,Check for duplicate,,Check for duplicate,,FALSE,FALSE,TRUE,FALSE
+LPDd7e6276fdd,Castor.Nelson.2011,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,,FALSE,FALSE,TRUE,FALSE
+LPDd7e6276fgg,Castor.Nelson.2011,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,,FALSE,FALSE,TRUE,FALSE
+LPDd7e6276fhh,Castor.Nelson.2011,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,,FALSE,FALSE,TRUE,FALSE
+LPDd7e6276fxb,Castor.Nelson.2011,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,,FALSE,FALSE,TRUE,FALSE
+WEB4884ca97,Elsinore.Kirby.2019,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,,FALSE,FALSE,TRUE,FALSE
+WEB7008320a,Elsinore.Kirby.2019,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,,FALSE,FALSE,TRUE,FALSE
+WEBbdaefb06,Elsinore.Kirby.2019,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,,FALSE,FALSE,TRUE,FALSE
+WEB19cb2072,Gonghai.Ding.2017,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,,FALSE,FALSE,TRUE,FALSE
+WEB42a9208d,Gonghai.Ding.2017,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,,FALSE,FALSE,TRUE,FALSE
+WEB4f8ba0e7,Gonghai.Ding.2017,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,,FALSE,FALSE,TRUE,FALSE
+WEB5276ebcb,Gonghai.Ding.2017,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,,FALSE,FALSE,TRUE,FALSE
+WEB6c322fcf,Gonghai.Ding.2017,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,,FALSE,FALSE,TRUE,FALSE
+WEB75e23ac4,Gonghai.Ding.2017,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,,FALSE,FALSE,TRUE,FALSE
+WEB930d988d,Gonghai.Ding.2017,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,,FALSE,FALSE,TRUE,FALSE
+WEB9341a103,Gonghai.Ding.2017,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,,FALSE,FALSE,TRUE,FALSE
+LS01HUFA01a,LS01HUFA,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,KE,,KE,,FALSE,FALSE,TRUE,FALSE
+LS01HUFA01b,LS01HUFA,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,KE,,KE,,FALSE,FALSE,TRUE,FALSE
+LS09SAJU01A,LS09SAJU,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,KE,,KE,,FALSE,FALSE,TRUE,FALSE
+LS09SAJU01An,LS09SAJU,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,KE,,KE,,FALSE,FALSE,TRUE,FALSE
+LS09SAJU01As,LS09SAJU,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,KE,,KE,ET,FALSE,FALSE,TRUE,FALSE
+LS10HESA,LS10HESA,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,KE,,KE,,FALSE,FALSE,TRUE,FALSE
+LS12THAY0122s,LS12THAY,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,,FALSE,FALSE,TRUE,FALSE
+LS12THAY0124s,LS12THAY,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,ET,FALSE,FALSE,TRUE,FALSE
+LS12THAY0126s,LS12THAY,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,ET,FALSE,FALSE,TRUE,FALSE
+LS12THAY0128s,LS12THAY,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,ET,FALSE,FALSE,TRUE,FALSE
+LS12THAY0130s,LS12THAY,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,ET,FALSE,FALSE,TRUE,FALSE
+LPD8ec8baf1,LS14FEZA,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,,FALSE,FALSE,TRUE,FALSE
+LPD9e7bf79e,LS14FEZA,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,ET,FALSE,FALSE,TRUE,FALSE
+LPD9e7bf79e2,LS14FEZA,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,ET,FALSE,FALSE,TRUE,FALSE
+LPDd239c465,LS14FEZA,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,ET,FALSE,FALSE,TRUE,FALSE
+LPDd239c4652,LS14FEZA,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,ET,FALSE,FALSE,TRUE,FALSE
+LPDd72fd146,LS14FEZA,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,ET,FALSE,FALSE,TRUE,FALSE
+LS14FEZA01A,LS14FEZA,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,,FALSE,FALSE,TRUE,FALSE
+LS14FEZA01B,LS14FEZA,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,,FALSE,FALSE,TRUE,FALSE
+LS14FEZA01E,LS14FEZA,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,,FALSE,FALSE,TRUE,FALSE
+LS14FEZA01F,LS14FEZA,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,,FALSE,FALSE,TRUE,FALSE
+NPM147147,LS15AIKA,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,KE,,KE,ET,FALSE,FALSE,TRUE,FALSE
+NPM147147a,LS15AIKA,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,KE,,KE,ET,FALSE,FALSE,TRUE,FALSE
+NPM147147b,LS15AIKA,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,KE,,KE,ET,FALSE,FALSE,TRUE,FALSE
+NPM147147c,LS15AIKA,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,KE,,KE,ET,FALSE,FALSE,TRUE,FALSE
+NPM147147d,LS15AIKA,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,KE,,KE,ET,FALSE,FALSE,TRUE,FALSE
+h2kRCBHH6GUu98Tx0ruE,LashmarsLagoon.Rahman.2025,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,,FALSE,FALSE,TRUE,FALSE
+WEB2f2d7048,Minucua.Goman.2018,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,,FALSE,FALSE,TRUE,FALSE
+WEB3f819fb1,Minucua.Goman.2018,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,,FALSE,FALSE,TRUE,FALSE
+WEB6b94ed5b,Minucua.Goman.2018,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,,FALSE,FALSE,TRUE,FALSE
+WEB-6b7fb-2366-40af-94e7-7986e,NamCo.Kasper.2015,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,KE,,KE,,FALSE,FALSE,TRUE,FALSE
+WEB-91189-4901-4dd9-8908-5a9c9,NamCo.Kasper.2015,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,KE,,KE,,FALSE,FALSE,TRUE,FALSE
+WEB-ba688-529f-42a6-898a-d3048,NamCo.Kasper.2015,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,KE,,KE,,FALSE,FALSE,TRUE,FALSE
+WEBde2fb2ab,RebeccaLagoon.Saunders.2012,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,,FALSE,FALSE,TRUE,FALSE
+WEBfea4f498,RebeccaLagoon.Saunders.2012,"legacy flat key, excluded timeseries","delete the legacy flat key; timeseries is excluded, so csm cannot hold it",,,GF,,GF,,FALSE,FALSE,TRUE,FALSE
+LS05ANJE,LS05ANJE,csm contaminated,seed baseline from sheet; overwrite csm with the sheet value,LA - revised Iso2k metadata,,LA - revised Iso2k metadata,MJ,,,TRUE,TRUE,TRUE,TRUE
+LS07ANMA,LS07ANMA,csm contaminated,seed baseline from sheet; overwrite csm with the sheet value,LA - revised Iso2k metadata,,LA - revised Iso2k metadata,MJ,,,TRUE,TRUE,TRUE,TRUE
+LS12ANBI,LS12ANBI,csm contaminated,seed baseline from sheet; overwrite csm with the sheet value,LA - revised Iso2k metadata,,LA - revised Iso2k metadata,MJ,,,TRUE,TRUE,TRUE,TRUE
+LS12ANYE,LS12ANYE,csm contaminated,seed baseline from sheet; overwrite csm with the sheet value,LA - revised Iso2k metadata,,LA - revised Iso2k metadata,MJ,,,TRUE,TRUE,TRUE,TRUE
+LPDd7e6276fcc,Castor.Nelson.2011,csm contaminated,seed baseline from sheet; overwrite csm with the sheet value,GF,,GF,GF; CR,,,TRUE,TRUE,TRUE,FALSE
+LPDd7e6276fxc,Castor.Nelson.2011,csm contaminated,seed baseline from sheet; overwrite csm with the sheet value,GF,,GF,GF; CH,,,TRUE,TRUE,TRUE,FALSE
+LPD7dc5b9ba-dup,ClelandLake.Steinman.2016,csm contaminated,seed baseline from sheet; overwrite csm with the sheet value,GF,,GF,GF; CR,,,TRUE,TRUE,TRUE,FALSE
+LPD87c74b66-dup,ClelandLake.Steinman.2016,csm contaminated,seed baseline from sheet; overwrite csm with the sheet value,GF,,GF,GF; CR,,,TRUE,TRUE,TRUE,FALSE
+WEBa4950857,Elsinore.Kirby.2019,csm contaminated,seed baseline from sheet; overwrite csm with the sheet value,GF,,GF,GF; MEL,,,TRUE,TRUE,TRUE,FALSE
+WEBc66a4fba,Elsinore.Kirby.2019,csm contaminated,seed baseline from sheet; overwrite csm with the sheet value,GF,,GF,GF; MEK,,,TRUE,TRUE,TRUE,FALSE
+WEBbc36fb7b,Gonghai.Ding.2017,csm contaminated,seed baseline from sheet; overwrite csm with the sheet value,GF,,GF,CR; GF,,,TRUE,TRUE,TRUE,FALSE
+LS12THAY01B,LS12THAY,csm contaminated,seed baseline from sheet; overwrite csm with the sheet value,GF,,GF,ET; GF,,,TRUE,TRUE,TRUE,FALSE
+LS12THAY01C,LS12THAY,csm contaminated,seed baseline from sheet; overwrite csm with the sheet value,GF,,GF,ET; GF,,,TRUE,TRUE,TRUE,FALSE
+LS12THAY01D,LS12THAY,csm contaminated,seed baseline from sheet; overwrite csm with the sheet value,GF,,GF,ET; GF,,,TRUE,TRUE,TRUE,FALSE
+LS12THAY01E,LS12THAY,csm contaminated,seed baseline from sheet; overwrite csm with the sheet value,GF,,GF,ET; GF,,,TRUE,TRUE,TRUE,FALSE
+LS14FEZA01C,LS14FEZA,csm contaminated,seed baseline from sheet; overwrite csm with the sheet value,GF,,GF,ET; GF,,,TRUE,TRUE,TRUE,FALSE
+LS14FEZA01D,LS14FEZA,csm contaminated,seed baseline from sheet; overwrite csm with the sheet value,GF,,GF,ET; GF,,,TRUE,TRUE,TRUE,FALSE
+LS15AIKA01A2,LS15AIKA,csm contaminated,seed baseline from sheet; overwrite csm with the sheet value,KE,,KE,ET; KE,,,TRUE,TRUE,TRUE,FALSE
+LS15AIKA01B,LS15AIKA,csm contaminated,seed baseline from sheet; overwrite csm with the sheet value,KE,,KE,ET; KE,,,TRUE,TRUE,TRUE,FALSE
+WEB5699be91,LagunadeUbaque.Bird.2017,csm contaminated,seed baseline from sheet; overwrite csm with the sheet value,AR,,AR,CR,,,TRUE,TRUE,TRUE,FALSE
+WEBfdaf6c10,LagunadeUbaque.Bird.2017,csm contaminated,seed baseline from sheet; overwrite csm with the sheet value,AR,,AR,CR,,,TRUE,TRUE,TRUE,FALSE
+WEBae63e2cc,Minucua.Goman.2018,csm contaminated,seed baseline from sheet; overwrite csm with the sheet value,GF,,GF,"mfg, SHA; GF",,,TRUE,TRUE,TRUE,FALSE
+WEBb09ddc98,Minucua.Goman.2018,csm contaminated,seed baseline from sheet; overwrite csm with the sheet value,GF,,GF,"mfg, SHA; GF",,,TRUE,TRUE,TRUE,FALSE
+GHe9193cd5dp,Dune.Finney.2012,"sheet only, member",seed baseline from sheet; write the sheet value into csm,LA - revised Iso2k metadata,,LA - revised Iso2k metadata,,,,TRUE,TRUE,TRUE,FALSE
+WEB-f964e-9b56-4e8c-a4c1-50e39,Kalliojarvi.Saarni.2016,"sheet only, member",seed baseline from sheet; write the sheet value into csm,DJH,,DJH,,,,TRUE,TRUE,TRUE,FALSE
+WEB-b3bb0-e147-4388-bea3-87c8a,KecheLake.Chipman.2012,"sheet only, member",seed baseline from sheet; write the sheet value into csm,DJH,,DJH,,,,TRUE,TRUE,TRUE,FALSE
+WEB-83d3a-656d-430b-a55e-43a23,KellyLake.Broadman.2022,"sheet only, member",seed baseline from sheet; write the sheet value into csm,DJH,,DJH,,,,TRUE,TRUE,TRUE,FALSE
+WEB03637fad,LagunadeUbaque.Bird.2017,"sheet only, member",seed baseline from sheet; write the sheet value into csm,AR,,AR,,,,TRUE,TRUE,TRUE,FALSE
+WEB274b7521,LagunadeUbaque.Bird.2017,"sheet only, member",seed baseline from sheet; write the sheet value into csm,AR,,AR,,,,TRUE,TRUE,TRUE,FALSE
+WEB51b42729,LagunadeUbaque.Bird.2017,"sheet only, member",seed baseline from sheet; write the sheet value into csm,AR,,AR,,,,TRUE,TRUE,TRUE,FALSE
+WEB877b4230,LagunadeUbaque.Bird.2017,"sheet only, member",seed baseline from sheet; write the sheet value into csm,AR,,AR,,,,TRUE,TRUE,TRUE,FALSE
+WEB8f0f0fc1,LagunadeUbaque.Bird.2017,"sheet only, member",seed baseline from sheet; write the sheet value into csm,AR,,AR,,,,TRUE,TRUE,TRUE,FALSE
+WEB-5efca-4b47-4512-9904-94b4b,Linnevatnet.Lapointe.2023,"sheet only, member",seed baseline from sheet; write the sheet value into csm,DJH,,DJH,,,,TRUE,TRUE,TRUE,FALSE
+WEB-79884-8efb-4707-8d00-15745,Linnevatnet.Lapointe.2023,"sheet only, member",seed baseline from sheet; write the sheet value into csm,DJH,,DJH,,,,TRUE,TRUE,TRUE,FALSE
+WEB-a53db-0c94-42ab-884f-bd627,Skilak.Thomas.2021,"sheet only, member",seed baseline from sheet; write the sheet value into csm,DJH,,DJH,,,,TRUE,TRUE,TRUE,FALSE
+missRjWf8OaPqqisBxMlS,Track,"sheet only, member",seed baseline from sheet; write the sheet value into csm,LA,,LA,,,,TRUE,TRUE,TRUE,FALSE
+missRrRtfwiXyMd38Q6KS,Track,"sheet only, member",seed baseline from sheet; write the sheet value into csm,LA,,LA,,,,TRUE,TRUE,TRUE,FALSE
+GH66374774,Wolverine.Mann.2002,"sheet only, member",seed baseline from sheet; write the sheet value into csm,DJH,,DJH,,,,TRUE,TRUE,TRUE,FALSE
+GH2c543176dp,Dune.Finney.2012,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,LA  - revised metadata - duplicate entry,,,,FALSE,FALSE,TRUE,FALSE
+WEB4f6fead6,LagunadeUbaque.Bird.2017,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,AR,,,,FALSE,FALSE,TRUE,FALSE
+WEB8420d153,LagunadeUbaque.Bird.2017,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,AR,,,,FALSE,FALSE,TRUE,FALSE
+WEB8bf515e0,LagunadeUbaque.Bird.2017,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,AR,,,,FALSE,FALSE,TRUE,FALSE
+WEBf5351e72,LagunadeUbaque.Bird.2017,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,AR,,,,FALSE,FALSE,TRUE,FALSE
+WEB-94892-46f2-4770-898f-fe736,Linnevatnet.Lapointe.2023,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DJH,,,,FALSE,FALSE,TRUE,FALSE
+WEB2b6a96dc,AlbercaLake.Wogau.2019,sheet and file agree,seed baseline from sheet; file already agrees,GF,,GF,GF,,,TRUE,TRUE,TRUE,TRUE
+WEBcdfe38ba,AlbercaLake.Wogau.2019,sheet and file agree,seed baseline from sheet; file already agrees,GF,,GF,GF,,,TRUE,TRUE,TRUE,TRUE
+WEB-6f412-9368-4d44-87ea-2de9e,Basin.Gajewski.1988,sheet and file agree,seed baseline from sheet; file already agrees,KG,,KG,KG,,,TRUE,TRUE,TRUE,TRUE
+WEB-a2854-a797-41ff-9d62-dc9f5,Clear.Gajewski.1988,sheet and file agree,seed baseline from sheet; file already agrees,KG,,KG,KG,,,TRUE,TRUE,TRUE,TRUE
+WEB-ee0ee-2907-4978-a8df-25e54,Conroy.Gajewski.1988,sheet and file agree,seed baseline from sheet; file already agrees,KG,,KG,KG,,,TRUE,TRUE,TRUE,TRUE
+WEB-18568-6b5b-4525-86c6-5a155,EC03.Gajewski.2019,sheet and file agree,seed baseline from sheet; file already agrees,KG,,KG,KG,,,TRUE,TRUE,TRUE,TRUE
+WEB-39411-9c48-45c8-beb1-5d995,EastLake.Lapointe.2012,sheet and file agree,seed baseline from sheet; file already agrees,KG,,KG,KG,,,TRUE,TRUE,TRUE,TRUE
+WEB-4e0af-6b4a-4172-8952-eb11f,EastLake.Lapointe.2012,sheet and file agree,seed baseline from sheet; file already agrees,KG,,KG,KG,,,TRUE,TRUE,TRUE,TRUE
+WEB-6ebbc-8d69-4d0e-9880-f6f3b,EastLake.Lapointe.2012,sheet and file agree,seed baseline from sheet; file already agrees,KG,,KG,KG,,,TRUE,TRUE,TRUE,TRUE
+WEB-d82e8-4e18-48ff-8062-99a19,EastLake.Lapointe.2012,sheet and file agree,seed baseline from sheet; file already agrees,KG,,KG,KG,,,TRUE,TRUE,TRUE,TRUE
+WEB-f3829-4012-4dfd-9efc-db804,EastLake.Lapointe.2012,sheet and file agree,seed baseline from sheet; file already agrees,KG,,KG,KG,,,TRUE,TRUE,TRUE,TRUE
+WEB-89a9e-1a10-450f-8e68-26057,HK.Swain.1978,sheet and file agree,seed baseline from sheet; file already agrees,KG,,KG,KG,,,TRUE,TRUE,TRUE,TRUE
+WEB-52946-2450-44ce-ae90-92ac8,LC.Swain.1973,sheet and file agree,seed baseline from sheet; file already agrees,KG,,KG,KG,,,TRUE,TRUE,TRUE,TRUE
+WEB-00d6c-72d8-441b-8910-28c6b,LM01.Gajewski.2019,sheet and file agree,seed baseline from sheet; file already agrees,KG,,KG,KG,,,TRUE,TRUE,TRUE,TRUE
+LS12THAY01A,LS12THAY,sheet and file agree,seed baseline from sheet; file already agrees,GF,,GF,GF,,,TRUE,TRUE,TRUE,TRUE
+LS15AIKA01A1,LS15AIKA,sheet and file agree,seed baseline from sheet; file already agrees,KE,,KE,KE,,,TRUE,TRUE,TRUE,TRUE
+WEB-2a392-a76a-43f7-bf00-e375d,LakeEdward.Russell.2007,sheet and file agree,seed baseline from sheet; file already agrees,GF,,GF,GF,,,TRUE,TRUE,TRUE,TRUE
+WEB-26ae4-43ad-4975-b72c-91df2,LakeElingamite.Barr.2014,sheet and file agree,seed baseline from sheet; file already agrees,GF,,GF,GF,,,TRUE,TRUE,TRUE,TRUE
+WEB-92254-6027-4abf-b730-d8248,LakeSurprise.Barr.2014,sheet and file agree,seed baseline from sheet; file already agrees,GF,,GF,GF,,,TRUE,TRUE,TRUE,TRUE
+h2kRJdXobAwG5AwMW55s,LashmarsLagoon.Rahman.2025,sheet and file agree,seed baseline from sheet; file already agrees,GF,,GF,GF,,,TRUE,TRUE,TRUE,TRUE
+WEB-bb550-52c2-4baa-af51-0c0cf,MV01.Gajewski.2019,sheet and file agree,seed baseline from sheet; file already agrees,KG,,KG,KG,,,TRUE,TRUE,TRUE,TRUE
+WEB-1a4b1-7ce3-4e10-9927-ce204,NamCo.Kasper.2015,sheet and file agree,seed baseline from sheet; file already agrees,KE,,KE,KE,,,TRUE,TRUE,TRUE,TRUE
+WEB-1d341-d989-4093-bfa4-58e46,NamCo.Kasper.2015,sheet and file agree,seed baseline from sheet; file already agrees,KE,,KE,KE,,,TRUE,TRUE,TRUE,TRUE
+WEB-2447e-a89e-42fd-92e5-8a2e5,NamCo.Kasper.2015,sheet and file agree,seed baseline from sheet; file already agrees,KE,,KE,KE,,,TRUE,TRUE,TRUE,TRUE
+WEB-36161-63b4-4a14-b08e-89235,NamCo.Kasper.2015,sheet and file agree,seed baseline from sheet; file already agrees,KE,,KE,KE,,,TRUE,TRUE,TRUE,TRUE
+WEB-440ea-0750-4721-b01c-ea1bd,NamCo.Kasper.2015,sheet and file agree,seed baseline from sheet; file already agrees,KE,,KE,KE,,,TRUE,TRUE,TRUE,TRUE
+WEB-5111e-2b32-4823-9828-0593f,NamCo.Kasper.2015,sheet and file agree,seed baseline from sheet; file already agrees,KE,,KE,KE,,,TRUE,TRUE,TRUE,TRUE
+WEB-6ab51-dfe9-46cf-9c83-a2625,NamCo.Kasper.2015,sheet and file agree,seed baseline from sheet; file already agrees,KE,,KE,KE,,,TRUE,TRUE,TRUE,TRUE
+WEB-747c6-735e-4b08-a565-465fb,NamCo.Kasper.2015,sheet and file agree,seed baseline from sheet; file already agrees,KE,,KE,KE,,,TRUE,TRUE,TRUE,TRUE
+WEB-918cc-0dbc-4269-94d8-d6f4d,NamCo.Kasper.2015,sheet and file agree,seed baseline from sheet; file already agrees,KE,,KE,KE,,,TRUE,TRUE,TRUE,TRUE
+WEB-91b4c-dcba-4928-a3f1-3c8e5,NamCo.Kasper.2015,sheet and file agree,seed baseline from sheet; file already agrees,KE,,KE,KE,,,TRUE,TRUE,TRUE,TRUE
+WEB-989d3-c8d2-4972-8922-d0285,NamCo.Kasper.2015,sheet and file agree,seed baseline from sheet; file already agrees,KE,,KE,KE,,,TRUE,TRUE,TRUE,TRUE
+WEB-a0a8c-89d4-4883-ba22-c77d0,NamCo.Kasper.2015,sheet and file agree,seed baseline from sheet; file already agrees,KE,,KE,KE,,,TRUE,TRUE,TRUE,TRUE
+WEB-aefd4-7d29-4318-a5e0-d0d86,NamCo.Kasper.2015,sheet and file agree,seed baseline from sheet; file already agrees,KE,,KE,KE,,,TRUE,TRUE,TRUE,TRUE
+WEB-b5ec1-d06b-488c-805c-d065b,NamCo.Kasper.2015,sheet and file agree,seed baseline from sheet; file already agrees,KE,,KE,KE,,,TRUE,TRUE,TRUE,TRUE
+WEB-c116b-dc14-4936-87dc-ee868,NamCo.Kasper.2015,sheet and file agree,seed baseline from sheet; file already agrees,KE,,KE,KE,,,TRUE,TRUE,TRUE,TRUE
+WEB-c217c-4ad7-45b8-b19f-af038,NamCo.Kasper.2015,sheet and file agree,seed baseline from sheet; file already agrees,KE,,KE,KE,,,TRUE,TRUE,TRUE,TRUE
+WEB-dd04a-340e-4371-bcd9-24c63,NamCo.Kasper.2015,sheet and file agree,seed baseline from sheet; file already agrees,KE,,KE,KE,,,TRUE,TRUE,TRUE,TRUE
+WEB-fa835-5619-44ed-b38c-5d029,NamCo.Kasper.2015,sheet and file agree,seed baseline from sheet; file already agrees,KE,,KE,KE,,,TRUE,TRUE,TRUE,TRUE
+WEB-73153-18b0-4593-8832-612c1,Noir.Paquette.2013,sheet and file agree,seed baseline from sheet; file already agrees,KG,,KG,KG,,,TRUE,TRUE,TRUE,TRUE
+WEB-ed0b0-8688-4ff4-8762-a5a69,RB06.Gajewski.2021,sheet and file agree,seed baseline from sheet; file already agrees,KG,,KG,KG,,,TRUE,TRUE,TRUE,TRUE
+WEB-9733b-3604-44a2-a40c-87f31,RB13.Gajewski.2021,sheet and file agree,seed baseline from sheet; file already agrees,KG,,KG,KG,,,TRUE,TRUE,TRUE,TRUE
+WEB-edd5c-e000-43b5-bce4-1411f,Rees.Gajewski.2023,sheet and file agree,seed baseline from sheet; file already agrees,KG,,KG,KG,,,TRUE,TRUE,TRUE,TRUE
+WEB-75979-27b9-4662-8929-37bb6,Susies.Gajewski.2023,sheet and file agree,seed baseline from sheet; file already agrees,KG,,KG,KG,,,TRUE,TRUE,TRUE,TRUE
+WEB-f135f-1779-46c4-9821-bb47d,Tawney.Keizer.2015,sheet and file agree,seed baseline from sheet; file already agrees,KG,,KG,KG,,,TRUE,TRUE,TRUE,TRUE
+WEB-c5c63-e08c-4996-a009-7bc76,Wallywash.Holmes.2023,sheet and file agree,seed baseline from sheet; file already agrees,MJ,,MJ,MJ,,,TRUE,TRUE,TRUE,TRUE

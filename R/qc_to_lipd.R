@@ -9,7 +9,9 @@
 #' per file.
 #'
 #' Compilation-specific metadata is **not** handled here. It lives under `csm`
-#' inside `inCompilation` and is written by `lipdR`'s own collapse path.
+#' inside `inCompilation`, and is written by [lv_apply_csm()], which knows which
+#' compilation's entry a value belongs in. This one does not, so a csm cell that
+#' reached it would be written into the shared namespace it was moved out of.
 #'
 #' @name qc_to_lipd
 NULL
@@ -87,7 +89,7 @@ lv_apply_qc <- function(cells, dir = lv_path("database"), out,
   fs::dir_create(out)
   if (nrow(cells) == 0) return(lv_issues_empty())
 
-  # Only fields that participate in the merge; csm and the rest are elsewhere.
+  # Only fields that live in the shared namespace; csm goes to lv_apply_csm().
   rule <- lv_field_rule(cells$field, registry)
   cells <- cells[rule$role %in% c("merged", "key"), , drop = FALSE]
   if (nrow(cells) == 0) return(lv_issues_empty())
