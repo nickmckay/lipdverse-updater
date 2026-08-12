@@ -462,3 +462,44 @@ test_that("a clean cell table produces no issues", {
   expect_equal(nrow(lv_validate_values(cells("T1", "archiveType", "Coral"))), 0)
   expect_equal(nrow(lv_validate_values(qc_cells_empty())), 0)
 })
+
+test_that("a calculated field that comes to nothing clears its cell", {
+  # lv_calculate() emits the cell either way, so present-but-empty on a
+  # machine-owned field is a statement that the value is gone. A column of
+  # all-NaN measurements has no year range, and the stale one from when the axis
+  # was read unmasked must not simply persist.
+  reg <- test_registry()
+  reg$ownership[reg$qc_name == "minYear"] <- "machine"
+  reg$role[reg$qc_name == "minYear"] <- "merged"
+
+  b <- cells("T1", "minYear", "-3488")
+  s <- cells("T1", "minYear", "-3488")
+  f <- cells("T1", "minYear", NA_character_)   # calculated, came to nothing
+
+  p <- qc_merge(b, s, f, registry = reg, policy = qc_merge_policy(strict = FALSE))
+  expect_equal(p$cells$resolution, "file")
+  expect_true(is.na(p$cells$value))
+  expect_equal(p$summary$n_recalculated_empty, 1)
+  # And it leaves the resolved state, which is what clears the sheet cell.
+  expect_equal(nrow(qc_plan_state(p)), 0)
+})
+
+test_that("a blank from the files still never deletes anything else", {
+  # The mirror rule is narrow on purpose: named calculated fields only. Written
+  # as "any machine-owned field" it also caught paleoData_createdBy, which is
+  # machine-owned but read rather than derived -- the exact field whose blanking
+  # destroyed 24 values.
+  reg <- test_registry()
+  p <- qc_merge(cells("T1", "paleoData_createdBy", "nicholas"),
+                cells("T1", "paleoData_createdBy", "nicholas"),
+                cells("T1", "paleoData_createdBy", NA_character_),
+                registry = reg, policy = qc_merge_policy(strict = FALSE))
+  expect_equal(p$cells$value, "nicholas")
+  expect_equal(p$summary$n_recalculated_empty, 0)
+
+  p2 <- qc_merge(cells("T1", "archiveType", "Wood"),
+                 cells("T1", "archiveType", "Wood"),
+                 cells("T1", "archiveType", NA_character_),
+                 registry = reg, policy = qc_merge_policy(strict = FALSE))
+  expect_equal(p2$cells$value, "Wood")
+})

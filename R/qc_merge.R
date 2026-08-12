@@ -37,6 +37,12 @@
 #'
 #' This single rule is what makes the NA-as-deletion loss impossible.
 #'
+#' The one mirror on the file side is a *calculated* field: [lv_calculate()]
+#' emits its cell whether or not the calculation produced anything, so a present
+#' but empty cell on a `machine`-owned field states that the value no longer
+#' exists and clears it. [qc_frame()] emits populated values only and cannot
+#' produce that shape, so the rule reaches exactly the fields it is meant for.
+#'
 #' @name qc_merge_rules
 NULL
 
@@ -175,12 +181,13 @@ qc_merge <- function(base, sheet, frame, registry = lv_qc_fields(),
   if (nrow(cells) == 0) {
     cells$resolution <- character()
     cells$sheet_clears <- logical()
+    cells$file_clears <- logical()
     cells$value <- character()
     empty <- cells
     return(structure(list(
       cells = cells, changes = empty, conflicts = empty, errors = empty, unknown = empty,
       summary = list(n_cells = 0L, n_changed = 0L, n_conflicts = 0L, n_errors = 0L,
-                     n_cleared = 0L, n_unknown_fields = 0L),
+                     n_cleared = 0L, n_recalculated_empty = 0L, n_unknown_fields = 0L),
       policy = policy), class = "qc_plan"))
   }
 
@@ -196,8 +203,21 @@ qc_merge <- function(base, sheet, frame, registry = lv_qc_fields(),
     (cells$in_sheet & blank(s) & cells$nullable & !blank(b))
   # Otherwise a blank from either side means "unchanged", so treat it as base.
   s_eff <- ifelse(sheet_clears, NA_character_, ifelse(blank(s), b, s))
-  # A blank or absent file value never deletes; it means "unchanged".
-  f_eff <- ifelse(blank(f), b, f)
+
+  # The file side's mirror of the sheet's clear rule. A blank arriving from the
+  # files means "unchanged" -- that is what makes NA-as-deletion impossible --
+  # except where the file side is a *calculation* that came to nothing.
+  # lv_calculate() emits its cell either way, so a present but empty cell is a
+  # positive statement that the value no longer exists.
+  #
+  # Named calculated fields only, not machine-owned fields generally. Written
+  # the broad way it also caught paleoData_createdBy, which is machine-owned but
+  # read rather than derived -- and a blank clearing that is precisely the
+  # incident that destroyed 24 of its values. The regression test for it is what
+  # caught this.
+  file_clears <- cells$in_file & blank(f) & !blank(b) &
+    cells$ownership %in% "machine" & cells$field %in% names(lv_calculators())
+  f_eff <- ifelse(file_clears, NA_character_, ifelse(blank(f), b, f))
 
   # %in% rather than ==: role is NA for fields absent from the registry.
   is_key <- cells$role %in% "key"
@@ -227,6 +247,7 @@ qc_merge <- function(base, sheet, frame, registry = lv_qc_fields(),
     TRUE                       ~ "conflict"
   )
   cells$sheet_clears <- sheet_clears
+  cells$file_clears <- file_clears
 
   cells$value <- dplyr::case_when(
     cells$resolution %in% c("sheet", "converged") ~ s_eff,
@@ -251,6 +272,7 @@ qc_merge <- function(base, sheet, frame, registry = lv_qc_fields(),
       n_conflicts = nrow(conflicts),
       n_errors = nrow(errors),
       n_cleared = sum(cells$sheet_clears, na.rm = TRUE),
+      n_recalculated_empty = sum(cells$file_clears, na.rm = TRUE),
       n_unknown_fields = dplyr::n_distinct(unknown$field)
     ),
     policy = policy
@@ -276,6 +298,7 @@ print.qc_plan <- function(x, ...) {
     "*" = "{s$n_cells} cell{?s} considered",
     "*" = "{s$n_changed} change{?s} ({sum(x$changes$resolution == 'sheet')} from the sheet, {sum(x$changes$resolution == 'file')} from files, {sum(x$changes$resolution == 'converged')} converged)",
     if (s$n_cleared > 0) "!" = "{s$n_cleared} explicit clear{?s}",
+    if (isTRUE(s$n_recalculated_empty > 0)) "!" = "{s$n_recalculated_empty} calculated field{?s} now empty and cleared",
     if (s$n_conflicts > 0) "!" = "{s$n_conflicts} conflict{?s} (base retained)",
     if (s$n_errors > 0) "x" = "{s$n_errors} error{?s} on key fields",
     if (s$n_unknown_fields > 0) "!" = "{s$n_unknown_fields} field{?s} not in the registry"

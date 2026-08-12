@@ -66,6 +66,18 @@ lv_field_path <- function(field) {
   m <- grepl("^chronData_", field)
   container[m] <- "column"; key[m] <- sub("^chronData_", "", field[m])
 
+  # Calculated fields go on the column, whatever their name looks like. They are
+  # per-timeseries quantities -- one column of a dataset can span a different
+  # range than another -- but they carry no prefix, so the rules above would put
+  # them at the dataset root, where a dataset can hold only one value.
+  #
+  # Writing them there produced 7,862 "dataset-level field disagrees" warnings
+  # on a single hydroclimate2k run, one for every dataset whose columns
+  # genuinely differ, and would have kept whichever column happened to win.
+  # Nick, 2026-08-12: store them per column.
+  m <- field %in% names(lv_calculators())
+  container[m] <- "column"; key[m] <- field[m]; index[m] <- NA_integer_
+
   tibble::tibble(
     field = field, container = container, index = index, key = key, scope = scope,
     level = ifelse(container %in% c("root", "geo", "pub"), "dataset", "column")

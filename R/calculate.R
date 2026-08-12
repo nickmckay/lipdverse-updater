@@ -43,12 +43,14 @@ lv_calculators <- function() {
     # 2026-08-12: min/max always mask.
     minYear = function(year, age, values) lv_year_extreme(year, age, values, min),
     maxYear = function(year, age, values) lv_year_extreme(year, age, values, max),
-    # Deliberately NOT masked, because the reference implementation
-    # (lipdverseR/distinctYearsInCommonEra.R) counts the axis alone. Masking
-    # would change every existing hydroclimate2k value, so it is a decision to
-    # take on purpose rather than by tidying.
+    # Masked like the others: the question is how many distinct years carry a
+    # measurement, so a year whose value is blank does not count (Nick,
+    # 2026-08-12). The reference implementation
+    # (lipdverseR/distinctYearsInCommonEra.R) counted the axis alone, so
+    # existing values are upper bounds and will fall on the next update.
     distinctYearsInCommonEra = function(year, age, values) {
-      lv_distinct_time_in_ce(year, age)
+      lv_distinct_time_in_ce(lv_mask_to_data(year, values),
+                             lv_mask_to_data(age, values))
     }
   )
 }
@@ -69,14 +71,20 @@ lv_year_from_age <- function(age) {
   y
 }
 
+# Keep only the timesteps carrying a finite measurement. Where the two vectors
+# are different lengths the mask cannot be trusted, so the axis is returned
+# unmasked rather than silently pairing the wrong elements.
+lv_mask_to_data <- function(axis, values) {
+  if (is.null(axis)) return(NULL)
+  if (is.null(values) || length(values) != length(axis)) return(axis)
+  axis[is.finite(values)]
+}
+
 lv_year_extreme <- function(year, age, values, fun) {
   y <- if (!is.null(year) && any(is.finite(year))) year else
     if (!is.null(age) && any(is.finite(age))) lv_year_from_age(age) else NULL
   if (is.null(y)) return(NA_real_)
-  # Mask to finite measurements. Where the two vectors are different lengths the
-  # mask cannot be trusted, so the axis is used unmasked rather than silently
-  # pairing the wrong elements.
-  if (!is.null(values) && length(values) == length(y)) y <- y[is.finite(values)]
+  y <- lv_mask_to_data(y, values)
   y <- y[is.finite(y)]
   if (!length(y)) return(NA_real_)
   fun(y)
@@ -188,11 +196,18 @@ lv_calculate_one <- function(path, fields, calc) {
         vals <- suppressWarnings(as.numeric(unlist(col$values)))
         for (f in fields) {
           v <- tryCatch(calc[[f]](axis$year, axis$age, vals), error = function(e) NA_real_)
-          if (length(v) != 1 || !is.finite(v)) next
+          got <- length(v) == 1 && is.finite(v)
+          # A calculation that comes to nothing still emits its cell, carrying
+          # no value. That is what makes the clear explicit: a column of all-NaN
+          # measurements has no year range, and the stale range from when the
+          # axis was read unmasked has to go rather than sit there unchallenged.
+          # An omitted cell would read as "unchanged" and leave it (Nick,
+          # 2026-08-12).
           rows[[length(rows) + 1L]] <- tibble::tibble(
-            tsid = tsid, field = f, value = lv_format_number(v), present = TRUE,
-            dataset_id = dsid, updated_at = NA_character_, source = "calc",
-            actor = NA_character_)
+            tsid = tsid, field = f,
+            value = if (got) lv_format_number(v) else NA_character_,
+            present = got, dataset_id = dsid, updated_at = NA_character_,
+            source = "calc", actor = NA_character_)
         }
       }
     }

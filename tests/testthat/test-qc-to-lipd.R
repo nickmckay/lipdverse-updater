@@ -214,3 +214,30 @@ test_that("a dataset-level field agreeing across rows is applied once", {
   expect_equal(r$L$geo$siteName, "Somewhere")
   expect_equal(nrow(r$issues), 0)
 })
+
+test_that("calculated fields are written to the column, not the dataset root", {
+  # minYear and maxYear vary between the columns of one dataset, but carry no
+  # prefix, so the generic rules would file them at the root where only one
+  # value fits. That produced 7,862 "dataset-level field disagrees" warnings on
+  # a single hydroclimate2k run.
+  p <- lv_field_path(c("minYear", "maxYear", "distinctYearsInCommonEra", "archiveType"))
+  expect_equal(p$container, c("column", "column", "column", "root"))
+  expect_equal(p$level, c("column", "column", "column", "dataset"))
+  expect_equal(p$key, c("minYear", "maxYear", "distinctYearsInCommonEra", "archiveType"))
+})
+
+test_that("a calculated value lands on the column that earned it", {
+  cells <- cellset("T1", "minYear", "1850", "T2", "minYear", "1600")
+  r <- apply_to(cells, "minYear", tsids = c("T1", "T2"))
+  tb <- r$L$paleoData[[1]]$measurementTable[[1]]
+  cols <- if (!is.null(tb$columns)) tb$columns else tb
+  get <- function(id) {
+    hit <- Filter(function(c) is.list(c) && identical(as.character(c$TSid), id), cols)
+    hit[[1]]$minYear
+  }
+  # Different columns keep different ranges, and neither reaches the root.
+  expect_equal(as.character(get("T1")), "1850")
+  expect_equal(as.character(get("T2")), "1600")
+  expect_null(r$L$minYear)
+  expect_equal(nrow(r$issues), 0)
+})

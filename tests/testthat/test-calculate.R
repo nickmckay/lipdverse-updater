@@ -53,12 +53,18 @@ test_that("distinctYearsInCommonEra counts distinct whole years in the CE", {
   expect_true(is.na(f(NULL, NULL, NULL)))
 })
 
-test_that("distinctYearsInCommonEra does not mask to finite values", {
-  # Deliberate: the reference implementation counts the axis alone. Masking it
-  # would change every existing hydroclimate2k value, so it is a decision to
-  # take on purpose rather than by tidying.
+test_that("distinctYearsInCommonEra counts only years that carry a value", {
+  # The question is how many distinct years have a measurement, so a year whose
+  # value is blank does not count (Nick, 2026-08-12). The reference
+  # implementation counted the axis alone, which makes every existing
+  # hydroclimate2k value an upper bound.
   f <- lv_calculators()$distinctYearsInCommonEra
-  expect_equal(f(c(1000, 1001, 1002), NULL, c(NA, NA, 5)), 3)
+  expect_equal(f(c(1000, 1001, 1002), NULL, c(NA, NA, 5)), 1)
+  expect_equal(f(c(1000, 1001, 1002), NULL, c(3, NA, 5)), 2)
+  # Masking applies to the age fallback too.
+  expect_equal(f(NULL, c(0, 1, 2), c(NA, 5, 6)), 2)
+  # A column with no data at all has no distinct years, which clears the cell.
+  expect_true(is.na(f(c(1000, 1001), NULL, c(NA, NA))))
 })
 
 test_that("a calculation runs only where the QC sheet has the column", {

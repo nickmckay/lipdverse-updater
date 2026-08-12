@@ -126,6 +126,28 @@ frame <- dplyr::bind_rows(frame, lv_membership_frame(idx, comp, ts))
 # in the shared namespace, so qc_frame() cannot see it and it arrives separately.
 frame <- dplyr::bind_rows(frame, lv_csm_frame(db, comp, datasets = ds, tsids = ts,
                                               progress = FALSE))
+
+# Calculated fields are derived from the data every run, not read back. Which
+# ones is decided by the QC tab's header: a lead adds the column to ask for the
+# value, and a compilation without the column gets no calculation.
+#
+# What the files currently hold is kept aside first, because the computed cells
+# replace it in the frame -- leaving both would put two rows for the same cell
+# into the merge -- and the comparison is what says which files need rewriting.
+calcs <- lv_sheet_calculations(bk, cfg$qc_sheet_id, cfg$qc_tabs$qc)
+stored_calc <- frame[frame$field %in% calcs, , drop = FALSE]
+if (length(calcs)) {
+  frame <- frame[!frame$field %in% calcs, , drop = FALSE]
+  computed <- lv_calculate(calcs, db, datasets = ds, tsids = ts, index = idx,
+                           progress = FALSE)
+  frame <- dplyr::bind_rows(frame, computed)
+  cat(sprintf("calculated  : %s -- %d value%s, %d empty\n",
+              paste(calcs, collapse = ", "), sum(computed$present),
+              if (sum(computed$present) == 1) "" else "s", sum(!computed$present)))
+} else {
+  computed <- qc_cells_empty()
+  cat("calculated  : no calculated columns on this sheet\n")
+}
 cat(sprintf("base        : %d cells\nsheet       : %d cells\nframe       : %d cells\n",
             nrow(base), nrow(sheet), nrow(frame)))
 
@@ -206,9 +228,29 @@ is_csm <- lv_field_rule(write_cells$field)$role %in% "csm"
 csm_cells <- write_cells[is_csm, , drop = FALSE]
 write_cells <- write_cells[!is_csm, , drop = FALSE]
 
-cat(sprintf("\nto write    : %d cell%s from the sheet, %d of them compilation-specific\n",
+# A recalculated value has to reach the file as well as the sheet, or it is
+# recomputed from scratch every run and the file keeps a stale number forever.
+# These are resolution "file", not "sheet", so they are collected separately --
+# and only where the computed value differs from what the file already holds, so
+# an unchanged calculation rewrites nothing.
+if (length(calcs)) {
+  now <- plan$cells[plan$cells$field %in% calcs &
+                    plan$cells$resolution %in% c("file", "converged"), , drop = FALSE]
+  was <- stats::setNames(stored_calc$value, paste(stored_calc$tsid, stored_calc$field))
+  prev <- unname(was[paste(now$tsid, now$field)])
+  moved <- !values_equal(dplyr::coalesce(now$value, NA_character_),
+                         dplyr::coalesce(prev, NA_character_))
+  calc_cells <- now[moved, , drop = FALSE]
+  cat(sprintf("recalculated: %d cell%s differ from the files (%d cleared)\n",
+              nrow(calc_cells), if (nrow(calc_cells) == 1) "" else "s",
+              sum(is.na(calc_cells$value))))
+  write_cells <- dplyr::bind_rows(write_cells, calc_cells)
+}
+
+cat(sprintf("\nto write    : %d cell%s -- %d curator edit%s, %d compilation-specific\n",
             nrow(write_cells) + nrow(csm_cells),
-            if (nrow(write_cells) + nrow(csm_cells) == 1) "" else "s", nrow(csm_cells)))
+            if (nrow(write_cells) + nrow(csm_cells) == 1) "" else "s",
+            nrow(write_cells), if (nrow(write_cells) == 1) "" else "s", nrow(csm_cells)))
 
 # ---- apply -----------------------------------------------------------------
 
