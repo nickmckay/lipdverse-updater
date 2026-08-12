@@ -42,10 +42,24 @@ test_that("a merged field must say whether a blank cell clears it", {
 
 # The rule that makes the NA-as-deletion loss impossible: a blank cell may only
 # clear a value the curator owns. Anywhere else blank means "unchanged".
-test_that("only curator-owned fields may be nullable", {
+test_that("machine- and key-owned fields may not be nullable", {
   expect_error(validate_qc_fields(reg(ownership = "machine", nullable_by_curator = "TRUE")),
                class = "lv_error_registry")
+  expect_error(validate_qc_fields(reg(ownership = "key", nullable_by_curator = "TRUE")),
+               class = "lv_error_registry")
   expect_silent(validate_qc_fields(reg(ownership = "curator", nullable_by_curator = "TRUE")))
+  # Shared is allowed, and the proxy fields use it. Clearing one clears it for
+  # every compilation holding the dataset, which for a proxy is intended.
+  expect_silent(validate_qc_fields(reg(ownership = "shared", nullable_by_curator = "TRUE")))
+})
+
+test_that("the proxy fields are curator-clearable", {
+  r <- lv_qc_fields()
+  p <- r[r$qc_name %in% c("paleoData_proxy", "paleoData_proxyGeneral",
+                          "paleoData_proxyDetail"), ]
+  expect_equal(nrow(p), 3L)
+  expect_true(all(p$nullable_by_curator %in% TRUE))
+  expect_true(all(p$ownership == "shared"))
 })
 
 test_that("non-merged roles need no ownership", {

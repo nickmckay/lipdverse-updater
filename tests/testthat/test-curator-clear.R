@@ -44,9 +44,15 @@ test_that("membership is not clearable by blanking", {
     lv_qc_fields()$qc_name == "inThisCompilation"] %in% TRUE)
 })
 
-test_that("every nullable field is curator-owned", {
+test_that("no machine- or key-owned field is nullable", {
+  # Shared fields may be nullable -- the three proxy fields are -- because a
+  # wrong proxy is wrong in every compilation holding the dataset. Machine and
+  # key may not: a blank machine field means "not computed yet", so honouring it
+  # would let the sheet erase derived values between runs.
   r <- lv_qc_fields()
-  expect_true(all(r$ownership[r$nullable_by_curator %in% TRUE] == "curator"))
+  nullable <- r$ownership[r$nullable_by_curator %in% TRUE]
+  expect_false(any(nullable %in% c("machine", "key")))
+  expect_setequal(unique(nullable), c("curator", "shared"))
 })
 
 test_that("a blank cell survives the sheet pull for a clearable field", {

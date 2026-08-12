@@ -104,9 +104,22 @@ validate_qc_fields <- function(x) {
                    class = "lv_error_registry")
   }
 
-  wrong <- merged$qc_name[merged$nullable_by_curator == "TRUE" & merged$ownership != "curator"]
+  # `shared` fields may be nullable, and the three proxy fields are. A shared
+  # field lives in the .lpd file, so clearing it in one QC sheet clears it for
+  # every compilation holding that dataset. For proxy that is the point (Nick,
+  # 2026-08-11): a proxy is a fact about the measurement, so if it is wrong in
+  # one place it is wrong everywhere. Whoever marks a shared field nullable is
+  # accepting that propagation.
+  #
+  # `machine` and `key` are still refused. A blank machine field means the
+  # machine has not computed it yet, not that a curator wants it gone, so
+  # honouring the blank would let the sheet erase derived values between runs;
+  # and a key that can be blanked is a row that can lose its identity.
+  wrong <- merged$qc_name[merged$nullable_by_curator == "TRUE" &
+                            merged$ownership %in% c("machine", "key")]
   if (length(wrong)) {
-    cli::cli_abort(c("Only curator-owned fields may be nullable: {.val {wrong}}"),
+    cli::cli_abort(c("{.val machine}- and {.val key}-owned fields may not be nullable: {.val {wrong}}",
+                     i = "A blank means {.emph not yet computed}, not {.emph delete this}."),
                    class = "lv_error_registry")
   }
 
