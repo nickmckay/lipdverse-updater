@@ -248,6 +248,21 @@ if (length(calcs)) {
 }
 
 n_edits <- nrow(write_cells) - if (exists("calc_cells")) nrow(calc_cells) else 0L
+# A corrected dataSetName is a rename, not just another cell: the file takes its
+# name from its metadata, so applying it writes a file under the new name and
+# the old one has to be retired or the promote adds a duplicate.
+renames <- lv_planned_renames(write_cells, idx)
+if (nrow(renames)) {
+  cat(sprintf("\nrenames     : %d dataset%s renamed on the QC sheet\n", nrow(renames),
+              if (nrow(renames) == 1) "" else "s"))
+  print(as.data.frame(renames[, c("dataSetName", "new_name", "datasetId", "issue")]), right = FALSE)
+  ri <- lv_rename_issues(renames)
+  if (lv_n_issues(ri, "error")) {
+    readr::write_csv(renames, file.path(lv_run_dir(run), "renames.csv"), na = "")
+    stop("unsafe rename; not proceeding")
+  }
+}
+
 cat(sprintf("\nto write    : %d cell%s -- %d curator edit%s, %d recalculated, %d compilation-specific\n",
             nrow(write_cells) + nrow(csm_cells),
             if (nrow(write_cells) + nrow(csm_cells) == 1) "" else "s",
@@ -317,7 +332,11 @@ if (length(staged)) {
   cl <- list()
   for (f in staged) {
     dsn <- sub("\\.lpd$", "", f)
-    live <- fs::path(db, f)
+    # A renamed dataset has no live file under its new name; its history is the
+    # old one, so the diff is taken against that. Without this the rename shows
+    # up as a dataset with no changelog entry at all.
+    was <- renames$dataSetName[match(dsn, renames$new_name)]
+    live <- fs::path(db, if (!is.na(was)) paste0(was, ".lpd") else f)
     if (!fs::file_exists(live)) next
     a <- tryCatch(suppressWarnings(lipdR::readLipd(live)), error = function(e) NULL)
     b <- tryCatch(suppressWarnings(lipdR::readLipd(fs::path(stage, f))), error = function(e) NULL)
@@ -348,7 +367,11 @@ if (length(staged)) {
 
 if (length(staged)) {
   touched <- sub("[.]lpd$", "", staged)
-  outside <- setdiff(touched, ds)
+  # A renamed dataset lands under a name the membership tab does not know yet,
+  # so it is expected outside the compilation's dataset list. An *undeclared*
+  # name still stops the run -- that is what caught the rename in the first
+  # place, before renaming was supported.
+  outside <- setdiff(touched, c(ds, renames$new_name))
   cat(sprintf("collateral  : %d staged file%s outside the compilation\n",
               length(outside), if (length(outside) == 1) "" else "s"))
   if (length(outside)) stop("staged files outside the compilation: ",
@@ -359,7 +382,8 @@ if (length(staged)) {
 
 if (length(staged)) {
   if (commit) system2("scripts/snapshot-database.sh", stdout = TRUE)
-  rec <- lv_promote(stage, db, run_id = run, partial = TRUE, dry_run = !commit)
+  rec <- lv_promote(stage, db, run_id = run, partial = TRUE, dry_run = !commit,
+                    delete = renames$file_old)
   print(rec)
 }
 
@@ -434,6 +458,16 @@ if (force_patch && length(new_rows)) {
   cat(sprintf("  --patch: %d new row%s will be appended at the bottom, unformatted;\n",
               length(new_rows), if (length(new_rows) == 1) "" else "s"))
   cat("           existing rows and their colour coding are untouched.\n")
+}
+
+# The membership tab names datasets by name, so after a rename the old entry
+# matches nothing and the dataset drops out of the considered set on the next
+# run -- looking like the compilation losing a dataset for no reason.
+if (nrow(renames)) {
+  mv <- lv_rename_in_membership(renames, cfg, bk, dry_run = !commit)
+  cat(sprintf("membership  : %d renamed entr%s on %s%s\n", nrow(mv),
+              if (nrow(mv) == 1) "y" else "ies", cfg$qc_tabs$datasets,
+              if (commit) "" else " (would patch)"))
 }
 
 if (commit) {

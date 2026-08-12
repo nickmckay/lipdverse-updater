@@ -117,7 +117,8 @@ lv_verify_worker <- function(path, expect_name = NULL, min_bytes = 200,
 #' @export
 lv_promote <- function(staging, dir = lv_path("database"), run_id = lv_run_id(),
                        dry_run = TRUE, verify = TRUE, workers = NULL,
-                       allow_delete = FALSE, partial = FALSE) {
+                       allow_delete = FALSE, partial = FALSE,
+                       delete = character()) {
   staging <- path.expand(staging); dir <- path.expand(dir)
   if (!fs::dir_exists(staging)) cli::cli_abort("Staging directory not found: {.path {staging}}")
   if (!fs::dir_exists(dir)) cli::cli_abort("Database directory not found: {.path {dir}}")
@@ -160,8 +161,32 @@ lv_promote <- function(staging, dir = lv_path("database"), run_id = lv_run_id(),
   # With a partial staging, everything the run did not touch is untouched, not
   # deleted. Without this, promoting one changed file into the database reads as
   # deleting the other 7,176.
+  # With a partial staging, everything the run did not touch is untouched, not
+  # deleted -- except files the caller names outright. That is how a rename
+  # retires its old filename: the staged file carries the new name, and the old
+  # one has to go or the promote adds a duplicate rather than renaming.
   deletions <- if (partial) character() else
     live_names[!lv_nfc(live_names) %in% lv_nfc(new_names)]
+  named <- character()
+  if (length(delete)) {
+    delete <- fs::path_file(delete)
+    hit <- match(lv_nfc(delete), lv_nfc(live_names))
+    absent <- delete[is.na(hit)]
+    if (length(absent)) {
+      cli::cli_alert_info(
+        "{length(absent)} named deletion{?s} {?is/are} not in {.path {dir}} and {?is/are} ignored.")
+    }
+    named <- live_names[stats::na.omit(hit)]
+    # A file cannot be both written and deleted by one run. Staging wins, and
+    # the contradiction is reported rather than resolved silently.
+    clash <- named[lv_nfc(named) %in% lv_nfc(new_names)]
+    if (length(clash)) {
+      cli::cli_abort(c("{length(clash)} file{?s} named for deletion {?is/are} also staged for writing.",
+                       i = "{.file {utils::head(clash, 5)}}"),
+                     class = "lv_error_write")
+    }
+    deletions <- unique(c(deletions, named))
+  }
 
   cli::cli_alert_info("{nrow(plan)} file{?s} to write ({sum(plan$action == 'replace')} replace, {sum(plan$action == 'add')} add), {length(deletions)} candidate deletion{?s}")
 
@@ -200,12 +225,13 @@ lv_promote <- function(staging, dir = lv_path("database"), run_id = lv_run_id(),
     p <- fs::path(lv_run_dir(run_id), "write-issues.csv")
     lv_issues_check(issues, p, what = "Staged file verification")
   }
-  if (length(deletions) && !allow_delete) {
-    n_del <- length(deletions)
+  unauthorized <- setdiff(deletions, named)
+  if (length(unauthorized) && !allow_delete) {
+    n_del <- length(unauthorized)
     cli::cli_abort(c(
       "{n_del} live file{?s} absent from staging.",
       i = "Pass {.code allow_delete = TRUE} to move them to .trash, or stage them too.",
-      i = "First few: {.file {utils::head(deletions, 5)}}"
+      i = "First few: {.file {utils::head(unauthorized, 5)}}"
     ), class = "lv_error_write")
   }
   if (dry_run) {

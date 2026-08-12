@@ -69,3 +69,11 @@ make_ensemble_table <- function(tsid = "E1", n = 3) {
        columns = list(list(TSid = tsid, variableName = "ageEnsemble",
                            units = "yr BP", values = as.list(seq_len(n)))))
 }
+
+# A throwaway database directory built from write_lpd() specs. Used by the write
+# and rename tests, both of which need a live directory to promote into.
+local_db <- function(specs, envir = parent.frame()) {
+  d <- withr::local_tempdir(.local_envir = envir)
+  for (s in specs) do.call(write_lpd, c(list(dir = d), s))
+  d
+}

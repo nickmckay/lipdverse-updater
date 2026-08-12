@@ -1,9 +1,3 @@
-local_db <- function(specs, envir = parent.frame()) {
-  d <- withr::local_tempdir(.local_envir = envir)
-  for (s in specs) do.call(write_lpd, c(list(dir = d), s))
-  d
-}
-
 fingerprint <- function(dir) {
   f <- sort(fs::dir_ls(dir, glob = "*.lpd", type = "file"))
   paste(fs::path_file(f), vapply(f, function(p) digest::digest(file = p), character(1)),
