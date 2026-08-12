@@ -117,8 +117,14 @@ reg <- terms |>
       !is.na(ownership) & ownership == "key"     ~ "key",
       !is.na(csm_flat_key)                       ~ "csm",
       qc_name %in% csm_removed                   ~ "delete",
-      disposition == "deleteMe"                  ~ "delete",
+      # A synonym beats a deleteMe. The standardization sheet marks `description`
+      # deleteMe while terms-draft makes it a synonym of paleoData_description,
+      # and taking the delete gives the field no column at all: lv_display_field()
+      # consults only synonyms, so 6,516 stored descriptions reached nothing.
+      # That is the #14 bug, and validate_qc_fields() refuses the shape, so the
+      # builder must not be able to produce it.
       category == "synonym"                      ~ "synonym",
+      disposition == "deleteMe"                  ~ "delete",
       category %in% c("control", "unused")       ~ category,
       # A reviewer can redirect a field into the inCompilation structure
       # instead of giving it a merge rule.
@@ -195,6 +201,13 @@ out <- reg |>
           desc(n_compilations), qc_name)
 
 dir.create(file.path(repo, "inst/extdata"), recursive = TRUE, showWarnings = FALSE)
+
+# Validate before writing, not after. The builder used to write whatever it
+# assembled, so it could emit a registry that lv_qc_fields() then refused to
+# load -- which is how `description` came to be role = delete pointing at a live
+# field. Failing here leaves the committed registry untouched.
+validate_qc_fields(out)
+
 write_csv(out, file.path(repo, "inst/extdata/qc_fields.csv"), na = "")
 
 cat("wrote inst/extdata/qc_fields.csv:", nrow(out), "fields\n\n")

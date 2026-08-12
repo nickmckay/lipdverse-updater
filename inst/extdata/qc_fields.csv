@@ -252,7 +252,7 @@ hasChron,,hasChron,delete,,,,,,,,,,chronology,5,TRUE,1,1031
 hasDepth,,hasDepth,delete,,,,,,,,,,chronology,5,TRUE,1,1031
 hasResolution_nominal,,hasResolution_nominal,delete,,,,,,,,,,other,14,TRUE,1,285
 paleoData_hasUncertainty,,paleoData_hasUncertainty,delete,,,,,,,,,,measurement,6,TRUE,1,7
-description,paleoData_description,description,synonym,,,timeseries,character,,paleoData_description,,,,other,14,TRUE,0,0
+description,paleoData_description,description,synonym,,,timeseries,character,,paleoData_description,,,,other,14,FALSE,0,0
 paleoData_inCompilation,,paleoData_inCompilation,csm_pending,,,,,,,,,,compilation,12,FALSE,4,1622
 paleoData_NAm21k-noPollenCertification,,paleoData_NAm21k-noPollenCertification,csm,,,,,,,NAm21k-noPollen,QCCertification,NAm21k-noPollen_csm_QCCertification,compilation,12,FALSE,1,0
 paleoData_NAm21k-noPollenQCnotes,,paleoData_NAm21k-noPollenQCnotes,csm,,,,,,,NAm21k-noPollen,QCnotes,NAm21k-noPollen_csm_QCnotes,compilation,12,FALSE,1,0
