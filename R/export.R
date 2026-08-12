@@ -683,15 +683,25 @@ lv_export_context <- function(compilation, store = qc_store(),
   }
 
   vs <- tryCatch(lv_versions(store), error = function(e) NULL)
-  ver <- if (is.null(vs) || !nrow(vs)) lv_export_empty("versions") else {
+  ver <- local({
+    empty <- lv_export_empty("versions")
+    if (is.null(vs) || !nrow(vs)) return(empty)
     x <- tibble::as_tibble(vs)
     x <- x[x$compilation %in% compilation, , drop = FALSE]
-    out <- lv_export_empty("versions")
-    for (k in names(out)) out[[k]] <- if (k %in% names(x)) {
-      if (identical(k, "n_datasets")) suppressWarnings(as.integer(x[[k]])) else as.character(x[[k]])
-    } else rep(if (identical(k, "n_datasets")) NA_integer_ else NA_character_, nrow(x))
-    out
-  }
+    if (!nrow(x)) return(empty)
+    # Built column by column into a new tibble, not assigned into the empty one:
+    # assigning an n-length vector into a zero-row tibble is a recycling error,
+    # which only fires once a compilation actually has versions -- so it passed
+    # every test that used a fresh store.
+    cols <- names(empty)
+    tibble::as_tibble(stats::setNames(lapply(cols, function(k) {
+      if (k %in% names(x)) {
+        if (identical(k, "n_datasets")) suppressWarnings(as.integer(x[[k]]))
+        else as.character(x[[k]])
+      } else if (identical(k, "n_datasets")) rep(NA_integer_, nrow(x))
+      else rep(NA_character_, nrow(x))
+    }), cols))
+  })
 
   vb <- list()
   for (f in names(vocab)) {
@@ -706,4 +716,73 @@ lv_export_context <- function(compilation, store = qc_store(),
   vbt <- vbt[!duplicated(paste(vbt$field, vbt$lipdName, vbt$synonym)), , drop = FALSE]
 
   list(qc_state = qc, versions = ver, vocab = vbt)
+}
+
+#' @rdname export
+#' @details
+#' `lv_export()` is the whole thing: build the tables for a compilation, write
+#' them under `<export_dir>/<compilation>/<version>/`, and record in the manifest
+#' exactly which database, vocabulary and curated state produced them.
+#'
+#' Those three fingerprints are the point. An export nobody can trace back to its
+#' inputs is a snapshot of an unknown thing, and the site generator that consumes
+#' it has no way to tell a stale copy from a current one.
+#'
+#' The ensembles go to a shared store outside the version directory. They are
+#' 88.9% of the value rows and change far less often than the metadata around
+#' them, so copying them into every compilation and every version would cost
+#' tens of gigabytes to say the same thing repeatedly.
+#'
+#' @param cfg From [lv_config()].
+#' @param version The version being exported, e.g. `"0_6_1"`.
+#' @param datasets Dataset names to export. Defaults to the compilation's
+#'   considered set, which the caller usually already has.
+#' @param export_dir Root for exports.
+#' @param ensemble_dir Shared ensemble store; defaults to `<export_dir>/ensembles`.
+#' @param store From [qc_store()].
+#' @param duckdb Also build the convenience database.
+#' @param dry_run Report without writing.
+#' @return The manifest, invisibly.
+#' @export
+lv_export <- function(cfg, version, datasets, export_dir = lv_path("export"),
+                      ensemble_dir = NULL, store = qc_store(),
+                      duckdb = TRUE, dry_run = TRUE, run_id = lv_run_id(),
+                      progress = TRUE) {
+  comp <- cfg$compilation
+  dir <- fs::path(export_dir, comp, version)
+  ens <- ensemble_dir %||% fs::path(export_dir, "ensembles")
+
+  if (progress) cli::cli_alert_info("Exporting {.val {comp}} {.val {version}} from {length(datasets)} dataset{?s}")
+  tables <- lv_export_tables(cfg$lipd_dir, datasets = datasets, progress = progress,
+                             compilation = comp, store = store)
+
+  iss <- lv_export_validate(tables)
+  n_err <- lv_n_issues(iss, "error")
+  cli::cli_alert_info("{nrow(tables$datasets)} dataset{?s}, {nrow(tables$timeseries)} timeseries, {nrow(tables$values)} value{?s}, {nrow(tables$values_ensemble)} ensemble value{?s}")
+  if (n_err) cli::cli_alert_warning("{n_err} contract violation{?s}.")
+
+  # Recorded, not recomputed later: these are what make the export traceable,
+  # and each is cheap here and impossible to reconstruct afterwards.
+  meta <- list(
+    compilation = comp, version = version, run_id = run_id,
+    db_fingerprint = lv_scan(cfg$lipd_dir)$fingerprint,
+    vocab_pin = attr(lv_vocab(validate = FALSE), "pin") %||% NA_character_,
+    # An empty state still hashes to something. NA here is indistinguishable
+    # from "not recorded", and a consumer cannot tell an export of a compilation
+    # with no curated state from one where the field was never filled in.
+    qc_state_hash = if (nrow(tables$qc_state)) {
+      lv_dataset_set_hash(paste(tables$qc_state$tsid, tables$qc_state$field,
+                                tables$qc_state$value))
+    } else digest::digest("", algo = "md5"),
+    n_datasets = nrow(tables$datasets))
+
+  if (dry_run) {
+    cli::cli_alert_info("Dry run. Would write to {.path {dir}} (ensembles to {.path {ens}}).")
+    return(invisible(c(meta, list(tables = vapply(tables, nrow, integer(1)),
+                                  issues = iss)))) 
+  }
+
+  man <- lv_export_write(tables, dir, meta = meta, ensemble_dir = ens)
+  if (duckdb) lv_export_duckdb(dir, ensemble_dir = ens)
+  invisible(man)
 }

@@ -357,3 +357,103 @@ test_that("context tables carry the curated state, versions and vocabulary", {
     setdiff(names(lv_export_schema()$tables), names(ctx))], ctx)
   expect_equal(nrow(lv_export_validate(full)), 0)
 })
+
+test_that("an export records what produced it", {
+  skip_if_not_installed("arrow")
+  withr::local_envvar(LIPDVERSE_STATE = withr::local_tempdir())
+  d <- withr::local_tempdir()
+  write_lpd(d, "A.Author.2001", tsids = c("T1", "T2"))
+  write_lpd(d, "B.Author.2002", tsids = "T3")
+  cfg <- list(compilation = "testcomp", lipd_dir = d)
+  root <- withr::local_tempdir()
+  store <- qc_store(withr::local_tempdir())
+
+  man <- lv_export(cfg, "1_0_0", datasets = c("A.Author.2001", "B.Author.2002"),
+                   export_dir = root, store = store, duckdb = FALSE,
+                   dry_run = FALSE, progress = FALSE)
+
+  # The three fingerprints are the reason the manifest exists: without them an
+  # export is a snapshot of an unknown thing.
+  for (k in c("db_fingerprint", "vocab_pin", "qc_state_hash", "run_id",
+              "compilation", "version")) {
+    expect_true(k %in% names(man), info = k)
+    expect_false(is.na(as.character(man[[k]])[1]), info = k)
+  }
+  expect_equal(as.character(man$version), "1_0_0")
+
+  out <- fs::path(root, "testcomp", "1_0_0")
+  expect_true(fs::file_exists(fs::path(out, "datasets.parquet")))
+  expect_equal(nrow(lv_export_verify(fs::path(out, "export_manifest.json"))), 0)
+})
+
+test_that("ensembles are shared across versions, not copied into each", {
+  # They are 88.9% of the value rows and change far less often than the metadata
+  # around them. Copying them per version is how an export becomes tens of GB.
+  skip_if_not_installed("arrow")
+  withr::local_envvar(LIPDVERSE_STATE = withr::local_tempdir())
+  d <- withr::local_tempdir()
+  write_lpd(d, "A.Author.2001", tsids = c("T1", "T2"))
+  cfg <- list(compilation = "testcomp", lipd_dir = d)
+  root <- withr::local_tempdir()
+  store <- qc_store(withr::local_tempdir())
+
+  lv_export(cfg, "1_0_0", datasets = "A.Author.2001", export_dir = root,
+            store = store, duckdb = FALSE, dry_run = FALSE, progress = FALSE)
+  lv_export(cfg, "1_0_1", datasets = "A.Author.2001", export_dir = root,
+            store = store, duckdb = FALSE, dry_run = FALSE, progress = FALSE)
+
+  # Two version directories, one ensemble store beside them.
+  expect_true(fs::dir_exists(fs::path(root, "testcomp", "1_0_0")))
+  expect_true(fs::dir_exists(fs::path(root, "testcomp", "1_0_1")))
+  expect_true(fs::dir_exists(fs::path(root, "ensembles")))
+  expect_false(fs::file_exists(fs::path(root, "testcomp", "1_0_0", "values_ensemble.parquet")))
+})
+
+test_that("a dry run writes nothing but still reports the shape", {
+  d <- withr::local_tempdir()
+  write_lpd(d, "A.Author.2001", tsids = "T1")
+  cfg <- list(compilation = "testcomp", lipd_dir = d)
+  root <- withr::local_tempdir()
+  store <- qc_store(withr::local_tempdir())
+
+  r <- lv_export(cfg, "1_0_0", datasets = "A.Author.2001", export_dir = root,
+                 store = store, dry_run = TRUE, progress = FALSE)
+  expect_length(fs::dir_ls(root), 0)
+  expect_true("tables" %in% names(r))
+  expect_true(r$tables[["datasets"]] >= 1)
+})
+
+test_that("a compilation with no curated state still gets a state hash", {
+  # NA in a manifest cannot be told apart from "never recorded", so a consumer
+  # cannot distinguish an export with no curated state from a broken one.
+  skip_if_not_installed("arrow")
+  withr::local_envvar(LIPDVERSE_STATE = withr::local_tempdir())
+  d <- withr::local_tempdir()
+  write_lpd(d, "A.Author.2001", tsids = c("T1", "T2"))
+  cfg <- list(compilation = "testcomp", lipd_dir = d)
+  man <- lv_export(cfg, "1_0_0", datasets = "A.Author.2001",
+                   export_dir = withr::local_tempdir(),
+                   store = qc_store(withr::local_tempdir()),
+                   duckdb = FALSE, dry_run = FALSE, progress = FALSE)
+  expect_false(is.na(as.character(man$qc_state_hash)[1]))
+  expect_true(nchar(as.character(man$qc_state_hash)[1]) > 8)
+})
+
+test_that("the versions table is built when the ledger actually has rows", {
+  # The empty-store path worked and the populated one did not: assigning an
+  # n-length column into a zero-row tibble is a recycling error, so this only
+  # failed on a compilation that had been versioned. Every test using a fresh
+  # store missed it.
+  store <- qc_store(withr::local_tempdir())
+  ver <- lv_tick_version(NULL, before = character(), now = c("D1", "D2"))
+  lv_version_append(store, "testcomp", ver, run_id = "R1")
+
+  ctx <- lv_export_context("testcomp", store = store, vocab = list())
+  expect_gte(nrow(ctx$versions), 1)
+  expect_equal(ctx$versions$compilation[1], "testcomp")
+  expect_type(ctx$versions$n_datasets, "integer")
+  expect_equal(nrow(lv_export_validate(
+    c(stats::setNames(lapply(setdiff(names(lv_export_schema()$tables), names(ctx)),
+                             lv_export_empty),
+                      setdiff(names(lv_export_schema()$tables), names(ctx))), ctx))), 0)
+})

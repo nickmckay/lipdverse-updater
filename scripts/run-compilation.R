@@ -362,6 +362,21 @@ if (commit) {
   # rather than an optional extra. It goes through the Sheets API, which the
   # existing token covers; the try() remains only so a transient API failure
   # cannot fail an otherwise complete run, and it says so loudly.
+  # The export is the artefact anything downstream reads, and it records the
+  # database fingerprint, vocabulary pin and QC state hash that produced it.
+  # try(): a completed update should not be undone by an export failure, and the
+  # export can be rebuilt from the state at any time.
+  exported <- try(lv_export(cfg, ver$version, datasets = ds, run_id = run,
+                            store = store, dry_run = FALSE, progress = FALSE),
+                  silent = TRUE)
+  if (inherits(exported, "try-error")) {
+    cat(sprintf("export      : FAILED -- %s\n",
+                sub("\n.*", "", conditionMessage(attr(exported, "condition")))))
+    cat("              rerun: lv_export(cfg, ver$version, datasets = ds, dry_run = FALSE)\n")
+  } else {
+    cat(sprintf("export      : %s\n", fs::path(lv_path("export"), comp, ver$version)))
+  }
+
   renamed <- try(lv_rename_qc_sheet(cfg, ver$version, dry_run = FALSE), silent = TRUE)
   if (inherits(renamed, "try-error")) {
     cat(sprintf("title       : FAILED -- %s\n",
@@ -375,6 +390,12 @@ if (commit) {
   cat(sprintf("store       : would append %d event%s\n", n, if (n == 1) "" else "s"))
   cat("sheet       : would push\n")
   cat(sprintf("version     : would record %s\n", ver$version))
+  ex <- lv_export(cfg, ver$version, datasets = ds, run_id = run, store = store,
+                  dry_run = TRUE, progress = FALSE)
+  cat(sprintf("export      : would write %d dataset%s, %d timeseries, %d value%s\n",
+              ex$tables[["datasets"]], if (ex$tables[["datasets"]] == 1) "" else "s",
+              ex$tables[["timeseries"]], ex$tables[["values"]],
+              if (ex$tables[["values"]] == 1) "" else "s"))
 }
 
 # ---- invariant: idempotence ------------------------------------------------
