@@ -504,3 +504,15 @@ test_that("a plain column records no ensemble shape", {
   expect_true(is.na(row$n_members))
   expect_equal(row$n_values, 3L)
 })
+
+test_that("an accented dataset name is exported, not silently dropped", {
+  # The fifth site of the NFD/NFC defect: a filename is decomposed, a name from
+  # the sheet or the index is composed, and the raw comparison drops the dataset
+  # from the artefact everything downstream reads.
+  nfc <- "CentralEurope.Büntgen.2011"
+  d <- withr::local_tempdir()
+  write_lpd(d, stringi::stri_trans_nfd(nfc), tsids = c("T1", "T2"))
+  tabs <- lv_export_tables(d, datasets = nfc, progress = FALSE)
+  expect_equal(nrow(tabs$datasets), 1)
+  expect_equal(nrow(tabs$timeseries), 2)
+})

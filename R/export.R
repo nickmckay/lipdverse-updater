@@ -378,8 +378,13 @@ lv_export_tables <- function(dir = lv_path("database"), datasets = NULL,
                              compilation = NULL, store = NULL) {
   paths <- if (inherits(dir, "lv_scan")) dir$files$path else
     fs::dir_ls(dir, glob = "*.lpd", type = "file")
-  if (!is.null(datasets))
-    paths <- paths[sub("\\.lpd$", "", fs::path_file(paths)) %in% datasets]
+  if (!is.null(datasets)) {
+    # Normalised on both sides. A filename in the database is decomposed and a
+    # name from the sheet or the index is composed, so the raw comparison drops
+    # every accented dataset -- silently, from the artefact everything
+    # downstream reads. Same defect as qc_frame() and lv_csm_frame() had.
+    paths <- paths[lv_nfc(sub("\\.lpd$", "", fs::path_file(paths))) %in% lv_nfc(datasets)]
+  }
   nms <- names(lv_export_schema()$tables)
   if (!length(paths)) return(stats::setNames(lapply(nms, lv_export_empty), nms))
 
