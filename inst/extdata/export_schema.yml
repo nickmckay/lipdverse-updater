@@ -61,6 +61,13 @@ tables:
       maxYear:           {type: dbl}
       medianResolution:  {type: dbl}
       n_values:          {type: int}
+      # An ensemble column arrives as a matrix and is flattened into
+      # values_ensemble, which loses its shape. These record it, so row_index is
+      # decomposable: the flattening is column major, so member m occupies
+      # row_index ((m - 1) * n_rows + 1) to (m * n_rows). NA for anything that
+      # was not a matrix.
+      n_rows:            {type: int}
+      n_members:         {type: int}
 
   values:
     key: [TSid, row_index]
@@ -90,6 +97,12 @@ tables:
 
       Carries datasetId, which `values` does not, because it is the partition
       key and a reader needs it before opening anything.
+
+      An ensemble is stored flat, one row per value, ordered column major: for a
+      column with `timeseries.n_rows` positions and `timeseries.n_members`
+      members, member m occupies row_index ((m - 1) * n_rows + 1) to
+      (m * n_rows). Those two columns are the only record of the shape, since a
+      single-column ensemble table has no sibling to infer it from.
     columns:
       datasetId: {type: chr, required: true}
       TSid:      {type: chr, required: true}

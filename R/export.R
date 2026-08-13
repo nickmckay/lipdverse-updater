@@ -111,6 +111,13 @@ lv_export_one <- function(L, file_md5 = NA_character_) {
       tsid <- as_chr1(cl$TSid)
       if (is.null(tsid) || !nzchar(tsid)) next
       vn <- s1(cl$variableName)
+      # An ensemble column is a matrix, and flattening it loses its shape. Keep
+      # the dimensions: without them the export hands a consumer 2,413,000
+      # values in one vector with no way to tell 2,413 depths x 1,000 members
+      # from any other factorisation, and ensembles are 3.43 GB of the 3.6 GB
+      # total. The flattening is R's own, column major, so member m occupies
+      # row_index ((m - 1) * n_rows + 1) to (m * n_rows).
+      dims <- if (is.matrix(cl$values)) dim(cl$values) else NULL
       sv <- lv_split_values(cl$values)
       n <- length(sv$num)
 
@@ -122,7 +129,9 @@ lv_export_one <- function(L, file_md5 = NA_character_) {
         primaryTimeseries = isTRUE(as.logical(as_chr1(cl$primaryTimeseries))),
         isAxis = lv_is_axis(vn), createdBy = s1(cl$createdBy),
         minYear = NA_real_, maxYear = NA_real_,
-        medianResolution = NA_real_, n_values = as.integer(n))
+        medianResolution = NA_real_, n_values = as.integer(n),
+        n_rows = if (is.null(dims)) NA_integer_ else as.integer(dims[1]),
+        n_members = if (is.null(dims)) NA_integer_ else as.integer(dims[2]))
 
       # Ensembles go to their own table. They are 88.9% of all value rows and
       # the most expensive per row, so keeping them here would make the table

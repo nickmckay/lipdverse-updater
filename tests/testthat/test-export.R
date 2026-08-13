@@ -457,3 +457,50 @@ test_that("the versions table is built when the ledger actually has rows", {
                              lv_export_empty),
                       setdiff(names(lv_export_schema()$tables), names(ctx))), ctx))), 0)
 })
+
+test_that("an ensemble's shape is recorded, so the flat values can be rebuilt", {
+  # values_ensemble stores one row per value, which loses the matrix. Without
+  # n_rows and n_members a consumer gets 2,413,000 values in a vector and cannot
+  # tell 2,413 depths x 1,000 members from any other factorisation -- and a
+  # single-column ensemble table has no sibling column to infer it from.
+  #
+  # Built as a LiPD object rather than through a file, because lipdR's writer
+  # does not round-trip a hand-made ensemble table and the shape is lost before
+  # the export is even reached.
+  L <- list(
+    dataSetName = "A.Author.2001", datasetId = "ID1", archiveType = "LakeSediment",
+    geo = list(latitude = 40, longitude = -105),
+    chronData = list(list(model = list(list(ensembleTable = list(list(
+      tableName = "chron1model1ensemble1",
+      columns = list(list(TSid = "E1", variableName = "ageEnsemble",
+                          units = "yr BP",
+                          values = matrix(seq_len(5 * 3), nrow = 5, ncol = 3)))
+    )))))))
+
+  one <- lv_export_one(L)
+  row <- one$timeseries[one$timeseries$TSid == "E1", ]
+  expect_equal(row$n_rows, 5L)
+  expect_equal(row$n_members, 3L)
+  expect_equal(row$n_values, 15L)
+
+  # And the recorded shape decomposes row_index the way the schema says: column
+  # major, so member m is row_index ((m-1)*n_rows+1) to (m*n_rows).
+  e <- one$values_ensemble[one$values_ensemble$TSid == "E1", ]
+  expect_equal(nrow(e), 15L)
+  expect_equal(e$value_num[e$row_index > 5 & e$row_index <= 10], as.double(6:10))
+})
+
+test_that("a plain column records no ensemble shape", {
+  L <- list(
+    dataSetName = "A.Author.2001", datasetId = "ID1", archiveType = "LakeSediment",
+    geo = list(latitude = 40, longitude = -105),
+    paleoData = list(list(measurementTable = list(list(
+      tableName = "paleo1measurement1",
+      columns = list(list(TSid = "T1", variableName = "temperature",
+                          units = "degC", values = list(1, 2, 3))))))))
+  one <- lv_export_one(L)
+  row <- one$timeseries[one$timeseries$TSid == "T1", ]
+  expect_true(is.na(row$n_rows))
+  expect_true(is.na(row$n_members))
+  expect_equal(row$n_values, 3L)
+})
