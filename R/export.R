@@ -238,7 +238,13 @@ lv_export_one <- function(L, file_md5 = NA_character_) {
   list(
     datasets = tibble::tibble(
       datasetId = dsid, dataSetName = dsn, archiveType = s1(L$archiveType),
-      version = s1(L$dataSetVersion %||% L$version),
+      # `datasetVersion`, with a lowercase s. It was spelled dataSetVersion here,
+      # which matches nothing, so every dataset exported with an empty version --
+      # and the version is half of the canonical URL a page lives at,
+      # /data/<datasetId>/<version>. The changelog is the fallback, since it
+      # records the same number and is what lv_tick_version() advances.
+      version = s1(L$datasetVersion %||% L$dataSetVersion %||% L$version) %|NA|%
+        lv_changelog_last_version(L),
       geo_latitude = geo$lat, geo_longitude = geo$lon, geo_elevation = geo$elev,
       geo_siteName = geo$site,
       minYear = suppressWarnings(min(ts_t$minYear, na.rm = TRUE)) |> lv_finite(),
@@ -257,9 +263,15 @@ lv_export_one <- function(L, file_md5 = NA_character_) {
     # They are returned empty rather than omitted so that one dataset's output
     # is still a complete export, and the contract check stays strict about
     # missing tables everywhere.
+    # Context tables belong to the store, not to a file, so one dataset's worth
+    # of export carries them empty. Listed from the schema rather than by hand:
+    # naming them individually meant that declaring compilation_versions broke
+    # every test that validates this function's output, because the new table
+    # was the one nobody remembered to add here.
     qc_state = lv_export_empty("qc_state"),
     versions = lv_export_empty("versions"),
-    vocab = lv_export_empty("vocab"))
+    vocab = lv_export_empty("vocab"),
+    compilation_versions = lv_export_empty("compilation_versions"))
 }
 
 lv_finite <- function(x) if (length(x) != 1 || !is.finite(x)) NA_real_ else x
@@ -431,6 +443,18 @@ lv_export_tables <- function(dir = lv_path("database"), datasets = NULL,
   else stats::setNames(lapply(c("qc_state", "versions", "vocab"), lv_export_empty),
                        c("qc_state", "versions", "vocab"))
   for (n in names(ctx)) out[[n]] <- ctx[[n]]
+
+  # Any table the schema declares that nothing above produced comes back empty
+  # rather than absent. A missing table fails lv_export_validate() with a
+  # complaint about the contract, which is true but points at the schema instead
+  # of at the table nobody filled in -- as compilation_versions did the moment it
+  # was declared.
+  # ncol as well as is.null: binding zero parts gives a 0x0 tibble, which is a
+  # data frame with none of the contract's columns, so it passes an is.null test
+  # and fails validation.
+  for (n in nms) if (is.null(out[[n]]) || !is.data.frame(out[[n]]) || ncol(out[[n]]) == 0) {
+    out[[n]] <- lv_export_empty(n)
+  }
   out[nms]
 }
 
@@ -783,6 +807,10 @@ lv_export <- function(cfg, version, datasets, export_dir = lv_path("export"),
   tables <- lv_export_tables(cfg$lipd_dir, datasets = datasets, progress = progress,
                              compilation = comp, store = store)
 
+  # What this compilation contained at each of its published versions, so a
+  # shell site for an old version can name the pages it should embed.
+  tables$compilation_versions <- lv_version_members(store, compilation = comp)
+
   # Fill the publications from the reference database before anything is
   # written, so the parquet, the duckdb and the bibliography all say the same
   # thing. The files keep whatever they have; the store answers only for gaps.
@@ -900,6 +928,9 @@ lv_export_database <- function(label = format(Sys.Date(), "%Y-%m-%d"),
   # The vocabulary is global, so it comes through whichever compilation is asked
   # for; asking for none would leave it empty.
   tables$vocab <- lv_export_context(NA_character_, store = store)$vocab
+  # Every compilation's published membership, since this export is the whole
+  # database rather than one compilation.
+  tables$compilation_versions <- lv_version_members(store)
 
   iss <- lv_export_validate(tables)
   cli::cli_alert_info("{nrow(tables$datasets)} dataset{?s}, {nrow(tables$timeseries)} timeseries, {nrow(tables$values)} value{?s}, {nrow(tables$values_ensemble)} ensemble value{?s}")

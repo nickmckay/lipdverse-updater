@@ -650,3 +650,29 @@ test_that("BibTeX special characters are escaped", {
   expect_true(grepl("\\_here", txt, fixed = TRUE))
   expect_true(grepl("\\{total\\}", txt, fixed = TRUE))
 })
+
+test_that("a dataset's own version is exported, since the URL is built from it", {
+  # A page lives at /data/<datasetId>/<version>, so an empty version means the
+  # export cannot address its own canonical location. The field is
+  # `datasetVersion`; it was read as `dataSetVersion`, which matches nothing.
+  L <- list(dataSetName = "A.Author.2001", datasetId = "ID1",
+            archiveType = "LakeSediment", datasetVersion = "1.0.5",
+            geo = list(latitude = 40, longitude = -105),
+            paleoData = list(list(measurementTable = list(list(
+              tableName = "paleo1measurement1",
+              columns = list(list(TSid = "T1", variableName = "temperature",
+                                  units = "degC", values = list(1, 2, 3))))))))
+  expect_equal(lv_export_one(L)$datasets$version, "1.0.5")
+})
+
+test_that("the changelog supplies the version when the field is absent", {
+  L <- list(dataSetName = "A.Author.2001", datasetId = "ID1",
+            archiveType = "LakeSediment",
+            changelog = list(list(version = "1.0.0"), list(version = "1.2.0")),
+            geo = list(latitude = 40, longitude = -105),
+            paleoData = list(list(measurementTable = list(list(
+              tableName = "paleo1measurement1",
+              columns = list(list(TSid = "T1", variableName = "temperature",
+                                  units = "degC", values = list(1, 2, 3))))))))
+  expect_equal(lv_export_one(L)$datasets$version, "1.2.0")
+})

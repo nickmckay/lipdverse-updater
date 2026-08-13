@@ -114,3 +114,46 @@ test_that("a version carries provenance for reproducing the run", {
   expect_false(is.na(x$lipdr_version))
   expect_equal(x$dataset_set_hash, lv_dataset_set_hash("a"))
 })
+
+test_that("the ledger records which version of each dataset a release contained", {
+  # A compilation page for a published version has to embed the dataset pages as
+  # they were, and those live at /data/<datasetId>/<version>. The dataset name
+  # alone cannot say which version to embed.
+  withr::local_envvar(LIPDVERSE_QCSTORE = withr::local_tempdir())
+  st <- qc_store()
+  v <- lv_tick_version(NULL, character(), c("A.Author.2001", "B.Author.2002"))
+  detail <- tibble::tibble(dataset = c("A.Author.2001", "B.Author.2002"),
+                           datasetId = c("ID1", "ID2"),
+                           datasetVersion = c("1.0.5", "2.1.0"))
+  lv_version_append(st, "c1", v, run_id = "r1", members = detail)
+
+  m <- lv_version_members(st, compilation = "c1")
+  expect_equal(nrow(m), 2)
+  expect_equal(m$datasetId[m$dataset == "A.Author.2001"], "ID1")
+  expect_equal(m$datasetVersion[m$dataset == "B.Author.2002"], "2.1.0")
+})
+
+test_that("a release recorded without that detail still reads back", {
+  # Every version published before the ledger carried it is in this state, and
+  # always will be: it was not written down and cannot be reconstructed.
+  withr::local_envvar(LIPDVERSE_QCSTORE = withr::local_tempdir())
+  st <- qc_store()
+  v <- lv_tick_version(NULL, character(), "A.Author.2001")
+  lv_version_append(st, "c1", v, run_id = "r1")
+  m <- lv_version_members(st, compilation = "c1")
+  expect_equal(m$dataset, "A.Author.2001")
+  expect_true(is.na(m$datasetId))
+  expect_true(is.na(m$datasetVersion))
+})
+
+test_that("the ledger can be asked what one version held", {
+  withr::local_envvar(LIPDVERSE_QCSTORE = withr::local_tempdir())
+  st <- qc_store()
+  v1 <- lv_tick_version(NULL, character(), c("A.Author.2001", "B.Author.2002"))
+  lv_version_append(st, "c1", v1, run_id = "r1")
+  v2 <- lv_tick_version(v1$version, c("A.Author.2001", "B.Author.2002"), "A.Author.2001")
+  lv_version_append(st, "c1", v2, run_id = "r2")
+
+  expect_equal(nrow(lv_version_members(st, "c1", v1$version)), 2)
+  expect_equal(lv_version_members(st, "c1", v2$version)$dataset, "A.Author.2001")
+})

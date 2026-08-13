@@ -517,7 +517,15 @@ lv_update <- function(compilation, commit = FALSE, cfg = lv_config(compilation),
     qc_store_append(store, comp, events, run_id = run)
     say(sprintf("store       : appended %d event%s\n", nrow(events),
                 if (nrow(events) == 1) "" else "s"))
-    lv_version_append(store, comp, ver, run_id = run,
+    # Record which version of each dataset this release contained, not just
+    # which datasets: a compilation page for a published version has to embed
+    # the dataset pages as they were, and those live at /data/<id>/<version>.
+    detail <- local({
+      d <- lv_export_tables(db, datasets = ds_now, progress = FALSE)$datasets
+      tibble::tibble(dataset = d$dataSetName, datasetId = d$datasetId,
+                     datasetVersion = d$version)
+    })
+    lv_version_append(store, comp, ver, run_id = run, members = detail,
                       db_fingerprint = lv_scan(db)$fingerprint,
                       qc_state_hash = lv_dataset_set_hash(paste(state$tsid, state$field, state$value)))
     say(sprintf("version     : %s\n", ver$version))

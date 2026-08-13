@@ -206,6 +206,29 @@ tables:
       n_datasets:  {type: int}
       notes:       {type: chr}
 
+  compilation_versions:
+    key: [compilation, version, dataset]
+    description: >
+      What a compilation contained at each published version, and at which
+      version of each dataset. This is what a compilation page for a published
+      version is built from: the pages themselves live at
+      /data/<datasetId>/<version>, and a shell for hydroclimate2k 0_5_0 has to
+      name exactly the datasets and dataset versions that release contained.
+
+      `compilations` cannot answer this. It records which compilation versions a
+      timeseries has belonged to, taken from the files as they are now, so it
+      describes the present rather than any past release.
+
+      datasetId and datasetVersion are NA for versions published before the
+      ledger recorded them, and always will be: that detail was not written down
+      and cannot be reconstructed afterwards.
+    columns:
+      compilation:    {type: chr, required: true}
+      version:        {type: chr, required: true}
+      dataset:        {type: chr, required: true}
+      datasetId:      {type: chr}
+      datasetVersion: {type: chr}
+
   vocab:
     key: [field, lipdName, synonym]
     description: >

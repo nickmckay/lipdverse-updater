@@ -159,7 +159,13 @@ lv_version_current <- function(store, compilation) {
 #' @param run_id Run that produced it.
 #' @param ... Extra ledger columns (`db_fingerprint`, `qc_state_hash`, `notes`).
 #' @export
-lv_version_append <- function(store, compilation, version, run_id = lv_run_id(), ...) {
+#' @param members Optional tibble of `dataset`, `datasetId` and `datasetVersion`,
+#'   recording not just which datasets a version contained but which *version of
+#'   each* it contained. A compilation page for a published version has to iframe
+#'   the dataset pages as they were, and the dataset name alone cannot say which
+#'   those are.
+lv_version_append <- function(store, compilation, version, run_id = lv_run_id(),
+                              members = NULL, ...) {
   stopifnot(inherits(version, "lv_version"))
   extra <- list(...)
   # `v`, not `version`: tibble() evaluates its arguments in order and exposes
@@ -191,8 +197,21 @@ lv_version_append <- function(store, compilation, version, run_id = lv_run_id(),
   # Which datasets were in which version: one row per membership, so
   # "what was in v1.0.3" is a filter rather than parsing a pipe-joined string.
   m <- fs::path(store$path, "version_datasets.csv")
+  detail <- members
   members <- tibble::tibble(compilation = compilation, version = v$version,
                             dataset = v$datasets)
+  # Which version of each dataset, where the caller knows. Older rows carry NA
+  # here and always will: the ledger did not record it, and it cannot be
+  # reconstructed after the fact.
+  members$datasetId <- NA_character_
+  members$datasetVersion <- NA_character_
+  if (!is.null(detail) && nrow(detail)) {
+    i <- match(lv_nfc(members$dataset), lv_nfc(as.character(detail$dataset)))
+    if ("datasetId" %in% names(detail)) members$datasetId <- as.character(detail$datasetId)[i]
+    if ("datasetVersion" %in% names(detail)) {
+      members$datasetVersion <- as.character(detail$datasetVersion)[i]
+    }
+  }
   prior <- if (fs::file_exists(m)) {
     readr::read_csv(m, col_types = readr::cols(.default = readr::col_character()),
                     na = "", progress = FALSE)
@@ -226,4 +245,32 @@ lv_version_unchanged <- function(prev, datasets = character()) {
     added = character(), removed = character(),
     dataset_set_hash = lv_dataset_set_hash(datasets)
   ), class = "lv_version")
+}
+
+#' What a compilation contained at a version
+#'
+#' The membership ledger, which is what a compilation page for a published
+#' version needs: not "what is in hydroclimate2k" but "what was in
+#' hydroclimate2k 0_5_0, and at which dataset version". Rows written before the
+#' ledger recorded that detail carry NA for it.
+#'
+#' @param store A QC store.
+#' @param compilation Optional compilation to restrict to.
+#' @param version Optional version to restrict to.
+#' @return A tibble of `compilation`, `version`, `dataset`, `datasetId`,
+#'   `datasetVersion`.
+#' @export
+lv_version_members <- function(store = qc_store(), compilation = NULL, version = NULL) {
+  p <- fs::path(store$path, "version_datasets.csv")
+  empty <- tibble::tibble(compilation = character(), version = character(),
+                          dataset = character(), datasetId = character(),
+                          datasetVersion = character())
+  if (!fs::file_exists(p)) return(empty)
+  x <- readr::read_csv(p, col_types = readr::cols(.default = readr::col_character()),
+                       na = "", progress = FALSE)
+  for (k in names(empty)) if (!k %in% names(x)) x[[k]] <- NA_character_
+  x <- x[, names(empty), drop = FALSE]
+  if (!is.null(compilation)) x <- x[x$compilation %in% compilation, , drop = FALSE]
+  if (!is.null(version)) x <- x[x$version %in% version, , drop = FALSE]
+  x
 }
