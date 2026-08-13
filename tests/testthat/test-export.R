@@ -561,3 +561,90 @@ test_that("the database export leaves qc_state empty, on purpose", {
   # But every compilation's version ledger does come through.
   expect_true(fs::file_exists(fs::path(out, "_database", "test-label", "versions.parquet")))
 })
+
+# ---- the download artefacts ------------------------------------------------
+
+test_that("the bundle holds members only, flat, and skips what is not there", {
+  d <- withr::local_tempdir()
+  write_lpd(d, "In.Author.2001", tsids = c("T1", "T2"))
+  write_lpd(d, "Also.Author.2002", tsids = c("T3", "T4"))
+  write_lpd(d, "NotAMember.Author.2003", tsids = c("T5", "T6"))
+  z <- fs::path(withr::local_tempdir(), "comp1_0_0.zip")
+
+  # cli_alert_warning is a message, which is the house style for non-fatal
+  # reporting here.
+  expect_message(
+    lv_export_bundle(c("In.Author.2001", "Also.Author.2002", "Gone.Author.2009"),
+                     d, z, progress = FALSE),
+    "not in")
+  entries <- utils::unzip(z, list = TRUE)$Name
+  expect_setequal(entries, c("In.Author.2001.lpd", "Also.Author.2002.lpd"))
+  # Flat: a visitor unzips into .lpd files, not into a copy of the tree.
+  expect_false(any(grepl("/", entries)))
+})
+
+test_that("an accented dataset makes it into the bundle", {
+  nfc <- "CentralEurope.Büntgen.2011"
+  d <- withr::local_tempdir()
+  write_lpd(d, stringi::stri_trans_nfd(nfc), tsids = c("T1", "T2"))
+  z <- fs::path(withr::local_tempdir(), "b.zip")
+  lv_export_bundle(nfc, d, z, progress = FALSE)
+  expect_equal(length(utils::unzip(z, list = TRUE)$Name), 1)
+})
+
+test_that("the bibliography carries one entry per publication, not per dataset", {
+  pubs <- tibble::tibble(
+    datasetId = c("D1", "D2", "D3"), pubIndex = 1L,
+    pubKind = NA_character_,
+    authors = list(c("Abram, N. J.", "Gagan, M. K."), c("Abram, N. J.", "Gagan, M. K."),
+                   "Wogau, Kurt H."),
+    year = c(2008L, 2008L, 2019L),
+    title = c("Recent intensification", "Recent intensification", "High resolution"),
+    journal = c("Nature Geoscience", "Nature Geoscience", NA_character_),
+    doi = c("10.1038/ngeo357", "10.1038/ngeo357", NA_character_),
+    citeKey = NA_character_)
+  p <- fs::path(withr::local_tempdir(), "c.bib")
+  lv_export_bib(pubs, p, progress = FALSE)
+  txt <- paste(readLines(p), collapse = "\n")
+
+  # The same paper describes D1 and D2; a bibliography repeating it is unusable.
+  expect_equal(length(gregexpr("abram2008", txt, fixed = TRUE)[[1]]), 1)
+  expect_equal(length(gregexpr("@Article|@Misc", txt)[[1]]), 2)
+  expect_match(txt, "author = \\{Abram, N. J. and Gagan, M. K.\\}")
+  expect_match(txt, "url = \\{https://doi.org/10.1038/ngeo357\\}")
+  # No journal, so it is not an article.
+  expect_match(txt, "@Misc\\{wogau2019highresolution")
+})
+
+test_that("the bibliography keeps a DOI-only record and drops an empty one", {
+  pubs <- tibble::tibble(
+    datasetId = c("D1", "D2"), pubIndex = 1:2, pubKind = NA_character_,
+    authors = list(character(), character()),
+    year = c(NA_integer_, NA_integer_), title = c(NA_character_, NA_character_),
+    journal = NA_character_, doi = c("10.1000/xyz", NA_character_),
+    citeKey = NA_character_)
+  p <- fs::path(withr::local_tempdir(), "d.bib")
+  lv_export_bib(pubs, p, progress = FALSE)
+  txt <- paste(readLines(p), collapse = "\n")
+  # A DOI alone is still a citable reference; a row with nothing is a slot.
+  expect_equal(length(gregexpr("@Misc", txt)[[1]]), 1)
+  expect_match(txt, "lipdversed11")
+  # And never the literal string NA, which is what an author-less entry keyed as
+  # before the fallback could reach it.
+  expect_false(grepl("@Misc{NA", txt, fixed = TRUE))
+})
+
+test_that("BibTeX special characters are escaped", {
+  pubs <- tibble::tibble(
+    datasetId = "D1", pubIndex = 1L, pubKind = NA_character_,
+    authors = list("Smith, A."), year = 2020L,
+    title = "Carbon & nitrogen: 50% of the {total}_here",
+    journal = "J. Things", doi = NA_character_, citeKey = NA_character_)
+  p <- fs::path(withr::local_tempdir(), "e.bib")
+  lv_export_bib(pubs, p, progress = FALSE)
+  txt <- paste(readLines(p), collapse = "\n")
+  expect_true(grepl("\\&", txt, fixed = TRUE))
+  expect_true(grepl("50\\%", txt, fixed = TRUE))
+  expect_true(grepl("\\_here", txt, fixed = TRUE))
+  expect_true(grepl("\\{total\\}", txt, fixed = TRUE))
+})

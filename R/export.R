@@ -755,13 +755,16 @@ lv_export_context <- function(compilation, store = qc_store(),
 #' @param ensemble_dir Shared ensemble store; defaults to `<export_dir>/ensembles`.
 #' @param store From [qc_store()].
 #' @param duckdb Also build the convenience database.
+#' @param bundle Also write the member `.lpd` files as a zip, which is what a
+#'   visitor downloads.
+#' @param bib Also write the BibTeX bibliography for the reference page.
 #' @param dry_run Report without writing.
 #' @return The manifest, invisibly.
 #' @export
 lv_export <- function(cfg, version, datasets, export_dir = lv_path("export"),
                       ensemble_dir = NULL, store = qc_store(),
-                      duckdb = TRUE, dry_run = TRUE, run_id = lv_run_id(),
-                      progress = TRUE) {
+                      duckdb = TRUE, bundle = TRUE, bib = TRUE, dry_run = TRUE,
+                      run_id = lv_run_id(), progress = TRUE) {
   comp <- cfg$compilation
   dir <- fs::path(export_dir, comp, version)
   ens <- ensemble_dir %||% fs::path(export_dir, "ensembles")
@@ -798,6 +801,24 @@ lv_export <- function(cfg, version, datasets, export_dir = lv_path("export"),
 
   man <- lv_export_write(tables, dir, meta = meta, ensemble_dir = ens)
   if (duckdb) lv_export_duckdb(dir, ensemble_dir = ens)
+
+  # The download artefacts, scoped to actual members rather than the considered
+  # set the tables cover: a zip called hydroclimate2k that held 482 datasets not
+  # in hydroclimate2k would be wrong in a way nobody would notice until they
+  # used it. See lv_export_bundle().
+  members <- local({
+    c <- tables$compilations
+    ids <- unique(c$datasetId[c$compilation %in% comp & c$inThisCompilation %in% TRUE])
+    list(ids = ids, names = tables$datasets$dataSetName[tables$datasets$datasetId %in% ids])
+  })
+  if (bundle) {
+    lv_export_bundle(members$names, cfg$lipd_dir,
+                     fs::path(dir, paste0(comp, version, ".zip")), progress = progress)
+  }
+  if (bib) {
+    lv_export_bib(tables$publications, fs::path(dir, paste0(comp, "-", version, ".bib")),
+                  datasets = members$ids, progress = progress)
+  }
   invisible(man)
 }
 
