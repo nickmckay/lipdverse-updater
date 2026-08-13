@@ -27,7 +27,7 @@ Imports:
     future,
     glue,
     jsonlite,
-    lipdR,
+    lipdR (>= 0.7.0),
     purrr,
     readr,
     rlang,
@@ -42,3 +42,5 @@ Suggests:
     googlesheets4,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+Remotes:
+    github::nickmckay/lipdR@baedd2677499894c0da2685a3545057ca100f18c

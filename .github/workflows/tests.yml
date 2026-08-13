@@ -26,10 +26,14 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
+          # lipdR comes from the Remotes: pin in DESCRIPTION, not from here.
+          # Naming it here installed whatever main happened to be -- 0.6.0,
+          # whose validLipd rejects the fixtures the package writes -- while
+          # every developer had 0.7.0 from dev. Sixteen tests failed in CI and
+          # passed everywhere else.
           extra-packages: |
             any::devtools
             any::testthat
-            nickmckay/lipdR
           needs: check
 
       - name: Run tests
