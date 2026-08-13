@@ -17,7 +17,10 @@
 suppressPackageStartupMessages({library(dplyr)})
 suppressMessages(devtools::load_all(quiet = TRUE))
 
-repo <- "~/GitHub/lipdverse-updater" |> fs::path_expand()
+# The package root, found rather than assumed: this script has to run from a CI
+# checkout as well as from Nick's home directory, and hardcoding the latter is
+# what lv_path() exists to stop.
+repo <- pkgload::pkg_path()
 live_path <- fs::path(repo, "inst/extdata/qc_fields.csv")
 
 # Everything runs inside a function so on.exit() actually fires. At top level it

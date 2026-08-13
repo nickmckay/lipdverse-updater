@@ -37,6 +37,13 @@ lv_pkg_installed <- function() {
 lv_pkg_root <- function() {
   p <- tryCatch(system.file(package = "lipdverseUpdater"), error = function(e) "")
   if (nzchar(p) && fs::file_exists(fs::path(p, "DESCRIPTION"))) return(p)
+  # Loaded rather than installed, so ask pkgload where it was loaded from. The
+  # fallback below is right on exactly one machine, which is the whole reason
+  # lv_path() exists.
+  if (requireNamespace("pkgload", quietly = TRUE)) {
+    q <- tryCatch(pkgload::pkg_path(), error = function(e) "")
+    if (nzchar(q)) return(q)
+  }
   path.expand("~/GitHub/lipdverse-updater")
 }
 
