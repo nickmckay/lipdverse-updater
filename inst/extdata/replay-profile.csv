@@ -1,0 +1,101 @@
+compilation,runs,compared,class,n
+CoralHydro2k,8,57706,"arrived via the files, which the replay cannot see",2239
+CoralHydro2k,8,57706,different value,550
+CoralHydro2k,8,57706,legacy has a value we do not,2684
+CoralHydro2k,8,57706,"machine-owned, recomputed by the legacy run",8
+CoralHydro2k,8,57706,we keep a value the legacy run dropped,1473
+FreeSoda,1,966,legacy has a value we do not,84
+GBRCD,4,230579,"arrived via the files, which the replay cannot see",24
+GBRCD,4,230579,different value,6405
+GBRCD,4,230579,field not in the registry,20
+GBRCD,4,230579,legacy has a value we do not,2398
+GBRCD,4,230579,"machine-owned, recomputed by the legacy run",3597
+GBRCD,4,230579,we keep a value the legacy run dropped,11088
+HoloceneAbruptChange,1,1505386,"arrived via the files, which the replay cannot see",28314
+HoloceneAbruptChange,1,1505386,different value,98
+HoloceneAbruptChange,1,1505386,field not in the registry,2966
+HoloceneAbruptChange,1,1505386,legacy has a value we do not,203645
+HoloceneAbruptChange,1,1505386,"machine-owned, recomputed by the legacy run",47
+HoloceneAbruptChange,1,1505386,we keep a value the legacy run dropped,16409
+HoloceneHydroclimate,11,14842843,"arrived via the files, which the replay cannot see",1509860
+HoloceneHydroclimate,11,14842843,different value,232745
+HoloceneHydroclimate,11,14842843,legacy has a value we do not,1015446
+HoloceneHydroclimate,11,14842843,"machine-owned, recomputed by the legacy run",59812
+HoloceneHydroclimate,11,14842843,we keep a value the legacy run dropped,997838
+Hydro21k,12,1633241,"arrived via the files, which the replay cannot see",93057
+Hydro21k,12,1633241,different value,17692
+Hydro21k,12,1633241,legacy has a value we do not,177665
+Hydro21k,12,1633241,"machine-owned, recomputed by the legacy run",27853
+Hydro21k,12,1633241,we keep a value the legacy run dropped,2008
+LakeStatus21k,1,19599,different value,32
+LakeStatus21k,1,19599,legacy has a value we do not,1806
+LakeStatus21k,1,19599,we keep a value the legacy run dropped,206
+LegacyClimate-LiPD,1,2270249,different value,101
+LegacyClimate-LiPD,1,2270249,legacy has a value we do not,136148
+LegacyClimate-LiPD,1,2270249,we keep a value the legacy run dropped,9108
+NAm21k-noPollen,2,159922,different value,10
+NAm21k-noPollen,2,159922,legacy has a value we do not,15720
+NAm21k-noPollen,2,159922,"machine-owned, recomputed by the legacy run",2127
+NAm21k-noPollen,2,159922,we keep a value the legacy run dropped,5982
+Nam2kDendro,2,704351,"arrived via the files, which the replay cannot see",3756
+Nam2kDendro,2,704351,different value,1319
+Nam2kDendro,2,704351,field not in the registry,1119
+Nam2kDendro,2,704351,"machine-owned, recomputed by the legacy run",35266
+Nam2kDendro,2,704351,we keep a value the legacy run dropped,40681
+Pages2kTemperature,3,126186,"arrived via the files, which the replay cannot see",2139
+Pages2kTemperature,3,126186,different value,2181
+Pages2kTemperature,3,126186,legacy has a value we do not,3356
+Pages2kTemperature,3,126186,"machine-owned, recomputed by the legacy run",2941
+Pages2kTemperature,3,126186,we keep a value the legacy run dropped,766
+PalMod,5,157908,"arrived via the files, which the replay cannot see",16687
+PalMod,5,157908,different value,2289
+PalMod,5,157908,legacy has a value we do not,37541
+PalMod,5,157908,"machine-owned, recomputed by the legacy run",3454
+PalMod,5,157908,we keep a value the legacy run dropped,4598
+RapidArcticWarming,9,2497478,"arrived via the files, which the replay cannot see",127966
+RapidArcticWarming,9,2497478,different value,6084
+RapidArcticWarming,9,2497478,legacy has a value we do not,257798
+RapidArcticWarming,9,2497478,"machine-owned, recomputed by the legacy run",14032
+RapidArcticWarming,9,2497478,we keep a value the legacy run dropped,31047
+SCEC,1,1736,"arrived via the files, which the replay cannot see",92
+SCEC,1,1736,different value,32
+SCEC,1,1736,legacy has a value we do not,128
+SCEC,1,1736,we keep a value the legacy run dropped,143
+SISAL-LiPD,4,793270,"arrived via the files, which the replay cannot see",129987
+SISAL-LiPD,4,793270,different value,17215
+SISAL-LiPD,4,793270,field not in the registry,879
+SISAL-LiPD,4,793270,legacy has a value we do not,20807
+SISAL-LiPD,4,793270,"machine-owned, recomputed by the legacy run",24950
+SISAL-LiPD,4,793270,we keep a value the legacy run dropped,15848
+Temp12k,4,675353,"arrived via the files, which the replay cannot see",104826
+Temp12k,4,675353,different value,8610
+Temp12k,4,675353,legacy has a value we do not,75881
+Temp12k,4,675353,"machine-owned, recomputed by the legacy run",8176
+Temp12k,4,675353,we keep a value the legacy run dropped,9650
+Temp24k,10,2997994,"arrived via the files, which the replay cannot see",462642
+Temp24k,10,2997994,different value,5337
+Temp24k,10,2997994,legacy has a value we do not,218574
+Temp24k,10,2997994,"machine-owned, recomputed by the legacy run",20405
+Temp24k,10,2997994,we keep a value the legacy run dropped,5016
+hydroclimate2k,15,1723834,"arrived via the files, which the replay cannot see",605924
+hydroclimate2k,15,1723834,different value,4552
+hydroclimate2k,15,1723834,field not in the registry,182
+hydroclimate2k,15,1723834,legacy has a value we do not,30155
+hydroclimate2k,15,1723834,"machine-owned, recomputed by the legacy run",16136
+hydroclimate2k,15,1723834,we keep a value the legacy run dropped,9375
+iso2k,8,240151,"arrived via the files, which the replay cannot see",5391
+iso2k,8,240151,different value,2049
+iso2k,8,240151,legacy has a value we do not,16094
+iso2k,8,240151,"machine-owned, recomputed by the legacy run",7090
+iso2k,8,240151,we keep a value the legacy run dropped,2513
+test,25,62520,"arrived via the files, which the replay cannot see",1444
+test,25,62520,different value,190
+test,25,62520,legacy has a value we do not,7876
+test,25,62520,"machine-owned, recomputed by the legacy run",1433
+test,25,62520,we keep a value the legacy run dropped,425
+wNAm,7,941678,"arrived via the files, which the replay cannot see",21
+wNAm,7,941678,different value,356
+wNAm,7,941678,field not in the registry,12
+wNAm,7,941678,legacy has a value we do not,77441
+wNAm,7,941678,"machine-owned, recomputed by the legacy run",9853
+wNAm,7,941678,we keep a value the legacy run dropped,572
