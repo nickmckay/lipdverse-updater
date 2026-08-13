@@ -800,3 +800,83 @@ lv_export <- function(cfg, version, datasets, export_dir = lv_path("export"),
   if (duckdb) lv_export_duckdb(dir, ensemble_dir = ens)
   invisible(man)
 }
+
+#' @rdname export
+#' @details
+#' `lv_export_database()` is the same thing for the whole database rather than
+#' one compilation. The site indexes everything LiPDverse holds, and **221 of
+#' 7,293 datasets belong to no compilation at all**, so a site assembled only
+#' from per-compilation exports would silently omit them.
+#'
+#' Two tables differ from a compilation export, both because they are
+#' compilation-scoped by nature:
+#'
+#' \describe{
+#'   \item{`qc_state`}{Empty. The curated state belongs to a compilation -- the
+#'     store is keyed by one -- and the table's key is `[tsid, field]`, with no
+#'     room for two compilations holding different values for the same cell.
+#'     Unioning them would collide silently, so the per-compilation exports
+#'     remain the place to read curated state.}
+#'   \item{`versions`}{Every compilation's version ledger, not one's, since the
+#'     table already carries a `compilation` column.}
+#' }
+#'
+#' `compilations` needs no special handling: it is derived from the files, so it
+#' is already the full membership picture.
+#'
+#' @param label Name for this snapshot, used as the directory under
+#'   `<export_dir>/_database/`. Defaults to the date, since the database has a
+#'   fingerprint rather than a version.
+#' @export
+lv_export_database <- function(label = format(Sys.Date(), "%Y-%m-%d"),
+                               dir = lv_path("database"),
+                               export_dir = lv_path("export"), ensemble_dir = NULL,
+                               store = qc_store(), duckdb = TRUE, dry_run = TRUE,
+                               run_id = lv_run_id(), progress = TRUE) {
+  out <- fs::path(export_dir, "_database", label)
+  ens <- ensemble_dir %||% fs::path(export_dir, "ensembles")
+
+  if (progress) cli::cli_alert_info("Exporting the whole database as {.val {label}}")
+  # compilation = NULL: the tables are built from the files, and the context
+  # tables that need a compilation are filled in below.
+  tables <- lv_export_tables(dir, datasets = NULL, progress = progress,
+                             compilation = NULL, store = NULL)
+
+  vs <- tryCatch(lv_versions(store), error = function(e) NULL)
+  if (!is.null(vs) && nrow(vs)) {
+    empty <- lv_export_empty("versions")
+    x <- tibble::as_tibble(vs)
+    tables$versions <- tibble::as_tibble(stats::setNames(lapply(names(empty), function(k) {
+      if (!k %in% names(x)) {
+        if (identical(k, "n_datasets")) rep(NA_integer_, nrow(x)) else rep(NA_character_, nrow(x))
+      } else if (identical(k, "n_datasets")) suppressWarnings(as.integer(x[[k]]))
+      else as.character(x[[k]])
+    }), names(empty)))
+  }
+  # The vocabulary is global, so it comes through whichever compilation is asked
+  # for; asking for none would leave it empty.
+  tables$vocab <- lv_export_context(NA_character_, store = store)$vocab
+
+  iss <- lv_export_validate(tables)
+  cli::cli_alert_info("{nrow(tables$datasets)} dataset{?s}, {nrow(tables$timeseries)} timeseries, {nrow(tables$values)} value{?s}, {nrow(tables$values_ensemble)} ensemble value{?s}")
+  if (lv_n_issues(iss, "error")) {
+    cli::cli_alert_warning("{lv_n_issues(iss, 'error')} contract violation{?s}.")
+  }
+  n_orphan <- sum(!tables$datasets$datasetId %in% tables$compilations$datasetId)
+  cli::cli_alert_info("{n_orphan} dataset{?s} in no compilation, which a per-compilation export cannot reach")
+
+  meta <- list(
+    compilation = NA_character_, version = label, run_id = run_id,
+    db_fingerprint = lv_scan(dir)$fingerprint,
+    vocab_pin = attr(lv_vocab(validate = FALSE), "pin") %||% NA_character_,
+    qc_state_hash = digest::digest("", algo = "md5"),
+    n_datasets = nrow(tables$datasets))
+
+  if (dry_run) {
+    cli::cli_alert_info("Dry run. Would write to {.path {out}} (ensembles to {.path {ens}}).")
+    return(invisible(c(meta, list(tables = vapply(tables, nrow, integer(1)), issues = iss))))
+  }
+  man <- lv_export_write(tables, out, meta = meta, ensemble_dir = ens)
+  if (duckdb) lv_export_duckdb(out, ensemble_dir = ens)
+  invisible(man)
+}

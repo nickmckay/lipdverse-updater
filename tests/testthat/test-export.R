@@ -516,3 +516,48 @@ test_that("an accented dataset name is exported, not silently dropped", {
   expect_equal(nrow(tabs$datasets), 1)
   expect_equal(nrow(tabs$timeseries), 2)
 })
+
+test_that("the database export reaches datasets no compilation holds", {
+  # 221 of 7,293 datasets belong to no compilation, so a site assembled only
+  # from per-compilation exports would silently omit them.
+  d <- withr::local_tempdir()
+  withr::local_envvar(LIPDVERSE_STATE = withr::local_tempdir())
+  write_lpd(d, "InComp.Author.2001", tsids = c("T1", "T2"),
+            col_extra = list(inCompilation = list(list(compilationName = "someComp",
+                                                       compilationVersion = list("1_0_0")))))
+  write_lpd(d, "Orphan.Author.2002", tsids = c("T3", "T4"))
+
+  out <- withr::local_tempdir()
+  man <- lv_export_database("test-label", dir = d, export_dir = out,
+                            store = qc_store(file.path(out, "store")),
+                            duckdb = FALSE, dry_run = FALSE, progress = FALSE)
+  tabs <- arrow::read_parquet(fs::path(out, "_database", "test-label", "datasets.parquet"))
+  expect_setequal(tabs$dataSetName, c("InComp.Author.2001", "Orphan.Author.2002"))
+  # The orphan is present in datasets and absent from compilations, which is
+  # exactly the gap this exists to close.
+  comps <- arrow::read_parquet(fs::path(out, "_database", "test-label", "compilations.parquet"))
+  expect_true("someComp" %in% comps$compilation)
+  expect_false(any(comps$datasetId %in% tabs$datasetId[tabs$dataSetName == "Orphan.Author.2002"]))
+})
+
+test_that("the database export leaves qc_state empty, on purpose", {
+  # The store is keyed by compilation and the table's key is [tsid, field], with
+  # no room for two compilations holding different values for one cell. Unioning
+  # them would collide silently, so this one is deliberately not attempted.
+  d <- withr::local_tempdir()
+  withr::local_envvar(LIPDVERSE_STATE = withr::local_tempdir())
+  write_lpd(d, "A.Author.2001", tsids = c("T1", "T2"))
+  out <- withr::local_tempdir()
+  st <- qc_store(file.path(out, "store"))
+  qc_store_append(st, "someComp", qc_diff_to_events(
+    qc_cells_empty(),
+    tibble::tibble(tsid = "T1", field = "paleoData_units", value = "permil",
+                   present = TRUE, dataset_id = "IDA.Author.2001")))
+
+  man <- lv_export_database("test-label", dir = d, export_dir = out, store = st,
+                            duckdb = FALSE, dry_run = FALSE, progress = FALSE)
+  qc <- arrow::read_parquet(fs::path(out, "_database", "test-label", "qc_state.parquet"))
+  expect_equal(nrow(qc), 0)
+  # But every compilation's version ledger does come through.
+  expect_true(fs::file_exists(fs::path(out, "_database", "test-label", "versions.parquet")))
+})
