@@ -17,6 +17,14 @@
 suppressPackageStartupMessages({library(dplyr)})
 suppressMessages(devtools::load_all(quiet = TRUE))
 
+# The builder reads a snapshot from the QC store, so this cannot run without
+# one. Said plainly here rather than surfacing as "the builder failed".
+qcstore <- Sys.getenv("LIPDVERSE_QCSTORE", path.expand("~/GitHub/lipdverse-qcstore"))
+if (!dir.exists(qcstore)) {
+  cat("No QC store at", qcstore, "-- the registry builder needs one. Skipping.\n")
+  quit(save = "no", status = 0)
+}
+
 # The package root, found rather than assumed: this script has to run from a CI
 # checkout as well as from Nick's home directory, and hardcoding the latter is
 # what lv_path() exists to stop.

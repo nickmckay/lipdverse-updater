@@ -39,5 +39,8 @@ jobs:
       - name: Run tests
         run: Rscript -e 'devtools::test(stop_on_failure = TRUE)'
 
-      - name: The registry must be regenerable from its review files
-        run: Rscript scripts/check-registry-regenerable.R
+# The registry check is deliberately not here. data-raw/build_qc_fields.R reads
+# a snapshot out of the QC store, which is a separate private repository and 52
+# MB of data; checking it out to rebuild a CSV would make every run depend on a
+# credential and on data that has nothing to do with the code being tested.
+# It runs in scripts/nightly-checks.sh, on the machine that has the store.
