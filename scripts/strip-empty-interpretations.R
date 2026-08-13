@@ -20,7 +20,7 @@
 # Snapshot first. Verifies every changed file before promoting -- TSids, content
 # count and validLipd -- and aborts without writing if any fails.
 
-suppressMessages(devtools::load_all("~/GitHub/lipdverse-updater", quiet = TRUE))
+suppressMessages(devtools::load_all(quiet = TRUE))
 suppressPackageStartupMessages(library(dplyr))
 DRY   <- !identical(Sys.getenv("LV_APPLY"), "1")
 LIMIT <- as.integer(Sys.getenv("LV_LIMIT", "0"))

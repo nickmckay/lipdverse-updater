@@ -21,7 +21,7 @@
 #
 # Those three filters are applied and reported, not applied silently: the point
 # of the screen is a number someone can act on.
-suppressMessages(devtools::load_all("~/GitHub/lipdverse-updater", quiet = TRUE))
+suppressMessages(devtools::load_all(quiet = TRUE))
 suppressPackageStartupMessages({library(dplyr); library(parallel)})
 
 DIR    <- lv_path("database")

@@ -21,7 +21,7 @@
 # which is private and git-tracked -- never a scratchpad.
 #
 #   Rscript scripts/snapshot-certification-history.R
-suppressMessages(devtools::load_all("~/GitHub/lipdverse-updater", quiet = TRUE))
+suppressMessages(devtools::load_all(quiet = TRUE))
 suppressPackageStartupMessages({library(dplyr); library(parallel)})
 
 DIR   <- lv_path("database")

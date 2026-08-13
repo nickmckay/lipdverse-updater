@@ -15,7 +15,7 @@
 #
 # Exit 0 when they agree, 1 when they do not.
 suppressPackageStartupMessages({library(dplyr)})
-suppressMessages(devtools::load_all("~/GitHub/lipdverse-updater", quiet = TRUE))
+suppressMessages(devtools::load_all(quiet = TRUE))
 
 repo <- "~/GitHub/lipdverse-updater" |> fs::path_expand()
 live_path <- fs::path(repo, "inst/extdata/qc_fields.csv")
