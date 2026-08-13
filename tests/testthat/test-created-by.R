@@ -1,8 +1,13 @@
-# A small real dataset, copied so the test never touches the database.
+# An incoming directory holding one dataset.
+#
+# This used to copy a file out of the live database, which made the test depend
+# on the operator's machine: it passed here and failed in CI with ENOENT on
+# ~/Dropbox/lipdverse/database, because a runner has no Dropbox. A fixture is
+# also the honest thing to test against -- what matters is the identity logic,
+# not which real dataset happened to sort first.
 local_incoming <- function(env = parent.frame()) {
   d <- withr::local_tempdir(.local_envir = env)
-  src <- fs::dir_ls(lv_path("database"), glob = "*.lpd")[1]
-  fs::file_copy(src, fs::path(d, fs::path_file(src)))
+  write_lpd(d, "A.Author.2001", tsids = c("T1", "T2"))
   d
 }
 
