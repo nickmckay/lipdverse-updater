@@ -14,7 +14,16 @@
 # nearly every consumer reads is ~189 MB. Keeping them together meant either
 # duplicating 3.6 GB into each of 19 compilation directories, or not shipping a
 # self-contained export at all.
-version: 2
+#
+# v3 (2026-08-13) adds what a front end needs and v2 could not supply:
+#   - timeseries.n_rows and n_members, without which a flattened ensemble cannot
+#     be rebuilt into the matrix it came from
+#   - publications.citekey and ref_source, resolved against the reference
+#     database, so a citation keeps the identity the legacy bibliography gave it
+#   - the compilation_versions table, which is what a compilation page for a
+#     published version is built from
+# All three are additions; a v2 reader still finds every column it knew.
+version: 3
 
 # Types are the R types the builder produces; the parquet writer maps them.
 #   chr = character, dbl = double, int = integer, lgl = logical, ts = POSIXct
