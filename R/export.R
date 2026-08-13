@@ -203,7 +203,10 @@ lv_export_one <- function(L, file_md5 = NA_character_) {
     pubs[[length(pubs) + 1L]] <- tibble::tibble(
       datasetId = dsid, pubIndex = i, pubKind = s1(p$pubDataType %||% p$type),
       authors = list(aus), year = as.integer(n1(p$year)), title = s1(p$title),
-      journal = s1(p$journal), doi = s1(p$doi %||% p$DOI), citeKey = s1(p$citeKey))
+      journal = s1(p$journal), doi = s1(p$doi %||% p$DOI), citeKey = s1(p$citeKey),
+      # Filled by lv_resolve_references() against the store; carried here as
+      # empty so the table matches its contract whether or not it is resolved.
+      citekey = NA_character_, ref_source = NA_character_)
   }
 
   # Flattened from the file's own changelog. seq preserves the order entries
@@ -772,6 +775,19 @@ lv_export <- function(cfg, version, datasets, export_dir = lv_path("export"),
   if (progress) cli::cli_alert_info("Exporting {.val {comp}} {.val {version}} from {length(datasets)} dataset{?s}")
   tables <- lv_export_tables(cfg$lipd_dir, datasets = datasets, progress = progress,
                              compilation = comp, store = store)
+
+  # Fill the publications from the reference database before anything is
+  # written, so the parquet, the duckdb and the bibliography all say the same
+  # thing. The files keep whatever they have; the store answers only for gaps.
+  refs <- tryCatch(lv_references(store), error = function(e) NULL)
+  if (!is.null(refs) && nrow(refs) && nrow(tables$publications)) {
+    before <- sum(!is.na(tables$publications$title))
+    tables$publications <- lv_resolve_references(tables$publications, refs)
+    if (progress) {
+      cli::cli_alert_info(
+        "References: {sum(!is.na(tables$publications$ref_source))} of {nrow(tables$publications)} publication{?s} resolved from the store, titles {before} -> {sum(!is.na(tables$publications$title))}")
+    }
+  }
 
   iss <- lv_export_validate(tables)
   n_err <- lv_n_issues(iss, "error")

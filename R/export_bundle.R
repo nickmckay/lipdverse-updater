@@ -70,12 +70,18 @@ lv_export_bundle <- function(datasets, lipd_dir = lv_path("database"), path,
 #' @param path Output `.bib` path.
 #' @param datasets Optional dataset ids to restrict to, so the bibliography
 #'   matches the bundle.
+#' @param references The reference database, from [lv_references()]. Fills in
+#'   what the LiPD records lack, which is a third of their titles.
 #' @param progress Show progress.
 #' @return The path, invisibly.
 #' @export
-lv_export_bib <- function(publications, path, datasets = NULL, progress = TRUE) {
+lv_export_bib <- function(publications, path, datasets = NULL,
+                          references = lv_references(), progress = TRUE) {
   p <- publications
   if (!is.null(datasets)) p <- p[p$datasetId %in% datasets, , drop = FALSE]
+  # Tier one and two: whatever the store has resolved or somebody curated. The
+  # file is never overwritten where it has a value of its own.
+  if (!is.null(references) && nrow(references)) p <- lv_resolve_references(p, references)
   nz <- function(x) !is.na(x) & nzchar(as.character(x))
   # A record with no author, no title and no DOI is not a reference, it is an
   # empty publication slot -- 377 of 1,073 have no title at all, which is what
@@ -95,13 +101,22 @@ lv_export_bib <- function(publications, path, datasets = NULL, progress = TRUE) 
   first <- !duplicated(sig)
   p <- p[first, , drop = FALSE]; authors_chr <- authors_chr[first]
 
+  # A resolved record brings the citekey the legacy database has used for years,
+  # so a reference keeps one identity across the old site and the new one.
   key <- lv_bib_keys(authors_chr, p$year, p$title, p$datasetId, p$pubIndex)
+  if ("citekey" %in% names(p)) {
+    from_store <- !is.na(p$citekey) & nzchar(p$citekey)
+    key[from_store] <- p$citekey[from_store]
+    key <- make.unique(key, sep = "")
+  }
   out <- character()
   for (i in seq_len(nrow(p))) {
     kind <- if (nz(p$journal[i])) "Article" else "Misc"
+    # Visible gaps, as lipdverseR did: a reference that says "Missing Title" can
+    # be found and fixed, one that quietly omits the field cannot.
     fields <- c(
-      author  = if (nz(authors_chr[i])) authors_chr[i] else NA_character_,
-      title   = if (nz(p$title[i])) p$title[i] else NA_character_,
+      author  = if (nz(authors_chr[i])) authors_chr[i] else "Missing Author",
+      title   = if (nz(p$title[i])) p$title[i] else "Missing Title",
       journal = if (nz(p$journal[i])) p$journal[i] else NA_character_,
       year    = if (!is.na(p$year[i])) as.character(p$year[i]) else NA_character_,
       doi     = if (nz(p$doi[i])) p$doi[i] else NA_character_,

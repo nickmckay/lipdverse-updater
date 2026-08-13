@@ -139,7 +139,13 @@ tables:
       title:     {type: chr}
       journal:   {type: chr}
       doi:       {type: chr}
-      citeKey:   {type: chr}
+      citeKey:   {type: chr}   # as the LiPD file records it, often absent
+      # Filled from the reference database in the store: the citekey the legacy
+      # bibliography has used for years, so a reference keeps one identity
+      # across the old site and the new. ref_source says which tier answered --
+      # crossref, curated, or absent for a record the files alone describe.
+      citekey:    {type: chr}
+      ref_source: {type: chr}
 
   compilations:
     key: [datasetId, compilation, TSid]

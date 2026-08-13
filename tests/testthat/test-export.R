@@ -593,6 +593,8 @@ test_that("an accented dataset makes it into the bundle", {
 })
 
 test_that("the bibliography carries one entry per publication, not per dataset", {
+  # references = NULL: this exercises the file-only tier. Without it the default
+  # reads the real store, so the test would depend on what has been imported.
   pubs <- tibble::tibble(
     datasetId = c("D1", "D2", "D3"), pubIndex = 1L,
     pubKind = NA_character_,
@@ -604,7 +606,7 @@ test_that("the bibliography carries one entry per publication, not per dataset",
     doi = c("10.1038/ngeo357", "10.1038/ngeo357", NA_character_),
     citeKey = NA_character_)
   p <- fs::path(withr::local_tempdir(), "c.bib")
-  lv_export_bib(pubs, p, progress = FALSE)
+  lv_export_bib(pubs, p, references = NULL, progress = FALSE)
   txt <- paste(readLines(p), collapse = "\n")
 
   # The same paper describes D1 and D2; a bibliography repeating it is unusable.
@@ -624,7 +626,7 @@ test_that("the bibliography keeps a DOI-only record and drops an empty one", {
     journal = NA_character_, doi = c("10.1000/xyz", NA_character_),
     citeKey = NA_character_)
   p <- fs::path(withr::local_tempdir(), "d.bib")
-  lv_export_bib(pubs, p, progress = FALSE)
+  lv_export_bib(pubs, p, references = NULL, progress = FALSE)
   txt <- paste(readLines(p), collapse = "\n")
   # A DOI alone is still a citable reference; a row with nothing is a slot.
   expect_equal(length(gregexpr("@Misc", txt)[[1]]), 1)
@@ -641,7 +643,7 @@ test_that("BibTeX special characters are escaped", {
     title = "Carbon & nitrogen: 50% of the {total}_here",
     journal = "J. Things", doi = NA_character_, citeKey = NA_character_)
   p <- fs::path(withr::local_tempdir(), "e.bib")
-  lv_export_bib(pubs, p, progress = FALSE)
+  lv_export_bib(pubs, p, references = NULL, progress = FALSE)
   txt <- paste(readLines(p), collapse = "\n")
   expect_true(grepl("\\&", txt, fixed = TRUE))
   expect_true(grepl("50\\%", txt, fixed = TRUE))
