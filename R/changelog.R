@@ -96,14 +96,12 @@ lv_changelog_cells <- function(L) {
             add(paste0(base, ".calibration.", nm), LV_CHANGE_CATEGORY[["calibration"]],
                 paste0("calibration_", nm), cl$calibration[[nm]], tsid, vn)
           }
-          seen <- integer()
+          # Shared with qc_frame(); both used to count this themselves and both
+          # crashed on an unscoped interpretation. See lv_interp_numberer().
+          number <- lv_interp_numberer()
           for (it in cl$interpretation) {
             if (!is.list(it)) next
-            sc <- scalar_chr(it$scope)
-            sc <- if (length(sc) == 1 && !is.na(sc) && nzchar(sc)) tolower(sc) else ""
-            n <- if (sc %in% names(seen)) seen[[sc]] + 1L else 1L
-            seen[[sc]] <- n
-            pre <- if (nzchar(sc)) paste0(sc, "Interpretation", n) else paste0("interpretation", n)
+            pre <- number(it$scope)
             for (nm in names(it)) {
               if (is.list(it[[nm]])) next
               add(paste0(base, ".", pre, "_", nm), LV_CHANGE_CATEGORY[["interp"]],

@@ -154,3 +154,22 @@ test_that("dataset and compilation versions are not interchangeable", {
   expect_equal(lv_changelog_next_version("1.0.12"), "1.0.13")
   expect_equal(lv_tick_version("0_4_0", "a", "a")$version, "0_4_1")
 })
+
+test_that("the changelog survives two unscoped interpretations", {
+  # The same defect as qc_frame() had, in a second copy of the same counting
+  # code: an unscoped interpretation keys a named integer vector by "", which R
+  # will write and will not read. iso2k crashed here on the run after the first
+  # copy was fixed.
+  mk <- function(...) list(
+    dataSetName = "A.Author.2001", datasetId = "ID1",
+    paleoData = list(list(measurementTable = list(list(
+      tableName = "paleo1measurement1",
+      columns = list(list(TSid = "T1", variableName = "d18O", ...)))))))
+  a <- mk(interpretation = list(list(variable = "P"), list(variable = "T")))
+  b <- mk(interpretation = list(list(variable = "P"), list(variable = "RH")))
+
+  d <- lv_changelog_diff(a, b)
+  expect_s3_class(d, "data.frame")
+  # The second unscoped interpretation is numbered, not collapsed onto the first.
+  expect_true(any(grepl("interpretation2", d$path)))
+})

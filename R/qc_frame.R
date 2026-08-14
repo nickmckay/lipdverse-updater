@@ -102,6 +102,29 @@ lv_scalar_value <- function(v) {
   scalar_chr(v)
 }
 
+# Interpretations are numbered within their scope: environmentInterpretation1 is
+# the first *environment* interpretation, not the first entry in the list.
+#
+# The counting needs a key that tolerates an absent scope. A named integer
+# vector accepts `seen[[""]] <- 1` and then refuses to read it back --
+# "subscript out of bounds" -- so a column carrying two unscoped interpretations
+# killed the run. hydroclimate2k has no such column; iso2k does, and it took two
+# runs to find both copies of this code, because qc_frame() and the changelog
+# each had their own. They share this one now.
+#
+# Returns a function: give it a scope, get back the prefix.
+lv_interp_numberer <- function() {
+  seen <- list()
+  function(scope) {
+    sc <- scalar_chr(scope)
+    sc <- if (length(sc) == 1 && !is.na(sc) && nzchar(sc)) tolower(sc) else ""
+    key <- if (nzchar(sc)) sc else "\u0001unscoped"
+    n <- if (!is.null(seen[[key]])) seen[[key]] + 1L else 1L
+    seen[[key]] <<- n
+    if (nzchar(sc)) paste0(sc, "Interpretation", n) else paste0("interpretation", n)
+  }
+}
+
 qc_frame_one <- function(path, canon) {
   m <- tryCatch({
     nms <- utils::unzip(path, list = TRUE)$Name
@@ -183,22 +206,11 @@ qc_frame_one <- function(path, canon) {
             # so every per-column interpretation was silently invisible to QC,
             # and the only interpretation values reaching the frame were the
             # flattened copies lipdverseR left at the dataset root.
-            # Counted in a list under a sentinel key for the unscoped case. An
-            # integer vector accepts seen[[""]] <- 1 and then cannot read it
-            # back -- "subscript out of bounds" -- so a column carrying two
-            # interpretations with no scope killed the whole run. hydroclimate2k
-            # has no such column and 823 datasets never found it; iso2k does,
-            # and the first dry run of a second compilation died on it.
-            seen <- list()
+            number <- lv_interp_numberer()
             for (i in seq_along(col$interpretation)) {
               it <- col$interpretation[[i]]
               if (!is.list(it)) next
-              sc <- scalar_chr(it$scope)
-              sc <- if (length(sc) == 1 && !is.na(sc) && nzchar(sc)) tolower(sc) else ""
-              key <- if (nzchar(sc)) sc else "\u0001unscoped"
-              n <- if (!is.null(seen[[key]])) seen[[key]] + 1L else 1L
-              seen[[key]] <- n
-              prefix <- if (nzchar(sc)) paste0(sc, "Interpretation", n) else paste0("interpretation", n)
+              prefix <- number(it$scope)
               for (s in names(it)) {
                 k <- paste0(prefix, "_", s)
                 if (!is.null(cn(k))) {
