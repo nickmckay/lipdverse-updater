@@ -28,6 +28,13 @@
 #                  where files have kept evolving through other compilations'
 #                  runs while the sheet sat untouched for years.
 #
+#   --from=qcts    The state the last legacy run actually resolved to, read from
+#                  html/<compilation>/<version>/qcTs.csv. Neither current side is
+#                  declared unchanged: the baseline is what lipdverseR last
+#                  wrote, so a difference on either side reads as a change made
+#                  since, which is what it is. Use --version= to pick the
+#                  release; the newest published one is the default.
+#
 # There is no safe default, so --from is required.
 # ---------------------------------------------------------------------------
 
@@ -42,9 +49,10 @@ commit <- "--commit" %in% args
 force  <- "--force" %in% args
 
 if (is.na(comp)) stop("usage: seed-baseline.R <compilation> --from=files|sheet [--commit]")
-if (!isTRUE(from %in% c("files", "sheet"))) {
-  stop("--from=files or --from=sheet is required; see the header for which to pick")
+if (!isTRUE(from %in% c("files", "sheet", "qcts"))) {
+  stop("--from=files, --from=sheet or --from=qcts is required; see the header for which to pick")
 }
+version <- getarg("version")
 
 cfg   <- lv_config(comp)
 db    <- lv_path("database")
@@ -72,7 +80,22 @@ frame <- frame[frame$tsid %in% ts, , drop = FALSE]
 frame <- bind_rows(frame, lv_membership_frame(idx, comp, ts))
 sheet <- qc_sheet_pull(bk, cfg$qc_sheet_id, cfg$qc_tabs$qc)
 
-cells <- if (from == "files") frame else sheet
+cells <- switch(from,
+  files = frame,
+  sheet = sheet,
+  qcts  = {
+    # The recorded output of a published legacy run, parsed by the same reader
+    # the replay harness uses.
+    v <- lv_replay_versions(comp)
+    if (!nrow(v)) stop("no published version of ", comp, " carries a qcTs.csv")
+    pick <- if (is.null(version)) utils::tail(v$version, 1) else version
+    row <- v[v$version == pick, , drop = FALSE]
+    if (!nrow(row)) {
+      stop("version ", pick, " has no qcTs.csv; available: ", paste(v$version, collapse = ", "))
+    }
+    cat(sprintf("seeding from : %s\n", file.path(row$path[1], "qcTs.csv")))
+    lv_replay_cells(file.path(row$path[1], "qcTs.csv"))
+  })
 cells <- cells[cells$tsid %in% ts, , drop = FALSE]
 cat(sprintf("frame       : %d cells\nsheet       : %d cells\nbaseline    : %d cells from the %s\n",
             nrow(frame), nrow(sheet), nrow(cells), from))
