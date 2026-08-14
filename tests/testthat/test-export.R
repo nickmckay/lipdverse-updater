@@ -676,3 +676,23 @@ test_that("the changelog supplies the version when the field is absent", {
                                   units = "degC", values = list(1, 2, 3))))))))
   expect_equal(lv_export_one(L)$datasets$version, "1.2.0")
 })
+
+test_that("a cached export matches a fresh one, and the cache is keyed by content", {
+  withr::local_envvar(LIPDVERSE_STATE = withr::local_tempdir())
+  d <- withr::local_tempdir()
+  write_lpd(d, "A.Author.2001", tsids = c("T1", "T2"))
+
+  fresh <- lv_export_tables(d, progress = FALSE, cache = FALSE)
+  cold  <- lv_export_tables(d, progress = FALSE, cache = TRUE)
+  warm  <- lv_export_tables(d, progress = FALSE, cache = TRUE)
+  expect_equal(nrow(warm$values), nrow(fresh$values))
+  expect_equal(warm$datasets$datasetId, fresh$datasets$datasetId)
+  expect_equal(length(list.files(lv_export_cache_dir())), 1)
+
+  # Changing the file changes its md5, so the cache misses rather than serving a
+  # stale answer -- which is the only property that makes this safe.
+  write_lpd(d, "A.Author.2001", tsids = c("T1", "T2", "T3"))
+  after <- lv_export_tables(d, progress = FALSE, cache = TRUE)
+  expect_equal(nrow(after$timeseries), 3)
+  expect_equal(length(list.files(lv_export_cache_dir())), 2)
+})

@@ -34,6 +34,24 @@ lv_pkg_installed <- function() {
   length(find.package("lipdverseUpdater", lib.loc = .libPaths(), quiet = TRUE)) > 0
 }
 
+# Where parsed per-file exports are kept. Keyed by the file's md5 inside a
+# directory named for the schema version and a format epoch, so a schema change
+# or a fix to lv_export_one() invalidates everything at once rather than leaving
+# stale results to be served silently. Bump LV_EXPORT_CACHE_EPOCH when the shape
+# of what lv_export_one() returns changes for reasons the schema version does not
+# capture.
+LV_EXPORT_CACHE_EPOCH <- 1L
+
+#' Where the per-file export cache lives
+#' @return A path, created if absent.
+#' @export
+lv_export_cache_dir <- function() {
+  d <- fs::path(lv_path("state"), "cache", "export",
+                sprintf("v%s-e%d", lv_export_schema()$version, LV_EXPORT_CACHE_EPOCH))
+  fs::dir_create(d)
+  d
+}
+
 lv_pkg_root <- function() {
   p <- tryCatch(system.file(package = "lipdverseUpdater"), error = function(e) "")
   if (nzchar(p) && fs::file_exists(fs::path(p, "DESCRIPTION"))) return(p)
@@ -396,8 +414,8 @@ lv_export_validate <- function(tables, schema = lv_export_schema()) {
 #' @return A named list of tibbles covering every dataset read.
 #' @export
 lv_export_tables <- function(dir = lv_path("database"), datasets = NULL,
-                             progress = TRUE, parallel = NA,
-                             compilation = NULL, store = NULL) {
+                             progress = TRUE, parallel = NA, workers = NULL,
+                             cache = TRUE, compilation = NULL, store = NULL) {
   paths <- if (inherits(dir, "lv_scan")) dir$files$path else
     fs::dir_ls(dir, glob = "*.lpd", type = "file")
   if (!is.null(datasets)) {
@@ -412,23 +430,56 @@ lv_export_tables <- function(dir = lv_path("database"), datasets = NULL,
 
 
   if (progress) cli::cli_alert_info("Exporting {length(paths)} file{?s}")
+
+  cache_dir <- if (isTRUE(cache)) lv_export_cache_dir() else NULL
   one <- function(p) {
+    md5 <- unname(tools::md5sum(p))
+    # Keyed by the file's own checksum, so a changed file misses and an
+    # unchanged one is never read twice. The key carries the schema version and
+    # a format epoch as well: a cached result produced by older code would
+    # otherwise survive a fix to lv_export_one() and quietly export the bug.
+    cf <- if (!is.null(cache_dir) && !is.na(md5)) fs::path(cache_dir, paste0(md5, ".rds")) else NULL
+    if (!is.null(cf) && fs::file_exists(cf)) {
+      hit <- tryCatch(readRDS(cf), error = function(e) NULL)
+      if (!is.null(hit)) return(hit)
+    }
     L <- tryCatch(suppressWarnings(lipdR::readLipd(p)), error = function(e) NULL)
     if (is.null(L)) return(NULL)
-    tryCatch(lv_export_one(L, file_md5 = unname(tools::md5sum(p))),
-             error = function(e) NULL)
+    res <- tryCatch(lv_export_one(L, file_md5 = md5), error = function(e) NULL)
+    if (!is.null(res) && !is.null(cf)) {
+      # gzip, not xz. xz cost more to write than re-reading the LiPD file saved:
+      # a cold cache over 60 datasets took 168s against 59s with no cache at all.
+      tryCatch(saveRDS(res, cf), error = function(e) NULL)
+    }
+    res
   }
-  # The worker needs this package, and a future worker can only attach what is
-  # actually installed -- under devtools::load_all() there is nothing to attach,
-  # so parallelising there fails with a misleading "no package called" error.
-  # Decide from the library rather than from whether the package is loaded.
-  if (is.na(parallel)) parallel <- lv_pkg_installed()
-  parts <- if (parallel) {
+
+  # Reading a few thousand LiPD files is the whole cost of an export and each
+  # file is independent, so it parallelises perfectly -- and until 2026-08-14 it
+  # never did. `parallel` was decided by whether the package is *installed*,
+  # because a future worker can only attach an installed package. It is not
+  # installed on the machine that runs this, and every script starts with
+  # devtools::load_all(), so the answer was always FALSE: hydroclimate2k's
+  # 54-minute export used one of 24 cores.
+  #
+  # A forked worker inherits the loaded namespace and needs to attach nothing,
+  # which is exactly the case load_all() creates. So fork where forking works,
+  # and keep the portable future backend for an installed package on Windows.
+  if (is.na(parallel)) parallel <- length(paths) > 1
+  n_workers <- max(1L, min(as.integer(workers %||% (parallel::detectCores() - 1L)), length(paths)))
+  can_fork <- .Platform$OS.type != "windows"
+  parts <- if (!parallel || n_workers < 2) {
+    purrr::map(unname(paths), one)
+  } else if (can_fork) {
+    parallel::mclapply(unname(paths), one, mc.cores = n_workers)
+  } else if (lv_pkg_installed()) {
     furrr::future_map(unname(paths), one, .options = furrr::furrr_options(
       seed = TRUE, packages = c("lipdR", "lipdverseUpdater")))
   } else {
     purrr::map(unname(paths), one)
   }
+  # mclapply returns the condition rather than throwing when a worker fails.
+  parts <- lapply(parts, function(x) if (inherits(x, c("try-error", "condition"))) NULL else x)
   ok <- !vapply(parts, is.null, logical(1))
   if (any(!ok)) cli::cli_alert_warning("{sum(!ok)} file{?s} could not be exported.")
   parts <- parts[ok]
