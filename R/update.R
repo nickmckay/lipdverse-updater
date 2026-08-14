@@ -596,7 +596,13 @@ lv_update <- function(compilation, commit = FALSE, cfg = lv_config(compilation),
                                                       index = lv_db_index(lv_scan(db), cache = TRUE),
                                                       progress = FALSE))
     }
-    plan2 <- qc_merge(base2, qc_sheet_pull(bk, cfg$qc_sheet_id, cfg$qc_tabs$qc), frame2)
+    # Scoped exactly as the first pass was. Without this the check pulls the raw
+    # sheet, so another compilation's csm column -- iso2k's iso2kUI, 600 cells on
+    # the hydroclimate2k tab -- reads as 600 changes the run failed to make. It
+    # did not fail to make them; it declined to, on purpose. The assertion has to
+    # ask the same question the run answered.
+    sheet2 <- lv_csm_scope(qc_sheet_pull(bk, cfg$qc_sheet_id, cfg$qc_tabs$qc), comp)$cells
+    plan2 <- qc_merge(base2, sheet2, frame2)
     n2 <- plan2$summary$n_changed
     idempotent <- n2 == 0
     say(sprintf("changes on a second run: %d\n", n2))

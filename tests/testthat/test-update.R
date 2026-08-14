@@ -169,3 +169,23 @@ test_that("an unsafe rename stops the run before anything is applied", {
   sheet_write(e$backend, e$cfg$qc_sheet_id, "QC", qc)
   expect_error(run_update(e), class = "lv_error_rename")
 })
+
+test_that("the idempotence check asks the same question the run answered", {
+  # The check pulled the raw sheet while the run merges a scoped one, so another
+  # compilation's csm column read as changes the run had failed to make. It had
+  # not failed to make them; it declined to, on purpose. On the first live
+  # hydroclimate2k update this failed the assertion with 600 iso2kUI cells after
+  # every write had already succeeded.
+  e <- local_update_env()
+  seed_baseline(e)
+  qc <- sheet_read(e$backend, e$cfg$qc_sheet_id, "QC")
+  # iso2k's certification column, on lipdverseTest's tab.
+  qc[["Iso2k QC certification (INITIALS)"]] <- c("AAA", rep(NA, nrow(qc) - 1))
+  sheet_write(e$backend, e$cfg$qc_sheet_id, "QC", qc)
+
+  r <- run_update(e, commit = TRUE)
+  # The foreign column is excluded from the merge and does not make the run
+  # look non-idempotent afterwards.
+  expect_true(r$idempotent)
+  expect_false(any(r$write_cells$field == "paleoData_iso2kCertification"))
+})
