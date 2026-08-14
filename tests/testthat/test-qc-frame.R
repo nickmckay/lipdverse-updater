@@ -61,3 +61,32 @@ test_that("an accented dataset name is read despite a decomposed filename", {
   g <- qc_frame(d, datasets = nfd, progress = FALSE)
   expect_equal(nrow(g), nrow(f))
 })
+
+test_that("a column with two unscoped interpretations does not kill the run", {
+  # An integer vector accepts seen[[""]] <- 1 and cannot read it back, so
+  # numbering unscoped interpretations crashed with "subscript out of bounds".
+  # hydroclimate2k has no such column, so 823 datasets never found it; iso2k's
+  # first dry run died on it.
+  d <- withr::local_tempdir()
+  write_lpd(d, "A.Author.2001", tsids = "T1", col_extra = list(
+    interpretation = list(
+      list(variable = "P", variableDetail = "first"),
+      list(variable = "T", variableDetail = "second"))))
+
+  # The registry carries no unscoped interpretation fields -- only
+  # interpretationApplies -- so these contribute no cells either way. What was
+  # broken was the counting, which took the whole run down before any of the
+  # dataset's other fields were read.
+  f <- qc_frame(d, progress = FALSE)
+  expect_gt(nrow(f), 0)
+  expect_true("archiveType" %in% f$field)
+  expect_true("paleoData_units" %in% f$field)
+})
+
+test_that("a file that cannot be read names itself", {
+  d <- withr::local_tempdir()
+  writeLines("not a zip", fs::path(d, "Broken.Author.2001.lpd"))
+  # A bare error from inside lapply pointed at no dataset at all.
+  expect_silent(f <- qc_frame(d, progress = FALSE))
+  expect_equal(nrow(f), 0)
+})

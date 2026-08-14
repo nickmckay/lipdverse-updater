@@ -65,7 +65,15 @@ qc_frame <- function(dir = lv_path("database"), registry = lv_qc_fields(),
                 dataset_level = unique(canonical[wanted$cardinality %in% "dataset"]))
 
   if (progress) cli::cli_alert_info("Reading QC state from {length(paths)} file{?s}")
-  parts <- lapply(paths, function(p) qc_frame_one(p, canon))
+  # Named, so a failure says which file. It used to surface as a bare
+  # "subscript out of bounds" from inside lapply, with nothing pointing at the
+  # dataset that caused it.
+  parts <- lapply(paths, function(p) {
+    tryCatch(qc_frame_one(p, canon), error = function(e) {
+      cli::cli_abort("Reading QC state from {.path {p}} failed: {conditionMessage(e)}",
+                     class = "lv_error_qc_frame")
+    })
+  })
   out <- purrr::list_rbind(parts)
   if (nrow(out) == 0) return(qc_cells_empty())
 
@@ -175,14 +183,21 @@ qc_frame_one <- function(path, canon) {
             # so every per-column interpretation was silently invisible to QC,
             # and the only interpretation values reaching the frame were the
             # flattened copies lipdverseR left at the dataset root.
-            seen <- integer()
+            # Counted in a list under a sentinel key for the unscoped case. An
+            # integer vector accepts seen[[""]] <- 1 and then cannot read it
+            # back -- "subscript out of bounds" -- so a column carrying two
+            # interpretations with no scope killed the whole run. hydroclimate2k
+            # has no such column and 823 datasets never found it; iso2k does,
+            # and the first dry run of a second compilation died on it.
+            seen <- list()
             for (i in seq_along(col$interpretation)) {
               it <- col$interpretation[[i]]
               if (!is.list(it)) next
               sc <- scalar_chr(it$scope)
               sc <- if (length(sc) == 1 && !is.na(sc) && nzchar(sc)) tolower(sc) else ""
-              n <- if (sc %in% names(seen)) seen[[sc]] + 1L else 1L
-              seen[[sc]] <- n
+              key <- if (nzchar(sc)) sc else "\u0001unscoped"
+              n <- if (!is.null(seen[[key]])) seen[[key]] + 1L else 1L
+              seen[[key]] <- n
               prefix <- if (nzchar(sc)) paste0(sc, "Interpretation", n) else paste0("interpretation", n)
               for (s in names(it)) {
                 k <- paste0(prefix, "_", s)
