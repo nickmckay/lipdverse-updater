@@ -216,6 +216,18 @@ lv_version_append <- function(store, compilation, version, run_id = lv_run_id(),
     readr::read_csv(m, col_types = readr::cols(.default = readr::col_character()),
                     na = "", progress = FALSE)
   } else NULL
+  # A version's membership is a fact about that release, not an event: recording
+  # it again replaces it rather than adding a second copy. Appending
+  # unconditionally meant a run that produced an *unchanged* version wrote every
+  # membership row afresh -- NAm21k-noPollen 0_1_0 ended up in the ledger three
+  # times, 1,152 duplicate keys, which the export contract then refused.
+  #
+  # Safe to replace: an unchanged version means the dataset set did not change,
+  # since a change to it bumps the version.
+  if (!is.null(prior) && nrow(prior)) {
+    prior <- prior[!(prior$compilation %in% compilation & prior$version %in% v$version),
+                   , drop = FALSE]
+  }
   readr::write_csv(dplyr::bind_rows(prior, members), m, na = "")
 
   invisible(row)

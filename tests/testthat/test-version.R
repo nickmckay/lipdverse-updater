@@ -157,3 +157,31 @@ test_that("the ledger can be asked what one version held", {
   expect_equal(nrow(lv_version_members(st, "c1", v1$version)), 2)
   expect_equal(lv_version_members(st, "c1", v2$version)$dataset, "A.Author.2001")
 })
+
+test_that("recording a version twice replaces its membership rather than doubling it", {
+  # A run that produces an unchanged version used to append every membership row
+  # again: NAm21k-noPollen 0_1_0 was in the ledger three times, 1,152 duplicate
+  # keys, and the export contract refused the table.
+  withr::local_envvar(LIPDVERSE_QCSTORE = withr::local_tempdir())
+  st <- qc_store()
+  v <- lv_tick_version(NULL, character(), c("A.Author.2001", "B.Author.2002"))
+  lv_version_append(st, "c1", v, run_id = "r1")
+  lv_version_append(st, "c1", v, run_id = "r2")
+
+  m <- lv_version_members(st, "c1", v$version)
+  expect_equal(nrow(m), 2)
+  expect_equal(sum(duplicated(paste(m$compilation, m$version, m$dataset))), 0)
+})
+
+test_that("re-recording one version leaves the others alone", {
+  withr::local_envvar(LIPDVERSE_QCSTORE = withr::local_tempdir())
+  st <- qc_store()
+  v1 <- lv_tick_version(NULL, character(), "A.Author.2001")
+  lv_version_append(st, "c1", v1, run_id = "r1")
+  v2 <- lv_tick_version(v1$version, "A.Author.2001", c("A.Author.2001", "B.Author.2002"))
+  lv_version_append(st, "c1", v2, run_id = "r2")
+  lv_version_append(st, "c1", v2, run_id = "r3")
+
+  expect_equal(nrow(lv_version_members(st, "c1", v1$version)), 1)
+  expect_equal(nrow(lv_version_members(st, "c1", v2$version)), 2)
+})
