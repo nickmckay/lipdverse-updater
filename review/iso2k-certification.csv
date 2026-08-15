@@ -1,0 +1,771 @@
+tsid,dataSetName,class,suggested_action,suggested_value,decision,sheet_value,csm_value,appended,flat_value,is_member,sheet_membership,csm_in_sheet_vocabulary
+IC00EIGG01A,IC00EIGG,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,TO,,,TRUE,TRUE,TRUE
+IC00SC1601A,IC00SC16,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,AO,,,TRUE,TRUE,TRUE
+IC00SC1801A,IC00SC18,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,DVD,,,TRUE,TRUE,TRUE
+NPM11111,IC00SC18,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,TO,,,TRUE,TRUE,TRUE
+IC00SC2101A,IC00SC21,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,DVD,,,TRUE,TRUE,TRUE
+IC00SC2601A,IC00SC26,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,AO,,,TRUE,TRUE,TRUE
+IC00SC2901A,IC00SC29,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,DVD,,,TRUE,TRUE,TRUE
+IC02HEWD01A,IC02HEWD,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,DVD,,,TRUE,TRUE,TRUE
+IC09KAD301A,IC09KAD3,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,DVD,,,TRUE,TRUE,TRUE
+IC09OPAN01C,IC09OPAN,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,"DVD, TO",,,TRUE,TRUE,TRUE
+IC10VID302A,IC10VID3,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,DVD,,,TRUE,TRUE,TRUE
+IC10VIP100B,IC10VIP1,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,DVD,,,TRUE,TRUE,TRUE
+IC10VIP200B,IC10VIP2,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,DVD,,,TRUE,TRUE,TRUE
+IC10VIP300B,IC10VIP3,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,DVD,,,TRUE,TRUE,TRUE
+IC15GANK01B,IC15GANK,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,TO,,,TRUE,TRUE,TRUE
+IC93BAGI02A,IC93BAGI,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,TO,,,TRUE,TRUE,TRUE
+IC95THHU02D_iso2k,IC95THHU,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,TO,,,TRUE,TRUE,TRUE
+LS09BAUM01a,LS09BAUM,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,DK,,,TRUE,TRUE,TRUE
+LS09RUWA01B,LS09RUWA,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,ET,,,TRUE,TRUE,TRUE
+LS12THAY01B,LS12THAY,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,ET,,,TRUE,TRUE,TRUE
+LS12THAY01D,LS12THAY,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,ET,,,TRUE,TRUE,TRUE
+LS12THAY01E,LS12THAY,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,ET,,,TRUE,TRUE,TRUE
+LS14FEZA01B,LS14FEZA,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,ET,,,TRUE,TRUE,TRUE
+LS14FEZA01C,LS14FEZA,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,ET,,,TRUE,TRUE,TRUE
+LS14FEZA01E,LS14FEZA,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,ET,,,TRUE,TRUE,TRUE
+LS14FEZA01F,LS14FEZA,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,ET,,,TRUE,TRUE,TRUE
+LS14FOTI01B,LS14FOTI,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,ET,,,TRUE,TRUE,TRUE
+WEB00087524,LS16THN301,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,ET,,,TRUE,TRUE,TRUE
+WEB13dc04eb,LS17BAHA01,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,ET,,,TRUE,TRUE,TRUE
+WEBf388e826,LS17BAHA01,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,ET,,,TRUE,TRUE,TRUE
+LS99CUVAb,LS99CUVA,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,DK,,,TRUE,TRUE,TRUE
+LPD7dc5b9ba,ClelandLake.Steinman.2016,"csm only, and not this compilation's vocabulary",remove from csm; not this compilation's value,,,,CR,,,TRUE,TRUE,FALSE
+SAm_035_iso2k,IC13THQU,"csm only, and not this compilation's vocabulary",remove from csm; not this compilation's value,,,,"RN, IAM",,,TRUE,TRUE,FALSE
+MS07MMNP01b,MS07MMNP,"csm only, and not this compilation's vocabulary",remove from csm; not this compilation's value,,,,REMOVE,,,TRUE,TRUE,FALSE
+SL13TEAK01A,AKIII.Terwilliger.2013,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,BK 12/31/2019,,BK 12/31/2019,"BK 12/31/2019; CH, CR","; CH, CR",,TRUE,TRUE,FALSE
+SL13TEAK01B,AKIII.Terwilliger.2013,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,BK 12/31/2019,,BK 12/31/2019,BK 12/31/2019; CH,; CH,,TRUE,TRUE,FALSE
+SL13TEAK01C2,AKIII.Terwilliger.2013,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,BK 12/31/2019,,BK 12/31/2019,BK 12/31/2019; CH,; CH,,TRUE,TRUE,FALSE
+LPD7dc5b9ba-dup,ClelandLake.Steinman.2016,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,MJ,,MJ,MJ; CR,; CR,,TRUE,TRUE,FALSE
+IC00COPR01A,IC00COPR,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,AO (01/16/2019),,AO (01/16/2019),AO (01/16/2019); AO (01/15/2019),; AO (01/15/2019),,TRUE,TRUE,FALSE
+IC00OE0202A,IC00OE02,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,AO (01/16/2019),,AO (01/16/2019),AO (01/16/2019); AO (01/15/2019),; AO (01/15/2019),,TRUE,TRUE,FALSE
+IC00OE0302A,IC00OE03,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,AO (01/16/2019),,AO (01/16/2019),AO (01/16/2019); AO (01/15/2019),; AO (01/15/2019),,TRUE,TRUE,FALSE
+IC00OE0503A,IC00OE05,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,AO (01/16/2019),,AO (01/16/2019),AO (01/16/2019); AO (01/15/2019),; AO (01/15/2019),,TRUE,TRUE,FALSE
+IC00OE1101A,IC00OE11,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,AO (01/16/2019),,AO (01/16/2019),AO (01/16/2019); AO (01/15/2019),; AO (01/15/2019),,TRUE,TRUE,FALSE
+IC00OE1201A,IC00OE12,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,AO (01/16/2019),,AO (01/16/2019),AO (01/16/2019); AO (01/15/2019),; AO (01/15/2019),,TRUE,TRUE,FALSE
+IC00OE1301A,IC00OE13,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,AO (01/16/2019),,AO (01/16/2019),AO (01/16/2019); AO (01/15/2019),; AO (01/15/2019),,TRUE,TRUE,FALSE
+IC00OE1401A,IC00OE14,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,AO (01/16/2019),,AO (01/16/2019),AO (01/16/2019); AO (01/15/2019),; AO (01/15/2019),,TRUE,TRUE,FALSE
+IC00OE1501A,IC00OE15,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,AO (01/16/2019),,AO (01/16/2019),AO (01/16/2019); AO (01/15/2019),; AO (01/15/2019),,TRUE,TRUE,FALSE
+IC00OE1601A,IC00OE16,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,AO (01/16/2019),,AO (01/16/2019),AO (01/16/2019); AO (01/15/2019),; AO (01/15/2019),,TRUE,TRUE,FALSE
+IC00OE1801A,IC00OE18,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,AO (01/16/2019),,AO (01/16/2019),AO (01/16/2019); AO (01/15/2019),; AO (01/15/2019),,TRUE,TRUE,FALSE
+IC00OE1901A,IC00OE19,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,AO (01/16/2019),,AO (01/16/2019),AO (01/16/2019); AO (01/15/2019),; AO (01/15/2019),,TRUE,TRUE,FALSE
+IC00OE2001A,IC00OE20,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,AO (01/16/2019),,AO (01/16/2019),AO (01/16/2019); AO (01/15/2019),; AO (01/15/2019),,TRUE,TRUE,FALSE
+IC00OE2101A,IC00OE21,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,AO (01/16/2019),,AO (01/16/2019),AO (01/16/2019); AO (01/15/2019),; AO (01/15/2019),,TRUE,TRUE,FALSE
+IC00OE2201A,IC00OE22,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,AO (01/16/2019),,AO (01/16/2019),AO (01/16/2019); AO (01/15/2019),; AO (01/15/2019),,TRUE,TRUE,FALSE
+IC00OE2301A,IC00OE23,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,AO (01/16/2019),,AO (01/16/2019),AO (01/16/2019); AO (01/15/2019),; AO (01/15/2019),,TRUE,TRUE,FALSE
+IC00OEKC01A,IC00OEKC,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,AO (01/16/2019),,AO (01/16/2019),AO (01/16/2019); AO (01/15/2019),; AO (01/15/2019),,TRUE,TRUE,FALSE
+IC00STHN01A,IC00STHN,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,AO (01/16/2019),,AO (01/16/2019),AO (01/16/2019); AO (01/15/2019),; AO (01/15/2019),,TRUE,TRUE,FALSE
+IC00STTY01A,IC00STTY,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,AO (01/16/2019),,AO (01/16/2019),AO (01/16/2019); AO (01/15/2019),; AO (01/15/2019),,TRUE,TRUE,FALSE
+IC01JO0101A,IC01JO01,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,AO (01/16/2019),,AO (01/16/2019),AO (01/16/2019); AO (01/15/2019),; AO (01/15/2019),,TRUE,TRUE,FALSE
+IC02GR0501A,IC02GR05,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,AO (01/16/2019),,AO (01/16/2019),AO (01/16/2019); AO (01/15/2019),; AO (01/15/2019),,TRUE,TRUE,FALSE
+IC02GR0701A,IC02GR07,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,AO (01/16/2019),,AO (01/16/2019),AO (01/16/2019); AO (01/15/2019),; AO (01/15/2019),,TRUE,TRUE,FALSE
+IC02GR1701A,IC02GR17,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,AO (01/16/2019),,AO (01/16/2019),AO (01/16/2019); AO (01/15/2019),; AO (01/15/2019),,TRUE,TRUE,FALSE
+IC05ISAU01A,IC05ISAU,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,TO,,TO,"TO; DVD, TO","; DVD, TO",,TRUE,TRUE,FALSE
+IC76FIDE01A,IC76FIDE,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,ET (12/30/2019),,ET (12/30/2019),ET (12/30/2019); DVD,; DVD,,TRUE,TRUE,FALSE
+LS09SAJU01An,LS09SAJU,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,AA: This record should be removed: it is duplicated in LS14ZHJU (and is a shorter version of the latter record),,AA: This record should be removed: it is duplicated in LS14ZHJU (and is a shorter version of the latter record),AA: This record should be removed: it is duplicated in LS14ZHJU (and is a shorter version of the latter record); ET,; ET,,TRUE,TRUE,FALSE
+LS14ATJU01B,LS14ATJU,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,AA,,AA,AA; ET,; ET,,TRUE,TRUE,FALSE
+MS02FLPC01a,MS02FLPC,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,LJ.,,LJ.,LJ.; LJ. Isotope data have depth,; LJ. Isotope data have depth,,TRUE,TRUE,FALSE
+MS05ESCR01c,MS05ESCR,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,"GF 12/2019, BK 12/31/2019",,"GF 12/2019, BK 12/31/2019","GF 12/2019, BK 12/31/2019; GL and LJ",; GL and LJ,,TRUE,TRUE,FALSE
+MS07MMNP01a,MS07MMNP,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,LJ,,LJ,"LJ; LJ, old O2k data lack depth","; LJ, old O2k data lack depth",,TRUE,TRUE,FALSE
+MS09TCIS01,MS09TCIS,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,LJ 12/12/2018,,LJ 12/12/2018,"LJ 12/12/2018; LJ 12/12/2018 age model based on dated tephra layers, data available in 10.1038/sdata.2016.425","; LJ 12/12/2018 age model based on dated tephra layers, data available in 10.1038/sdata.2016.425",,TRUE,TRUE,FALSE
+MS10BLMS01b,MS10BLMS,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,LJ 12/12/2018,,LJ 12/12/2018,LJ 12/12/2018; LJ 12/12/2018 isotope data have depth,; LJ 12/12/2018 isotope data have depth,,TRUE,TRUE,FALSE
+MS13RSAS01b_iso2k,MS13RSAS,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,LJ 12/12/2018,,LJ 12/12/2018,LJ 12/12/2018; LJ 12/12/2018. Added raw d18O carbonate. isotope data have depth,; LJ 12/12/2018. Added raw d18O carbonate. isotope data have depth,,TRUE,TRUE,FALSE
+SP04YUCN01A,SP04YUCN,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,ZK (07/01/2019): Pre-Holocene part of the D4 stal. No data from the past 2000yrs,,ZK (07/01/2019): Pre-Holocene part of the D4 stal. No data from the past 2000yrs,ZK (07/01/2019): Pre-Holocene part of the D4 stal. No data from the past 2000yrs; LCB,; LCB,,TRUE,TRUE,FALSE
+SP04YUCN02A,SP04YUCN,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,"NM, ZK (07/01/2019)",,"NM, ZK (07/01/2019)","NM, ZK (07/01/2019); LCB",; LCB,,TRUE,TRUE,FALSE
+SP04YUCN03A,SP04YUCN,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,AA (3/5/19): No data from last 2000 yrs.,,AA (3/5/19): No data from last 2000 yrs.,AA (3/5/19): No data from last 2000 yrs.; LCB,; LCB,,TRUE,TRUE,FALSE
+SP09REPE01A,SP09REPE,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,"AA (2019-03-08), BM (15/03/2019)",,"AA (2019-03-08), BM (15/03/2019)","AA (2019-03-08), BM (15/03/2019); AA, BM","; AA, BM",,TRUE,TRUE,FALSE
+SP09REPE02A,SP09REPE,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,"AA (2019-03-08, BM (15/03/2019)",,"AA (2019-03-08, BM (15/03/2019)","AA (2019-03-08, BM (15/03/2019); AA, BM","; AA, BM",,TRUE,TRUE,FALSE
+SP13PAVU01A,SP13PAVU,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,ZK,,ZK,ZK; LCB,; LCB,,TRUE,TRUE,FALSE
+TR11XUPH02,TR11XUPH,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,OCh-S: added,,OCh-S: added,"OCh-S: added; OCh-S, ZK, SM","; OCh-S, ZK, SM",,TRUE,TRUE,FALSE
+TR12SAMU06,TR12SAMU,csm carries the sheet value plus an appended one,strip the appended value; the sheet and the baseline agree on what it should be,OCh-S: changed to P_E,,OCh-S: changed to P_E,"OCh-S: changed to P_E; OCh-S, ZK, SM","; OCh-S, ZK, SM",,TRUE,TRUE,FALSE
+WEB0bc2e8c4,CO17RAPA,legacy flat key only,delete the legacy flat key,,,,,,DMT (1/14/19),FALSE,,FALSE
+WEB908959f3,CO17RAPA,legacy flat key only,delete the legacy flat key,,,,,,DMT (1/14/19),FALSE,,FALSE
+WEBa97612cc,CO17WUBO1A,legacy flat key only,delete the legacy flat key,,,,,,DMT (1/14/19),FALSE,,FALSE
+WEBa97612cc2,CO17WUBO1B,legacy flat key only,delete the legacy flat key,,,,,,DMT (1/14/19),FALSE,,FALSE
+WEBa97612cc22,CO17WUBO1C,legacy flat key only,delete the legacy flat key,,,,,,DMT (1/14/19),FALSE,,FALSE
+WEBa97612cc222,CO17WUBO1D,legacy flat key only,delete the legacy flat key,,,,,,DMT (1/14/19),FALSE,,FALSE
+WEBa97612cc2222,CO17WUBO1E,legacy flat key only,delete the legacy flat key,,,,,,DMT (1/14/19),FALSE,,FALSE
+WEBa97612cc22222,CO17WUBO1F,legacy flat key only,delete the legacy flat key,,,,,,DMT (1/14/19),FALSE,,FALSE
+WEBa97612cc222222,CO17WUBO1G,legacy flat key only,delete the legacy flat key,,,,,,DMT (1/14/19),FALSE,,FALSE
+LS15DOCH01B,LS15DOCH,"sheet only, member",write the sheet value into csm,ET,,ET,,,ET,TRUE,TRUE,FALSE
+LS15DOCH01C,LS15DOCH,"sheet only, member",write the sheet value into csm,ET,,ET,,,ET,TRUE,TRUE,FALSE
+LS15DOSA01B,LS15DOSA,"sheet only, member",write the sheet value into csm,ET,,ET,,,ET,TRUE,TRUE,FALSE
+LS15DOSA01C,LS15DOSA,"sheet only, member",write the sheet value into csm,ET,,ET,,,ET,TRUE,TRUE,FALSE
+Ocean2kHR_103_iso2k,CO02KUBE,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+Ocean2kHR_175_iso2k,CO04KIVA,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+Ocean2kHR_176_iso2k,CO04KIVA,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+Ocean2kHR_158_iso2k,CO04LIFI,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+Ocean2kHR_106_iso2k,CO05KUBE,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+Ocean2kHR_109_iso2k,CO06MOTO,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+Ocean2kHR_111_iso2k,CO06MOTO,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+Ocean2kHR_145_iso2k,CO06QUNG,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+Ocean2kHR_146_iso2k,CO06QUNG,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+Ocean2kHR_194_iso2k,CO07CAFR,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+Ocean2kHR_095_iso2k,CO08GOBE,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+Ocean2kHR_164_iso2k,CO09FEOG,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+Ocean2kHR_165_iso2k,CO09FEOG,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+Ocean2kHR_098_iso2k,CO10HEIG,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+Ocean2kHR_161_iso2k,CO11NUPM,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+Ocean2kHR_155_iso2k,CO12GOVA,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+Ocean2kHR_182_iso2k,CO14OSPA,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+Ocean2kHR_184_iso2k,CO14OSPA,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+Ocean2kHR_027_iso2k,CO14ZIHO,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+WEB1b49cf10,CO17RAPA,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+WEB34c958f0,CO17RAPA,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+WEBbac6c4f7,CO17WUBO1A,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+WEBbac6c4f72,CO17WUBO1B,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+WEBbac6c4f722,CO17WUBO1C,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+WEBbac6c4f7222,CO17WUBO1D,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+WEBbac6c4f72222,CO17WUBO1E,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+WEBbac6c4f722222,CO17WUBO1F,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+WEBbac6c4f7222222,CO17WUBO1G,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+WEB6afe8aaf,CO18HECO01A,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+WEB8500c738,CO18HECO01A,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+WEB6afe8aaf2,CO18HECO01B,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+WEB8500c7382,CO18HECO01B,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+WEB1ae4dccd,CO18RELC01A,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+WEB3309bb9e,CO18RELC01A,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+Ocean2kHR_136_iso2k,CO98EVXM,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19),,,DMT (1/14/19),FALSE,,FALSE
+WEB0c2a385a_iso2k,GI19POYU,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,TP: Exclude from iso2k: Derived variable based on measured isotopes and assumptions of long-term changes in sea water,,,TP: Exclude from iso2k: Derived variable based on measured isotopes and assumptions of long-term changes in sea water,FALSE,,FALSE
+WEB53aebb8d_iso2k,GI19POYU,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,TP: Exclude from iso2k: D-excess is a derived variable.,,,TP: Exclude from iso2k: D-excess is a derived variable.,FALSE,,FALSE
+WEB5fb47861_iso2k,GI19POYU,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,TP: Exclude from iso2k: Derived variable based on measured isotopes and assumptions of long-term changes in sea water,,,TP: Exclude from iso2k: Derived variable based on measured isotopes and assumptions of long-term changes in sea water,FALSE,,FALSE
+WEBa617473b_iso2k,GI19POYU,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,TP: Exclude from iso2k: Derived variable based on measured isotopes and assumptions of long-term changes in sea water,,,TP: Exclude from iso2k: Derived variable based on measured isotopes and assumptions of long-term changes in sea water,FALSE,,FALSE
+WEBfb6b61e3_iso2k,GI19POYU,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,TP: Exclude from iso2k: Derived variable based on measured isotopes and assumptions of long-term changes in sea water,,,TP: Exclude from iso2k: Derived variable based on measured isotopes and assumptions of long-term changes in sea water,FALSE,,FALSE
+WEB9bab95ac,SH18CASA,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19); KLD (12/31/19),,,DMT (1/14/19); KLD (12/31/19),FALSE,,FALSE
+WEBf820da9c,SH18CASA,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,DMT (1/14/19); KLD (12/31/19),,,DMT (1/14/19); KLD (12/31/19),FALSE,,FALSE
+LPD7d948e2c_iso2k,SP13AYID,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,LCB (29/03/2019): No isotopic analyses => shouldn't it be removed?,,,LCB (29/03/2019): No isotopic analyses => shouldn't it be removed?,FALSE,,FALSE
+LPD7d948e2d,SP13AYID,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,LCB (29/03/2019): No isotopic analyses => shouldn't it be removed?,,,LCB (29/03/2019): No isotopic analyses => shouldn't it be removed?,FALSE,,FALSE
+LPD7d948e2f,SP13AYID,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,LCB (29/03/2019): No isotopic analyses => shouldn't it be removed?,,,LCB (29/03/2019): No isotopic analyses => shouldn't it be removed?,FALSE,,FALSE
+LPD7d948e2g,SP13AYID,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,LCB (29/03/2019): No isotopic analyses => shouldn't it be removed?,,,LCB (29/03/2019): No isotopic analyses => shouldn't it be removed?,FALSE,,FALSE
+LPD7d948e2h,SP13AYID,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,LCB (29/03/2019): No isotopic analyses => shouldn't it be removed?,,,LCB (29/03/2019): No isotopic analyses => shouldn't it be removed?,FALSE,,FALSE
+LPD7d948e2i,SP13AYID,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,LCB (29/03/2019): No isotopic analyses => shouldn't it be removed?,,,LCB (29/03/2019): No isotopic analyses => shouldn't it be removed?,FALSE,,FALSE
+LPD7d948e2j,SP13AYID,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,LCB (29/03/2019): No isotopic analyses => shouldn't it be removed?,,,LCB (29/03/2019): No isotopic analyses => shouldn't it be removed?,FALSE,,FALSE
+LPD7d948e2k,SP13AYID,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,LCB (29/03/2019): No isotopic analyses => shouldn't it be removed?,,,LCB (29/03/2019): No isotopic analyses => shouldn't it be removed?,FALSE,,FALSE
+Ocean2kHR_127_iso2k,SS03HAJA,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,KLD (12/31/19),,,KLD (12/31/19),FALSE,,FALSE
+Ocean2kHR_129_iso2k,SS03HAJA,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,KLD (12/31/19),,,KLD (12/31/19),FALSE,,FALSE
+Ocean2kHR_113_iso2k,SS05ROES,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,KLD (12/31/19),,,KLD (12/31/19),FALSE,,FALSE
+LS14ZHJU01A,,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,"ET, AA",,,,FALSE,TRUE,FALSE
+SP13ASBC02,,"sheet only, excluded timeseries",leave; timeseries is excluded from the compilation,,,LCB (29/03/2019): No isotopic analyses => shouldn't it be removed?,,,,FALSE,,FALSE
+Ocean2kHR_001_iso2k,CO00COKY,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_124_iso2k,CO00DRBE,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_125_iso2k,CO00DRBE,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_019_iso2k,CO00FERA,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO00KUNI01Aa,CO00KUNI,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO00KUNI01Ab,CO00KUNI,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_177_iso2k,CO00URMA,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_140_iso2k,CO01TUNG,sheet and file agree,nothing to do,,,"DMT (1/14/19; updated 12/31/19), KLD","DMT (1/14/19; updated 12/31/19), KLD",,,TRUE,TRUE,TRUE
+Ocean2kHR_141_iso2k,CO01TUNG,sheet and file agree,nothing to do,,,"DMT (1/14/19; updated 12/31/19), KLD","DMT (1/14/19; updated 12/31/19), KLD",,,TRUE,TRUE,TRUE
+Ocean2kHR_102_iso2k,CO02KUBE,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_006_iso2k,CO03CHBA,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_171_iso2k,CO03CHBU,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO03COPM01A,CO03COPM,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO03COPM02A,CO03COPM,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO03COPM03A,CO03COPM,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO03COPM04C,CO03COPM,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO03COPM05C,CO03COPM,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO03COPM06C,CO03COPM,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO03COPM07C,CO03COPM,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO03COPM08B,CO03COPM,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO03COPM09B,CO03COPM,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO03COPM10B,CO03COPM,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO03COPM11C,CO03COPM,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_139_iso2k,CO03COPM,sheet and file agree,nothing to do,,,"DMT (1/14/19), KLD","DMT (1/14/19), KLD",,,TRUE,TRUE,TRUE
+CO04BAFI00A,CO04BAFI,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO04BAFI01A,CO04BAFI,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO04BAFI02A,CO04BAFI,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO04INMI01A,CO04INMI,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_174_iso2k,CO04KIVA,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_157_iso2k,CO04LIFI,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO04LIRA01A,CO04LIRA,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO04LIRA02A,CO04LIRA,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO04LIRA03A,CO04LIRA,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO04MGNG01A,CO04MGNG,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO04PFCH02A,CO04PFCH,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_013_iso2k,CO04PFRE,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_020_iso2k,CO04ZIMG,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_166_iso2k,CO05ASGU,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_142_iso2k,CO05BAFI,sheet and file agree,nothing to do,,,"DMT (1/14/19), KLD","DMT (1/14/19), KLD",,,TRUE,TRUE,TRUE
+Ocean2kHR_105_iso2k,CO05KUBE,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_007_iso2k,CO06DATZ,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_156_iso2k,CO06LIFI,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_107_iso2k,CO06MOPE,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_108_iso2k,CO06MOTO,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_110_iso2k,CO06MOTO,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_144_iso2k,CO06QUNG,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_193_iso2k,CO07CAFR,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_010_iso2k,CO08ABSU,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_094_iso2k,CO08GOBE,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_096_iso2k,CO08HEVE,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO08KIPR01A,CO08KIPR,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_163_iso2k,CO09FEOG,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_012_iso2k,CO09NAKY,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO09NUTB01B,CO09NUTB,sheet and file agree,nothing to do,,,DMT (1/14/19; updated 12/31/19),DMT (1/14/19; updated 12/31/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_097_iso2k,CO10HEIG,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_160_iso2k,CO11NUPM,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_162_iso2k,CO11NUPM,sheet and file agree,nothing to do,,,DMT (1/14/19; updated 12/31/19),DMT (1/14/19; updated 12/31/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_154_iso2k,CO12GOVA,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO13CABL01A,CO13CABL,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO13CABL02A,CO13CABL,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO13CAHN01A,CO13CAHN,sheet and file agree,nothing to do,,,DMT (1/14/19; updated 12/31/19),DMT (1/14/19; updated 12/31/19),,,TRUE,TRUE,TRUE
+CO13CAHN02A,CO13CAHN,sheet and file agree,nothing to do,,,DMT (1/14/19; updated 12/31/19),DMT (1/14/19; updated 12/31/19),,,TRUE,TRUE,TRUE
+CO13COTB00A,CO13COTB,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO13COXM03A,CO13COXM,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+WEB396032ca,CO13DESC01A,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+WEBa131bf7e,CO13DESC01A,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO13HENG01A,CO13HENG,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO13HENG02A,CO13HENG,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO13HENG03A,CO13HENG,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO14CABT01A,CO14CABT,sheet and file agree,nothing to do,,,DMT (12/30/19),DMT (12/30/19),,,TRUE,TRUE,TRUE
+CO14CABT01B,CO14CABT,sheet and file agree,nothing to do,,,DMT (1/14/19; updated 12/31/19),DMT (1/14/19; updated 12/31/19),,,TRUE,TRUE,TRUE
+CO14CABT01B2,CO14CABT,sheet and file agree,nothing to do,,,DMT (1/14/19; updated 12/31/19),DMT (1/14/19; updated 12/31/19),,,TRUE,TRUE,TRUE
+CO14CATI01A,CO14CATI,sheet and file agree,nothing to do,,,DMT (12/30/19),DMT (12/30/19),,,TRUE,TRUE,TRUE
+CO14CATI01B,CO14CATI,sheet and file agree,nothing to do,,,DMT (1/14/19; updated 12/31/19),DMT (1/14/19; updated 12/31/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_181_iso2k,CO14OSPA,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_183_iso2k,CO14OSPA,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO14WUCL01A,CO14WUCL,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_026_iso2k,CO14ZIHO,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_021_iso2k,CO14ZIMG,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_022_iso2k,CO14ZIMG,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO15ABSP01A,CO15ABSP,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+WEB832ffc0e,CO17DESC01A,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+WEBe86ec079,CO17DESC01A,sheet and file agree,nothing to do,,,DMT (1/14/19; updated 12/31/19),DMT (1/14/19; updated 12/31/19),,,TRUE,TRUE,TRUE
+WEB832ffc0e2,CO17DESC02A,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+WEBe86ec0792,CO17DESC02A,sheet and file agree,nothing to do,,,DMT (1/14/19; updated 12/31/19),DMT (1/14/19; updated 12/31/19),,,TRUE,TRUE,TRUE
+WEB832ffc0e22,CO17DESC03A,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+WEBe86ec07922,CO17DESC03A,sheet and file agree,nothing to do,,,DMT (1/14/19; updated 12/31/19),DMT (1/14/19; updated 12/31/19),,,TRUE,TRUE,TRUE
+WEB832ffc0e222,CO17DESC04A,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+WEBe86ec079222,CO17DESC04A,sheet and file agree,nothing to do,,,DMT (1/14/19; updated 12/31/19),DMT (1/14/19; updated 12/31/19),,,TRUE,TRUE,TRUE
+WEB27c0dc78,CO17LITW01A,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+WEB1a9fc096,CO17MUMA,sheet and file agree,nothing to do,,,DMT (12/30/19),DMT (12/30/19),,,TRUE,TRUE,TRUE
+WEB4d49a073,CO17MUMA,sheet and file agree,nothing to do,,,DMT (12/30/19),DMT (12/30/19),,,TRUE,TRUE,TRUE
+WEB0e874eb3,CO17RAPA,sheet and file agree,nothing to do,,,DMT (1/14/19; updated 12/31/19),DMT (1/14/19; updated 12/31/19),,,TRUE,TRUE,TRUE
+WEB9aced55a,CO17RAPA,sheet and file agree,nothing to do,,,DMT (1/14/19; updated 12/31/19),DMT (1/14/19; updated 12/31/19),,,TRUE,TRUE,TRUE
+WEB44d2f1ea,CO17WUBO1A,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+WEB44d2f1ea2,CO17WUBO1B,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+WEB44d2f1ea22,CO17WUBO1C,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+WEB44d2f1ea222,CO17WUBO1D,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+WEB44d2f1ea2222,CO17WUBO1E,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+WEB44d2f1ea22222,CO17WUBO1F,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+WEB44d2f1ea222222,CO17WUBO1G,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+WEB396032ca2,CO17XISC01A,sheet and file agree,nothing to do,,,DMT (1/14/19; seasonality updated 12/30/19),DMT (1/14/19; seasonality updated 12/30/19),,,TRUE,TRUE,TRUE
+WEBa131bf7e2,CO17XISC01A,sheet and file agree,nothing to do,,,DMT (1/14/19; updated 12/31/19),DMT (1/14/19; updated 12/31/19),,,TRUE,TRUE,TRUE
+WEBd316bfdc,CO18DATO01A,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+WEB04cd805a,CO18HECO01A,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+WEBc0eedb9c,CO18HECO01A,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+WEB04cd805a2,CO18HECO01B,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+WEBc0eedb9c2,CO18HECO01B,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+WEBfe31d859,CO18RELC01A,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO92SHPU01A,CO92SHPU,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_178_iso2k,CO93COTW,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_173_iso2k,CO94DUUR,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO94HEAQ02A,CO94HEAQ,sheet and file agree,nothing to do,,,DMT (1/14/19; seasonality updated 12/30/19),DMT (1/14/19; seasonality updated 12/30/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_138_iso2k,CO94LISE,sheet and file agree,nothing to do,,,DMT (1/14/19); KLD,DMT (1/14/19); KLD,,,TRUE,TRUE,TRUE
+Ocean2kHR_172_iso2k,CO95TUNG,sheet and file agree,nothing to do,,,DMT (1/14/19; updated 12/31/19),DMT (1/14/19; updated 12/31/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_133_iso2k,CO96QUVA,sheet and file agree,nothing to do,,,DMT (1/14/19); KLD,DMT (1/14/19); KLD,,,TRUE,TRUE,TRUE
+CO96SWBB01A,CO96SWBB,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO96SWFB01A,CO96SWFB,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_011_iso2k,CO97CHSY,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_132_iso2k,CO98BOFP,sheet and file agree,nothing to do,,,DMT (1/14/19); KLD,DMT (1/14/19); KLD,,,TRUE,TRUE,TRUE
+CO98CHPI01A,CO98CHPI,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_135_iso2k,CO98EVXM,sheet and file agree,nothing to do,,,DMT (1/14/19); KLD,DMT (1/14/19); KLD,,,TRUE,TRUE,TRUE
+CO98QUNC01A,CO98QUNC,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO98SWPR01A,CO98SWPR,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO99DRGB01A,CO99DRGB,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO99GUMI01A,CO99GUMI,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO99GUMI01B,CO99GUMI,sheet and file agree,nothing to do,,,DMT (1/14/19; updated 12/31/19),DMT (1/14/19; updated 12/31/19),,,TRUE,TRUE,TRUE
+CO99KUHO01Aa,CO99KUHO,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO99KUHO01Ab,CO99KUHO,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO99LICL01A,CO99LICL,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO99LICL02A,CO99LICL,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO99LICL03A,CO99LICL,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO99SWFB01A,CO99SWFB,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+CO99SWFB02A,CO99SWFB,sheet and file agree,nothing to do,,,DMT (1/14/19),DMT (1/14/19),,,TRUE,TRUE,TRUE
+WEB10668658_iso2k,GI19POYU,sheet and file agree,nothing to do,,,TP: Exclude from iso2k: Derived variable based on measured isotopes and assumptions of long-term changes in sea water,TP: Exclude from iso2k: Derived variable based on measured isotopes and assumptions of long-term changes in sea water,,,TRUE,TRUE,TRUE
+WEB73fbe78c_iso2k,GI19POYU,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEBa755355a_iso2k,GI19POYU,sheet and file agree,nothing to do,,,TP: Exclude from iso2k: Derived variable based on measured isotopes and assumptions of long-term changes in sea water,TP: Exclude from iso2k: Derived variable based on measured isotopes and assumptions of long-term changes in sea water,,,TRUE,TRUE,TRUE
+WEBf7bafce3_iso2k,GI19POYU,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+IC00THDS03A,IC00THDS,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC00THDS03B,IC00THDS,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC02MUBI01A,IC02MUBI,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC02SCGN01A,IC02SCGN,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC02STTA02A,IC02STTA,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC02THKI02A,IC02THKI,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC02THKI03A,IC02THKI,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC02THKI04A,IC02THKI,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC02THKI05A,IC02THKI,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC03HOIL01A,IC03HOIL,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC03HORB01A,IC03HORB,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC04FIML01A,IC04FIML,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC06KAS101A,IC06KAS1,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC06THDD01A,IC06THDD,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC06THPR01A,IC06THPR,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC06THPR02A,IC06THPR,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC06THPR02B,IC06THPR,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC06VID301A,IC06VID3,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC06VIGR01A,IC06VIGR,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC06VING01A,IC06VING,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC06WAML01A,IC06WAML,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC07KADF01A,IC07KADF,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC07KARB01A,IC07KARB,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC08DILO01A,IC08DILO,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC08HODF02A,IC08HODF,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC08THGZ01A,IC08THGZ,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC08VI7901A,IC08VI79,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC08VI8401A,IC08VI84,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC08VI8701A,IC08VI87,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC08VIRE01A,IC08VIRE,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC08VISV01A,IC08VISV,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC09EIBE01A,IC09EIBE,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC09KA7901A,IC09KA79,sheet and file agree,nothing to do,,,AO,AO,,,TRUE,TRUE,TRUE
+IC09KANG01A,IC09KANG,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC09OPAN01A,IC09OPAN,sheet and file agree,nothing to do,,,"DVD, TO","DVD, TO",,,TRUE,TRUE,TRUE
+IC09OPAN01B,IC09OPAN,sheet and file agree,nothing to do,,,"DVD, TO","DVD, TO",,,TRUE,TRUE,TRUE
+IC09VIA800A,IC09VIA8,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC09VICC01A,IC09VICC,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC09VIRE01A,IC09VIRE,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC10NAB501A,IC10NAB5,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC10VICR01A,IC10VICR,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC10VIGI01B,IC10VIGI,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC10VIGR01A,IC10VIGR,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC10VIMI01B,IC10VIMI,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC10VIRE01B,IC10VIRE,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC10VISA01B,IC10VISA,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC10VISD01B,IC10VISD,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC10VISE01B,IC10VISE,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC10VISG01B,IC10VISG,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC11BEVL01A,IC11BEVL,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC11DILO01A,IC11DILO,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC11KIPW01A,IC11KIPW,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC11LAB401A,IC11LAB4,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC11LIMI01A,IC11LIMI,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC11STTA01A,IC11STTA,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC12MUJR01A,IC12MUJR,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC12RHME01A,IC12RHME,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC12SIWG01A,IC12SIWG,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC12WACD01A,IC12WACD,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC13BOCG02A,IC13BOCG,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC13BOCG03A,IC13BOCG,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC13BOCG04A,IC13BOCG,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC13OPAN01A,IC13OPAN,sheet and file agree,nothing to do,,,"DVD, TO","DVD, TO",,,TRUE,TRUE,TRUE
+IC13PALD01A,IC13PALD,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC13ST0101A,IC13ST01,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC13ST0301A,IC13ST03,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC13ST0401A,IC13ST04,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC13ST0501A,IC13ST05,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC13ST0601A,IC13ST06,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC13ST1201A,IC13ST12,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC13ST1301A,IC13ST13,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC13ST1501A,IC13ST15,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC13ST2101A,IC13ST21,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC13ST2201A,IC13ST22,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC13ST2401A,IC13ST24,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC13ST9101A,IC13ST91,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC13STN701A,IC13STN7,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC13STN801A,IC13STN8,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC13STSP01A,IC13STSP,sheet and file agree,nothing to do,,,AO,AO,,,TRUE,TRUE,TRUE
+IC13STWD02A,IC13STWD,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC13THFE01A,IC13THFE,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC14EKVK00A,IC14EKVK,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC14MAFH01A,IC14MAFH,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC14VL1K01A,IC14VL1K,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC15GANK01A,IC15GANK,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC15MANE00A,IC15MANE,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC15MANE01B,IC15MANE,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC16GOBP01A,IC16GOBP,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC16WE1701A,IC16WE17,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC16WE1901A,IC16WE19,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC16WE2001A,IC16WE20,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC16WE2201A,IC16WE22,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC16WE2301A,IC16WE23,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC16WE2701A,IC16WE27,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC16WE2801A,IC16WE28,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC16WE3001A,IC16WE30,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC16WENG00A,IC16WENG,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC17BERI01A,IC17BERI,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC17EK4K01A,IC17EK4K,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC17EKN101A,IC17EKN1,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC17EKN301A,IC17EKN3,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC17EKPV01A,IC17EKPV,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC17KOEL00B,IC17KOEL,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC17KOEL00D,IC17KOEL,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC76FIDE02A,IC76FIDE,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+IC82STVE01A,IC82STVE,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC82STVE01B,IC82STVE,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC82STVE01C,IC82STVE,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC85LAD201A,IC85LAD2,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC92HOML01A,IC92HOML,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC93BAGI01A,IC93BAGI,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC94THDP01A,IC94THDP,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC95FI8701A,IC95FI87,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC95THHU01B_iso2k,IC95THHU,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC95THHU02A_iso2k,IC95THHU,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC95THHU02B_iso2k,IC95THHU,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC95THHU02C_iso2k,IC95THHU,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC96ISE901A,IC96ISE9,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC96MOSS01A,IC96MOSS,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC97GRGI01A,IC97GRGI,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC97THGL01A,IC97THGL,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC98FIPE01A,IC98FIPE,sheet and file agree,nothing to do,,,DVD,DVD,,,TRUE,TRUE,TRUE
+IC98THSA01A,IC98THSA,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IC99IS8901A,IC99IS89,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC99ISS201A,IC99ISS2,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC99OE0101A,IC99OE01,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC99OE0201A,IC99OE02,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC99OE0301A,IC99OE03,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC99OE0401A,IC99OE04,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC99OE0502A,IC99OE05,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC99OE0601A,IC99OE06,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC99OE0702A,IC99OE07,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC99OE0801A,IC99OE08,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC99OE0901A,IC99OE09,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC99OE1001A,IC99OE10,sheet and file agree,nothing to do,,,AO (01/16/2019),AO (01/16/2019),,,TRUE,TRUE,TRUE
+IC99SCFH01A,IC99SCFH,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IW15MELD00A,IW15MELD,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+IW17OPOY00A,IW17OPOY,sheet and file agree,nothing to do,,,TO,TO,,,TRUE,TRUE,TRUE
+LS00SEJU01,LS00SEJU,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS00WODE,LS00WODE,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS01HOCH,LS01HOCH,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS01HUFA01b,LS01HUFA,sheet and file agree,nothing to do,,,DK,DK,,,TRUE,TRUE,TRUE
+LS02BEPY,LS02BEPY,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+GH319a119c,LS02HATI,sheet and file agree,nothing to do,,,DK,DK,,,TRUE,TRUE,TRUE
+LS02ROSA-dup,LS02ROSA,sheet and file agree,nothing to do,,,BK_20191230,BK_20191230,,,TRUE,,TRUE
+LS03HAIG,LS03HAIG,sheet and file agree,nothing to do,,,BK_20191230,BK_20191230,,,TRUE,TRUE,TRUE
+LS03RUED,LS03RUED,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS04JOCH,LS04JOCH,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS04YUWA,LS04YUWA,sheet and file agree,nothing to do,,,DK,DK,,,TRUE,TRUE,TRUE
+LS05ANJE,LS05ANJE,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS05HOAG01,LS05HOAG,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS05HOAG02,LS05HOAG,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS05HOAG03,LS05HOAG,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS06CRLA01a,LS06CRLA,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS06DENA01b,LS06DENA,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS06JONA01a,LS06JONA,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS06MIBO10a,LS06MIBO,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS06POVE01a,LS06POVE,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS06STFO,LS06STFO,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS06TIST,LS06TIST,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS07ANMA,LS07ANMA,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS07EAGO01,LS07EAGO,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS07LAHA,LS07LAHA,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS07ROTI,LS07ROTI,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS08LICA01a,LS08LICA,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS08STCR,LS08STCR,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS09LACA,LS09LACA,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS09LAEL,LS09LAEL,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS09MAAS,LS09MAAS,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS09MAZO,LS09MAZO,sheet and file agree,nothing to do,,,"BM, ZK","BM, ZK",,,TRUE,TRUE,TRUE
+LS09MIKU01a,LS09MIKU,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS09RUWA01B2,LS09RUWA,sheet and file agree,nothing to do,,,"ET, can remove this row","ET, can remove this row",,,TRUE,TRUE,TRUE
+LPD292174f8,LS09SASP,sheet and file agree,nothing to do,,,ET,ET,,,TRUE,TRUE,TRUE
+LS09SAWA01A,LS09SAWA,sheet and file agree,nothing to do,,,ET,ET,,,TRUE,TRUE,TRUE
+LS09SCMI,LS09SCMI,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS09SHJO,LS09SHJO,sheet and file agree,nothing to do,,,DK,DK,,,TRUE,TRUE,TRUE
+LS10ANBL01a,LS10ANBL,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS10CLTA,LS10CLTA,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS10GOBL01a,LS10GOBL,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS10HEQI01a,LS10HEQI,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS10HESA,LS10HESA,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS10HOLO,LS10HOLO,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS10STSP,LS10STSP,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS10WRNA01a,LS10WRNA,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS10ZHHU01a,LS10ZHHU,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS11ANSE,LS11ANSE,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS11BACH,LS11BACH,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS11BIPU01a,LS11BIPU,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS11KOMA01A,LS11KOMA,sheet and file agree,nothing to do,,,ET,ET,,,TRUE,TRUE,TRUE
+LS11MOES,LS11MOES,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS11NECA,LS11NECA,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS11RYKA,LS11RYKA,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS11TICH01A,LS11TICH,sheet and file agree,nothing to do,,,ET,ET,,,TRUE,TRUE,TRUE
+LS12ANBI,LS12ANBI,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS12ANYE,LS12ANYE,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS12GOBA01a,LS12GOBA,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS12KENO01a,LS12KENO,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS12STLI,LS12STLI,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS12STRE,LS12STRE,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS12THAY01C,LS12THAY,sheet and file agree,nothing to do,,,ET,ET,,,TRUE,TRUE,TRUE
+LS12WOQU,LS12WOQU,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS13BAFL01B,LS13BAFL,sheet and file agree,nothing to do,,,ET,ET,,,TRUE,TRUE,TRUE
+LS13BAFL01C,LS13BAFL,sheet and file agree,nothing to do,,,ET,ET,,,TRUE,TRUE,TRUE
+LS13BAFL01D,LS13BAFL,sheet and file agree,nothing to do,,,ET,ET,,,TRUE,TRUE,TRUE
+LS13KOLA01A,LS13KOLA,sheet and file agree,nothing to do,,,ET,ET,,,TRUE,TRUE,TRUE
+LS13LUBA01a,LS13LUBA,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS13STEL,LS13STEL,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS13WASU01B,LS13WASU,sheet and file agree,nothing to do,,,ET,ET,,,TRUE,TRUE,TRUE
+GH8f461f71_iso2k,LS13YUSA,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS14ATJU01A,LS14ATJU,sheet and file agree,nothing to do,,,AA,AA,,,TRUE,TRUE,TRUE
+LS14FEZA01D,LS14FEZA,sheet and file agree,nothing to do,,,ET,ET,,,TRUE,TRUE,TRUE
+LS14KOSA01A,LS14KOSA,sheet and file agree,nothing to do,,,ET,ET,,,TRUE,TRUE,TRUE
+LPD343ffe05_iso2k,LS14LASO,sheet and file agree,nothing to do,,,MF (31/12/19),MF (31/12/19),,,TRUE,TRUE,TRUE
+LS14LESA01a,LS14LESA,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS14PRLO01a,LS14PRLO,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS14TAKA01a,LS14TAKA,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS14YAHA02a,LS14YAHA,sheet and file agree,nothing to do,,,DK,DK,,,TRUE,TRUE,TRUE
+LS14ZHJU01A-dup,LS14ZHJU,sheet and file agree,nothing to do,,,"ET, AA","ET, AA",,,TRUE,TRUE,TRUE
+LS15ABSH01a,LS15ABSH,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS15AIKA01A2,LS15AIKA,sheet and file agree,nothing to do,,,ET,ET,,,TRUE,TRUE,TRUE
+LS15AIKA01B,LS15AIKA,sheet and file agree,nothing to do,,,ET,ET,,,TRUE,TRUE,TRUE
+LS15BHAL,LS15BHAL,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS15DENA02a,LS15DENA,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS15JOPA01,LS15JOPA,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS15LAOH01a,LS15LAOH,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS15OEPO01a,LS15OEPO,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS15SHBO01A,LS15SHBO,sheet and file agree,nothing to do,,,ET,ET,,,TRUE,TRUE,TRUE
+LS15SHNE01A,LS15SHNE,sheet and file agree,nothing to do,,,ET,ET,,,TRUE,TRUE,TRUE
+LPD7dc5b9ba-dup-dup,LS16STCL,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LPD179d915e_iso2k,LS16STPA,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+WEB2bbc35a8,LS16THN301,sheet and file agree,nothing to do,,,ET,ET,,,TRUE,TRUE,TRUE
+WEB69678476,LS16THN301,sheet and file agree,nothing to do,,,ET,ET,,,TRUE,TRUE,TRUE
+WEBaddada01,LS16THQI01,sheet and file agree,nothing to do,,,ET,ET,,,TRUE,TRUE,TRUE
+LPD76e57382,LS16WIGH,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+WEBc5c2e8ea,LS17BAHA01,sheet and file agree,nothing to do,,,ET,ET,,,TRUE,TRUE,TRUE
+WEBd7a384df,LS17BAHA01,sheet and file agree,nothing to do,,,ET,ET,,,TRUE,TRUE,TRUE
+WEBab3eac63,LS17STNU01,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+WEBdc316522,LS17VAWA01,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS89LATI,LS89LATI,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS91BEWA,LS91BEWA,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS91HOMI,LS91HOMI,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS96CUPUb,LS96CUPU,sheet and file agree,nothing to do,,,DK,DK,,,TRUE,TRUE,TRUE
+LS96VOAM01_iso2k,LS96VOAM,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS97HOKA1a,LS97HOKA,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+LS98CUPE,LS98CUPE,sheet and file agree,nothing to do,,,DK,DK,,,TRUE,TRUE,TRUE
+LS99CUVAc,LS99CUVA,sheet and file agree,nothing to do,,,DK,DK,,,TRUE,TRUE,TRUE
+LS99LASI,LS99LASI,sheet and file agree,nothing to do,,,MJ,MJ,,,TRUE,TRUE,TRUE
+MS01HDAS01a,MS01HDAS,sheet and file agree,nothing to do,,,GF 12/2019,GF 12/2019,,,TRUE,TRUE,TRUE
+MS03BRNS01,MS03BRNS,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS03BRNS02,MS03BRNS,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS03KTCB01,MS03KTCB,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS03KTCB02,MS03KTCB,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS03LKNS01,MS03LKNS,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS03SMAS01,MS03SMAS,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS04BLCB01,MS04BLCB,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS04BLCB02,MS04BLCB,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS04ICNI01,MS04ICNI,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS05ESCR01a,MS05ESCR,sheet and file agree,nothing to do,,,GF 12/2019,GF 12/2019,,,TRUE,TRUE,TRUE
+MS05ESCR01b,MS05ESCR,sheet and file agree,nothing to do,,,GF 12/2019,GF 12/2019,,,TRUE,TRUE,TRUE
+MS05LKLF01a,MS05LKLF,sheet and file agree,nothing to do,,,LJ,LJ,,,TRUE,TRUE,TRUE
+MS06DLDS01a,MS06DLDS,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS06DLDS01b,MS06DLDS,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS06DLGN01a,MS06DLGN,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS06DLGN01b,MS06DLGN,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS06DLGS01a,MS06DLGS,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS06DLGS01b,MS06DLGS,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS07JRGM01aa,MS07JRGM,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+WEB2606fc74,MS07JRGM,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS07KPPB002,MS07KPPB,sheet and file agree,nothing to do,,,GF 12/2019,GF 12/2019,,,TRUE,TRUE,TRUE
+MS07KPPB0022,MS07KPPB,sheet and file agree,nothing to do,,,GF 12/2019,GF 12/2019,,,TRUE,TRUE,TRUE
+MS07LSPG01a,MS07LSPG,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS07LSPG01b,MS07LSPG,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS07LSSP01a,MS07LSSP,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS07LSSP01b,MS07LSSP,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS07RCNA02,MS07RCNA,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+LPDfaa61777t,MS07SWGG,sheet and file agree,nothing to do,,,GL and LJ,GL and LJ,,,TRUE,TRUE,TRUE
+MS07SWGG01a,MS07SWGG,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS07SWGG01b,MS07SWGG,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+MS08UAPM01,MS08UAPM,sheet and file agree,nothing to do,,,LJ,LJ,,,TRUE,TRUE,TRUE
+MS09DOIP01a,MS09DOIP,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS09DOIP01b,MS09DOIP,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+MS09DTNA01a,MS09DTNA,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS09DTNA01b,MS09DTNA,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS09DTNA02a,MS09DTNA,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS09DTNA02b,MS09DTNA,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS09TRFD01a,MS09TRFD,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS09TRFD01b,MS09TRFD,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+MS10BLMS01a,MS10BLMS,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS10JTMA001,MS10JTMA,sheet and file agree,nothing to do,,,GL and LJ,GL and LJ,,,TRUE,TRUE,TRUE
+MS11ANMN01a,MS11ANMN,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS11ANMN01b,MS11ANMN,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+MS11ANMS01a,MS11ANMS,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS11ANMS01b,MS11ANMS,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+MS11CSCN01a,MS11CSCN,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS11CSCN01b,MS11CSCN,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+MS11CSCS01a,MS11CSCS,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS11CSCS01b,MS11CSCS,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+MS11FAPM01,MS11FAPM,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS11FAPM02,MS11FAPM,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+MS11FAPM03,MS11FAPM,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+MS11FAPM04,MS11FAPM,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+MS11KDMS01,MS11KDMS,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+MS11KWFS01,MS11KWFS,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+MS11SENS01,MS11SENS,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+MS12AMMM01a,MS12AMMM,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS12AMMM01b,MS12AMMM,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+MS12AMMM02a,MS12AMMM,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS12AMMM02b,MS12AMMM,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+MS12CCCH01a,MS12CCCH,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS12CCCH01b,MS12CCCH,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+MS13KWFS01,MS13KWFS,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS13KWFS02,MS13KWFS,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+MS13RSAS01a_iso2k,MS13RSAS,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS14GFSS01a,MS14GFSS,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS14GFSS01b,MS14GFSS,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+MS14MOLS01a,MS14MOLS,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS14MOLS01b,MS14MOLS,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+MS14MOLS02a,MS14MOLS,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+MS14MOLS02b,MS14MOLS,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+MS14MOLS03,MS14MOLS,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+MS14MORR01a,MS14MORR,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS14MORR01b,MS14MORR,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+MS15BATP01,MS15BATP,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS15BATP02,MS15BATP,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+MS14CCBC01a,MS15VIBC,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+MS14CCBC01b,MS15VIBC,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+MS14CCBC02,MS15VIBC,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+MS15VIBC01,MS15VIBC,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS15VIBM01,MS15VIBM,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+MS96LKSS01,MS96LKSS,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS96LKSS02,MS96LKSS,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+MS97HLCB01,MS97HLCB,sheet and file agree,nothing to do,,,LJ 20/02/2019,LJ 20/02/2019,,,TRUE,TRUE,TRUE
+MS97HLCB02,MS97HLCB,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+MS97HLCB03,MS97HLCB,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+MS97HLCB04,MS97HLCB,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+MS99LWSC01,MS99LWSC,sheet and file agree,nothing to do,,,LJ 12/12/2018,LJ 12/12/2018,,,TRUE,TRUE,TRUE
+WEB8d8f0a7b,SH16MEIN,sheet and file agree,nothing to do,,,DMT (12/31/19),DMT (12/31/19),,,TRUE,TRUE,TRUE
+WEB477e36ed,SH18CASA,sheet and file agree,nothing to do,,,DMT (1/14/19); KLD (12/31/19),DMT (1/14/19); KLD (12/31/19),,,TRUE,TRUE,TRUE
+SL13TEAG01A,SL13TEAG,sheet and file agree,nothing to do,,,BK 12/31/2019,BK 12/31/2019,,,TRUE,TRUE,TRUE
+SL13TEAG01B,SL13TEAG,sheet and file agree,nothing to do,,,BK 12/31/2019,BK 12/31/2019,,,TRUE,TRUE,TRUE
+SL13TEAG01C,SL13TEAG,sheet and file agree,nothing to do,,,BK 12/31/2019,BK 12/31/2019,,,TRUE,TRUE,TRUE
+SL13TEAG01C2,SL13TEAG,sheet and file agree,nothing to do,,,BK 12/31/2019,BK 12/31/2019,,,TRUE,TRUE,TRUE
+SL13TEAK01A-dup,SL13TEAK,sheet and file agree,nothing to do,,,BK 12/31/2019,BK 12/31/2019,,,TRUE,TRUE,TRUE
+SL13TEAK01B-dup,SL13TEAK,sheet and file agree,nothing to do,,,BK 12/31/2019,BK 12/31/2019,,,TRUE,TRUE,TRUE
+SL13TEAK01C,SL13TEAK,sheet and file agree,nothing to do,,,BK 12/31/2019,BK 12/31/2019,,,TRUE,TRUE,TRUE
+SL13TEAK01C2-dup,SL13TEAK,sheet and file agree,nothing to do,,,BK 12/31/2019,BK 12/31/2019,,,TRUE,TRUE,TRUE
+SP03BMIL01A,SP03BMIL,sheet and file agree,nothing to do,,,LCB,LCB,,,TRUE,TRUE,TRUE
+SP04DEUS01A,SP04DEUS,sheet and file agree,nothing to do,,,LCB,LCB,,,TRUE,TRUE,TRUE
+SP05CRBR01A,SP05CRBR,sheet and file agree,nothing to do,,,LCB,LCB,,,TRUE,TRUE,TRUE
+SP05MAAT01A,SP05MAAT,sheet and file agree,nothing to do,,,LCB,LCB,,,TRUE,TRUE,TRUE
+SP06DRIT01A,SP06DRIT,sheet and file agree,nothing to do,,,LCB,LCB,,,TRUE,TRUE,TRUE
+SP06DYCN01A,SP06DYCN,sheet and file agree,nothing to do,,,LCB,LCB,,,TRUE,TRUE,TRUE
+SP07ASUS01A,SP07ASUS,sheet and file agree,nothing to do,,,LCB,LCB,,,TRUE,TRUE,TRUE
+SP07DEUS01A,SP07DEUS,sheet and file agree,nothing to do,,,LCB,LCB,,,TRUE,TRUE,TRUE
+SP07DEUS02A,SP07DEUS,sheet and file agree,nothing to do,,,LCB,LCB,,,TRUE,TRUE,TRUE
+SP07FLOM01A,SP07FLOM,sheet and file agree,nothing to do,,,LCB,LCB,,,TRUE,TRUE,TRUE
+SP07WABR01A,SP07WABR,sheet and file agree,nothing to do,,,MJ (30/12/19),MJ (30/12/19),,,TRUE,TRUE,TRUE
+SP08HUCN01A,SP08HUCN,sheet and file agree,nothing to do,,,MJ (30/12/19),MJ (30/12/19),,,TRUE,TRUE,TRUE
+SP08SPUS01A,SP08SPUS,sheet and file agree,nothing to do,,,MJ (30/12/19),MJ (30/12/19),,,TRUE,TRUE,TRUE
+SP08VBPE01A,SP08VBPE,sheet and file agree,nothing to do,,,"AA (2019-03-08),  MJ (30/12/19)","AA (2019-03-08),  MJ (30/12/19)",,,TRUE,TRUE,TRUE
+SP08VBPE02A,SP08VBPE,sheet and file agree,nothing to do,,,AA (2019-03-08): Data is wonky (e.g. age ranges from -8E9 to 8E9),AA (2019-03-08): Data is wonky (e.g. age ranges from -8E9 to 8E9),,,TRUE,TRUE,TRUE
+SP08VBPE03A,SP08VBPE,sheet and file agree,nothing to do,,,AA (2019-03-08): Data is wonky (e.g. age ranges from -8E9 to 8E9),AA (2019-03-08): Data is wonky (e.g. age ranges from -8E9 to 8E9),,,TRUE,TRUE,TRUE
+SP08ZHCN01A,SP08ZHCN,sheet and file agree,nothing to do,,,MJ (30/12/19),MJ (30/12/19),,,TRUE,TRUE,TRUE
+SP09FLTR01A,SP09FLTR,sheet and file agree,nothing to do,,,"ZK, BM","ZK, BM",,,TRUE,TRUE,TRUE
+SP09GRID02A,SP09GRID,sheet and file agree,nothing to do,,,MJ (30/12/19),MJ (30/12/19),,,TRUE,TRUE,TRUE
+SP10CACN01A,SP10CACN,sheet and file agree,nothing to do,,,LCB (28/03/2019),LCB (28/03/2019),,,TRUE,TRUE,TRUE
+SP10DOCN01A,SP10DOCN,sheet and file agree,nothing to do,,,"BM (14/03/2019) info sent using GitHub: These are multiple entities for one cave: Sanbao cave,  lipd file has just sb49 (tab sb49 in the attachment), please add the other 5: dong et al., 2010, the holocene sanbao2010.xlsx, Stalagmite sb44 (tab sb44), Stalagmite sb43 (tab sb43) - relevant for Iso2k, Stalagmite sb26 (tab sb26) - relevant for Iso2k, Stalagmite sb27 (tab sb27), Stalagmite sb10 (tab sb10)","BM (14/03/2019) info sent using GitHub: These are multiple entities for one cave: Sanbao cave,  lipd file has just sb49 (tab sb49 in the attachment), please add the other 5: dong et al., 2010, the holocene sanbao2010.xlsx, Stalagmite sb44 (tab sb44), Stalagmite sb43 (tab sb43) - relevant for Iso2k, Stalagmite sb26 (tab sb26) - relevant for Iso2k, Stalagmite sb27 (tab sb27), Stalagmite sb10 (tab sb10)",,,TRUE,TRUE,TRUE
+SP10HAUS01A,SP10HAUS,sheet and file agree,nothing to do,,,LCB(29/03/2019),LCB(29/03/2019),,,TRUE,TRUE,TRUE
+SP10HAUS02A,SP10HAUS,sheet and file agree,nothing to do,,,LCB(29/03/2019),LCB(29/03/2019),,,TRUE,TRUE,TRUE
+SP10HAUS03A,SP10HAUS,sheet and file agree,nothing to do,,,LCB(29/03/2019),LCB(29/03/2019),,,TRUE,TRUE,TRUE
+SP10MEMX01A,SP10MEMX,sheet and file agree,nothing to do,,,ZK,ZK,,,TRUE,TRUE,TRUE
+SP10SUSE01A,SP10SUSE,sheet and file agree,nothing to do,,,ZK,ZK,,,TRUE,TRUE,TRUE
+SP11BEMX01A,SP11BEMX,sheet and file agree,nothing to do,,,GF 12/2019,GF 12/2019,,,TRUE,TRUE,TRUE
+SP11BOAT01A,SP11BOAT,sheet and file agree,nothing to do,,,LCB,LCB,,,TRUE,TRUE,TRUE
+SP11STBR01A,SP11STBR,sheet and file agree,nothing to do,,,LCB (29/03/2019),LCB (29/03/2019),,,TRUE,TRUE,TRUE
+SP11STBR02A,SP11STBR,sheet and file agree,nothing to do,,,LCB (29/03/2019),LCB (29/03/2019),,,TRUE,TRUE,TRUE
+SP12CACN01A,SP12CACN,sheet and file agree,nothing to do,,,GF (12/2019),GF (12/2019),,,TRUE,TRUE,TRUE
+SP12ERUS01A,SP12ERUS,sheet and file agree,nothing to do,,,MF (31/12/19),MF (31/12/19),,,TRUE,TRUE,TRUE
+SP12FOAT01A,SP12FOAT,sheet and file agree,nothing to do,,,MF (31/12/19),MF (31/12/19),,,TRUE,TRUE,TRUE
+SP12KEBZ01A,SP12KEBZ,sheet and file agree,nothing to do,,,MF (31/12/19),MF (31/12/19),,,TRUE,TRUE,TRUE
+SP12LAMX01A,SP12LAMX,sheet and file agree,nothing to do,,,MF (31/12/19),MF (31/12/19),,,TRUE,TRUE,TRUE
+SP12NOBR00A,SP12NOBR,sheet and file agree,nothing to do,,,LCB,LCB,,,TRUE,TRUE,TRUE
+SP13ASBC01,SP13ASBC,sheet and file agree,nothing to do,,,LCB,LCB,,,TRUE,TRUE,TRUE
+LPD7d948e2e,SP13AYID,sheet and file agree,nothing to do,,,"MF (31/12/19), LCB (29/03/2019): only tab 1 and 2 in lipdverse cover the last 2k. Cannot pick one over the other but the others should all be FALSE","MF (31/12/19), LCB (29/03/2019): only tab 1 and 2 in lipdverse cover the last 2k. Cannot pick one over the other but the others should all be FALSE",,,TRUE,TRUE,TRUE
+SP13AYID01A,SP13AYID,sheet and file agree,nothing to do,,,"MF (31/12/19), LCB (29/03/2019)","MF (31/12/19), LCB (29/03/2019)",,,TRUE,TRUE,TRUE
+SP13AYID01_compo,SP13AYID,sheet and file agree,nothing to do,,,LCB (29/03/2019): only tab 1 and 2 in lipdverse cover the last 2k. Cannot pick one over the other but the others should all be FALSE,LCB (29/03/2019): only tab 1 and 2 in lipdverse cover the last 2k. Cannot pick one over the other but the others should all be FALSE,,,TRUE,TRUE,TRUE
+SP13AYID02A,SP13AYID,sheet and file agree,nothing to do,,,"MF (31/12/19), LCB (29/03/2019): only tab 1 and 2 in lipdverse cover the last 2k. Cannot pick one over the other but the others should all be FALSE,","MF (31/12/19), LCB (29/03/2019): only tab 1 and 2 in lipdverse cover the last 2k. Cannot pick one over the other but the others should all be FALSE,",,,TRUE,TRUE,TRUE
+SP13AYID03A,SP13AYID,sheet and file agree,nothing to do,,,"MF (31/12/19), LCB (29/03/2019): only tab 1 and 2 in lipdverse cover the last 2k. Cannot pick one over the other but the others should all be FALSE","MF (31/12/19), LCB (29/03/2019): only tab 1 and 2 in lipdverse cover the last 2k. Cannot pick one over the other but the others should all be FALSE",,,TRUE,TRUE,TRUE
+SP13AYID04A,SP13AYID,sheet and file agree,nothing to do,,,"MF (31/12/19), LCB (29/03/2019): only tab 1 and 2 in lipdverse cover the last 2k. Cannot pick one over the other but the others should all be FALSE","MF (31/12/19), LCB (29/03/2019): only tab 1 and 2 in lipdverse cover the last 2k. Cannot pick one over the other but the others should all be FALSE",,,TRUE,TRUE,TRUE
+SP13CHPE01A,SP13CHPE,sheet and file agree,nothing to do,,,LCB,LCB,,,TRUE,TRUE,TRUE
+SP13KAPE01A,SP13KAPE,sheet and file agree,nothing to do,,,LCB(29/03/2019),LCB(29/03/2019),,,TRUE,TRUE,TRUE
+SP13KAPE02A,SP13KAPE,sheet and file agree,nothing to do,,,LCB(29/03/2019),LCB(29/03/2019),,,TRUE,TRUE,TRUE
+SP13LAMX01A,SP13LAMX,sheet and file agree,nothing to do,,,LCB,LCB,,,TRUE,TRUE,TRUE
+SP13MCUS01A,SP13MCUS,sheet and file agree,nothing to do,,,LCB,LCB,,,TRUE,TRUE,TRUE
+SP13SLNA01A,SP13SLNA,sheet and file agree,nothing to do,,,LCB,LCB,,,TRUE,TRUE,TRUE
+SP13SUSA01A,SP13SUSA,sheet and file agree,nothing to do,,,"TP (30/12/19), LCB, ZK (14/01/2019), BM (14/03/2019).","TP (30/12/19), LCB, ZK (14/01/2019), BM (14/03/2019).",,,TRUE,TRUE,TRUE
+SP14APPE01A,SP14APPE,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+SP14APPE02A,SP14APPE,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+SP98KUCN01A,SP98KUCN,sheet and file agree,nothing to do,,,"LCB, BM (14/03/2019), TP","LCB, BM (14/03/2019), TP",,,TRUE,TRUE,TRUE
+SP99DEUS01A,SP99DEUS,sheet and file agree,nothing to do,,,"LCB(29/03/2019), TP","LCB(29/03/2019), TP",,,TRUE,TRUE,TRUE
+SP99DEUS02A,SP99DEUS,sheet and file agree,nothing to do,,,"LCB(29/03/2019), TP","LCB(29/03/2019), TP",,,TRUE,TRUE,TRUE
+SP99DEUS03A,SP99DEUS,sheet and file agree,nothing to do,,,"LCB(29/03/2019), TP","LCB(29/03/2019), TP",,,TRUE,TRUE,TRUE
+Ocean2kHR_126_iso2k,SS03HAJA,sheet and file agree,nothing to do,,,KLD (12/31/19); DMT (12/31/19),KLD (12/31/19); DMT (12/31/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_128_iso2k,SS03HAJA,sheet and file agree,nothing to do,,,KLD (12/31/19); DMT (12/31/19),KLD (12/31/19); DMT (12/31/19),,,TRUE,TRUE,TRUE
+Ocean2kHR_112_iso2k,SS05ROES,sheet and file agree,nothing to do,,,JLC; KLD (12/31/19),JLC; KLD (12/31/19),,,TRUE,TRUE,TRUE
+SS05ROTN02A,SS05ROTN,sheet and file agree,nothing to do,,,"JLC+EKT, KLD (12/31/19)","JLC+EKT, KLD (12/31/19)",,,TRUE,TRUE,TRUE
+TR04EVLI01,TR04EVLI,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM","OCh-S, ZK, SM",,,TRUE,TRUE,TRUE
+TR06TRBO00,TR06TRBO,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM","OCh-S, ZK, SM",,,TRUE,TRUE,TRUE
+TR07RECA01,TR07RECA,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM","OCh-S, ZK, SM",,,TRUE,TRUE,TRUE
+TR07REVI01,TR07REVI,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM","OCh-S, ZK, SM",,,TRUE,TRUE,TRUE
+TR08HORA01,TR08HORA,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM, TP","OCh-S, ZK, SM, TP",,,TRUE,TRUE,TRUE
+TR08THCO00,TR08THCO,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM","OCh-S, ZK, SM",,,TRUE,TRUE,TRUE
+TR08VOOL00,TR08VOOL,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM","OCh-S, ZK, SM",,,TRUE,TRUE,TRUE
+TR10ANMO00,TR10ANMO,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM, TP","OCh-S, ZK, SM, TP",,,TRUE,TRUE,TRUE
+TR11BAPU01,TR11BAPU,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+TR11BAPU02,TR11BAPU,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM, TP","OCh-S, ZK, SM, TP",,,TRUE,TRUE,TRUE
+TR11BAVO01,TR11BAVO,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+TR11BAVO02,TR11BAVO,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM, TP","OCh-S, ZK, SM, TP",,,TRUE,TRUE,TRUE
+WEB7c902e21,TR11GRTP,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+TR11MAJA01,TR11MAJA,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM, TP","OCh-S, ZK, SM, TP",,,TRUE,TRUE,TRUE
+TR11MAJA02,TR11MAJA,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM, TP","OCh-S, ZK, SM, TP",,,TRUE,TRUE,TRUE
+TR11MAPE01,TR11MAPE,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM, TP","OCh-S, ZK, SM, TP",,,TRUE,TRUE,TRUE
+WEB3638db18,TR11SAHU00,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM","OCh-S, ZK, SM",,,TRUE,TRUE,TRUE
+TR11SIMO01,TR11SIMO,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM, TP","OCh-S, ZK, SM, TP",,,TRUE,TRUE,TRUE
+TR11XUPH00,TR11XUPH,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+TR11XUPH01,TR11XUPH,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM, TP","OCh-S, ZK, SM, TP",,,TRUE,TRUE,TRUE
+TR11XUPH03,TR11XUPH,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM, TP","OCh-S, ZK, SM, TP",,,TRUE,TRUE,TRUE
+TR11XUPH04,TR11XUPH,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM, TP","OCh-S, ZK, SM, TP",,,TRUE,TRUE,TRUE
+TR11XUPH05,TR11XUPH,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM, TP","OCh-S, ZK, SM, TP",,,TRUE,TRUE,TRUE
+TR11XUPH06,TR11XUPH,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM, TP","OCh-S, ZK, SM, TP",,,TRUE,TRUE,TRUE
+TR11XUPH07,TR11XUPH,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM, TP","OCh-S, ZK, SM, TP",,,TRUE,TRUE,TRUE
+WEB9ec53927,TR12BECO,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEB1fa7c61b,TR12BRBO,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+TR12SAMU00,TR12SAMU,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+TR12SAMU01,TR12SAMU,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM, TP","OCh-S, ZK, SM, TP",,,TRUE,TRUE,TRUE
+TR12SAMU02,TR12SAMU,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM, TP","OCh-S, ZK, SM, TP",,,TRUE,TRUE,TRUE
+TR12SAMU03,TR12SAMU,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM, TP","OCh-S, ZK, SM, TP",,,TRUE,TRUE,TRUE
+TR12SAMU04,TR12SAMU,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM, TP","OCh-S, ZK, SM, TP",,,TRUE,TRUE,TRUE
+TR12SAMU05,TR12SAMU,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM, TP","OCh-S, ZK, SM, TP",,,TRUE,TRUE,TRUE
+WEB1c82ec4b,TR13BROA,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEB1393eb44,TR13JOAR,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEB2a8bacaa,TR13JOAR,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEB942f4ab3,TR13JOAR,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEBbe879e76,TR13JOAR,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEBc909cb91,TR13JOAR,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEBd4a1702f,TR13JOAR,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEB68260459,TR13JOJS,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEB79b7abaa,TR13JOJS,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEB9251bbf1,TR13JOJS,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEBb58581f1,TR13JOJS,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEBf2452ae3,TR13JOJS,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEBfbf93fe8,TR13JOJS,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEB7105d7a6,TR13JOPC,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEB81ca9328,TR13JOPC,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEB93ccadc2,TR13JOPC,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEBa9c47a40,TR13JOPC,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEBaba520fa,TR13JOPC,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEBad27530f,TR13JOPC,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEBd5fd45b6,TR13JOPC,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEBd9f73e6a,TR13JOPC,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEB4de479a5,TR13POMA,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEBa8749551,TR13SAWA00,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM, TP","OCh-S, ZK, SM, TP",,,TRUE,TRUE,TRUE
+TR13SIKO01,TR13SIKO,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM","OCh-S, ZK, SM",,,TRUE,TRUE,TRUE
+TR13SITA01,TR13SITA,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM","OCh-S, ZK, SM",,,TRUE,TRUE,TRUE
+WEBb0fd9bd0,TR14KOSP,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEB255443f2,TR15BABO,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+TR15NACA00,TR15NACA,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM","OCh-S, ZK, SM",,,TRUE,TRUE,TRUE
+TR15YOLL00,TR15YOLL,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM, TP","OCh-S, ZK, SM, TP",,,TRUE,TRUE,TRUE
+TR15YONW00,TR15YONW,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM, TP","OCh-S, ZK, SM, TP",,,TRUE,TRUE,TRUE
+TR16LAAN00,TR16LAAN,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM, TP","OCh-S, ZK, SM, TP",,,TRUE,TRUE,TRUE
+TR16LAFO00,TR16LAFO,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM, TP","OCh-S, ZK, SM, TP",,,TRUE,TRUE,TRUE
+WEB3e43f177,TR16WEMI,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEB640da8ea,TR16WEXI,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEB45a0b5cd,TR17EDSW,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEB1d361c0a,TR17GRTP,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEB30c97fa8,TR17SAMA,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM","OCh-S, ZK, SM",,,TRUE,TRUE,TRUE
+WEBcdcf63cd,TR18GRPM,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEB4632d6d9,TR18XUGA00,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM","OCh-S, ZK, SM",,,TRUE,TRUE,TRUE
+WEB0738fe31,TR18XUJA00,sheet and file agree,nothing to do,,,"OCh-S, ZK, SM","OCh-S, ZK, SM",,,TRUE,TRUE,TRUE
+WEB302321b9,TR19LEBR,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEBbc9c2816,TR19LEBR,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEB73c78c6a,TR19LECR,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEB67f8c5ec,TR19LEFC,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEB77324fc3,TR19LEFC,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
+WEBd22ea8c1,TR19LEOU,sheet and file agree,nothing to do,,,TP,TP,,,TRUE,TRUE,TRUE
