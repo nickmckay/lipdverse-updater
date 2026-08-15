@@ -1,35 +1,35 @@
 tsid,dataSetName,class,suggested_action,suggested_value,decision,sheet_value,csm_value,appended,flat_value,is_member,sheet_membership,csm_in_sheet_vocabulary
-IC00EIGG01A,IC00EIGG,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,TO,,,TRUE,TRUE,TRUE
-IC00SC1601A,IC00SC16,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,AO,,,TRUE,TRUE,TRUE
-IC00SC1801A,IC00SC18,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,DVD,,,TRUE,TRUE,TRUE
-NPM11111,IC00SC18,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,TO,,,TRUE,TRUE,TRUE
-IC00SC2101A,IC00SC21,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,DVD,,,TRUE,TRUE,TRUE
-IC00SC2601A,IC00SC26,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,AO,,,TRUE,TRUE,TRUE
-IC00SC2901A,IC00SC29,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,DVD,,,TRUE,TRUE,TRUE
-IC02HEWD01A,IC02HEWD,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,DVD,,,TRUE,TRUE,TRUE
-IC09KAD301A,IC09KAD3,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,DVD,,,TRUE,TRUE,TRUE
-IC09OPAN01C,IC09OPAN,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,"DVD, TO",,,TRUE,TRUE,TRUE
-IC10VID302A,IC10VID3,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,DVD,,,TRUE,TRUE,TRUE
-IC10VIP100B,IC10VIP1,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,DVD,,,TRUE,TRUE,TRUE
-IC10VIP200B,IC10VIP2,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,DVD,,,TRUE,TRUE,TRUE
-IC10VIP300B,IC10VIP3,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,DVD,,,TRUE,TRUE,TRUE
-IC15GANK01B,IC15GANK,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,TO,,,TRUE,TRUE,TRUE
-IC93BAGI02A,IC93BAGI,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,TO,,,TRUE,TRUE,TRUE
-IC95THHU02D_iso2k,IC95THHU,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,TO,,,TRUE,TRUE,TRUE
-LS09BAUM01a,LS09BAUM,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,DK,,,TRUE,TRUE,TRUE
-LS09RUWA01B,LS09RUWA,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,ET,,,TRUE,TRUE,TRUE
-LS12THAY01B,LS12THAY,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,ET,,,TRUE,TRUE,TRUE
-LS12THAY01D,LS12THAY,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,ET,,,TRUE,TRUE,TRUE
-LS12THAY01E,LS12THAY,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,ET,,,TRUE,TRUE,TRUE
-LS14FEZA01B,LS14FEZA,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,ET,,,TRUE,TRUE,TRUE
-LS14FEZA01C,LS14FEZA,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,ET,,,TRUE,TRUE,TRUE
-LS14FEZA01E,LS14FEZA,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,ET,,,TRUE,TRUE,TRUE
-LS14FEZA01F,LS14FEZA,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,ET,,,TRUE,TRUE,TRUE
-LS14FOTI01B,LS14FOTI,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,ET,,,TRUE,TRUE,TRUE
-WEB00087524,LS16THN301,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,ET,,,TRUE,TRUE,TRUE
-WEB13dc04eb,LS17BAHA01,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,ET,,,TRUE,TRUE,TRUE
-WEBf388e826,LS17BAHA01,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,ET,,,TRUE,TRUE,TRUE
-LS99CUVAb,LS99CUVA,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,,,DK,,,TRUE,TRUE,TRUE
+IC00EIGG01A,IC00EIGG,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,keep,,TO,,,TRUE,TRUE,TRUE
+IC00SC1601A,IC00SC16,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,keep,,AO,,,TRUE,TRUE,TRUE
+IC00SC1801A,IC00SC18,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,keep,,DVD,,,TRUE,TRUE,TRUE
+NPM11111,IC00SC18,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,keep,,TO,,,TRUE,TRUE,TRUE
+IC00SC2101A,IC00SC21,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,keep,,DVD,,,TRUE,TRUE,TRUE
+IC00SC2601A,IC00SC26,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,keep,,AO,,,TRUE,TRUE,TRUE
+IC00SC2901A,IC00SC29,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,keep,,DVD,,,TRUE,TRUE,TRUE
+IC02HEWD01A,IC02HEWD,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,keep,,DVD,,,TRUE,TRUE,TRUE
+IC09KAD301A,IC09KAD3,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,keep,,DVD,,,TRUE,TRUE,TRUE
+IC09OPAN01C,IC09OPAN,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,keep,,"DVD, TO",,,TRUE,TRUE,TRUE
+IC10VID302A,IC10VID3,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,keep,,DVD,,,TRUE,TRUE,TRUE
+IC10VIP100B,IC10VIP1,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,keep,,DVD,,,TRUE,TRUE,TRUE
+IC10VIP200B,IC10VIP2,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,keep,,DVD,,,TRUE,TRUE,TRUE
+IC10VIP300B,IC10VIP3,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,keep,,DVD,,,TRUE,TRUE,TRUE
+IC15GANK01B,IC15GANK,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,keep,,TO,,,TRUE,TRUE,TRUE
+IC93BAGI02A,IC93BAGI,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,keep,,TO,,,TRUE,TRUE,TRUE
+IC95THHU02D_iso2k,IC95THHU,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,keep,,TO,,,TRUE,TRUE,TRUE
+LS09BAUM01a,LS09BAUM,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,keep,,DK,,,TRUE,TRUE,TRUE
+LS09RUWA01B,LS09RUWA,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,keep,,ET,,,TRUE,TRUE,TRUE
+LS12THAY01B,LS12THAY,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,keep,,ET,,,TRUE,TRUE,TRUE
+LS12THAY01D,LS12THAY,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,keep,,ET,,,TRUE,TRUE,TRUE
+LS12THAY01E,LS12THAY,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,keep,,ET,,,TRUE,TRUE,TRUE
+LS14FEZA01B,LS14FEZA,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,keep,,ET,,,TRUE,TRUE,TRUE
+LS14FEZA01C,LS14FEZA,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,keep,,ET,,,TRUE,TRUE,TRUE
+LS14FEZA01E,LS14FEZA,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,keep,,ET,,,TRUE,TRUE,TRUE
+LS14FEZA01F,LS14FEZA,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,keep,,ET,,,TRUE,TRUE,TRUE
+LS14FOTI01B,LS14FOTI,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,keep,,ET,,,TRUE,TRUE,TRUE
+WEB00087524,LS16THN301,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,keep,,ET,,,TRUE,TRUE,TRUE
+WEB13dc04eb,LS17BAHA01,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,keep,,ET,,,TRUE,TRUE,TRUE
+WEBf388e826,LS17BAHA01,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,keep,,ET,,,TRUE,TRUE,TRUE
+LS99CUVAb,LS99CUVA,"csm only, but a string this compilation uses","REVIEW: probably this compilation's own, recorded before the sheet column existed",,keep,,DK,,,TRUE,TRUE,TRUE
 LPD7dc5b9ba,ClelandLake.Steinman.2016,"csm only, and not this compilation's vocabulary",remove from csm; not this compilation's value,,,,CR,,,TRUE,TRUE,FALSE
 SAm_035_iso2k,IC13THQU,"csm only, and not this compilation's vocabulary",remove from csm; not this compilation's value,,,,"RN, IAM",,,TRUE,TRUE,FALSE
 MS07MMNP01b,MS07MMNP,"csm only, and not this compilation's vocabulary",remove from csm; not this compilation's value,,,,REMOVE,,,TRUE,TRUE,FALSE
