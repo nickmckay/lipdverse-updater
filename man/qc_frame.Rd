@@ -33,6 +33,8 @@ Replaces \code{createQCdataFrame()}, which built a wide frame whose column set
 depended on which fields happened to be populated, so a field absent from
 every loaded dataset simply vanished from the comparison.
 
-Only fields the registry marks \code{merged} or \code{key} are extracted; compilation
-metadata now lives in \code{csm} and is not part of the shared merge.
+Only fields the registry marks \code{merged} or \code{key} are extracted. Compilation
+metadata lives in \code{csm} inside \code{inCompilation}, which is a different shape and
+has to be read per compilation: \code{\link[=lv_csm_frame]{lv_csm_frame()}} does that, and the runner
+binds the two frames together before merging.
 }

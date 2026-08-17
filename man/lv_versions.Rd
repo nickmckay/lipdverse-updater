@@ -10,7 +10,14 @@ lv_versions(store = qc_store())
 
 lv_version_current(store, compilation)
 
-lv_version_append(store, compilation, version, run_id = lv_run_id(), ...)
+lv_version_append(
+  store,
+  compilation,
+  version,
+  run_id = lv_run_id(),
+  members = NULL,
+  ...
+)
 }
 \arguments{
 \item{store}{A \code{qc_store}.}
@@ -20,6 +27,12 @@ lv_version_append(store, compilation, version, run_id = lv_run_id(), ...)
 \item{version}{An \code{lv_version} from \code{\link[=lv_tick_version]{lv_tick_version()}}.}
 
 \item{run_id}{Run that produced it.}
+
+\item{members}{Optional tibble of \code{dataset}, \code{datasetId} and \code{datasetVersion},
+recording not just which datasets a version contained but which \emph{version of
+each} it contained. A compilation page for a published version has to iframe
+the dataset pages as they were, and the dataset name alone cannot say which
+those are.}
 
 \item{...}{Extra ledger columns (\code{db_fingerprint}, \code{qc_state_hash}, \code{notes}).}
 }

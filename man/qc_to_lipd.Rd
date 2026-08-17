@@ -14,5 +14,7 @@ TODO. Here the work is grouped once by dataset and applied in a single pass
 per file.
 
 Compilation-specific metadata is \strong{not} handled here. It lives under \code{csm}
-inside \code{inCompilation} and is written by \code{lipdR}'s own collapse path.
+inside \code{inCompilation}, and is written by \code{\link[=lv_apply_csm]{lv_apply_csm()}}, which knows which
+compilation's entry a value belongs in. This one does not, so a csm cell that
+reached it would be written into the shared namespace it was moved out of.
 }

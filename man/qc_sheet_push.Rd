@@ -12,7 +12,9 @@ qc_sheet_push(
   mode = c("patch", "full"),
   registry = lv_qc_fields(),
   dry_run = TRUE,
-  add_columns = FALSE
+  add_columns = FALSE,
+  add_rows = TRUE,
+  clears = NULL
 )
 }
 \arguments{
@@ -29,6 +31,15 @@ qc_sheet_push(
 \item{registry}{Field registry.}
 
 \item{dry_run}{Report without writing.}
+
+\item{add_columns}{Add columns the sheet lacks.}
+
+\item{add_rows}{Add rows the sheet lacks.}
+
+\item{clears}{Cells this run decided should be emptied, as a data frame of
+\code{tsid} and \code{field}. \code{cells} holds populated state only, so a deletion has
+to be named here or a patch cannot tell it from a cell the run does not
+manage.}
 }
 \value{
 A receipt list, invisibly.

@@ -32,7 +32,9 @@ a \code{.json} extension.}
 }
 \value{
 A tibble of one row per value, with \code{datasets}, \code{candidates},
-\code{source_pdfs} and \code{past_candidates} as list columns, and a \code{meta} attribute.
+\code{source_pdfs}, \code{examples}, \code{siblings} and \code{past_candidates} as list columns,
+and a \code{meta} attribute. \code{examples} and \code{siblings} are absent from files
+written before they existed, and read back empty rather than failing.
 }
 \description{
 JSON is canonical. A review is not really a table: \code{datasets}, \code{candidates}

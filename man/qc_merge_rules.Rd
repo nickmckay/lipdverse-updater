@@ -44,5 +44,11 @@ registry marks the field \code{nullable_by_curator}, or where the cell holds the
 sentinel \verb{<<CLEAR>>}. Otherwise blank means "unchanged".
 
 This single rule is what makes the NA-as-deletion loss impossible.
+
+The one mirror on the file side is a \emph{calculated} field: \code{\link[=lv_calculate]{lv_calculate()}}
+emits its cell whether or not the calculation produced anything, so a present
+but empty cell on a \code{machine}-owned field states that the value no longer
+exists and clears it. \code{\link[=qc_frame]{qc_frame()}} emits populated values only and cannot
+produce that shape, so the rule reaches exactly the fields it is meant for.
 }
 

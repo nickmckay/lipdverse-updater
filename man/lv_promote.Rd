@@ -12,7 +12,8 @@ lv_promote(
   verify = TRUE,
   workers = NULL,
   allow_delete = FALSE,
-  partial = FALSE
+  partial = FALSE,
+  delete = character()
 )
 }
 \arguments{

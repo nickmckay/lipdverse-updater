@@ -4,7 +4,12 @@
 \alias{lv_compilation_sheet}
 \title{Build the tabs for a new compilation's QC sheet}
 \usage{
-lv_compilation_sheet(cells, index, registry = lv_qc_fields())
+lv_compilation_sheet(
+  cells,
+  index,
+  registry = lv_qc_fields(),
+  compilation = NULL
+)
 }
 \arguments{
 \item{cells}{A cell table from \code{\link[=qc_frame]{qc_frame()}}, restricted to the compilation.}

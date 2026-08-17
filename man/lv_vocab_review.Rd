@@ -12,7 +12,9 @@ lv_vocab_review(
   n_candidates = 5,
   overwrite = FALSE,
   sources = NULL,
-  past = NULL
+  past = NULL,
+  dir = NULL,
+  n_examples = 3L
 )
 }
 \arguments{

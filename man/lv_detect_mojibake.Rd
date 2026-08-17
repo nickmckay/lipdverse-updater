@@ -5,7 +5,7 @@
 \alias{lv_repair_mojibake}
 \title{Detect and repair mojibake}
 \usage{
-lv_detect_mojibake(x, encodings = c("macintosh", "CP1252"))
+lv_detect_mojibake(x, encodings = c("CP1252", "macintosh"))
 
 lv_repair_mojibake(cfg, backend, tab = cfg$qc_tabs$qc, dry_run = TRUE)
 }
