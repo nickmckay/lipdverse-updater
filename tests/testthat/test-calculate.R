@@ -40,6 +40,43 @@ test_that("year is preferred over age when both are present", {
   expect_equal(calc$maxYear(c(1000, 1010), c(500, 490), c(1, 1)), 1010)
 })
 
+test_that("the axis is placed by its units, not its variableName", {
+  # MaeHongSon.Buckley.2007 names its axis `age` and gives it `units = "yr AD"`
+  # over 1560-2005. Read by name it became ages: 1950 - 2005 reported the record
+  # as -56 to 390 AD. 128 columns across 111 datasets carry an AD axis called
+  # `age`; correcting it moves 821 hydroclimate2k cells, 185 of them sign flips.
+  cols <- list(
+    list(variableName = "age", units = "yr AD", TSid = "t1", values = c(1560, 2005)),
+    list(variableName = "trsgi", units = "unitless", TSid = "t2", values = c(1, 2)))
+  ax <- lv_table_axes(cols)
+  expect_equal(ax$year, c(1560, 2005))
+  expect_null(ax$age)
+
+  # And the other direction: a BP axis called `year` (LakeBarrine.Sun.2023).
+  bp <- lv_table_axes(list(
+    list(variableName = "year", units = "cal yr BP", TSid = "t1", values = c(0, 100))))
+  expect_null(bp$year)
+  expect_equal(bp$age, c(0, 100))
+})
+
+test_that("an axis in units this cannot place yields no year range", {
+  # `yr ka` on 1,649 columns and uncalibrated `yr 14c BP` on 188. Read as years
+  # a 136 kyr record lands at 1813 AD; no value beats that one.
+  ax <- lv_table_axes(list(
+    list(variableName = "age", units = "yr ka", TSid = "t1", values = c(0.4, 136.7))))
+  expect_null(ax$year)
+  expect_null(ax$age)
+  expect_true(is.na(lv_calculators()$minYear(ax$year, ax$age, c(1, 1))))
+})
+
+test_that("units that say nothing fall back to the variableName", {
+  for (u in c("unitless", "count/yr", "needsToBeChanged", NULL)) {
+    ax <- lv_table_axes(list(
+      list(variableName = "year", units = u, TSid = "t1", values = c(1900, 2000))))
+    expect_equal(ax$year, c(1900, 2000), info = u)
+  }
+})
+
 test_that("distinctYearsInCommonEra counts distinct whole years in the CE", {
   # Transcribed from lipdverseR/distinctYearsInCommonEra.R: floor, keep 0-2025,
   # count unique. Fractional samples within one year count once.

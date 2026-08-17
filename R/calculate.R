@@ -216,20 +216,48 @@ lv_calculate_one <- function(path, fields, calc) {
   purrr::list_rbind(rows)
 }
 
-# The year and age vectors of a measurement table, by variableName.
+# The year and age vectors of a measurement table.
+#
+# Which axis a column *is* comes from its units, not its name, because the two
+# disagree across the database and the units are the ones that are right.
+# `MaeHongSon.Buckley.2007` names its axis `age` and gives it `units = "yr AD"`
+# over values 1560-2005: read by name it became ages, and 1950 - age reported
+# the record as spanning -56 to 390 AD. Measured 2026-08-17: **128 columns
+# across 111 datasets** carry an `age` axis in AD, most of them hydroclimate2k
+# tree-ring records, and 2 name a BP axis `year` (issue #14). Correcting this
+# moved 821 hydroclimate2k QC cells, 185 of them sign flips.
+# The name is kept as the fallback for the columns
+# whose units say nothing useful (`unitless`, `count/yr`, `needsToBeChanged`).
 lv_table_axes <- function(cols) {
-  pick <- function(names_wanted) {
-    for (col in cols) {
-      nm <- tolower(trimws(as_chr1(col$variableName) %||% ""))
-      if (nm %in% names_wanted) {
-        v <- suppressWarnings(as.numeric(unlist(col$values)))
-        if (any(is.finite(v))) return(v)
-      }
-    }
+  cand <- list()
+  for (col in cols) {
+    nm <- tolower(trimws(as_chr1(col$variableName) %||% ""))
+    if (!nm %in% c("year", "year ad", "yearad", "age", "agebp", "age bp", "yearbp")) next
+    v <- suppressWarnings(as.numeric(unlist(col$values)))
+    if (!any(is.finite(v))) next
+    kind <- lv_axis_kind(as_chr1(col$units), nm)
+    if (is.na(kind)) next
+    cand[[length(cand) + 1L]] <- list(kind = kind, values = v)
+  }
+  first <- function(k) {
+    for (c in cand) if (c$kind == k) return(c$values)
     NULL
   }
-  list(year = pick(c("year", "year ad", "yearad")),
-       age = pick(c("age", "agebp", "age bp", "yearbp")))
+  list(year = first("year"), age = first("age"))
+}
+
+# "year" (values are years AD/CE), "age" (years BP), or NA for an axis this
+# cannot place -- `yr ka`, `yr 14c BP` and the rest. NA is deliberate: a
+# kiloyear axis read as years puts a 136 kyr record at 1813 AD, and no value is
+# better than that one. 1,649 columns across 501 datasets are in `yr ka` and 188
+# in uncalibrated radiocarbon; neither is a calendar axis.
+lv_axis_kind <- function(units, name) {
+  u <- gsub("[^a-z0-9]", " ", tolower(trimws(units %||% "")))
+  tok <- strsplit(u, " +")[[1]]
+  if (any(tok %in% c("ka", "kyr", "kyrs", "myr", "ma", "14c", "c14"))) return(NA_character_)
+  if (any(tok %in% c("bp", "b2k", "bce"))) return("age")
+  if (any(tok %in% c("ad", "ce"))) return("year")
+  if (name %in% c("year", "year ad", "yearad")) "year" else "age"
 }
 
 # QC state is character. Whole numbers must not arrive as "1980.0000", which
