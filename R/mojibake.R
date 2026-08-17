@@ -25,7 +25,12 @@
 #' @param encodings Encodings to try, in order.
 #' @return A tibble of `input`, `repaired`, `is_mojibake` and `encoding`.
 #' @export
-lv_detect_mojibake <- function(x, encodings = c("macintosh", "CP1252")) {
+# CP1252 first, then macintosh. This corpus comes through Excel and Google
+# Sheets, so cp1252 is the common mis-decoding -- and trying Mac Roman first
+# produces confident nonsense: for iso2k's damaged per-mille, "a\u20ac\u00b0" reverses
+# under Mac Roman to bytes 61 DB A1, which is *valid* UTF-8 for an Arabic
+# character, so validUTF8() waved it through and the repair wrote "a\u06a1".
+lv_detect_mojibake <- function(x, encodings = c("CP1252", "macintosh")) {
   x <- as.character(x)
   try_one <- function(s, enc) {
     raw <- tryCatch(iconv(s, from = "UTF-8", to = enc, toRaw = TRUE)[[1]],
@@ -48,7 +53,18 @@ lv_detect_mojibake <- function(x, encodings = c("macintosh", "CP1252")) {
   rep <- vapply(res, `[`, character(1), 1L)
   enc <- vapply(res, `[`, character(1), 2L)
 
-  tibble::tibble(input = x, repaired = rep, is_mojibake = !is.na(rep), encoding = enc)
+  # A repair that introduces a script the input never had is not a repair. The
+  # text in this database is Latin, Greek and symbols; a reversal that yields
+  # Arabic or CJK has found a byte sequence that merely happens to be valid.
+  # Reported rather than silently dropped, because the cell *is* mis-decoded --
+  # it just cannot be fixed by reversing, and a person has to read it.
+  high <- function(s) !is.na(s) && grepl("[\u0590-\u1CFF\u2E80-\uFFFD]", s, perl = TRUE)
+  implausible <- vapply(seq_along(rep), function(i) {
+    !is.na(rep[i]) && high(rep[i]) && !high(x[i])
+  }, logical(1))
+
+  tibble::tibble(input = x, repaired = rep, is_mojibake = !is.na(rep), encoding = enc,
+                 repairable = !is.na(rep) & !implausible)
 }
 
 #' @rdname lv_detect_mojibake
@@ -73,13 +89,31 @@ lv_repair_mojibake <- function(cfg, backend, tab = cfg$qc_tabs$qc, dry_run = TRU
     i <- which(d$is_mojibake)
     hits[[length(hits) + 1L]] <- tibble::tibble(
       column = nm, col_index = match(nm, names(raw)), row = i,
-      before = d$input[i], after = d$repaired[i])
+      before = d$input[i], after = d$repaired[i], repairable = d$repairable[i])
   }
   if (!length(hits)) {
     cli::cli_alert_success("No mojibake in {.val {tab}}.")
     return(invisible(NULL))
   }
   hits <- dplyr::bind_rows(hits)
+
+  # Mojibake that has since been damaged further cannot be undone. iso2k's sheet
+  # holds "2.6a\u20ac\u00b0": the correct mis-decoding of a per-mille sign is
+  # "\u00e2\u20ac\u00b0", and the \u00e2 has already been flattened to a plain a, so no reversal
+  # recovers it. Left alone and reported, rather than written over with whatever
+  # byte sequence happens to decode.
+  reversible <- hits$repairable %in% TRUE
+  if (any(!reversible)) {
+    cli::cli_alert_warning(
+      "{sum(!reversible)} cell{?s} carry mojibake that cannot be reversed and {?is/are} left alone.")
+    print(as.data.frame(hits[!reversible, c("column", "row", "before")]), right = FALSE)
+    hits <- hits[reversible, , drop = FALSE]
+    if (!nrow(hits)) {
+      cli::cli_alert_info("Nothing left to repair automatically.")
+      return(invisible(NULL))
+    }
+  }
+
   # +1 for the header row: a value in data row n lives in spreadsheet row n + 1.
   hits$cell <- paste0(lv_col_letter(hits$col_index), hits$row + 1L)
 

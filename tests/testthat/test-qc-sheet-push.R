@@ -240,3 +240,21 @@ test_that("a patch dry run reports the write, not the whole sheet", {
   expect_equal(back$units, c("mm", "permil"))
   expect_equal(back$archiveType, c("Wood", "LakeSediment"))
 })
+
+test_that("mojibake that cannot be reversed is reported, not rewritten", {
+  # iso2k's sheet holds "2.6a€°": the correct mis-decoding of a per-mille sign
+  # is "â€°", and the â has already been flattened to a plain a, so no reversal
+  # recovers it. Reversing under Mac Roman gives bytes 61 DB A1, which is valid
+  # UTF-8 for an Arabic character -- so validUTF8() waved it through and the
+  # repair wrote "aۡ", turning one wrong character into a worse one.
+  d <- lv_detect_mojibake("water = + 2.6a€°)")
+  expect_true(d$is_mojibake)
+  expect_false(d$repairable)
+
+  # A genuine cp1252 mis-decoding still repairs.
+  ok <- lv_detect_mojibake("2.6â€°")
+  expect_true(ok$is_mojibake)
+  expect_true(ok$repairable)
+  expect_equal(ok$repaired, "2.6‰")
+  expect_equal(ok$encoding, "CP1252")
+})
