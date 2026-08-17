@@ -291,11 +291,17 @@ lv_sheet_row_order <- function(wide) {
 #' @param mode `"patch"` or `"full"`.
 #' @param registry Field registry.
 #' @param dry_run Report without writing.
+#' @param add_columns Add columns the sheet lacks.
+#' @param add_rows Add rows the sheet lacks.
+#' @param clears Cells this run decided should be emptied, as a data frame of
+#'   `tsid` and `field`. `cells` holds populated state only, so a deletion has
+#'   to be named here or a patch cannot tell it from a cell the run does not
+#'   manage.
 #' @return A receipt list, invisibly.
 #' @export
 qc_sheet_push <- function(cells, backend, id, tab = "QC", mode = c("patch", "full"),
                           registry = lv_qc_fields(), dry_run = TRUE,
-                          add_columns = FALSE, add_rows = TRUE) {
+                          add_columns = FALSE, add_rows = TRUE, clears = NULL) {
   mode <- match.arg(mode)
   current <- tryCatch(qc_sheet_pull(backend, id, tab, registry), error = function(e) qc_cells_empty())
   delta <- qc_diff_to_events(current, cells, source = "sheet")
@@ -306,10 +312,19 @@ qc_sheet_push <- function(cells, backend, id, tab = "QC", mode = c("patch", "ful
   # but the dry run used to report them anyway. Asked to fill 60 blank cells it
   # answered "261,663 changes", which is not a preview of the write, it is a
   # reason not to trust the preview. A dry run has to say what the write does.
+  # `clears` are the cells the run decided should be empty. They cannot be
+  # carried in `cells`, which is the QC *state* and holds populated values only,
+  # so without naming them here they are indistinguishable from the cells this
+  # run simply has nothing to say about -- and the filter below rightly leaves
+  # those alone. Hence the separate argument: a deletion is only written when
+  # something asked for it.
   unmanaged <- 0L
   if (identical(mode, "patch")) {
-    managed <- paste(delta$tsid, delta$field, sep = "\r") %in%
-      paste(cells$tsid, cells$field, sep = "\r")
+    keys <- paste(cells$tsid, cells$field, sep = "\r")
+    if (!is.null(clears) && nrow(clears)) {
+      keys <- c(keys, paste(clears$tsid, clears$field, sep = "\r"))
+    }
+    managed <- paste(delta$tsid, delta$field, sep = "\r") %in% keys
     unmanaged <- sum(!managed)
     delta <- delta[managed, , drop = FALSE]
   }

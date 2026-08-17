@@ -23,5 +23,5 @@ untouched; only role \code{csm} is scoped.
 }
 \details{
 Apply this to the sheet before merging, never to the store baseline: see the
-scoping note in \link[lipdR:csm]{lipdR::csm}.
+scoping note in \link{csm}.
 }

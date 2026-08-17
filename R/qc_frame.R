@@ -159,6 +159,16 @@ qc_frame_one <- function(path, canon) {
   # the fact that per-column interpretations were not being read at all.
   root_keys <- setdiff(names(m), c("paleoData", "chronData", "pub", "geo", "@context"))
   root_keys <- root_keys[!grepl("Interpretation[0-9]+_", root_keys)]
+  # Same trap, a different field: a calculated value at the dataset root is a
+  # leftover from when these were dataset-scoped (issue #13), and reading it
+  # here replicates one number onto every column of the dataset. It then reads
+  # as the file's value for columns that have no such value and never should --
+  # `Attacave.Niggemann.2003` carries `minYear = -6732.601` at its root, and
+  # every one of its columns appeared to hold it, including `sampleID`. That
+  # manufactured 1,906 differences and 73 file rewrites that changed nothing.
+  # These are computed per column by lv_calculate(); the root copy is never the
+  # authority.
+  root_keys <- setdiff(root_keys, names(lv_calculators()))
   for (nm in root_keys) add_root(nm, m[[nm]])
   for (nm in names(m$geo)) {
     if (nm == "geometry") {

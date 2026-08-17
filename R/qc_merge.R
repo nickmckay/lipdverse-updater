@@ -43,6 +43,15 @@
 #' exists and clears it. [qc_frame()] emits populated values only and cannot
 #' produce that shape, so the rule reaches exactly the fields it is meant for.
 #'
+#' A clear applies against whatever is displayed, not only against the stored
+#' baseline. A legacy sheet holds values the store never had and the files never
+#' had, and requiring a non-blank base made those unclearable in principle:
+#' nothing computes them, so nothing could ever contradict them. Such a clear
+#' also has to be reported as a *change*, since base and result are both empty
+#' and the ordinary comparison calls that "unchanged" -- and an unchanged cell
+#' reaches neither the plan nor [qc_sheet_push()], which patches only what it is
+#' told changed.
+#'
 #' @name qc_merge_rules
 NULL
 
@@ -215,7 +224,16 @@ qc_merge <- function(base, sheet, frame, registry = lv_qc_fields(),
   # read rather than derived -- and a blank clearing that is precisely the
   # incident that destroyed 24 of its values. The regression test for it is what
   # caught this.
-  file_clears <- cells$in_file & blank(f) & !blank(b) &
+  #
+  # The base may be blank and the clear still be real. A legacy sheet carries
+  # values the store never held and the files never had: hydroclimate2k shows a
+  # minYear on 2,854 cells whose columns are `uncertainty`, `correction` and
+  # `mineralogy`, none of which has a year range or ever did. Requiring a
+  # non-blank base made those unclearable in principle -- nothing computes them,
+  # so nothing can ever contradict them. A calculation that comes to nothing
+  # contradicts whatever is displayed, wherever it came from.
+  file_clears <- cells$in_file & blank(f) &
+    (!blank(b) | (cells$in_sheet & !blank(s))) &
     cells$ownership %in% "machine" & cells$field %in% names(lv_calculators())
   f_eff <- ifelse(file_clears, NA_character_, ifelse(blank(f), b, f))
 
@@ -248,6 +266,22 @@ qc_merge <- function(base, sheet, frame, registry = lv_qc_fields(),
   )
   cells$sheet_clears <- sheet_clears
   cells$file_clears <- file_clears
+
+  # A clear the base never had anything to clear resolves to "unchanged" by the
+  # ordinary comparison -- base and result are both empty, so neither side
+  # "differs" -- and an unchanged cell reaches neither the plan's changes nor
+  # the sheet push, which patches only what it is told changed. The clear was
+  # computed correctly and then dropped on the floor. That is what left those
+  # 2,854 stale hydroclimate2k cells beyond the reach of any run, and it did the
+  # same to a curator's `<<CLEAR>>` on a cell with no baseline: the sentinel
+  # stayed on the sheet, read as data.
+  #
+  # Only where the sheet still shows something. Clearing a cell that is already
+  # blank is what churn is made of.
+  stale_clear <- (sheet_clears | file_clears) & cells$in_sheet & !blank(s) &
+    cells$resolution %in% "unchanged"
+  cells$resolution[stale_clear] <-
+    ifelse(file_clears[stale_clear], "file", "sheet")
 
   cells$value <- dplyr::case_when(
     cells$resolution %in% c("sheet", "converged") ~ s_eff,

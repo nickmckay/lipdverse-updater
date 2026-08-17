@@ -241,6 +241,46 @@ test_that("a patch dry run reports the write, not the whole sheet", {
   expect_equal(back$archiveType, c("Wood", "LakeSediment"))
 })
 
+test_that("a named clear empties the cell; an unnamed one is left alone", {
+  # The state holds populated cells only, so a deletion is invisible to it and a
+  # patch cannot tell "this should be empty" from "this run does not manage it".
+  # Erring towards leaving cells alone is right -- it is what stops a partial
+  # state wiping the sheet -- but it also silently dropped every clear the merge
+  # computed, which is what left hydroclimate2k's 2,854 stale minYear cells
+  # beyond the reach of any run.
+  d <- withr::local_tempdir()
+  bk <- sheet_backend_local(d)
+  sheet_write(bk, "S1", "QC", data.frame(
+    TSid = c("T1", "T2"), minYear = c("-6732.6008", "1560"),
+    archiveType = c("Speleothem", "Wood"), stringsAsFactors = FALSE))
+
+  keep <- tibble::tibble(tsid = "T2", field = "minYear", value = "1560",
+                         present = TRUE, dataset_id = "D1")
+
+  # Without `clears`, T1's stale value survives -- the old behaviour.
+  r0 <- qc_sheet_push(keep, bk, "S1", "QC", mode = "patch", dry_run = TRUE)
+  expect_equal(r0$n_changed, 0)
+
+  # Named, it is written as a deletion, and only it.
+  clr <- data.frame(tsid = "T1", field = "minYear", stringsAsFactors = FALSE)
+  r1 <- qc_sheet_push(keep, bk, "S1", "QC", mode = "patch", clears = clr,
+                      dry_run = TRUE)
+  expect_equal(r1$n_changed, 1)
+  expect_equal(r1$changed$tsid, "T1")
+
+  w <- qc_sheet_push(keep, bk, "S1", "QC", mode = "patch", clears = clr,
+                     dry_run = FALSE, add_rows = FALSE)
+  expect_equal(w$n_written, 1)
+  # Empty, and never the word NA: the value put on the wire is "" (see the
+  # `val[is.na(val)] <- ""` in the patch), which reads back as blank or NA
+  # depending on the backend.
+  back <- sheet_read(bk, "S1", "QC")
+  expect_true(is.na(back$minYear[1]) || !nzchar(trimws(back$minYear[1])))
+  expect_equal(back$minYear[2], "1560")
+  # The columns this run says nothing about are still untouched.
+  expect_equal(back$archiveType, c("Speleothem", "Wood"))
+})
+
 test_that("mojibake that cannot be reversed is reported, not rewritten", {
   # iso2k's sheet holds "2.6a€°": the correct mis-decoding of a per-mille sign
   # is "â€°", and the â has already been flattened to a plain a, so no reversal

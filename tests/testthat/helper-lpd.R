@@ -10,7 +10,8 @@ make_column <- function(tsid, variableName = "temperature", col_extra = NULL) {
 
 make_metadata <- function(dataSetName, datasetId, tsids,
                           version = "1.0.0", archiveType = "LakeSediment",
-                          legacy_columns = FALSE, col_extra = NULL) {
+                          legacy_columns = FALSE, col_extra = NULL,
+                          root_extra = NULL) {
   cols <- lapply(tsids, make_column, col_extra = col_extra)
   tbl <- if (legacy_columns) {
     # Older writers stored each column as a named entry of the table.
@@ -18,7 +19,7 @@ make_metadata <- function(dataSetName, datasetId, tsids,
   } else {
     list(tableName = "paleo1measurement1", filename = "x.csv", columns = cols)
   }
-  list(
+  out <- list(
     dataSetName = dataSetName,
     datasetId   = datasetId,
     archiveType = archiveType,
@@ -36,6 +37,10 @@ make_metadata <- function(dataSetName, datasetId, tsids,
     changelog   = list(list(version = "1.0.0"), list(version = version)),
     paleoData   = list(list(measurementTable = list(tbl)))
   )
+  # Arbitrary keys at the dataset root, for the cases where what matters is
+  # what a file carries there rather than what it should.
+  if (length(root_extra)) out[names(root_extra)] <- root_extra
+  out
 }
 
 write_lpd <- function(dir, dataSetName, datasetId = NULL, tsids = c("T1", "T2"),

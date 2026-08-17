@@ -50,5 +50,14 @@ emits its cell whether or not the calculation produced anything, so a present
 but empty cell on a \code{machine}-owned field states that the value no longer
 exists and clears it. \code{\link[=qc_frame]{qc_frame()}} emits populated values only and cannot
 produce that shape, so the rule reaches exactly the fields it is meant for.
+
+A clear applies against whatever is displayed, not only against the stored
+baseline. A legacy sheet holds values the store never had and the files never
+had, and requiring a non-blank base made those unclearable in principle:
+nothing computes them, so nothing could ever contradict them. Such a clear
+also has to be reported as a \emph{change}, since base and result are both empty
+and the ordinary comparison calls that "unchanged" -- and an unchanged cell
+reaches neither the plan nor \code{\link[=qc_sheet_push]{qc_sheet_push()}}, which patches only what it is
+told changed.
 }
 

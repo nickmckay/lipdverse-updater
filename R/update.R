@@ -471,6 +471,12 @@ lv_update <- function(compilation, commit = FALSE, cfg = lv_config(compilation),
   # the tab -- limiting what a lead has to look at is half the point of the
   # membership tab.
   push_state <- state[state$tsid %in% ts, , drop = FALSE]
+  # The state carries populated cells only, so the clears have to travel beside
+  # it or the patch cannot distinguish "this should be empty" from "this run has
+  # nothing to say about it". Scoped to the same timeseries for the same reason.
+  ch <- plan$changes
+  push_clears <- ch[(is.na(ch$value) | !nzchar(ch$value)) & ch$tsid %in% ts,
+                    c("tsid", "field"), drop = FALSE]
   wide <- qc_cells_to_sheet(push_state, registry = reg)
   # Against the sheet's own rows, not the pulled cells: a TSid with no cells in
   # the pull is still a row on the sheet, so comparing against `sheet$tsid`
@@ -485,6 +491,14 @@ lv_update <- function(compilation, commit = FALSE, cfg = lv_config(compilation),
               nrow(wide), if (nrow(wide) == 1) "" else "s",
               length(new_rows), if (length(new_rows) == 1) "" else "s",
               length(no_column), if (length(no_column) == 1) "" else "s"))
+  # A deletion is the one kind of write worth naming before it happens.
+  if (nrow(push_clears)) {
+    say(sprintf("  clears    : %d cell%s emptied on the sheet\n", nrow(push_clears),
+                if (nrow(push_clears) == 1) "" else "s"))
+    for (nm in names(sort(table(push_clears$field), decreasing = TRUE))) {
+      say(sprintf("    %-28s %d\n", nm, sum(push_clears$field == nm)))
+    }
+  }
   # Name them while the list is short. A new row is a timeseries a curator has
   # not seen, so which ones matters more than how many.
   if (length(new_rows) && length(new_rows) <= 40) {
@@ -533,7 +547,7 @@ lv_update <- function(compilation, commit = FALSE, cfg = lv_config(compilation),
     # Columns never change the shape: the push writes the sheet's own column set.
     qc_sheet_push(push_state, bk, cfg$qc_sheet_id, cfg$qc_tabs$qc,
                   mode = if (length(new_rows) && !patch) "full" else "patch",
-                  dry_run = FALSE)
+                  clears = push_clears, dry_run = FALSE)
     say("sheet       : pushed\n")
     # The export is the artefact anything downstream reads, and it records the
     # database fingerprint, vocabulary pin and QC state hash that produced it.

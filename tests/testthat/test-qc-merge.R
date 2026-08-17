@@ -484,6 +484,57 @@ test_that("a calculated field that comes to nothing clears its cell", {
   expect_equal(nrow(qc_plan_state(p)), 0)
 })
 
+test_that("a calculated field clears a sheet value the store never held", {
+  # The legacy case, and the one the base-only rule could not reach: the sheet
+  # shows a minYear on a column that has none and never did, so the store is
+  # empty and the files are empty. Requiring a non-blank base made these
+  # unclearable in principle -- nothing computes them, so nothing could ever
+  # contradict them. hydroclimate2k carried 2,854 of them on `uncertainty`,
+  # `correction` and `mineralogy` columns.
+  reg <- test_registry()
+  reg$ownership[reg$qc_name == "minYear"] <- "machine"
+  reg$role[reg$qc_name == "minYear"] <- "merged"
+
+  p <- qc_merge(qc_cells_empty(),                # store never had it
+                cells("T1", "minYear", "-6732.6008"),
+                cells("T1", "minYear", NA_character_),
+                registry = reg, policy = qc_merge_policy(strict = FALSE))
+  expect_equal(p$cells$resolution, "file")
+  expect_true(is.na(p$cells$value))
+  # It must reach `changes`, or the push is never told to empty the cell.
+  expect_equal(nrow(p$changes), 1)
+  expect_true(is.na(p$changes$value))
+})
+
+test_that("the clear does not repeat once the sheet is empty", {
+  # The second run finds a blank sheet cell, so there is nothing left to
+  # contradict and nothing to write. Without this the clear would re-fire every
+  # run and the update would never report itself idempotent.
+  reg <- test_registry()
+  reg$ownership[reg$qc_name == "minYear"] <- "machine"
+  reg$role[reg$qc_name == "minYear"] <- "merged"
+
+  p <- qc_merge(qc_cells_empty(),
+                cells("T1", "minYear", NA_character_),
+                cells("T1", "minYear", NA_character_),
+                registry = reg, policy = qc_merge_policy(strict = FALSE))
+  expect_equal(p$cells$resolution, "unchanged")
+  expect_equal(nrow(p$changes), 0)
+})
+
+test_that("the sentinel clears a cell the store never held", {
+  # Same gap, curator side: `<<CLEAR>>` on a cell with no baseline resolved to
+  # "unchanged", so the sentinel stayed on the sheet and read as data.
+  reg <- test_registry()
+  p <- qc_merge(qc_cells_empty(),
+                cells("T1", "notes", LV_CLEAR_SENTINEL),
+                qc_cells_empty(),
+                registry = reg, policy = qc_merge_policy(strict = FALSE))
+  expect_equal(p$cells$resolution, "sheet")
+  expect_true(is.na(p$cells$value))
+  expect_equal(nrow(p$changes), 1)
+})
+
 test_that("a blank from the files still never deletes anything else", {
   # The mirror rule is narrow on purpose: named calculated fields only. Written
   # as "any machine-owned field" it also caught paleoData_createdBy, which is

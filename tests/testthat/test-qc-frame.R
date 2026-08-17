@@ -90,3 +90,25 @@ test_that("a file that cannot be read names itself", {
   expect_silent(f <- qc_frame(d, progress = FALSE))
   expect_equal(nrow(f), 0)
 })
+
+test_that("a calculated field at the dataset root is not read onto every column", {
+  # These were dataset-scoped once and the root copies were left behind (issue
+  # #13). Read here they replicate one number onto every column of the dataset:
+  # Attacave.Niggemann.2003 carries minYear = -6732.601 at its root, so even its
+  # `sampleID` column appeared to hold it. That manufactured 1,906 differences
+  # against the recomputed values and 73 file rewrites that changed nothing.
+  d <- withr::local_tempdir()
+  write_lpd(d, "C.Author.2003", tsids = c("T1", "T2"),
+            root_extra = list(minYear = -6732.601, maxYear = 1580.805))
+
+  f <- qc_frame(d, progress = FALSE)
+  expect_false(any(f$field %in% c("minYear", "maxYear")))
+
+  # A per-column value is still read: only the root copy is ignored.
+  d2 <- withr::local_tempdir()
+  write_lpd(d2, "D.Author.2004", tsids = "T1",
+            root_extra = list(minYear = -6732.601),
+            col_extra = list(minYear = "1560"))
+  f2 <- qc_frame(d2, progress = FALSE)
+  expect_equal(f2$value[f2$field == "minYear"], "1560")
+})
