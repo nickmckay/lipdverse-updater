@@ -237,6 +237,7 @@ lv_table_axes <- function(cols) {
     if (!any(is.finite(v))) next
     kind <- lv_axis_kind(as_chr1(col$units), nm)
     if (is.na(kind)) next
+    kind <- lv_axis_sanity(kind, nm, v)
     cand[[length(cand) + 1L]] <- list(kind = kind, values = v)
   }
   first <- function(k) {
@@ -258,6 +259,32 @@ lv_axis_kind <- function(units, name) {
   if (any(tok %in% c("bp", "b2k", "bce"))) return("age")
   if (any(tok %in% c("ad", "ce"))) return("year")
   if (name %in% c("year", "year ad", "yearad")) "year" else "age"
+}
+
+# Believing the units is right until the units produce a record that cannot
+# exist. Where the name and units *disagree*, the tie goes to whichever reading
+# is physically possible: `E5.Daniels.2021` names its axis `age`, labels it
+# `yr AD`, and runs to 32086 -- which is a fine 32 kyr core and an impossible
+# calendar year, so there the name is the one telling the truth. 5 datasets are
+# in that state, all in HoloceneAbruptChange, Temp24k, RapidArcticWarming or
+# NAm21k-noPollen; the other 106 read correctly as AD.
+#
+# The threshold is deliberately loose. A real year axis *can* run past today,
+# because an age model extrapolates: Lake Miragoane (`LS91HOMI`) legitimately
+# reaches 2055.5, which is the subject of the DoD2k report and a data problem
+# rather than a units problem. Only a reading that is wrong by orders of
+# magnitude is overturned here. Where the two fields agree, nothing is second
+# guessed -- an implausible value is then a fact about the data, and belongs in
+# a report rather than in a silent correction.
+LV_MAX_PLAUSIBLE_YEAR <- 2200
+
+lv_axis_sanity <- function(kind, name, values) {
+  name_kind <- if (name %in% c("year", "year ad", "yearad")) "year" else "age"
+  if (kind == name_kind) return(kind)
+  v <- values[is.finite(values)]
+  if (!length(v)) return(kind)
+  if (kind == "year" && max(v) > LV_MAX_PLAUSIBLE_YEAR) return(name_kind)
+  kind
 }
 
 # QC state is character. Whole numbers must not arrive as "1980.0000", which

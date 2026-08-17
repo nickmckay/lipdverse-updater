@@ -122,3 +122,33 @@ test_that("whole numbers are formatted without a decimal tail", {
   expect_equal(lv_format_number(-3488), "-3488")
   expect_equal(lv_format_number(1883.583), "1883.583")
 })
+
+test_that("where name and units disagree, the possible reading wins", {
+  # E5.Daniels.2021 names its axis `age`, labels it `yr AD`, and runs to 32086.
+  # That is a fine 32 kyr core and an impossible calendar year, so the name is
+  # the one telling the truth. Believing the units here would put the record
+  # 30,000 years in the future.
+  ax <- lv_table_axes(list(
+    list(variableName = "age", units = "yr AD", TSid = "t1",
+         values = c(-61.5, 32086))))
+  expect_null(ax$year)
+  expect_equal(ax$age, c(-61.5, 32086))
+
+  # MaeHongSon is untouched: 2005 is a perfectly possible year.
+  ok <- lv_table_axes(list(
+    list(variableName = "age", units = "yr AD", TSid = "t1",
+         values = c(1560, 2005))))
+  expect_equal(ok$year, c(1560, 2005))
+})
+
+test_that("an implausible value is left alone when the fields agree", {
+  # Lake Miragoane's axis is named `year` AND labelled `yr AD`, and reaches
+  # 2055.5 because its age model extrapolates. Nothing here disagrees, so there
+  # is no tie to break: the value stands, and the problem is the data's (the
+  # DoD2k report), not the pipeline's to paper over.
+  ax <- lv_table_axes(list(
+    list(variableName = "year", units = "yr AD", TSid = "t1",
+         values = c(-9599.3, 2055.5))))
+  expect_equal(ax$year, c(-9599.3, 2055.5))
+  expect_equal(lv_calculators()$maxYear(ax$year, ax$age, c(1, 1)), 2055.5)
+})
