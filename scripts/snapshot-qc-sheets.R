@@ -8,7 +8,7 @@
 # diff against. This script gives that baseline immediately, and its output is
 # the migration input for the QC event store.
 #
-# Snapshots are written to STABLE paths and committed. Git is the history:
+# Snapshots are written to STABLE paths, committed, and pushed. Git is the history:
 # `git log compilations/hydroclimate2k/QC.csv.gz` shows every change; the files
 # are gzipped because the largest QC tabs are tens of megabytes and this runs
 # nightly. No timestamped directories needed.
@@ -17,6 +17,7 @@
 #   ./scripts/snapshot-qc-sheets.R --dry-run
 #   ./scripts/snapshot-qc-sheets.R --compilation=hydroclimate2k
 #   ./scripts/snapshot-qc-sheets.R --no-commit
+#   ./scripts/snapshot-qc-sheets.R --no-push
 #
 # Env: LIPDVERSE_QCSTORE   (default ~/GitHub/lipdverse-qcstore)
 #      LIPDVERSE_GOOG_EMAIL, LIPDVERSE_GOOG_CACHE
@@ -29,6 +30,7 @@ suppressPackageStartupMessages({
 args        <- commandArgs(trailingOnly = TRUE)
 dry_run     <- "--dry-run"  %in% args
 no_commit   <- "--no-commit" %in% args
+no_push     <- "--no-push"   %in% args || no_commit
 only        <- sub("^--compilation=", "", grep("^--compilation=", args, value = TRUE))
 
 qcstore <- Sys.getenv("LIPDVERSE_QCSTORE", path.expand("~/GitHub/lipdverse-qcstore"))
@@ -173,6 +175,49 @@ if (!no_commit) {
     say("committed: ", trimws(paste(stat, collapse = " ")))
   } else {
     say("no changes since last snapshot")
+  }
+
+  # Push whatever is unpushed, not merely what this run committed. Committing
+  # without pushing left the store 16 commits ahead of its remote and the only
+  # copy of a release's provenance on one laptop -- including hydroclimate2k
+  # 0_6_3 and iso2k 1_1_4, whose event logs sat uncommitted for a day. The
+  # backlog is the reason this pushes unconditionally rather than inside the
+  # `changed` branch above.
+  #
+  # A failure here is reported and never fatal: the commit is already made, the
+  # data is safe locally, and the next run will push it. Exiting non-zero on a
+  # dropped network would turn a cosmetic problem into a red nightly job.
+  if (!no_push) {
+    remote <- system2("git", c("-C", shQuote(qcstore), "remote"), stdout = TRUE, stderr = FALSE)
+    if (!length(remote)) {
+      say("no git remote configured; nothing to push")
+    } else {
+      br <- trimws(paste(system2("git", c("-C", shQuote(qcstore), "rev-parse",
+                                          "--abbrev-ref", "HEAD"), stdout = TRUE), collapse = ""))
+      ahead <- suppressWarnings(system2("git", c("-C", shQuote(qcstore), "rev-list", "--count",
+                                                 paste0(remote[1], "/", br, "..HEAD")),
+                                        stdout = TRUE, stderr = FALSE))
+      n <- suppressWarnings(as.integer(trimws(paste(ahead, collapse = ""))))
+      if (!is.na(n) && n == 0L) {
+        say("nothing to push")
+      } else {
+        # GIT_TERMINAL_PROMPT=0 so a missing credential fails immediately
+        # instead of blocking a launchd job on a prompt nobody can answer.
+        st <- suppressWarnings(system2(
+          "git", c("-C", shQuote(qcstore), "push", remote[1], br),
+          stdout = TRUE, stderr = TRUE, env = "GIT_TERMINAL_PROMPT=0"))
+        code <- attr(st, "status")
+        if (is.null(code) || code == 0) {
+          say(sprintf("pushed %s commit%s to %s/%s",
+                      if (is.na(n)) "?" else n, if (!is.na(n) && n == 1L) "" else "s",
+                      remote[1], br))
+        } else {
+          say(sprintf("PUSH FAILED (%s commit%s still local): %s",
+                      if (is.na(n)) "?" else n, if (!is.na(n) && n == 1L) "" else "s",
+                      trimws(paste(utils::tail(st, 3), collapse = " | "))))
+        }
+      }
+    }
   }
 }
 
