@@ -45,7 +45,9 @@ lv_pkg_installed <- function() {
 # shape, so the schema version does not move -- exactly the case this epoch
 # exists for. Without the bump the 2.8 GB cache serves the old empty ranges and
 # a code fix looks like it did nothing, which is how this was nearly missed.
-LV_EXPORT_CACHE_EPOCH <- 2L
+# e3 (2026-08-18): dataset-level minYear/maxYear now come from paleo
+# measurements only, so the datasets table changes for 1,744 datasets.
+LV_EXPORT_CACHE_EPOCH <- 3L
 
 #' Where the per-file export cache lives
 #' @return A path, created if absent.
@@ -270,8 +272,19 @@ lv_export_one <- function(L, file_md5 = NA_character_) {
         lv_changelog_last_version(L),
       geo_latitude = geo$lat, geo_longitude = geo$lon, geo_elevation = geo$elev,
       geo_siteName = geo$site,
-      minYear = suppressWarnings(min(ts_t$minYear, na.rm = TRUE)) |> lv_finite(),
-      maxYear = suppressWarnings(max(ts_t$maxYear, na.rm = TRUE)) |> lv_finite(),
+      # From the PALEO measurements only. A dataset's temporal coverage is the
+      # coverage of what was measured, not of its age model: a chron table keeps
+      # its own axis, in its own units, and often unlabelled.
+      # `108_658.Tiedemann.2006` is the case that showed it -- a 137 kyr marine
+      # core whose paleo axis is `yr ka` (unplaceable, so no range) and whose
+      # chron `age` column carries no units at all, so the fallback read 0.5-137
+      # as years BP and advertised the record as spanning 1813-1949 AD.
+      #
+      # Measured 2026-08-18: 608 datasets took their entire range from chron
+      # this way, and another 1,136 disagreed with their own paleo range. 24% of
+      # the database, on the most visible field a dataset page has.
+      minYear = lv_paleo_year(ts_t, "minYear", min),
+      maxYear = lv_paleo_year(ts_t, "maxYear", max),
       hasChron = has_chron, hasChronEnsemble = has_chron_ens,
       hasPaleoEnsemble = has_paleo_ens,
       n_timeseries = nrow(ts_t), file_md5 = file_md5),
@@ -300,6 +313,18 @@ lv_export_one <- function(L, file_md5 = NA_character_) {
 lv_finite <- function(x) if (length(x) != 1 || !is.finite(x)) NA_real_ else x
 
 `%|NA|%` <- function(x, y) if (is.null(x) || length(x) != 1 || is.na(x) || !nzchar(x)) y else x
+
+# The dataset's own span, taken from its paleo measurement rows alone. Falls
+# back to nothing rather than to chron: a range that describes the age model
+# instead of the data is worse than an absent one, because it looks answerable.
+lv_paleo_year <- function(ts_t, field, fun) {
+  if (!nrow(ts_t)) return(NA_real_)
+  keep <- ts_t$tableType %in% "paleo" & ts_t$tableKind %in% "measurement"
+  v <- ts_t[[field]][keep]
+  v <- v[is.finite(v)]
+  if (!length(v)) return(NA_real_)
+  fun(v)
+}
 
 # minYear/maxYear describe the span a timeseries covers.
 #

@@ -745,3 +745,29 @@ test_that("the export places an AD axis named `age` by its units", {
   expect_equal(out$minYear, 1560)
   expect_equal(out$maxYear, 2005)
 })
+
+test_that("a dataset's year range comes from its measurements, not its age model", {
+  # 108_658.Tiedemann.2006 is a 137 kyr marine core. Its paleo axis is `yr ka`
+  # (unplaceable, so no range) and its chron `age` column carries no units at
+  # all, so the name fallback read 0.5-137 as years BP and advertised the record
+  # as spanning 1813-1949 AD. 608 datasets took their whole range from chron
+  # this way and 1,136 more disagreed with their own paleo range.
+  ts_t <- tibble::tibble(
+    TSid = c("P1", "C1"),
+    tableType = c("paleo", "chron"),
+    tableKind = c("measurement", "measurement"),
+    minYear = c(NA_real_, 1813), maxYear = c(NA_real_, 1949.5))
+
+  expect_true(is.na(lv_paleo_year(ts_t, "minYear", min)))
+  expect_true(is.na(lv_paleo_year(ts_t, "maxYear", max)))
+
+  # With a real paleo range, chron does not widen it either.
+  ts_t$minYear[1] <- 1560; ts_t$maxYear[1] <- 2005
+  expect_equal(lv_paleo_year(ts_t, "minYear", min), 1560)
+  expect_equal(lv_paleo_year(ts_t, "maxYear", max), 2005)
+
+  # A summary table is not a measurement and does not count.
+  ts_t2 <- tibble::tibble(TSid = "S1", tableType = "paleo", tableKind = "summary",
+                          minYear = 100, maxYear = 200)
+  expect_true(is.na(lv_paleo_year(ts_t2, "minYear", min)))
+})
