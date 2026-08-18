@@ -696,3 +696,52 @@ test_that("a cached export matches a fresh one, and the cache is keyed by conten
   expect_equal(nrow(after$timeseries), 3)
   expect_equal(length(list.files(lv_export_cache_dir())), 2)
 })
+
+test_that("the export finds a year range on an axis that is not called `year`", {
+  # lv_add_year_range() used to match only a column literally named `year`, so
+  # every record whose axis is called `age` came out empty: 180,444 of 210,723
+  # timeseries (85.6%) had no year range at all. It goes through
+  # lv_table_axes() now, the same code the QC pipeline uses.
+  ts_t <- tibble::tibble(TSid = c("T1", "T2"), minYear = NA_real_,
+                         maxYear = NA_real_, medianResolution = NA_real_)
+  tabs <- list(list(tb = list(columns = list(
+    list(TSid = "T1", variableName = "age", units = "yr BP",
+         values = c(50, 100, 150)),
+    list(TSid = "T2", variableName = "d18O", units = "permil",
+         values = c(1, 2, 3))))))
+
+  out <- lv_add_year_range(ts_t, tabs)
+  # 1950 - age, and every column of the table gets the span.
+  expect_equal(out$maxYear, c(1900, 1900))
+  expect_equal(out$minYear, c(1800, 1800))
+  expect_equal(out$medianResolution, c(50, 50))
+})
+
+test_that("the export's year range masks to timesteps carrying a measurement", {
+  # Per column, not per table: an empty column in a populated table has no year
+  # range, which is what the QC sheet says too after the 0_6_3 clears.
+  ts_t <- tibble::tibble(TSid = c("T1", "T2"), minYear = NA_real_,
+                         maxYear = NA_real_, medianResolution = NA_real_)
+  tabs <- list(list(tb = list(columns = list(
+    list(TSid = "T1", variableName = "year", units = "yr AD",
+         values = c(1900, 1901, 1902)),
+    list(TSid = "T2", variableName = "mineralogy", units = "unitless",
+         values = c(NA, NA, NA))))))
+
+  out <- lv_add_year_range(ts_t, tabs)
+  expect_equal(out$minYear[1], 1900)
+  expect_true(is.na(out$minYear[2]))
+  expect_true(is.na(out$maxYear[2]))
+})
+
+test_that("the export places an AD axis named `age` by its units", {
+  # MaeHongSon.Buckley.2007: reading it as an age reported 1560-2005 as -56-390.
+  ts_t <- tibble::tibble(TSid = "T1", minYear = NA_real_, maxYear = NA_real_,
+                         medianResolution = NA_real_)
+  tabs <- list(list(tb = list(columns = list(
+    list(TSid = "T1", variableName = "age", units = "yr AD",
+         values = c(1560, 2005))))))
+  out <- lv_add_year_range(ts_t, tabs)
+  expect_equal(out$minYear, 1560)
+  expect_equal(out$maxYear, 2005)
+})

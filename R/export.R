@@ -40,7 +40,12 @@ lv_pkg_installed <- function() {
 # stale results to be served silently. Bump LV_EXPORT_CACHE_EPOCH when the shape
 # of what lv_export_one() returns changes for reasons the schema version does not
 # capture.
-LV_EXPORT_CACHE_EPOCH <- 1L
+# e2 (2026-08-17): lv_add_year_range() went through lv_table_axes(), so
+# minYear/maxYear/medianResolution change for most files. The values, not the
+# shape, so the schema version does not move -- exactly the case this epoch
+# exists for. Without the bump the 2.8 GB cache serves the old empty ranges and
+# a code fix looks like it did nothing, which is how this was nearly missed.
+LV_EXPORT_CACHE_EPOCH <- 2L
 
 #' Where the per-file export cache lives
 #' @return A path, created if absent.
@@ -296,28 +301,54 @@ lv_finite <- function(x) if (length(x) != 1 || !is.finite(x)) NA_real_ else x
 
 `%|NA|%` <- function(x, y) if (is.null(x) || length(x) != 1 || is.na(x) || !nzchar(x)) y else x
 
-# minYear/maxYear describe the span a timeseries covers, which is a property of
-# its table's axis rather than of the column itself.
+# minYear/maxYear describe the span a timeseries covers.
+#
+# This used to be a THIRD implementation of axis detection, and the weakest:
+# it matched only a column literally named `year`, ignored units, did not mask
+# to timesteps carrying a measurement, and did not apply the no-year-zero
+# correction. Every record whose axis is called `age` -- most non-annual data --
+# came out empty, so **180,444 of 210,723 timeseries (85.6%) had no year range
+# at all**, including files whose own metadata carried the right one.
+#
+# It now goes through lv_table_axes() and lv_calculators(), the same code the QC
+# pipeline uses, so a fix to axis handling reaches all of them at once. That was
+# the lesson of lv_interp_numberer(): the same concept implemented separately in
+# two places crashed iso2k twice, and fixing one copy only moved the crash.
+#
+# Per column rather than per table, because the mask is per column: an empty
+# column in a populated table has no year range, which is what the QC sheet now
+# says too (see the clears in hydroclimate2k 0_6_3).
 lv_add_year_range <- function(ts_t, tabs) {
   if (!nrow(ts_t)) return(ts_t)
+  calc <- lv_calculators()
   for (t in tabs) {
     cols <- lv_cols_of(t$tb)
-    ax <- NULL
+    cols <- Filter(function(c) is.list(c) && !is.null(c$TSid), cols)
+    if (!length(cols)) next
+
+    axes <- lv_table_axes(cols)
+    year <- if (!is.null(axes$year)) axes$year else
+      if (!is.null(axes$age)) lv_year_from_age(axes$age) else NULL
+    if (is.null(year)) next
+
     for (cl in cols) {
-      if (!is.list(cl) || is.null(cl$values)) next
-      vn <- as_chr1(cl$variableName) %||% ""
-      if (tolower(trimws(vn)) %in% c("year", "yearad", "year ad")) {
-        ax <- suppressWarnings(as.numeric(unlist(cl$values))); break
+      tsid <- as_chr1(cl$TSid)
+      if (is.null(tsid)) next
+      hit <- ts_t$TSid == tsid
+      if (!any(hit)) next
+      vals <- suppressWarnings(as.numeric(unlist(cl$values)))
+      mn <- calc$minYear(axes$year, axes$age, vals)
+      mx <- calc$maxYear(axes$year, axes$age, vals)
+      if (is.finite(mn)) ts_t$minYear[hit] <- mn
+      if (is.finite(mx)) ts_t$maxYear[hit] <- mx
+      # Resolution over the same timesteps the range describes, so a column
+      # padded to the table's length does not report the table's spacing.
+      ax <- lv_mask_to_data(year, vals)
+      ax <- ax[is.finite(ax)]
+      if (length(ax) > 1) {
+        ts_t$medianResolution[hit] <- stats::median(abs(diff(sort(ax))))
       }
     }
-    if (is.null(ax)) next
-    ax <- ax[is.finite(ax)]
-    if (!length(ax)) next
-    ids <- vapply(Filter(function(c) is.list(c) && !is.null(c$TSid), cols),
-                  function(c) as.character(c$TSid), character(1))
-    hit <- ts_t$TSid %in% ids
-    ts_t$minYear[hit] <- min(ax); ts_t$maxYear[hit] <- max(ax)
-    if (length(ax) > 1) ts_t$medianResolution[hit] <- stats::median(abs(diff(sort(ax))))
   }
   ts_t
 }
