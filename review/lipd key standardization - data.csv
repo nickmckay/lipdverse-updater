@@ -111,7 +111,7 @@ url,lipdName,synonym,append/replace,definition,count
 ,deleteMe,hasResolution_hasMedianValue,,,10406
 ,deleteMe,hasResolution_hasMin,,,4413
 ,deleteMe,hasResolution_hasMinValue,,,10325
-,deleteMe,hasResolution_nominal,,,285
+,csm,hasResolution_nominal,,,285
 ,deleteMe,hasResolution_units,,,5449
 ,deleteMe,inCompilation1_,,,
 ,deleteMe,inCompilation2_,,,994

@@ -148,6 +148,7 @@ gbrIsCompositeCalibration,gbrIsCompositeCalibration,gbrIsCompositeCalibration,cs
 gbrIsCoreIDOtherStudy,gbrIsCoreIDOtherStudy,gbrIsCoreIDOtherStudy,csm,curator,FALSE,dataset,character,,,GBRCD,isCoreIDOtherStudy,GBRCD_csm_isCoreIDOtherStudy,other,14,FALSE,1,1199
 gbrIsSstCalibration,gbrIsSstCalibration,gbrIsSstCalibration,csm,curator,FALSE,dataset,character,,,GBRCD,isSstCalibration,GBRCD_csm_isSstCalibration,other,14,FALSE,1,1199
 gbrUseSstCalibration,gbrUseSstCalibration,gbrUseSstCalibration,csm,curator,FALSE,dataset,character,,,GBRCD,useSstCalibration,GBRCD_csm_useSstCalibration,other,14,FALSE,1,1199
+hasResolution_nominal,,hasResolution_nominal,csm,curator,FALSE,,,,,CoralHydro2k,nominalResolution,CoralHydro2k_csm_nominalResolution,other,14,FALSE,1,285
 paleoData_NAm21k-noPollenCertification,,paleoData_NAm21k-noPollenCertification,csm,curator,FALSE,,,,,NAm21k-noPollen,QCCertification,NAm21k-noPollen_csm_QCCertification,compilation,12,FALSE,1,0
 paleoData_NAm21k-noPollenQCnotes,,paleoData_NAm21k-noPollenQCnotes,csm,curator,FALSE,,,,,NAm21k-noPollen,QCnotes,NAm21k-noPollen_csm_QCnotes,measurement,6,FALSE,1,0
 paleoData_coralExtensionRate,paleoData_coralExtensionRate,paleoData_coralExtensionRate,csm,curator,FALSE,timeseries,character,,,CoralHydro2k;GBRCD,coralExtensionRate,CoralHydro2k_csm_coralExtensionRate;GBRCD_csm_coralExtensionRate,measurement,6,FALSE,1,578
@@ -253,6 +254,5 @@ otherAgesPerKyr,otherAgesPerKyr,otherAgesPerKyr,delete,,,timeseries,character,,,
 paleoData_meanValue12k,,paleoData_meanValue12k,delete,,,,,,,,,,measurement,6,TRUE,9,176183
 hasChron,,hasChron,delete,,,,,,,,,,chronology,5,TRUE,1,1031
 hasDepth,,hasDepth,delete,,,,,,,,,,chronology,5,TRUE,1,1031
-hasResolution_nominal,,hasResolution_nominal,delete,,,,,,,,,,other,14,TRUE,1,285
 paleoData_hasUncertainty,,paleoData_hasUncertainty,delete,,,,,,,,,,measurement,6,TRUE,1,7
 paleoData_inCompilation,,paleoData_inCompilation,csm_pending,,,,,,,,,,compilation,12,FALSE,4,1622

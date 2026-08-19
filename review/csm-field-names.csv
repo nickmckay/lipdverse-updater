@@ -65,3 +65,4 @@ paleoData_coralExtensionRateNotes,column,single owner,GBRCD,GBRCD,coralExtension
 paleoData_coralTissueThickness,column,single owner,GBRCD,GBRCD,coralTissueThickness,coralTissueThickness,GBRCD_csm_coralTissueThickness,unchanged,FALSE,5,9,,GBRCD
 paleoData_NAm21k-noPollenCertification,column,single owner,NAm21k-noPollen,NAm21k-noPollen,NAm21k-noPollenCertification,QCCertification,NAm21k-noPollen_csm_QCCertification,ok,TRUE,0,0,,
 paleoData_NAm21k-noPollenQCnotes,column,single owner,NAm21k-noPollen,NAm21k-noPollen,NAm21k-noPollenQCnotes,QCnotes,NAm21k-noPollen_csm_QCnotes,ok,FALSE,0,0,,
+hasResolution_nominal,column,single owner,CoralHydro2k,CoralHydro2k,hasResolution_nominal,nominalResolution,CoralHydro2k_csm_nominalResolution,unchanged,FALSE,179,285,,
