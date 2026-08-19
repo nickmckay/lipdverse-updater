@@ -498,8 +498,28 @@ lv_update <- function(compilation, commit = FALSE, cfg = lv_config(compilation),
       v$dataset[v$compilation == comp & v$version == prev]
     } else ds_now
   }
-  ver <- lv_tick_version(prev, ds_before, ds_now)
-  show(ver)
+  # Whether this run changed anything at all. A version describes a state of the
+  # compilation, so a run that writes no file, records no cell and moves no
+  # membership has produced no new state to name: NAm21k-noPollen 0_1_3 wrote 0
+  # cells across 0 files and still took a number. Twenty compilations each
+  # needing a settling run would be twenty versions of bookkeeping.
+  #
+  # A sheet-only difference deliberately does not count. The push restores
+  # display drift on machine-owned fields, and correcting what a cell *shows*
+  # without changing what the compilation *is* should not mint a version.
+  events <- qc_diff_to_events(base, state, source = "sheet")
+  changed <- nrow(write_cells) + nrow(csm_cells) > 0 ||
+    nrow(events) > 0 || nrow(renames) > 0 ||
+    !setequal(ds_before, ds_now)
+
+  ver <- if (changed) lv_tick_version(prev, ds_before, ds_now) else
+    lv_version_unchanged(prev, ds_now)
+  if (!changed) {
+    say(sprintf("version     : already current at %s; nothing to record\n",
+                ver$version))
+  } else {
+    show(ver)
+  }
 
   # ---- push the sheet ------------------------------------------------------
   #
@@ -567,7 +587,6 @@ lv_update <- function(compilation, commit = FALSE, cfg = lv_config(compilation),
                 if (commit) "" else " (would patch)"))
   }
 
-  events <- qc_diff_to_events(base, state, source = "sheet")
   exported <- NULL
   if (commit) {
     qc_store_append(store, comp, events, run_id = run)
@@ -581,7 +600,7 @@ lv_update <- function(compilation, commit = FALSE, cfg = lv_config(compilation),
       tibble::tibble(dataset = d$dataSetName, datasetId = d$datasetId,
                      datasetVersion = d$version)
     })
-    lv_version_append(store, comp, ver, run_id = run, members = detail,
+    if (changed) lv_version_append(store, comp, ver, run_id = run, members = detail,
                       db_fingerprint = lv_scan(db)$fingerprint,
                       qc_state_hash = lv_dataset_set_hash(paste(state$tsid, state$field, state$value)))
     say(sprintf("version     : %s\n", ver$version))
@@ -610,7 +629,9 @@ lv_update <- function(compilation, commit = FALSE, cfg = lv_config(compilation),
     # The title is where most people read the version, so it is part of the update
     # rather than an optional extra. The try() remains only so a transient API
     # failure cannot fail an otherwise complete run, and it says so loudly.
-    if (rename_sheet) {
+    # Nothing to retitle when the version did not move; the sheet already says
+    # what it should.
+    if (rename_sheet && changed) {
       renamed <- try(lv_rename_qc_sheet(cfg, ver$version, dry_run = FALSE), silent = TRUE)
       if (inherits(renamed, "try-error")) {
         say(sprintf("title       : FAILED -- %s\n",

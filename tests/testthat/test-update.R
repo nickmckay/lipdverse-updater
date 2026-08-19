@@ -189,3 +189,22 @@ test_that("the idempotence check asks the same question the run answered", {
   expect_true(r$idempotent)
   expect_false(any(r$write_cells$field == "paleoData_iso2kCertification"))
 })
+
+test_that("a run that changes nothing reports already current and does not tick", {
+  # NAm21k-noPollen 0_1_3 wrote 0 cells across 0 files and still took a version
+  # number. A version names a state of the compilation, so a run that produces
+  # no new state should not mint one -- twenty compilations each needing a
+  # settling run would otherwise be twenty versions of pure bookkeeping.
+  v <- lv_version_unchanged("0_1_3", c("a", "b"))
+  expect_equal(v$version, "0_1_3")
+  expect_match(v$reason, "no change")
+  expect_equal(v$n_datasets, 2)
+
+  # And it still behaves like a version object for everything downstream.
+  expect_s3_class(v, "lv_version")
+  expect_equal(v$added, character())
+  expect_equal(v$removed, character())
+
+  # A first-ever run with no previous version still names one rather than NA.
+  expect_equal(lv_version_unchanged(NA, character())$version, "0_0_0")
+})
