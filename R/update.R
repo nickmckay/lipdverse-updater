@@ -41,6 +41,23 @@
 #'   when `commit`.
 #' @param progress Print the running report.
 #' @return An `lv_update_result`.
+
+# The file side, read fresh. Used twice: once after promoting, so the run
+# records what it just wrote, and once by the idempotence check.
+lv_update_frame <- function(db, comp, ds, ts, calcs, progress = FALSE) {
+  f <- qc_frame(db, datasets = ds, progress = progress)
+  f <- f[f$tsid %in% ts, , drop = FALSE]
+  f <- dplyr::bind_rows(f, lv_csm_frame(db, comp, datasets = ds, tsids = ts,
+                                        progress = progress))
+  if (length(calcs)) {
+    f <- f[!f$field %in% calcs, , drop = FALSE]
+    f <- dplyr::bind_rows(f, lv_calculate(calcs, db, datasets = ds, tsids = ts,
+                                          index = lv_db_index(lv_scan(db), cache = TRUE),
+                                          progress = progress))
+  }
+  f
+}
+
 #' @export
 lv_update <- function(compilation, commit = FALSE, cfg = lv_config(compilation),
                       dir = lv_path("database"), store = qc_store(),
@@ -434,6 +451,31 @@ lv_update <- function(compilation, commit = FALSE, cfg = lv_config(compilation),
     show(receipt)
   }
 
+  # A dataset-level field written from ONE sheet row appears, once written, on
+  # every curated timeseries of that dataset -- qc_frame() replicates root keys
+  # across the dataset. Those sibling cells did not exist when the plan was
+  # built, so a state computed before the write cannot record them, and the
+  # idempotence check then finds them as changes the run failed to make. It had
+  # not failed; it could not have known.
+  #
+  # LakeIzabal.Duarte.2021 is the case: originalDataUrl was on one row of the
+  # sheet and absent from the file. The run wrote it to the dataset root, which
+  # created 9 sibling cells, and the second pass reported 9 unrecorded changes.
+  #
+  # So the state is recomputed from the files as they now are. The frame read is
+  # the same one the idempotence check already does, so this costs a pass that
+  # was being paid for anyway.
+  if (commit) {
+    frame_post <- lv_update_frame(db, comp, ds, ts, calcs)
+    plan_post <- qc_merge(base, sheet, frame_post)
+    n_new <- nrow(plan_post$cells) - nrow(plan$cells)
+    state <- qc_plan_state(plan_post)
+    if (n_new > 0) {
+      say(sprintf("re-read     : %d cell%s appeared in the files after writing (dataset-level replication)\n",
+                  n_new, if (n_new == 1) "" else "s"))
+    }
+  }
+
   # ---- version -------------------------------------------------------------
   #
   # The dataset set is what decides the bump, so it is taken after membership has
@@ -598,18 +640,9 @@ lv_update <- function(compilation, commit = FALSE, cfg = lv_config(compilation),
   if (commit) {
     say("\n-- second pass --\n")
     base2 <- qc_state_current(store, comp)
-    frame2 <- qc_frame(db, datasets = ds, progress = FALSE)
-    frame2 <- frame2[frame2$tsid %in% ts, , drop = FALSE]
     # Including csm, so a csm value that failed to reach its file shows up here as
     # a cell the run would write again rather than passing as idempotent.
-    frame2 <- dplyr::bind_rows(frame2, lv_csm_frame(db, comp, datasets = ds, tsids = ts,
-                                                    progress = FALSE))
-    if (length(calcs)) {
-      frame2 <- frame2[!frame2$field %in% calcs, , drop = FALSE]
-      frame2 <- dplyr::bind_rows(frame2, lv_calculate(calcs, db, datasets = ds, tsids = ts,
-                                                      index = lv_db_index(lv_scan(db), cache = TRUE),
-                                                      progress = FALSE))
-    }
+    frame2 <- lv_update_frame(db, comp, ds, ts, calcs)
     # Scoped exactly as the first pass was. Without this the check pulls the raw
     # sheet, so another compilation's csm column -- iso2k's iso2kUI, 600 cells on
     # the hydroclimate2k tab -- reads as 600 changes the run failed to make. It

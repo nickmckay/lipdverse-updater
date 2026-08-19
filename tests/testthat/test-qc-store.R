@@ -193,3 +193,41 @@ test_that("a value that is the literal string NA survives the event log", {
   expect_equal(s$value, "NA")
   expect_false(is.na(s$value))
 })
+
+test_that("the append sequence comes from the highest number, not the file count", {
+  # qc_store_compress() removes early event files and leaves the later ones
+  # numbered as they were, so counting produces a number already in use.
+  # NAm21k-noPollen was left holding 000003 and 000004; a count of 2 wrote
+  # another 000003, which sorted the new events BEFORE the old ones and
+  # inverted "latest wins" on an append-only log.
+  d <- withr::local_tempdir()
+  expect_equal(lv_store_max_seq(d), 0)
+
+  file.create(file.path(d, c("000003_a_b.csv.gz", "000004_a_b.csv.gz")))
+  expect_equal(lv_store_max_seq(d), 4)      # the count would say 2
+
+  file.create(file.path(d, "000012_a_b.csv.gz"))
+  expect_equal(lv_store_max_seq(d), 12)     # gaps are harmless
+})
+
+test_that("appending after a compaction does not collide", {
+  store <- qc_store(withr::local_tempdir())
+  ev <- function(v) qc_diff_to_events(
+    qc_cells_empty(),
+    tibble::tibble(tsid = "T1", field = "units", value = v, present = TRUE,
+                   dataset_id = "D1"))
+  qc_store_append(store, "C", ev("a"))
+  qc_store_append(store, "C", ev("b"))
+  d <- fs::path(store$path, "compilations", "C", "events")
+  first <- sort(basename(fs::dir_ls(d)))
+
+  # Simulate a compaction that drops the earliest file.
+  fs::file_delete(fs::path(d, first[1]))
+  qc_store_append(store, "C", ev("c"))
+
+  seqs <- sub("^([0-9]+)_.*$", "\\1", sort(basename(fs::dir_ls(d))))
+  expect_equal(anyDuplicated(seqs), 0L)
+  # And the newest file still sorts last, so latest-wins still means latest.
+  expect_equal(seqs[length(seqs)], "000003")
+  expect_equal(qc_state_current(store, "C")$value, "c")
+})

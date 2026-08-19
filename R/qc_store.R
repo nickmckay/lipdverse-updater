@@ -112,7 +112,13 @@ qc_store_append <- function(store, compilation, events, run_id = lv_run_id()) {
   # appends inside the same second carry identical timestamps, and ordering by
   # anything else (run_id is random) would let a later event sort first and be
   # overwritten by the earlier one when materialising "latest wins".
-  n <- length(lv_store_event_files(d))
+  # From the highest sequence already present, not the file COUNT. Counting
+  # assumes the sequence starts at 1 and has no gaps, and qc_store_compress()
+  # breaks both: it removes early files and leaves the later ones numbered as
+  # they were. NAm21k-noPollen was left holding 000003 and 000004, so a count of
+  # 2 produced another 000003 -- a collision that sorted the new events BEFORE
+  # the older ones and inverted "latest wins" on an append-only log.
+  n <- lv_store_max_seq(d)
   # Gzipped. The hydroclimate2k log reached 50 MB in one file and GitHub had
   # already warned; events are long-format text and compress about tenfold. The
   # sequence prefix still orders them, so the extension is free to change.
@@ -120,6 +126,17 @@ qc_store_append <- function(store, compilation, events, run_id = lv_run_id()) {
                            gsub("[^0-9]", "", events$ts[1]), events$run_id[1]))
   readr::write_csv(events[, LV_EVENT_COLS], p, na = "")
   invisible(p)
+}
+
+
+# The highest sequence number already used in an event directory. Zero when
+# empty. Parsed from the filename rather than counted, so gaps are harmless.
+lv_store_max_seq <- function(dir) {
+  f <- basename(lv_store_event_files(dir))
+  if (!length(f)) return(0L)
+  n <- suppressWarnings(as.integer(sub("^([0-9]+)_.*$", "\\1", f)))
+  n <- n[!is.na(n)]
+  if (!length(n)) length(f) else max(n)
 }
 
 # Event files, in append order. Both extensions: everything written before the
