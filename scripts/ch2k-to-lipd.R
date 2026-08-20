@@ -76,13 +76,19 @@ new_tsid <- function(dsn, varname) {
 #
 # `_annual` variants are the same measurement at annual resolution, so they
 # carry the parent's proxy and units and are distinguished by nominalResolution.
+# The controlled vocabulary has no d18O_sw: seawater d18O is variableName
+# "d18O" with the material carried separately, and it is INFERRED rather than
+# measured -- the value is derived, not measured on seawater (Nick,
+# 2026-08-19). The published files are inconsistent about this, using
+# measurementMaterial=seawater on one column and inferredMaterial="sea water"
+# on another of the same dataset; writing inferred everywhere settles it.
 VARS <- list(
-  d18O           = list(name = "d18O",   units = "permil",  res = NULL),
-  SrCa           = list(name = "Sr/Ca",  units = NULL,      res = NULL),
-  d18O_sw        = list(name = "d18O_sw", units = "permil", res = NULL),
-  d18O_annual    = list(name = "d18O",   units = "permil",  res = "annual"),
-  SrCa_annual    = list(name = "Sr/Ca",  units = NULL,      res = "annual"),
-  d18O_sw_annual = list(name = "d18O_sw", units = "permil", res = "annual"))
+  d18O           = list(name = "d18O",  units = "permil", res = NULL,     material = NULL),
+  SrCa           = list(name = "Sr/Ca", units = NULL,     res = NULL,     material = NULL),
+  d18O_sw        = list(name = "d18O",  units = "permil", res = NULL,     material = "sea water"),
+  d18O_annual    = list(name = "d18O",  units = "permil", res = "annual", material = NULL),
+  SrCa_annual    = list(name = "Sr/Ca", units = NULL,     res = "annual", material = NULL),
+  d18O_sw_annual = list(name = "d18O",  units = "permil", res = "annual", material = "sea water"))
 UNC <- list(d18O_err = "d18O", SrCa_err = "SrCa")
 
 # ‰ and º survive in the source; the published files use permil and strip the
@@ -115,132 +121,150 @@ rule <- function(field) {
   list(target = s1(r$target[1]), scope = s1(r$scope[1]))
 }
 
-# ---- build one dataset -----------------------------------------------------
+# ---- build or update one dataset -------------------------------------------
+#
+# An existing dataset is UPDATED IN PLACE, not rebuilt. Building a replacement
+# from the .mat alone drops everything the published file has accumulated:
+# measured against the 179, that was 6,993 fields, 1,005 of them curator-owned
+# (coralHydro2kGroup, jcpMeasured, coralExtensionRate, isComposite, notes).
+# The .mat is the source for what CoralHydro2k measured; it is not the source
+# for what the compilation has since curated. Only the fields it actually
+# carries are touched.
 
-build <- function(dsn, rec) {
+# Everything the .mat has to say about a dataset, resolved through the mapping.
+resolve <- function(dsn, rec) {
   m <- rec$meta
-  existing <- !is.na(ds_id[dsn])
-  L <- list(dataSetName = dsn,
-            datasetId   = if (existing) unname(ds_id[dsn]) else new_dsid(dsn),
-            archiveType = "Coral",
-            lipdVersion = 1.3,
-            createdBy   = COMP)
-
-  geo <- list(); pubs <- list(); csm <- list(); colmeta <- list()
-
+  root <- list(); geo <- list(); pubs <- list(); csm <- list(); colmeta <- list()
   for (f in names(m)) {
     r <- rule(f)
     if (is.null(r) || is.null(r$target) || r$scope %in% c("DROP", "MEASUREMENT", "STRUCTURAL")) next
-    v <- m[[f]]
-    tgt <- r$target
-
+    v <- m[[f]]; tgt <- r$target
     if (r$scope == "csm") { csm[[tgt]] <- v; next }
     if (grepl("^geo_", tgt)) { geo[[sub("^geo_", "", tgt)]] <- v; next }
     if (grepl("^pub[0-9]+_", tgt)) {
-      i <- as.integer(sub("^pub([0-9]+)_.*$", "\\1", tgt))
+      i <- as.character(as.integer(sub("^pub([0-9]+)_.*$", "\\1", tgt)))
       k <- sub("^pub[0-9]+_", "", tgt)
-      if (is.null(pubs[[as.character(i)]])) pubs[[as.character(i)]] <- list()
-      pubs[[as.character(i)]][[k]] <- v
-      next
+      if (is.null(pubs[[i]])) pubs[[i]] <- list()
+      pubs[[i]][[k]] <- v; next
     }
     if (grepl("^paleoData_|^calibration_", tgt)) { colmeta[[tgt]] <- v; next }
-    L[[tgt]] <- v
+    root[[tgt]] <- v
   }
-
-  # depth is metres below sea level; the published files carry it negated as
-  # elevation (verified on 146 records, no disagreement).
-  #
-  # n1() rather than a bare negation: ZI23NFL01 carries depth = "10/05/2024", a
-  # date typed into a depth field. Refusing it here keeps a nonsense elevation
-  # out of the database and puts the record on the report instead of aborting
-  # the run over one bad cell.
   if (!is.null(m$depth)) {
     d <- n1(m$depth)
-    if (is.null(d)) {
-      bad_depth <<- c(bad_depth, sprintf("%s: depth = %s", dsn, s1(m$depth)))
-    } else {
-      geo$elevation <- -d
-    }
+    if (is.null(d)) bad_depth <<- c(bad_depth, sprintf("%s: depth = %s", dsn, s1(m$depth)))
+    else geo$elevation <- -d
   }
-  if (length(geo)) L$geo <- geo
-  if (length(pubs)) {
-    L$pub <- lapply(sort(as.integer(names(pubs))), function(i) pubs[[as.character(i)]])
-  }
+  list(root = root, geo = geo, pubs = pubs, csm = csm, colmeta = colmeta)
+}
 
-  # ---- columns, grouped by their time axis ----------------------------------
-  #
-  # A core's variables do NOT share one axis. BO14HTI01 has d18O at 333 points
-  # and Sr/Ca at 4,861; FE09OGA01 has monthly d18O at 737 and its annual average
-  # at 122. Forcing them into one table refused 39 columns as ragged -- the data
-  # was fine, the assumption was not. Each distinct axis gets its own
-  # measurement table with its own year column, which is what convert.m was
-  # doing with paleoData_tableNumber.
-
-  # collect the variables that have data, keyed by the axis they sit on
+# The measurement columns the .mat supplies, grouped by their time axis. A
+# core's variables do NOT share one: BO14HTI01 has d18O at 333 points and Sr/Ca
+# at 4,861. Each distinct axis is its own measurement table.
+series_of <- function(dsn, rec, colmeta) {
+  m <- rec$meta
   groups <- list()
-  put <- function(sig, entry) {
-    k <- sig
-    if (is.null(groups[[k]])) groups[[k]] <<- list(year = entry$year, items = list())
-    groups[[k]]$items[[length(groups[[k]]$items) + 1L]] <<- entry
+  sig_of <- function(y) paste0(length(y), ":", paste(utils::head(y, 2), collapse = ","),
+                               ":", paste(utils::tail(y, 2), collapse = ","))
+  put <- function(sig, e) {
+    if (is.null(groups[[sig]])) groups[[sig]] <<- list(year = e$year, items = list())
+    groups[[sig]]$items[[length(groups[[sig]]$items) + 1L]] <<- e
   }
-  sig_of <- function(y) paste0(length(y), ":", paste(utils::head(y, 2), collapse=","),
-                               ":", paste(utils::tail(y, 2), collapse=","))
-
   for (v in names(VARS)) {
     d <- rec$data[[v]]
     if (is.null(d) || is.null(d$year)) next
-    spec <- VARS[[v]]
+    spec <- VARS[[v]]; base <- sub("_annual$", "", v)
     y <- num_vec(d$year); vv <- num_vec(d$value)
     if (length(vv) != length(y)) {
       ragged <<- c(ragged, sprintf("%s/%s: %d values against %d years", dsn, spec$name, length(vv), length(y)))
       next
     }
-    base <- sub("_annual$", "", v)
     extra <- list(units = if (!is.null(spec$units)) spec$units else norm_units(m[[paste0("units_", base)]]),
                   variableType = "measured", proxy = spec$name,
                   analyticalError = n1(m[[paste0(base, "_errAnalytic")]]),
                   analyticalErrorUnits = norm_units(m[[paste0("units_", base, "_errAnalytic")]]))
-    # Sheet-mapped column metadata first, so the normalised units above are not
-    # overwritten by the raw per-mille sign that units_d18O carries.
     for (k in names(colmeta)) if (grepl("^paleoData_", k)) {
       kk <- sub("^paleoData_", "", k)
       if (!kk %in% c("units", "analyticalErrorUnits")) extra[[kk]] <- colmeta[[k]]
     }
-    put(sig_of(y), list(year = y, name = spec$name, values = vv, extra = extra, base = base))
+    extra$hasResolution <- spec$res
+    extra$inferredMaterial <- spec$material
+    put(sig_of(y), list(year = y, name = spec$name, values = vv, extra = extra,
+                        base = base, srcvar = v))
   }
-
-  # uncertainty vectors ride with their parent, on the parent's axis
   for (u in names(UNC)) {
     d <- rec$data[[u]]; pd <- rec$data[[UNC[[u]]]]
     if (is.null(d) || is.null(pd) || is.null(pd$year)) next
     y <- num_vec(pd$year); vv <- num_vec(d$value)
-    if (length(vv) != length(y)) {
-      ragged <<- c(ragged, sprintf("%s/%s uncertainty: %d values against %d years", dsn, UNC[[u]], length(vv), length(y)))
-      next
-    }
-    parent <- VARS[[UNC[[u]]]]$name
-    put(sig_of(y), list(year = y, name = paste0(parent, "_uncertainty"), values = vv,
+    if (length(vv) != length(y)) next
+    put(sig_of(y), list(year = y, name = "uncertainty", values = vv,
                         extra = list(units = norm_units(m[[paste0("units_", UNC[[u]])]]),
-                                     variableType = "measured", uncertaintyFor = parent),
-                        base = UNC[[u]]))
+                                     variableType = "measured", uncertaintyFor = VARS[[UNC[[u]]]]$name),
+                        base = UNC[[u]], srcvar = u))
   }
-  if (!length(groups)) return(NULL)
+  groups
+}
 
-  # A TSid may be reused ONCE. A core can hold the same variableName on two
-  # axes -- FE09OGA01 has monthly d18O and its annual average, both called
-  # "d18O" -- and keying the lookup on (dataSetName, variableName) alone handed
-  # both columns the same id. 22 of 227 datasets came out with duplicate TSids,
-  # which would corrupt a merge that is keyed on nothing else. The first column
-  # to claim a name keeps the existing id; any later one is minted.
-  used <- character()
-  mk_col <- function(varname, values, n, extra = list()) {
-    key <- paste(dsn, varname)
-    tsid <- if (!is.na(ts_id[key]) && !ts_id[key] %in% used) unname(ts_id[key])
-            else new_tsid(dsn, paste0(varname, "_", n))
-    used <<- c(used, tsid)
-    col <- c(list(number = n, variableName = varname, TSid = tsid,
-                  values = values, createdBy = COMP), extra)
-    col[!vapply(col, is.null, logical(1))]
+csm_entry <- function(csm, base, m) {
+  if (!length(csm)) return(NULL)
+  src_res <- switch(base %||% "", "d18O" = m$res_d18O, "SrCa" = m$res_SrCa,
+                    "d18O_sw" = m$res_d18O_sw, NULL)
+  e <- list(compilationName = COMP, compilationVersion = "2_0_3", csm = list())
+  for (k in names(csm)) if (k != "nominalResolution") e$csm[[k]] <- csm[[k]]
+  if (!is.null(src_res)) e$csm$nominalResolution <- src_res
+  if (length(e$csm)) list(e) else NULL
+}
+
+table_cols <- function(tb) tb[!names(tb) %in% c("tableName", "filename", "missingValue", "columns")]
+
+build <- function(dsn, rec) {
+  r <- resolve(dsn, rec)
+  m <- rec$meta
+  groups <- series_of(dsn, rec, r$colmeta)
+  if (!length(groups)) return(NULL)
+  existing <- !is.na(ds_id[dsn])
+
+  if (existing) {
+    L <- tryCatch(suppressWarnings(suppressMessages(
+      lipdR::readLipd(idx$datasets$path[match(dsn, idx$datasets$fileDataSetName)]))),
+      error = function(e) NULL)
+    if (is.null(L)) { failed <<- c(failed, paste0(dsn, ": could not read the existing file")); return(NULL) }
+  } else {
+    L <- list(dataSetName = dsn, datasetId = new_dsid(dsn), archiveType = "Coral",
+              lipdVersion = 1.3, createdBy = COMP)
+  }
+
+  # metadata the .mat supplies, over whatever is there; nothing else is touched
+  for (k in names(r$root)) L[[k]] <- r$root[[k]]
+  if (length(r$geo)) { if (is.null(L$geo)) L$geo <- list()
+                       for (k in names(r$geo)) L$geo[[k]] <- r$geo[[k]] }
+  if (length(r$pubs)) {
+    if (is.null(L$pub)) L$pub <- list()
+    for (i in names(r$pubs)) { ii <- as.integer(i)
+      if (length(L$pub) < ii) L$pub[[ii]] <- list()
+      for (k in names(r$pubs[[i]])) L$pub[[ii]][[k]] <- r$pubs[[i]][[k]] }
+  }
+  if (!existing) L$archiveType <- "Coral"
+
+  # ---- columns ----
+  # <core>_<matVariable> is the identity the published files already use, and
+  # it maps 1:1 onto the source. Matching on variableName instead was wrong:
+  # DE13HAI01 has FOUR columns called d18O (coral, seawater, and the annual
+  # average of each), so name-matching overwrote whichever came first and made
+  # a vocabulary decision look like the values had been swapped.
+  ts_for <- function(srcvar) {
+    id <- paste0(dsn, "_", srcvar)
+    if (id %in% known_ts) return(id)               # the existing column
+    known_ts <<- c(known_ts, id); id               # or the same name, minted
+  }
+
+  old_tabs <- if (!is.null(L$paleoData[[1]]$measurementTable)) L$paleoData[[1]]$measurementTable else list()
+  # index the existing columns by variableName so their metadata survives
+  # keyed by TSid, so a dataset with four d18O columns keeps them apart
+  old_col <- list()
+  for (tb in old_tabs) for (nm in names(table_cols(tb))) {
+    c0 <- tb[[nm]]
+    if (is.list(c0) && !is.null(c0$TSid)) old_col[[as.character(c0$TSid)[1]]] <- c0
   }
 
   tables <- list()
@@ -248,33 +272,51 @@ build <- function(dsn, rec) {
     g <- groups[[gi]]
     tb <- list(tableName = sprintf("paleo1measurement%d", gi))
     n <- 0L
-    n <- n + 1L
-    tb[["year"]] <- mk_col("year", g$year, n,
-                           list(units = "yr AD", variableType = "inferred",
-                                inferredVariableType = "year"))
-    for (it in g$items) {
-      n <- n + 1L
-      col <- mk_col(it$name, it$values, n, it$extra)
-      # csm on the measurements, never on the axis. nominalResolution is per
-      # variable in the source (res_d18O, res_SrCa, res_d18O_sw).
-      if (length(csm)) {
-        src_res <- switch(it$base, "d18O" = m$res_d18O, "SrCa" = m$res_SrCa,
-                          "d18O_sw" = m$res_d18O_sw, NULL)
-        entry <- list(compilationName = COMP, compilationVersion = "2_0_3", csm = list())
-        for (k in names(csm)) if (k != "nominalResolution") entry$csm[[k]] <- csm[[k]]
-        if (!is.null(src_res)) entry$csm$nominalResolution <- src_res
-        if (length(entry$csm)) col$inCompilation <- list(entry)
+    mk <- function(varname, values, extra, csm_base = NULL, tsid = NULL) {
+      n <<- n + 1L
+      prev <- if (!is.null(tsid)) old_col[[tsid]] else NULL
+      col <- if (!is.null(prev)) prev else list()
+      # start from what the file already holds, then apply what the .mat says
+      for (k in names(extra)) if (!is.null(extra[[k]])) col[[k]] <- extra[[k]]
+      col$variableName <- varname
+      col$values <- values
+      col$number <- n
+      col$TSid <- tsid %||% new_tsid(dsn, paste0(varname, "_", n))
+      if (is.null(col$createdBy)) col$createdBy <- COMP
+      ce <- csm_entry(r$csm, csm_base, m)
+      if (!is.null(ce)) col$inCompilation <- ce
+      col
+    }
+    # The year column's TSid is random in the published files, so it cannot be
+    # derived from the source variable. Take it from whichever old table holds
+    # this group's first measurement -- that is the axis this data already sat
+    # on -- and only mint when the column is genuinely new.
+    yr_ts <- NULL
+    first_ts <- paste0(dsn, "_", g$items[[1]]$srcvar)
+    for (tb0 in old_tabs) {
+      cs <- table_cols(tb0)
+      has <- any(vapply(cs, function(c) is.list(c) && identical(as.character(c$TSid)[1], first_ts), logical(1)))
+      if (!has) next
+      for (c in cs) if (is.list(c) && identical(as.character(c$variableName)[1], "year")) {
+        yr_ts <- as.character(c$TSid)[1]; break
       }
-      tb[[it$name]] <- col
+      if (!is.null(yr_ts)) break
+    }
+    if (is.null(yr_ts)) yr_ts <- new_tsid(dsn, paste0(g$items[[1]]$srcvar, "_year"))
+    tb[["year"]] <- mk("year", g$year,
+                       list(units = "yr AD", variableType = "inferred",
+                            inferredVariableType = "year"), tsid = yr_ts)
+    for (it in g$items) {
+      nm <- it$name
+      # a table can hold two columns of the same name only if they are
+      # distinguishable; the source variable already is, so it disambiguates.
+      if (nm %in% names(tb)) nm <- paste0(nm, "_", it$srcvar)
+      tb[[nm]] <- mk(it$name, it$values, it$extra, it$base, tsid = ts_for(it$srcvar))
     }
     tables[[gi]] <- tb
   }
-
-  # Columns are NAMED MEMBERS of the table, not a `columns` list. That is the
-  # layout every published CoralHydro2k file uses, and it is not cosmetic:
-  # writing them under `columns` produced a .lpd with no CSV member and a single
-  # column on read -- metadata intact, all 1,677 values gone.
-  L$paleoData <- list(list(measurementTable = tables))
+  if (is.null(L$paleoData)) L$paleoData <- list(list())
+  L$paleoData[[1]]$measurementTable <- tables
   L
 }
 

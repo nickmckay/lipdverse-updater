@@ -1,0 +1,3159 @@
+dataset,field,old,new,kind
+AB08MEN01,number::d18O,1,2,changed
+AB08MEN01,number::year,2,1,changed
+AB08MEN01,createdBy::year,,CoralHydro2k,added
+AB08MEN01,variableType::d18O,,measured,added
+AB08MEN01,proxy::d18O,,d18O,added
+AB08MEN01,jcpCorrected::d18O,,0,added
+AB08MEN01,jcpUsed::d18O,,0,added
+AB08MEN01,createdBy::d18O,,CoralHydro2k,added
+AB15BHB01,pub1_citation,"Abram, N. J., Dixon, B. C., Rosevear, M. G., Plunkett, B., Gagan, M. K., Hantoro, W. S. an","Abram, N. J., Dixon, B. C., Rosevear, M. G., Plunkett, B., Gagan, M. K., Hantoro, W. S. an",changed
+AB15BHB01,number::d18O,1,2,changed
+AB15BHB01,number::year,2,1,changed
+AB15BHB01,createdBy::year,,CoralHydro2k,added
+AB15BHB01,variableType::d18O,,measured,added
+AB15BHB01,proxy::d18O,,d18O,added
+AB15BHB01,jcpCorrected::d18O,,0,added
+AB15BHB01,jcpUsed::d18O,,0,added
+AB15BHB01,datum::d18O,,0,added
+AB15BHB01,createdBy::d18O,,CoralHydro2k,added
+AB20MEN01,pub1_citation,"Abram, N.J., Wright, N.M., Ellis, B., Dixon, B. C., Wurtzel, J. B., England, M. H., Ummenh","Abram, N.J., Wright, N.M., Ellis, B., Dixon, B. C., Wurtzel, J. B., England, M. H., Ummenh",changed
+AB20MEN01,pub2_citation,"Abram, N. J., Dixon, B. C., Rosevear, M. G., Plunkett, B., Gagan, M. K., Hantoro, W. S. an","Abram, N. J., Dixon, B. C., Rosevear, M. G., Plunkett, B., Gagan, M. K., Hantoro, W. S. an",changed
+AB20MEN01,number::d18O,1,2,changed
+AB20MEN01,number::year,2,1,changed
+AB20MEN01,createdBy::year,,CoralHydro2k,added
+AB20MEN01,variableType::d18O,,measured,added
+AB20MEN01,proxy::d18O,,d18O,added
+AB20MEN01,jcpCorrected::d18O,,0,added
+AB20MEN01,jcpUsed::d18O,,0,added
+AB20MEN01,datum::d18O,,0,added
+AB20MEN01,coralExtensionRate::d18O,,20,added
+AB20MEN01,coralExtensionRateNotes::d18O,,20 mm/year,added
+AB20MEN01,createdBy::d18O,,CoralHydro2k,added
+AB20MEN02,pub1_citation,"Abram, N.J., Wright, N.M., Ellis, B., Dixon, B. C., Wurtzel, J. B., England, M. H., Ummenh","Abram, N.J., Wright, N.M., Ellis, B., Dixon, B. C., Wurtzel, J. B., England, M. H., Ummenh",changed
+AB20MEN02,number::d18O,1,2,changed
+AB20MEN02,number::year,2,1,changed
+AB20MEN02,createdBy::year,,CoralHydro2k,added
+AB20MEN02,variableType::d18O,,measured,added
+AB20MEN02,proxy::d18O,,d18O,added
+AB20MEN02,jcpCorrected::d18O,,0,added
+AB20MEN02,jcpUsed::d18O,,0,added
+AB20MEN02,datum::d18O,,0,added
+AB20MEN02,coralExtensionRate::d18O,,8.8,added
+AB20MEN02,coralExtensionRateNotes::d18O,,"10.4 mm/year prior to 1797, 7.5 mm/year after 1797",added
+AB20MEN02,createdBy::d18O,,CoralHydro2k,added
+AB20MEN03,pub1_citation,"Abram, N.J., Wright, N.M., Ellis, B., Dixon, B. C., Wurtzel, J. B., England, M. H., Ummenh","Abram, N.J., Wright, N.M., Ellis, B., Dixon, B. C., Wurtzel, J. B., England, M. H., Ummenh",changed
+AB20MEN03,number::d18O,1,2,changed
+AB20MEN03,number::year,2,1,changed
+AB20MEN03,createdBy::year,,CoralHydro2k,added
+AB20MEN03,variableType::d18O,,measured,added
+AB20MEN03,proxy::d18O,,d18O,added
+AB20MEN03,jcpCorrected::d18O,,0,added
+AB20MEN03,jcpUsed::d18O,,0,added
+AB20MEN03,datum::d18O,,0,added
+AB20MEN03,coralExtensionRate::d18O,,13.7,added
+AB20MEN03,coralExtensionRateNotes::d18O,,13.7 mm/year,added
+AB20MEN03,createdBy::d18O,,CoralHydro2k,added
+AB20MEN04,pub1_citation,"Abram, N.J., Wright, N.M., Ellis, B., Dixon, B. C., Wurtzel, J. B., England, M. H., Ummenh","Abram, N.J., Wright, N.M., Ellis, B., Dixon, B. C., Wurtzel, J. B., England, M. H., Ummenh",changed
+AB20MEN04,number::d18O,1,2,changed
+AB20MEN04,number::year,2,1,changed
+AB20MEN04,createdBy::year,,CoralHydro2k,added
+AB20MEN04,variableType::d18O,,measured,added
+AB20MEN04,proxy::d18O,,d18O,added
+AB20MEN04,jcpCorrected::d18O,,0,added
+AB20MEN04,jcpUsed::d18O,,0,added
+AB20MEN04,datum::d18O,,0,added
+AB20MEN04,coralExtensionRate::d18O,,12.6,added
+AB20MEN04,coralExtensionRateNotes::d18O,,12.6 mm/year,added
+AB20MEN04,createdBy::d18O,,CoralHydro2k,added
+AB20MEN05,pub1_citation,"Abram, N.J., Wright, N.M., Ellis, B., Dixon, B. C., Wurtzel, J. B., England, M. H., Ummenh","Abram, N.J., Wright, N.M., Ellis, B., Dixon, B. C., Wurtzel, J. B., England, M. H., Ummenh",changed
+AB20MEN05,number::d18O,1,2,changed
+AB20MEN05,number::year,2,1,changed
+AB20MEN05,createdBy::year,,CoralHydro2k,added
+AB20MEN05,variableType::d18O,,measured,added
+AB20MEN05,proxy::d18O,,d18O,added
+AB20MEN05,jcpCorrected::d18O,,0,added
+AB20MEN05,jcpUsed::d18O,,0,added
+AB20MEN05,datum::d18O,,0,added
+AB20MEN05,coralExtensionRate::d18O,,11.7,added
+AB20MEN05,coralExtensionRateNotes::d18O,,11.7 mm/year,added
+AB20MEN05,createdBy::d18O,,CoralHydro2k,added
+AB20MEN06,pub1_citation,"Abram, N.J., Wright, N.M., Ellis, B., Dixon, B. C., Wurtzel, J. B., England, M. H., Ummenh","Abram, N.J., Wright, N.M., Ellis, B., Dixon, B. C., Wurtzel, J. B., England, M. H., Ummenh",changed
+AB20MEN06,number::d18O,1,2,changed
+AB20MEN06,number::year,2,1,changed
+AB20MEN06,createdBy::year,,CoralHydro2k,added
+AB20MEN06,variableType::d18O,,measured,added
+AB20MEN06,proxy::d18O,,d18O,added
+AB20MEN06,jcpCorrected::d18O,,0,added
+AB20MEN06,jcpUsed::d18O,,0,added
+AB20MEN06,datum::d18O,,0,added
+AB20MEN06,coralExtensionRate::d18O,,11.7,added
+AB20MEN06,coralExtensionRateNotes::d18O,,11.7 mm/year,added
+AB20MEN06,createdBy::d18O,,CoralHydro2k,added
+AB20MEN07,pub1_citation,"Abram, N.J., Wright, N.M., Ellis, B., Dixon, B. C., Wurtzel, J. B., England, M. H., Ummenh","Abram, N.J., Wright, N.M., Ellis, B., Dixon, B. C., Wurtzel, J. B., England, M. H., Ummenh",changed
+AB20MEN07,number::d18O,1,2,changed
+AB20MEN07,number::year,2,1,changed
+AB20MEN07,createdBy::year,,CoralHydro2k,added
+AB20MEN07,variableType::d18O,,measured,added
+AB20MEN07,proxy::d18O,,d18O,added
+AB20MEN07,jcpCorrected::d18O,,0,added
+AB20MEN07,jcpUsed::d18O,,0,added
+AB20MEN07,datum::d18O,,0,added
+AB20MEN07,coralExtensionRate::d18O,,14.3,added
+AB20MEN07,coralExtensionRateNotes::d18O,,14.3 mm/year,added
+AB20MEN07,createdBy::d18O,,CoralHydro2k,added
+AB20MEN08,pub1_citation,"Abram, N.J., Wright, N.M., Ellis, B., Dixon, B. C., Wurtzel, J. B., England, M. H., Ummenh","Abram, N.J., Wright, N.M., Ellis, B., Dixon, B. C., Wurtzel, J. B., England, M. H., Ummenh",changed
+AB20MEN08,number::d18O,1,2,changed
+AB20MEN08,number::year,2,1,changed
+AB20MEN08,createdBy::year,,CoralHydro2k,added
+AB20MEN08,variableType::d18O,,measured,added
+AB20MEN08,proxy::d18O,,d18O,added
+AB20MEN08,jcpCorrected::d18O,,0,added
+AB20MEN08,jcpUsed::d18O,,0,added
+AB20MEN08,datum::d18O,,0,added
+AB20MEN08,coralExtensionRate::d18O,,14.9,added
+AB20MEN08,coralExtensionRateNotes::d18O,,14.9 mm/year,added
+AB20MEN08,createdBy::d18O,,CoralHydro2k,added
+AB20MEN09,pub1_citation,"Abram, N.J., Wright, N.M., Ellis, B., Dixon, B. C., Wurtzel, J. B., England, M. H., Ummenh","Abram, N.J., Wright, N.M., Ellis, B., Dixon, B. C., Wurtzel, J. B., England, M. H., Ummenh",changed
+AB20MEN09,number::d18O,1,2,changed
+AB20MEN09,number::year,2,1,changed
+AB20MEN09,createdBy::year,,CoralHydro2k,added
+AB20MEN09,variableType::d18O,,measured,added
+AB20MEN09,proxy::d18O,,d18O,added
+AB20MEN09,jcpCorrected::d18O,,0,added
+AB20MEN09,jcpUsed::d18O,,0,added
+AB20MEN09,datum::d18O,,0,added
+AB20MEN09,coralExtensionRate::d18O,,11.3,added
+AB20MEN09,coralExtensionRateNotes::d18O,,11.3 mm/year,added
+AB20MEN09,createdBy::d18O,,CoralHydro2k,added
+AL16PUR01,pub1_citation,"Alpert, A. E., Cohen, A. L., Oppo, D. W., DeCarlo, T. M., Gaetani, G. A., Hernandez-Delgad","Alpert, A. E., Cohen, A. L., Oppo, D. W., DeCarlo, T. M., Gaetani, G. A., Hernandez-Delgad",changed
+AL16PUR01,pub1_title,Twentieth century warming of the tropical Atlantic captured by Sr-U paleothermometryn,Twentieth century warming of the tropical Atlantic captured by Sr-U paleothermometry,changed
+AL16PUR01,number::Sr/Ca,1,2,changed
+AL16PUR01,measurementTableName::year,measurementTable2,measurementTable1,changed
+AL16PUR01,TSid::year,RPRdwZqzEwVURcD2N,R3TtrFdghTD75fMYs,changed
+AL16PUR01,hasTimeTsid::year,RPRdwZqzEwVURcD2N,R3TtrFdghTD75fMYs,changed
+AL16PUR01,number::year,2,1,changed
+AL16PUR01,analyticalError::uncertainty,0.035,,removed
+AL16PUR01,analyticalErrorUnits::uncertainty,mmol/mol,,removed
+AL16PUR01,archiveSpecies::uncertainty,Orbicella faveolata,,removed
+AL16PUR01,ch2kCoreCode::uncertainty,AL16PUR01,,removed
+AL16PUR01,coralExtensionRate::uncertainty,NA,,removed
+AL16PUR01,coralHydro2kGroup::uncertainty,6,,removed
+AL16PUR01,coreName::uncertainty,PR-OF-001,,removed
+AL16PUR01,isAnomaly::uncertainty,0,,removed
+AL16PUR01,isComposite::uncertainty,0,,removed
+AL16PUR01,isPrimary::uncertainty,FALSE,,removed
+AL16PUR01,jcpCorrected::uncertainty,1,,removed
+AL16PUR01,jcpMeasured::uncertainty,8.87,,removed
+AL16PUR01,jcpUsed::uncertainty,1,,removed
+AL16PUR01,longName::uncertainty,SrCa,,removed
+AL16PUR01,measurementMaterial::uncertainty,Sr/Ca,,removed
+AL16PUR01,measurementTableName::uncertainty,measurementTable2,,removed
+AL16PUR01,medianRes12k::uncertainty,NA,,removed
+AL16PUR01,notes::uncertainty,Study focuses on use of Sr/U rather than Sr/Ca,,removed
+AL16PUR01,samplingResolution::uncertainty,0.6 - 1.0 mm,,removed
+AL16PUR01,TSid::uncertainty,AL16PUR01_SrCaUncertainty,AL16PUR01_SrCa_err,changed
+AL16PUR01,primaryAgeColumn::uncertainty,FALSE,,removed
+AL16PUR01,hasTimeTsid::uncertainty,RPRdwZqzEwVURcD2N,,removed
+AL16PUR01,interpretation::uncertainty,NA; climate; NA; climate,,removed
+AL16PUR01,hasResolution::uncertainty,bimonthly_uneven,,removed
+AL16PUR01,number::uncertainty,1,3,changed
+AL16PUR01,distinctYearsInCommonEra::uncertainty,97,,removed
+AL16PUR01,createdBy::year,,CoralHydro2k,added
+AL16PUR01,variableType::Sr/Ca,,measured,added
+AL16PUR01,proxy::Sr/Ca,,Sr/Ca,added
+AL16PUR01,jcpCorrected::Sr/Ca,,1,added
+AL16PUR01,jcpMeasured::Sr/Ca,,8.87,added
+AL16PUR01,jcpUsed::Sr/Ca,,1,added
+AL16PUR01,datum::Sr/Ca,,0,added
+AL16PUR01,createdBy::Sr/Ca,,CoralHydro2k,added
+AL16PUR01,variableType::uncertainty,,measured,added
+AL16PUR01,uncertaintyFor::uncertainty,,Sr/Ca,added
+AL16PUR01,createdBy::uncertainty,,CoralHydro2k,added
+AL16PUR02,pub1_citation,"Alpert, A. E., Cohen, A. L., Oppo, D. W., DeCarlo, T. M., Gaetani, G. A., Hernandez-Delgad","Alpert, A. E., Cohen, A. L., Oppo, D. W., DeCarlo, T. M., Gaetani, G. A., Hernandez-Delgad",changed
+AL16PUR02,pub1_title,Twentieth century warming of the tropical Atlantic captured by Sr-U paleothermometryn,Twentieth century warming of the tropical Atlantic captured by Sr-U paleothermometry,changed
+AL16PUR02,number::Sr/Ca,1,2,changed
+AL16PUR02,measurementTableName::year,measurementTable2,measurementTable1,changed
+AL16PUR02,TSid::year,RvA9ZtCERIZRugbOi,RXVmjbKLNy5XpHbU5,changed
+AL16PUR02,hasTimeTsid::year,RvA9ZtCERIZRugbOi,RXVmjbKLNy5XpHbU5,changed
+AL16PUR02,number::year,2,1,changed
+AL16PUR02,analyticalError::uncertainty,0.035,,removed
+AL16PUR02,analyticalErrorUnits::uncertainty,mmol/mol,,removed
+AL16PUR02,archiveSpecies::uncertainty,Orbicella faveolata,,removed
+AL16PUR02,ch2kCoreCode::uncertainty,AL16PUR02,,removed
+AL16PUR02,coralExtensionRate::uncertainty,NA,,removed
+AL16PUR02,coralHydro2kGroup::uncertainty,6,,removed
+AL16PUR02,coreName::uncertainty,PR-OF-002,,removed
+AL16PUR02,isAnomaly::uncertainty,0,,removed
+AL16PUR02,isComposite::uncertainty,0,,removed
+AL16PUR02,isPrimary::uncertainty,FALSE,,removed
+AL16PUR02,jcpCorrected::uncertainty,1,,removed
+AL16PUR02,jcpMeasured::uncertainty,8.87,,removed
+AL16PUR02,jcpUsed::uncertainty,1,,removed
+AL16PUR02,longName::uncertainty,SrCa,,removed
+AL16PUR02,measurementMaterial::uncertainty,Sr/Ca,,removed
+AL16PUR02,measurementTableName::uncertainty,measurementTable2,,removed
+AL16PUR02,medianRes12k::uncertainty,NA,,removed
+AL16PUR02,notes::uncertainty,Study focuses on use of Sr/U rather than Sr/Ca,,removed
+AL16PUR02,samplingResolution::uncertainty,0.6 - 1.0 mm,,removed
+AL16PUR02,TSid::uncertainty,AL16PUR02_SrCaUncertainty,AL16PUR02_SrCa_err,changed
+AL16PUR02,primaryAgeColumn::uncertainty,FALSE,,removed
+AL16PUR02,hasTimeTsid::uncertainty,RvA9ZtCERIZRugbOi,,removed
+AL16PUR02,interpretation::uncertainty,NA; climate; NA; climate,,removed
+AL16PUR02,hasResolution::uncertainty,bimonthly_uneven,,removed
+AL16PUR02,number::uncertainty,1,3,changed
+AL16PUR02,distinctYearsInCommonEra::uncertainty,38,,removed
+AL16PUR02,createdBy::year,,CoralHydro2k,added
+AL16PUR02,variableType::Sr/Ca,,measured,added
+AL16PUR02,proxy::Sr/Ca,,Sr/Ca,added
+AL16PUR02,jcpCorrected::Sr/Ca,,1,added
+AL16PUR02,jcpMeasured::Sr/Ca,,8.87,added
+AL16PUR02,jcpUsed::Sr/Ca,,1,added
+AL16PUR02,datum::Sr/Ca,,0,added
+AL16PUR02,createdBy::Sr/Ca,,CoralHydro2k,added
+AL16PUR02,variableType::uncertainty,,measured,added
+AL16PUR02,uncertaintyFor::uncertainty,,Sr/Ca,added
+AL16PUR02,createdBy::uncertainty,,CoralHydro2k,added
+AL16YUC01,pub1_citation,"Alpert, A. E., Cohen, A. L., Oppo, D. W., DeCarlo, T. M., Gaetani, G. A., Hernandez-Delgad","Alpert, A. E., Cohen, A. L., Oppo, D. W., DeCarlo, T. M., Gaetani, G. A., Hernandez-Delgad",changed
+AL16YUC01,pub1_title,Twentieth century warming of the tropical Atlantic captured by Sr-U paleothermometryn,Twentieth century warming of the tropical Atlantic captured by Sr-U paleothermometry,changed
+AL16YUC01,pub2_author,"Rodriguez, L. G., Cohen, A. L.,Ramirez, W., Oppo, D. W., Pourmand,A., Edwards, R. L., et a","Rodriguez, L. G., Cohen, A. L.,Ramirez, W., Oppo, D. W., Pourmand,A., Edwards, R. L., et a",changed
+AL16YUC01,pub2_citation,"Rodriguez, L. G., Cohen, A. L.,Ramirez, W., Oppo, D. W., Pourmand,A., Edwards, R. L., et a","Rodriguez, L. G., Cohen, A. L.,Ramirez, W., Oppo, D. W., Pourmand,A., Edwards, R. L., et a",changed
+AL16YUC01,pub2_title,"MidHolocene, CoralBased Sea Surface Temperatures in the Western Tropical Atlantic","Mid‐Holocene, Coral‐Based Sea Surface Temperatures in the Western Tropical Atlantic",changed
+AL16YUC01,number::Sr/Ca,1,2,changed
+AL16YUC01,measurementTableName::year,measurementTable2,measurementTable1,changed
+AL16YUC01,TSid::year,RZeLaMkMS38vvZnwL,RhfTA7TNUqVCsdcbl,changed
+AL16YUC01,hasTimeTsid::year,RZeLaMkMS38vvZnwL,RhfTA7TNUqVCsdcbl,changed
+AL16YUC01,number::year,2,1,changed
+AL16YUC01,analyticalError::uncertainty,0.06,,removed
+AL16YUC01,analyticalErrorUnits::uncertainty,mmol/mol,,removed
+AL16YUC01,archiveSpecies::uncertainty,Siderastrea siderea,,removed
+AL16YUC01,ch2kCoreCode::uncertainty,AL16YUC01,,removed
+AL16YUC01,coralExtensionRate::uncertainty,NA,,removed
+AL16YUC01,coralExtensionRateNotes::uncertainty,<5 mm/yr,,removed
+AL16YUC01,coralHydro2kGroup::uncertainty,6,,removed
+AL16YUC01,coreName::uncertainty,Jardin C,,removed
+AL16YUC01,isAnomaly::uncertainty,0,,removed
+AL16YUC01,isComposite::uncertainty,0,,removed
+AL16YUC01,isPrimary::uncertainty,FALSE,,removed
+AL16YUC01,jcpCorrected::uncertainty,1,,removed
+AL16YUC01,jcpMeasured::uncertainty,NA,,removed
+AL16YUC01,jcpUsed::uncertainty,1,,removed
+AL16YUC01,longName::uncertainty,SrCa,,removed
+AL16YUC01,measurementMaterial::uncertainty,Sr/Ca,,removed
+AL16YUC01,measurementTableName::uncertainty,measurementTable2,,removed
+AL16YUC01,medianRes12k::uncertainty,NA,,removed
+AL16YUC01,notes::uncertainty,Study focuses on use of Sr/U rather than Sr/Ca,,removed
+AL16YUC01,samplingNotes::uncertainty,Laser ablation,,removed
+AL16YUC01,samplingResolution::uncertainty,100 um diameter spot size centered 200 um apart,,removed
+AL16YUC01,TSid::uncertainty,AL16YUC01_SrCaUncertainty,AL16YUC01_SrCa_err,changed
+AL16YUC01,primaryAgeColumn::uncertainty,FALSE,,removed
+AL16YUC01,hasTimeTsid::uncertainty,RZeLaMkMS38vvZnwL,,removed
+AL16YUC01,hasResolution::uncertainty,monthly_uneven,,removed
+AL16YUC01,number::uncertainty,1,3,changed
+AL16YUC01,createdBy::year,,CoralHydro2k,added
+AL16YUC01,variableType::Sr/Ca,,measured,added
+AL16YUC01,proxy::Sr/Ca,,Sr/Ca,added
+AL16YUC01,jcpCorrected::Sr/Ca,,1,added
+AL16YUC01,jcpUsed::Sr/Ca,,1,added
+AL16YUC01,datum::Sr/Ca,,0,added
+AL16YUC01,coralExtensionRateNotes::Sr/Ca,,<5 mm/yr,added
+AL16YUC01,createdBy::Sr/Ca,,CoralHydro2k,added
+AL16YUC01,variableType::uncertainty,,measured,added
+AL16YUC01,uncertaintyFor::uncertainty,,Sr/Ca,added
+AL16YUC01,createdBy::uncertainty,,CoralHydro2k,added
+AS05GUA01,pub1_citation,"Asami, R., Yamada, T., Iryu, Y., Quinn, T. M., Meyer, C. P. and Paulay, G. 2005. Interannu","Asami, R., Yamada, T., Iryu, Y., Quinn, T. M., Meyer, C. P. and Paulay, G. 2005. Interannu",changed
+AS05GUA01,pub1_title,Interannual and decadal variability of the western Pacific sea surface condition for the y,Interannual and decadal variability of the western Pacific sea surface condition for the y,changed
+AS05GUA01,samplingNotes::d18O,0.5 mm (19702000) and 1 mm (17871969),0.5 mm (1970–2000) and 1 mm (1787–1969),changed
+AS05GUA01,number::d18O,1,2,changed
+AS05GUA01,number::year,2,1,changed
+AS05GUA01,createdBy::year,,CoralHydro2k,added
+AS05GUA01,variableType::d18O,,measured,added
+AS05GUA01,proxy::d18O,,d18O,added
+AS05GUA01,jcpCorrected::d18O,,0,added
+AS05GUA01,jcpUsed::d18O,,0,added
+AS05GUA01,coralExtensionRate::d18O,,12,added
+AS05GUA01,coralExtensionRateNotes::d18O,,1.2 cm/yr,added
+AS05GUA01,createdBy::d18O,,CoralHydro2k,added
+BA04FIJ01,number::d18O,1,2,changed
+BA04FIJ01,measurementTableName::year,measurementTable2,measurementTable1,changed
+BA04FIJ01,TSid::year,RWYto0HmGRx6WGfAc,RmBjO9NKZDgupJ26Y,changed
+BA04FIJ01,hasTimeTsid::year,RWYto0HmGRx6WGfAc,RmBjO9NKZDgupJ26Y,changed
+BA04FIJ01,number::year,2,1,changed
+BA04FIJ01,analyticalError::Sr/Ca,0.22,0.07,changed
+BA04FIJ01,number::Sr/Ca,1,3,changed
+BA04FIJ01,createdBy::year,,CoralHydro2k,added
+BA04FIJ01,variableType::d18O,,measured,added
+BA04FIJ01,proxy::d18O,,d18O,added
+BA04FIJ01,jcpCorrected::d18O,,0,added
+BA04FIJ01,jcpUsed::d18O,,0,added
+BA04FIJ01,datum::d18O,,0,added
+BA04FIJ01,coralExtensionRate::d18O,,5.6,added
+BA04FIJ01,coralExtensionRateNotes::d18O,,5.6±0.9 mm/yr,added
+BA04FIJ01,createdBy::d18O,,CoralHydro2k,added
+BA04FIJ01,variableType::Sr/Ca,,measured,added
+BA04FIJ01,proxy::Sr/Ca,,Sr/Ca,added
+BA04FIJ01,jcpCorrected::Sr/Ca,,0,added
+BA04FIJ01,jcpUsed::Sr/Ca,,0,added
+BA04FIJ01,datum::Sr/Ca,,0,added
+BA04FIJ01,coralExtensionRate::Sr/Ca,,5.6,added
+BA04FIJ01,coralExtensionRateNotes::Sr/Ca,,5.6±0.9 mm/yr,added
+BA04FIJ01,createdBy::Sr/Ca,,CoralHydro2k,added
+BA04FIJ02,number::d18O,1,2,changed
+BA04FIJ02,measurementTableName::year,measurementTable2,measurementTable1,changed
+BA04FIJ02,TSid::year,RJlctmxMUuxNYxBo5,RJBbOIPqZZ5YhBdmq,changed
+BA04FIJ02,hasTimeTsid::year,RJlctmxMUuxNYxBo5,RJBbOIPqZZ5YhBdmq,changed
+BA04FIJ02,number::year,2,1,changed
+BA04FIJ02,analyticalError::Sr/Ca,0.22,0.07,changed
+BA04FIJ02,number::Sr/Ca,1,3,changed
+BA04FIJ02,createdBy::year,,CoralHydro2k,added
+BA04FIJ02,variableType::d18O,,measured,added
+BA04FIJ02,proxy::d18O,,d18O,added
+BA04FIJ02,jcpCorrected::d18O,,0,added
+BA04FIJ02,jcpUsed::d18O,,0,added
+BA04FIJ02,datum::d18O,,0,added
+BA04FIJ02,coralExtensionRate::d18O,,5.5,added
+BA04FIJ02,coralExtensionRateNotes::d18O,,5.5±1.0 mm/year,added
+BA04FIJ02,createdBy::d18O,,CoralHydro2k,added
+BA04FIJ02,variableType::Sr/Ca,,measured,added
+BA04FIJ02,proxy::Sr/Ca,,Sr/Ca,added
+BA04FIJ02,jcpCorrected::Sr/Ca,,0,added
+BA04FIJ02,jcpUsed::Sr/Ca,,0,added
+BA04FIJ02,datum::Sr/Ca,,0,added
+BA04FIJ02,coralExtensionRate::Sr/Ca,,5.5,added
+BA04FIJ02,coralExtensionRateNotes::Sr/Ca,,5.5±1.0 mm/year,added
+BA04FIJ02,createdBy::Sr/Ca,,CoralHydro2k,added
+BO14HTI01,pub1_citation,"Bolton, A., Goodkin, N. F., Hughen, K., Ostermann, D. R., Vo, S. T. and Phan, H. K. 2014. ","Bolton, A., Goodkin, N. F., Hughen, K., Ostermann, D. R., Vo, S. T. and Phan, H. K. 2014. ",changed
+BO14HTI01,number::d18O,1,2,changed
+BO14HTI01,measurementTableName::year,measurementTable3,measurementTable2,changed
+BO14HTI01,TSid::year,RT0u2QgqCgA0Wg68l,RrqGTJR6apksx40z2,changed
+BO14HTI01,hasTimeTsid::year,RT0u2QgqCgA0Wg68l,RrqGTJR6apksx40z2,changed
+BO14HTI01,number::year,2,1,changed
+BO14HTI01,analyticalError::Sr/Ca,0.35,0.08,changed
+BO14HTI01,number::Sr/Ca,1,2,changed
+BO14HTI01,analyticalError::uncertainty,0.35,,removed
+BO14HTI01,analyticalErrorUnits::uncertainty,% RSD,,removed
+BO14HTI01,archiveSpecies::uncertainty,Porites lutea,,removed
+BO14HTI01,ch2kCoreCode::uncertainty,BO14HTI01,,removed
+BO14HTI01,coralExtensionRate::uncertainty,8.84,,removed
+BO14HTI01,coralExtensionRateNotes::uncertainty,8.84 mm/year,,removed
+BO14HTI01,coralHydro2kGroup::uncertainty,2,,removed
+BO14HTI01,coreName::uncertainty,TN,,removed
+BO14HTI01,isAnomaly::uncertainty,0,,removed
+BO14HTI01,isComposite::uncertainty,0,,removed
+BO14HTI01,isPrimary::uncertainty,FALSE,,removed
+BO14HTI01,jcpCorrected::uncertainty,0,,removed
+BO14HTI01,jcpMeasured::uncertainty,8.851,,removed
+BO14HTI01,jcpUsed::uncertainty,1,,removed
+BO14HTI01,longName::uncertainty,SrCa,,removed
+BO14HTI01,measurementMaterial::uncertainty,Sr/Ca,,removed
+BO14HTI01,measurementTableName::uncertainty,measurementTable3,,removed
+BO14HTI01,medianRes12k::uncertainty,NA,,removed
+BO14HTI01,notes::uncertainty,A composite of cores TN and BB (CoralHydro2k ID BO14HTI02) was used from 2010-1977 for the,,removed
+BO14HTI01,samplingResolution::uncertainty,0.5 mm,,removed
+BO14HTI01,TSid::uncertainty,BO14HTI01_SrCaUncertainty,BO14HTI01_SrCa_err,changed
+BO14HTI01,primaryAgeColumn::uncertainty,FALSE,,removed
+BO14HTI01,hasTimeTsid::uncertainty,RT0u2QgqCgA0Wg68l,,removed
+BO14HTI01,interpretation::uncertainty,NA; climate; NA; climate,,removed
+BO14HTI01,calibration::uncertainty,HadISST1.1; 10.532; 0.7; -0.054; 0.002; OLS,,removed
+BO14HTI01,hasResolution::uncertainty,monthly,,removed
+BO14HTI01,number::uncertainty,1,3,changed
+BO14HTI01,minYear::uncertainty,1600.04,,removed
+BO14HTI01,distinctYearsInCommonEra::uncertainty,400,,removed
+BO14HTI01,dataSource,,https://www.ncdc.noaa.gov/paleo/study/32392,added
+BO14HTI01,createdBy::year,,CoralHydro2k,added
+BO14HTI01,variableType::d18O,,measured,added
+BO14HTI01,proxy::d18O,,d18O,added
+BO14HTI01,jcpCorrected::d18O,,0,added
+BO14HTI01,jcpMeasured::d18O,,8.851,added
+BO14HTI01,jcpUsed::d18O,,1,added
+BO14HTI01,datum::d18O,,0,added
+BO14HTI01,coralExtensionRate::d18O,,8.84,added
+BO14HTI01,coralExtensionRateNotes::d18O,,8.84 mm/year,added
+BO14HTI01,createdBy::d18O,,CoralHydro2k,added
+BO14HTI01,variableType::Sr/Ca,,measured,added
+BO14HTI01,proxy::Sr/Ca,,Sr/Ca,added
+BO14HTI01,jcpCorrected::Sr/Ca,,0,added
+BO14HTI01,jcpMeasured::Sr/Ca,,8.851,added
+BO14HTI01,jcpUsed::Sr/Ca,,1,added
+BO14HTI01,datum::Sr/Ca,,0,added
+BO14HTI01,coralExtensionRate::Sr/Ca,,8.84,added
+BO14HTI01,coralExtensionRateNotes::Sr/Ca,,8.84 mm/year,added
+BO14HTI01,createdBy::Sr/Ca,,CoralHydro2k,added
+BO14HTI01,variableType::uncertainty,,measured,added
+BO14HTI01,uncertaintyFor::uncertainty,,Sr/Ca,added
+BO14HTI01,createdBy::uncertainty,,CoralHydro2k,added
+BO14HTI02,pub1_citation,"Bolton, A., Goodkin, N. F., Hughen, K., Ostermann, D. R., Vo, S. T. and Phan, H. K. 2014. ","Bolton, A., Goodkin, N. F., Hughen, K., Ostermann, D. R., Vo, S. T. and Phan, H. K. 2014. ",changed
+BO14HTI02,number::d18O,1,2,changed
+BO14HTI02,measurementTableName::year,measurementTable2,measurementTable1,changed
+BO14HTI02,TSid::year,R9FqzV3NdQEaJMcaN,RVIjLR5NT07Q4IcQP,changed
+BO14HTI02,hasTimeTsid::year,R9FqzV3NdQEaJMcaN,RVIjLR5NT07Q4IcQP,changed
+BO14HTI02,number::year,2,1,changed
+BO14HTI02,analyticalError::Sr/Ca,0.35,0.08,changed
+BO14HTI02,number::Sr/Ca,1,3,changed
+BO14HTI02,dataSource,,https://www.ncdc.noaa.gov/paleo/study/32392,added
+BO14HTI02,createdBy::year,,CoralHydro2k,added
+BO14HTI02,variableType::d18O,,measured,added
+BO14HTI02,proxy::d18O,,d18O,added
+BO14HTI02,jcpCorrected::d18O,,0,added
+BO14HTI02,jcpMeasured::d18O,,8.851,added
+BO14HTI02,jcpUsed::d18O,,1,added
+BO14HTI02,datum::d18O,,0,added
+BO14HTI02,coralExtensionRate::d18O,,7.35,added
+BO14HTI02,coralExtensionRateNotes::d18O,,7.35 mm/year,added
+BO14HTI02,createdBy::d18O,,CoralHydro2k,added
+BO14HTI02,variableType::Sr/Ca,,measured,added
+BO14HTI02,proxy::Sr/Ca,,Sr/Ca,added
+BO14HTI02,jcpCorrected::Sr/Ca,,0,added
+BO14HTI02,jcpMeasured::Sr/Ca,,8.851,added
+BO14HTI02,jcpUsed::Sr/Ca,,1,added
+BO14HTI02,datum::Sr/Ca,,0,added
+BO14HTI02,coralExtensionRate::Sr/Ca,,7.35,added
+BO14HTI02,coralExtensionRateNotes::Sr/Ca,,7.35 mm/year,added
+BO14HTI02,createdBy::Sr/Ca,,CoralHydro2k,added
+BO99MOO01,pub1_citation,"Boiseau, M., Ghil, M. and Juillet-Leclerc, A. 1999. Climatic trends and interdecadal varia","Boiseau, M., Ghil, M. and Juillet-Leclerc, A. 1999. Climatic trends and interdecadal varia",changed
+BO99MOO01,number::d18O,1,2,changed
+BO99MOO01,number::year,2,1,changed
+BO99MOO01,createdBy::year,,CoralHydro2k,added
+BO99MOO01,variableType::d18O,,measured,added
+BO99MOO01,proxy::d18O,,d18O,added
+BO99MOO01,jcpCorrected::d18O,,0,added
+BO99MOO01,jcpUsed::d18O,,0,added
+BO99MOO01,datum::d18O,,0,added
+BO99MOO01,createdBy::d18O,,CoralHydro2k,added
+BR19RED01,pub1_citation,"Bryan, S. P., Hughen, K. A., Karnauskas, K. B. and Farrar, J. T. 2019. Two Hundred Fifty Y","Bryan, S. P., Hughen, K. A., Karnauskas, K. B. and Farrar, J. T. 2019. Two Hundred Fifty Y",changed
+BR19RED01,pub1_firstauthor,"Bryan, S. P. ","Bryan, S. P.",changed
+BR19RED01,pub1_title,Two Hundred Fifty Years of Reconstructed South Asian Summer Monsoon Intensity and DecadalS,Two Hundred Fifty Years of Reconstructed South Asian Summer Monsoon Intensity and Decadal‐,changed
+BR19RED01,number::Sr/Ca,1,2,changed
+BR19RED01,number::year,2,1,changed
+BR19RED01,createdBy::year,,CoralHydro2k,added
+BR19RED01,variableType::Sr/Ca,,measured,added
+BR19RED01,proxy::Sr/Ca,,Sr/Ca,added
+BR19RED01,datum::Sr/Ca,,0,added
+BR19RED01,createdBy::Sr/Ca,,CoralHydro2k,added
+CA07FLI01,number::d18O,1,2,changed
+CA07FLI01,measurementTableName::year,measurementTable2,measurementTable1,changed
+CA07FLI01,TSid::year,R5D1FzMF3jGO4mFc9,RBoVCcyNpdxxSVLsd,changed
+CA07FLI01,hasTimeTsid::year,R5D1FzMF3jGO4mFc9,RBoVCcyNpdxxSVLsd,changed
+CA07FLI01,number::year,2,1,changed
+CA07FLI01,number::Sr/Ca,1,3,changed
+CA07FLI01,createdBy::year,,CoralHydro2k,added
+CA07FLI01,variableType::d18O,,measured,added
+CA07FLI01,proxy::d18O,,d18O,added
+CA07FLI01,jcpCorrected::d18O,,0,added
+CA07FLI01,jcpUsed::d18O,,0,added
+CA07FLI01,datum::d18O,,0,added
+CA07FLI01,coralExtensionRate::d18O,,14,added
+CA07FLI01,coralExtensionRateNotes::d18O,,12 to 16 mm/yr,added
+CA07FLI01,createdBy::d18O,,CoralHydro2k,added
+CA07FLI01,variableType::Sr/Ca,,measured,added
+CA07FLI01,proxy::Sr/Ca,,Sr/Ca,added
+CA07FLI01,jcpCorrected::Sr/Ca,,0,added
+CA07FLI01,jcpUsed::Sr/Ca,,0,added
+CA07FLI01,datum::Sr/Ca,,0,added
+CA07FLI01,coralExtensionRate::Sr/Ca,,14,added
+CA07FLI01,coralExtensionRateNotes::Sr/Ca,,12 to 16 mm/yr,added
+CA07FLI01,createdBy::Sr/Ca,,CoralHydro2k,added
+CA13DIA01,pub1_citation,"Carilli, J. E., Charles, C. D., Garren, M., McField, M. and Norris, R. D. 2013. Baseline s","Carilli, J. E., Charles, C. D., Garren, M., McField, M. and Norris, R. D. 2013. Baseline s",changed
+CA13DIA01,number::d18O,1,2,changed
+CA13DIA01,number::year,2,1,changed
+CA13DIA01,createdBy::year,,CoralHydro2k,added
+CA13DIA01,variableType::d18O,,measured,added
+CA13DIA01,proxy::d18O,,d18O,added
+CA13DIA01,jcpCorrected::d18O,,0,added
+CA13DIA01,jcpUsed::d18O,,0,added
+CA13DIA01,createdBy::d18O,,CoralHydro2k,added
+CA13PEL01,pub1_citation,"Carilli, J. E., Charles, C. D., Garren, M., McField, M. and Norris, R. D. 2013. Baseline s","Carilli, J. E., Charles, C. D., Garren, M., McField, M. and Norris, R. D. 2013. Baseline s",changed
+CA13PEL01,number::d18O,1,2,changed
+CA13PEL01,number::year,2,1,changed
+CA13PEL01,createdBy::year,,CoralHydro2k,added
+CA13PEL01,variableType::d18O,,measured,added
+CA13PEL01,proxy::d18O,,d18O,added
+CA13PEL01,jcpCorrected::d18O,,0,added
+CA13PEL01,jcpUsed::d18O,,0,added
+CA13PEL01,createdBy::d18O,,CoralHydro2k,added
+CA13SAP01,pub1_citation,"Carilli, J. E., Charles, C. D., Garren, M., McField, M. and Norris, R. D. 2013. Baseline s","Carilli, J. E., Charles, C. D., Garren, M., McField, M. and Norris, R. D. 2013. Baseline s",changed
+CA13SAP01,number::d18O,1,2,changed
+CA13SAP01,number::year,2,1,changed
+CA13SAP01,createdBy::year,,CoralHydro2k,added
+CA13SAP01,variableType::d18O,,measured,added
+CA13SAP01,proxy::d18O,,d18O,added
+CA13SAP01,jcpCorrected::d18O,,0,added
+CA13SAP01,jcpUsed::d18O,,0,added
+CA13SAP01,createdBy::d18O,,CoralHydro2k,added
+CA13TUR01,pub1_citation,"Carilli, J. E., Charles, C. D., Garren, M., McField, M. and Norris, R. D. 2013. Baseline s","Carilli, J. E., Charles, C. D., Garren, M., McField, M. and Norris, R. D. 2013. Baseline s",changed
+CA13TUR01,number::d18O,1,2,changed
+CA13TUR01,number::year,2,1,changed
+CA13TUR01,createdBy::year,,CoralHydro2k,added
+CA13TUR01,variableType::d18O,,measured,added
+CA13TUR01,proxy::d18O,,d18O,added
+CA13TUR01,jcpCorrected::d18O,,0,added
+CA13TUR01,jcpUsed::d18O,,0,added
+CA13TUR01,createdBy::d18O,,CoralHydro2k,added
+CA14BUT01,analyticalError::d18O,NA,0.04,changed
+CA14BUT01,number::d18O,1,4,changed
+CA14BUT01,measurementTableName::year,measurementTable3,measurementTable1,changed
+CA14BUT01,TSid::year,RvEmAF623MV6ezdpj,RRKkKUnJPCQBvrpgr,changed
+CA14BUT01,hasTimeTsid::year,RvEmAF623MV6ezdpj,RRKkKUnJPCQBvrpgr,changed
+CA14BUT01,number::year,2,1,changed
+CA14BUT01,analyticalError::Sr/Ca,0.011,0.04,changed
+CA14BUT01,number::Sr/Ca,1,3,changed
+CA14BUT01,createdBy::year,,CoralHydro2k,added
+CA14BUT01,variableType::d18O,,measured,added
+CA14BUT01,proxy::d18O,,d18O,added
+CA14BUT01,jcpCorrected::d18O,,1,added
+CA14BUT01,jcpMeasured::d18O,,8.811,added
+CA14BUT01,jcpNotes::d18O,,"JCp-1 run with the samples, and a correction was made back to the ANSTO mean laboratory JC",added
+CA14BUT01,jcpUsed::d18O,,1,added
+CA14BUT01,datum::d18O,,0,added
+CA14BUT01,createdBy::d18O,,CoralHydro2k,added
+CA14BUT01,variableType::Sr/Ca,,measured,added
+CA14BUT01,proxy::Sr/Ca,,Sr/Ca,added
+CA14BUT01,jcpCorrected::Sr/Ca,,1,added
+CA14BUT01,jcpMeasured::Sr/Ca,,8.811,added
+CA14BUT01,jcpNotes::Sr/Ca,,"JCp-1 run with the samples, and a correction was made back to the ANSTO mean laboratory JC",added
+CA14BUT01,jcpUsed::Sr/Ca,,1,added
+CA14BUT01,datum::Sr/Ca,,0,added
+CA14BUT01,createdBy::Sr/Ca,,CoralHydro2k,added
+CA14BUT01,inferredMaterial::d18O,,sea water,added
+CA14TIM01,pub1_citation,"Cahyarini, S. Y., Pfeiffer, M., Nurhati, I. S., Aldrian, E., Dullo, W.-C. and Hetzinger, S","Cahyarini, S. Y., Pfeiffer, M., Nurhati, I. S., Aldrian, E., Dullo, W.-C. and Hetzinger, S",changed
+CA14TIM01,analyticalError::d18O,NA,0.06,changed
+CA14TIM01,number::d18O,1,4,changed
+CA14TIM01,measurementTableName::year,measurementTable3,measurementTable1,changed
+CA14TIM01,TSid::year,R0UOJa9uaq3x0UuBp,R0MurSwCQVDGJnfQv,changed
+CA14TIM01,hasTimeTsid::year,R0UOJa9uaq3x0UuBp,R0MurSwCQVDGJnfQv,changed
+CA14TIM01,number::year,2,1,changed
+CA14TIM01,analyticalError::Sr/Ca,0.15,0.06,changed
+CA14TIM01,number::Sr/Ca,1,3,changed
+CA14TIM01,createdBy::year,,CoralHydro2k,added
+CA14TIM01,variableType::d18O,,measured,added
+CA14TIM01,proxy::d18O,,d18O,added
+CA14TIM01,jcpCorrected::d18O,,0,added
+CA14TIM01,jcpUsed::d18O,,0,added
+CA14TIM01,datum::d18O,,0,added
+CA14TIM01,coralExtensionRate::d18O,,10,added
+CA14TIM01,coralExtensionRateNotes::d18O,,1 +/- 0.5 cm/year,added
+CA14TIM01,createdBy::d18O,,CoralHydro2k,added
+CA14TIM01,variableType::Sr/Ca,,measured,added
+CA14TIM01,proxy::Sr/Ca,,Sr/Ca,added
+CA14TIM01,jcpCorrected::Sr/Ca,,0,added
+CA14TIM01,jcpUsed::Sr/Ca,,0,added
+CA14TIM01,datum::Sr/Ca,,0,added
+CA14TIM01,coralExtensionRate::Sr/Ca,,10,added
+CA14TIM01,coralExtensionRateNotes::Sr/Ca,,1 +/- 0.5 cm/year,added
+CA14TIM01,createdBy::Sr/Ca,,CoralHydro2k,added
+CA14TIM01,inferredMaterial::d18O,,sea water,added
+CH03BUN01,number::d18O,1,2,changed
+CH03BUN01,number::year,2,1,changed
+CH03BUN01,createdBy::year,,CoralHydro2k,added
+CH03BUN01,variableType::d18O,,measured,added
+CH03BUN01,proxy::d18O,,d18O,added
+CH03BUN01,jcpCorrected::d18O,,0,added
+CH03BUN01,jcpUsed::d18O,,0,added
+CH03BUN01,coralExtensionRate::d18O,,15,added
+CH03BUN01,coralExtensionRateNotes::d18O,,1-2 cm/yr,added
+CH03BUN01,createdBy::d18O,,CoralHydro2k,added
+CH03LOM01,pub1_citation,"Charles, C. D., Cobb, K., Moore, M. D. and Fairbanks, R. G. 2001. Monsoontropical ocean in","Charles, C. D., Cobb, K., Moore, M. D. and Fairbanks, R. G. 2001. Monsoon–tropical ocean i",changed
+CH03LOM01,samplingResolution::d18O,1 mm ,1 mm,changed
+CH03LOM01,number::d18O,1,2,changed
+CH03LOM01,number::year,2,1,changed
+CH03LOM01,createdBy::year,,CoralHydro2k,added
+CH03LOM01,variableType::d18O,,measured,added
+CH03LOM01,proxy::d18O,,d18O,added
+CH03LOM01,jcpCorrected::d18O,,0,added
+CH03LOM01,jcpUsed::d18O,,0,added
+CH03LOM01,coralExtensionRate::d18O,,15,added
+CH03LOM01,coralExtensionRateNotes::d18O,,1-2 cm/yr,added
+CH03LOM01,createdBy::d18O,,CoralHydro2k,added
+CH18YOA01,pub1_citation,"Chen, T.,  Cobb, K. M.,  Roff, G.,  Zhao, J.,  Yang, H.,  Hu, M. and Zhao, K. 2018. Corald","Chen, T.,  Cobb, K. M.,  Roff, G.,  Zhao, J.,  Yang, H.,  Hu, M. and Zhao, K. 2018. Coral‐",changed
+CH18YOA01,pub1_title,Coralderived western Pacific tropical sea surface temperatures during the last millennium,Coral‐derived western Pacific tropical sea surface temperatures during the last millennium,changed
+CH18YOA01,number::Sr/Ca,1,2,changed
+CH18YOA01,number::year,2,1,changed
+CH18YOA01,dataSource,,https://agupubs.onlinelibrary.wiley.com/doi/suppl/10.1002/2018GL077619,added
+CH18YOA01,createdBy::year,,CoralHydro2k,added
+CH18YOA01,variableType::Sr/Ca,,measured,added
+CH18YOA01,proxy::Sr/Ca,,Sr/Ca,added
+CH18YOA01,jcpCorrected::Sr/Ca,,0,added
+CH18YOA01,jcpUsed::Sr/Ca,,0,added
+CH18YOA01,datum::Sr/Ca,,0,added
+CH18YOA01,createdBy::Sr/Ca,,CoralHydro2k,added
+CH18YOA02,pub1_citation,"Chen, T.,  Cobb, K. M.,  Roff, G.,  Zhao, J.,  Yang, H.,  Hu, M. and Zhao, K. 2018. Corald","Chen, T.,  Cobb, K. M.,  Roff, G.,  Zhao, J.,  Yang, H.,  Hu, M. and Zhao, K. 2018. Coral‐",changed
+CH18YOA02,pub1_title,Coralderived western Pacific tropical sea surface temperatures during the last millennium,Coral‐derived western Pacific tropical sea surface temperatures during the last millennium,changed
+CH18YOA02,number::Sr/Ca,1,2,changed
+CH18YOA02,number::year,2,1,changed
+CH18YOA02,dataSource,,https://agupubs.onlinelibrary.wiley.com/doi/suppl/10.1002/2018GL077619,added
+CH18YOA02,createdBy::year,,CoralHydro2k,added
+CH18YOA02,variableType::Sr/Ca,,measured,added
+CH18YOA02,proxy::Sr/Ca,,Sr/Ca,added
+CH18YOA02,jcpCorrected::Sr/Ca,,0,added
+CH18YOA02,jcpUsed::Sr/Ca,,0,added
+CH18YOA02,datum::Sr/Ca,,0,added
+CH18YOA02,createdBy::Sr/Ca,,CoralHydro2k,added
+CH97BVB01,pub1_citation,"Charles, C. D., Hunter, D. E. and Fairbanks, R. G. 1997. Interaction Between the ENSO and ","Charles, C. D., Hunter, D. E. and Fairbanks, R. G. 1997. Interaction Between the ENSO and ",changed
+CH97BVB01,number::d18O,1,2,changed
+CH97BVB01,number::year,2,1,changed
+CH97BVB01,createdBy::year,,CoralHydro2k,added
+CH97BVB01,variableType::d18O,,measured,added
+CH97BVB01,proxy::d18O,,d18O,added
+CH97BVB01,jcpCorrected::d18O,,0,added
+CH97BVB01,jcpUsed::d18O,,0,added
+CH97BVB01,coralExtensionRate::d18O,,14,added
+CH97BVB01,coralExtensionRateNotes::d18O,,14 mm/yr,added
+CH97BVB01,createdBy::d18O,,CoralHydro2k,added
+CH98PIR01,number::d18O,1,2,changed
+CH98PIR01,number::year,2,1,changed
+CH98PIR01,createdBy::year,,CoralHydro2k,added
+CH98PIR01,variableType::d18O,,measured,added
+CH98PIR01,proxy::d18O,,d18O,added
+CH98PIR01,jcpCorrected::d18O,,0,added
+CH98PIR01,jcpUsed::d18O,,0,added
+CH98PIR01,coralExtensionRate::d18O,,3.5,added
+CH98PIR01,coralExtensionRateNotes::d18O,,3.5mm/yr,added
+CH98PIR01,createdBy::d18O,,CoralHydro2k,added
+CO00MAL01,pub1_citation,"Cole, J. E., Dunbar, R. B., McClanahan,T. R. and Muthiga, N. A. 2000. Tropical Pacific For","Cole, J. E., Dunbar, R. B., McClanahan,T. R. and Muthiga, N. A. 2000. Tropical Pacific For",changed
+CO00MAL01,samplingNotes::d18O,Continous - Cut annual increments from the skeleton from top of low density band to top of,Continous - Cut annual increments from the skeleton from top of low density band to top of,changed
+CO00MAL01,number::d18O,1,2,changed
+CO00MAL01,number::year,2,1,changed
+CO00MAL01,createdBy::year,,CoralHydro2k,added
+CO00MAL01,variableType::d18O,,measured,added
+CO00MAL01,proxy::d18O,,d18O,added
+CO00MAL01,jcpCorrected::d18O,,0,added
+CO00MAL01,jcpUsed::d18O,,0,added
+CO00MAL01,coralExtensionRate::d18O,,12,added
+CO00MAL01,coralExtensionRateNotes::d18O,,12 mm/yr,added
+CO00MAL01,createdBy::d18O,,CoralHydro2k,added
+CO03PAL01,number::d18O,1,2,changed
+CO03PAL01,number::year,2,1,changed
+CO03PAL01,createdBy::year,,CoralHydro2k,added
+CO03PAL01,variableType::d18O,,measured,added
+CO03PAL01,proxy::d18O,,d18O,added
+CO03PAL01,jcpCorrected::d18O,,0,added
+CO03PAL01,jcpUsed::d18O,,0,added
+CO03PAL01,coralExtensionRate::d18O,,18,added
+CO03PAL01,coralExtensionRateNotes::d18O,,18 mm/yr,added
+CO03PAL01,createdBy::d18O,,CoralHydro2k,added
+CO03PAL02,number::d18O,1,2,changed
+CO03PAL02,number::year,2,1,changed
+CO03PAL02,createdBy::year,,CoralHydro2k,added
+CO03PAL02,variableType::d18O,,measured,added
+CO03PAL02,proxy::d18O,,d18O,added
+CO03PAL02,jcpCorrected::d18O,,0,added
+CO03PAL02,jcpUsed::d18O,,0,added
+CO03PAL02,coralExtensionRate::d18O,,18,added
+CO03PAL02,coralExtensionRateNotes::d18O,,18 mm/yr,added
+CO03PAL02,createdBy::d18O,,CoralHydro2k,added
+CO03PAL03,number::d18O,1,2,changed
+CO03PAL03,number::year,2,1,changed
+CO03PAL03,createdBy::year,,CoralHydro2k,added
+CO03PAL03,variableType::d18O,,measured,added
+CO03PAL03,proxy::d18O,,d18O,added
+CO03PAL03,jcpCorrected::d18O,,0,added
+CO03PAL03,jcpUsed::d18O,,0,added
+CO03PAL03,coralExtensionRate::d18O,,18,added
+CO03PAL03,coralExtensionRateNotes::d18O,,18 mm/yr,added
+CO03PAL03,createdBy::d18O,,CoralHydro2k,added
+CO03PAL04,number::d18O,1,2,changed
+CO03PAL04,number::year,2,1,changed
+CO03PAL04,createdBy::year,,CoralHydro2k,added
+CO03PAL04,variableType::d18O,,measured,added
+CO03PAL04,proxy::d18O,,d18O,added
+CO03PAL04,jcpCorrected::d18O,,0,added
+CO03PAL04,jcpUsed::d18O,,0,added
+CO03PAL04,coralExtensionRate::d18O,,18,added
+CO03PAL04,coralExtensionRateNotes::d18O,,18 mm/yr,added
+CO03PAL04,createdBy::d18O,,CoralHydro2k,added
+CO03PAL05,number::d18O,1,2,changed
+CO03PAL05,number::year,2,1,changed
+CO03PAL05,createdBy::year,,CoralHydro2k,added
+CO03PAL05,variableType::d18O,,measured,added
+CO03PAL05,proxy::d18O,,d18O,added
+CO03PAL05,jcpCorrected::d18O,,0,added
+CO03PAL05,jcpUsed::d18O,,0,added
+CO03PAL05,coralExtensionRate::d18O,,18,added
+CO03PAL05,coralExtensionRateNotes::d18O,,18 mm/yr,added
+CO03PAL05,createdBy::d18O,,CoralHydro2k,added
+CO03PAL06,number::d18O,1,2,changed
+CO03PAL06,number::year,2,1,changed
+CO03PAL06,createdBy::year,,CoralHydro2k,added
+CO03PAL06,variableType::d18O,,measured,added
+CO03PAL06,proxy::d18O,,d18O,added
+CO03PAL06,jcpCorrected::d18O,,0,added
+CO03PAL06,jcpUsed::d18O,,0,added
+CO03PAL06,coralExtensionRate::d18O,,18,added
+CO03PAL06,coralExtensionRateNotes::d18O,,18 mm/yr,added
+CO03PAL06,createdBy::d18O,,CoralHydro2k,added
+CO03PAL07,number::d18O,1,2,changed
+CO03PAL07,number::year,2,1,changed
+CO03PAL07,createdBy::year,,CoralHydro2k,added
+CO03PAL07,variableType::d18O,,measured,added
+CO03PAL07,proxy::d18O,,d18O,added
+CO03PAL07,jcpCorrected::d18O,,0,added
+CO03PAL07,jcpUsed::d18O,,0,added
+CO03PAL07,coralExtensionRate::d18O,,18,added
+CO03PAL07,coralExtensionRateNotes::d18O,,18 mm/yr,added
+CO03PAL07,createdBy::d18O,,CoralHydro2k,added
+CO03PAL08,number::d18O,1,2,changed
+CO03PAL08,number::year,2,1,changed
+CO03PAL08,createdBy::year,,CoralHydro2k,added
+CO03PAL08,variableType::d18O,,measured,added
+CO03PAL08,proxy::d18O,,d18O,added
+CO03PAL08,jcpCorrected::d18O,,0,added
+CO03PAL08,jcpUsed::d18O,,0,added
+CO03PAL08,coralExtensionRate::d18O,,18,added
+CO03PAL08,coralExtensionRateNotes::d18O,,18 mm/yr,added
+CO03PAL08,createdBy::d18O,,CoralHydro2k,added
+CO03PAL09,number::d18O,1,2,changed
+CO03PAL09,number::year,2,1,changed
+CO03PAL09,createdBy::year,,CoralHydro2k,added
+CO03PAL09,variableType::d18O,,measured,added
+CO03PAL09,proxy::d18O,,d18O,added
+CO03PAL09,jcpCorrected::d18O,,0,added
+CO03PAL09,jcpUsed::d18O,,0,added
+CO03PAL09,coralExtensionRate::d18O,,18,added
+CO03PAL09,coralExtensionRateNotes::d18O,,18 mm/yr,added
+CO03PAL09,createdBy::d18O,,CoralHydro2k,added
+CO03PAL10,number::d18O,1,2,changed
+CO03PAL10,number::year,2,1,changed
+CO03PAL10,createdBy::year,,CoralHydro2k,added
+CO03PAL10,variableType::d18O,,measured,added
+CO03PAL10,proxy::d18O,,d18O,added
+CO03PAL10,jcpCorrected::d18O,,0,added
+CO03PAL10,jcpUsed::d18O,,0,added
+CO03PAL10,coralExtensionRate::d18O,,18,added
+CO03PAL10,coralExtensionRateNotes::d18O,,18 mm/yr,added
+CO03PAL10,createdBy::d18O,,CoralHydro2k,added
+CO93TAR01,pub1_citation,"Cole, J. E., Fairbanks, R. G. and Shen, G. T. 1993. Recent Variability in the Southern Osc","Cole, J. E., Fairbanks, R. G. and Shen, G. T. 1993. Recent Variability in the Southern Osc",changed
+CO93TAR01,number::d18O,1,2,changed
+CO93TAR01,number::year,2,1,changed
+CO93TAR01,createdBy::year,,CoralHydro2k,added
+CO93TAR01,variableType::d18O,,measured,added
+CO93TAR01,proxy::d18O,,d18O,added
+CO93TAR01,jcpCorrected::d18O,,0,added
+CO93TAR01,jcpUsed::d18O,,0,added
+CO93TAR01,coralExtensionRate::d18O,,16,added
+CO93TAR01,coralExtensionRateNotes::d18O,,~16 mm/yr,added
+CO93TAR01,createdBy::d18O,,CoralHydro2k,added
+DA06MAF01,number::d18O,1,2,changed
+DA06MAF01,number::year,2,1,changed
+DA06MAF01,createdBy::year,,CoralHydro2k,added
+DA06MAF01,variableType::d18O,,measured,added
+DA06MAF01,proxy::d18O,,d18O,added
+DA06MAF01,jcpCorrected::d18O,,0,added
+DA06MAF01,jcpUsed::d18O,,0,added
+DA06MAF01,datum::d18O,,0,added
+DA06MAF01,createdBy::d18O,,CoralHydro2k,added
+DA06MAF02,number::d18O,1,2,changed
+DA06MAF02,number::year,2,1,changed
+DA06MAF02,createdBy::year,,CoralHydro2k,added
+DA06MAF02,variableType::d18O,,measured,added
+DA06MAF02,proxy::d18O,,d18O,added
+DA06MAF02,jcpCorrected::d18O,,0,added
+DA06MAF02,jcpUsed::d18O,,0,added
+DA06MAF02,datum::d18O,,0,added
+DA06MAF02,createdBy::d18O,,CoralHydro2k,added
+DA18FON01,(whole dataset),,NEW RECORD,new
+DE12ANC01,pub2_author,"DeLong, K. L., Quinn, T. M. and Taylor, F. W. ","DeLong, K. L., Quinn, T. M. and Taylor, F. W.",changed
+DE12ANC01,pub2_title,Reconstructing twentieth-century sea surface temperature variability in the southwest Paci,Reconstructing twentieth-century sea surface temperature variability in the southwest Paci,changed
+DE12ANC01,number::Sr/Ca,1,2,changed
+DE12ANC01,number::year,2,1,changed
+DE12ANC01,createdBy::year,,CoralHydro2k,added
+DE12ANC01,variableType::Sr/Ca,,measured,added
+DE12ANC01,proxy::Sr/Ca,,Sr/Ca,added
+DE12ANC01,jcpCorrected::Sr/Ca,,0,added
+DE12ANC01,jcpNotes::Sr/Ca,,"JCP did not exist, but laboratory standards were intercalibrated by TIMS at the University",added
+DE12ANC01,jcpUsed::Sr/Ca,,0,added
+DE12ANC01,datum::Sr/Ca,,0,added
+DE12ANC01,coralExtensionRate::Sr/Ca,,10,added
+DE12ANC01,coralExtensionRateNotes::Sr/Ca,,1 cm/year,added
+DE12ANC01,coralTissueThickness::Sr/Ca,,~5 mm,added
+DE12ANC01,createdBy::Sr/Ca,,CoralHydro2k,added
+DE13HAI01,pub1_citation,"Deng, W., Wei, G., Xie, L., Ke, T., Wang, Z., Zeng, T. and Liu, Y. 2013. Variations in the","Deng, W., Wei, G., Xie, L., Ke, T., Wang, Z., Zeng, T. and Liu, Y. 2013. Variations in the",changed
+DE13HAI01,analyticalError::d18O,NA,0.06,changed
+DE13HAI01,number::d18O,1,7,changed
+DE13HAI01,measurementTableName::year,measurementTable6,measurementTable1,changed
+DE13HAI01,TSid::year,R520eUJApJPAjFZJF,R8rD7xoXY13yPfW0D,changed
+DE13HAI01,hasTimeTsid::year,R520eUJApJPAjFZJF,R8rD7xoXY13yPfW0D,changed
+DE13HAI01,number::year,2,1,changed
+DE13HAI01,analyticalError::Sr/Ca,0.16,0.06,changed
+DE13HAI01,number::Sr/Ca,1,6,changed
+DE13HAI01,jcpCorrected::d18O,NA,0,changed
+DE13HAI01,jcpUsed::d18O,NA,0,changed
+DE13HAI01,dataSource,,Information is also available in the supplemental information of Xiao et al. 2017 (doi: 10,added
+DE13HAI01,createdBy::year,,CoralHydro2k,added
+DE13HAI01,variableType::d18O,,measured,added
+DE13HAI01,proxy::d18O,,d18O,added
+DE13HAI01,jcpNotes::d18O,,"used lab std, DOL-9, details referenced to Wei et al., 2007 Paleoceanography",added
+DE13HAI01,datum::d18O,,0,added
+DE13HAI01,createdBy::d18O,,CoralHydro2k,added
+DE13HAI01,variableType::Sr/Ca,,measured,added
+DE13HAI01,proxy::Sr/Ca,,Sr/Ca,added
+DE13HAI01,datum::Sr/Ca,,0,added
+DE13HAI01,createdBy::Sr/Ca,,CoralHydro2k,added
+DE14DTO01,pub1_citation,"DeLong, K. L., Flannery, J. A., Poore, R. Z., Quinn, T. M., Maupin, C. R., Lin, K. and She","DeLong, K. L., Flannery, J. A., Poore, R. Z., Quinn, T. M., Maupin, C. R., Lin, K. and She",changed
+DE14DTO01,pub1_title,A reconstruction of sea surface temperature variability in the southeastern Gulf of Mexico,A reconstruction of sea surface temperature variability in the southeastern Gulf of Mexico,changed
+DE14DTO01,pub2_title,Refining temperature reconstructions with the Atlantic coral Siderastrea siderea. ,Refining temperature reconstructions with the Atlantic coral Siderastrea siderea.,changed
+DE14DTO01,number::Sr/Ca,1,2,changed
+DE14DTO01,number::year,2,1,changed
+DE14DTO01,pub3_author,,"Flannery, J. A., Richey, J. N., Thirumalai, K., Poore, R. Z. and DeLong, K. L.",added
+DE14DTO01,pub3_citation,,"Flannery, J. A., Richey, J. N., Thirumalai, K., Poore, R. Z. and DeLong, K. L. 2017. Multi",added
+DE14DTO01,pub3_doi,,10.1016/j.palaeo.2016.10.022,added
+DE14DTO01,pub3_firstauthor,,"Flannery, J.",added
+DE14DTO01,pub3_journal,,"Palaeogeography, Palaeoclimatology, Palaeoecology",added
+DE14DTO01,pub3_title,,Multi-species coral Sr/Ca based sea-surface temperature reconstruction using Orbicella fav,added
+DE14DTO01,pub3_year,,2017,added
+DE14DTO01,createdBy::year,,CoralHydro2k,added
+DE14DTO01,variableType::Sr/Ca,,measured,added
+DE14DTO01,proxy::Sr/Ca,,Sr/Ca,added
+DE14DTO01,jcpCorrected::Sr/Ca,,0,added
+DE14DTO01,jcpUsed::Sr/Ca,,0,added
+DE14DTO01,datum::Sr/Ca,,0,added
+DE14DTO01,coralExtensionRate::Sr/Ca,,4.01,added
+DE14DTO01,coralExtensionRateNotes::Sr/Ca,,4.01 mm/yr,added
+DE14DTO01,createdBy::Sr/Ca,,CoralHydro2k,added
+DE14DTO02,pub1_citation,"DeLong, K. L., Flannery, J. A., Poore, R. Z., Quinn, T. M., Maupin, C. R., Lin, K. and She","DeLong, K. L., Flannery, J. A., Poore, R. Z., Quinn, T. M., Maupin, C. R., Lin, K. and She",changed
+DE14DTO02,pub1_title,A reconstruction of sea surface temperature variability in the southeastern Gulf of Mexico,A reconstruction of sea surface temperature variability in the southeastern Gulf of Mexico,changed
+DE14DTO02,pub2_title,Refining temperature reconstructions with the Atlantic coral Siderastrea siderea. ,Refining temperature reconstructions with the Atlantic coral Siderastrea siderea.,changed
+DE14DTO02,number::Sr/Ca,1,2,changed
+DE14DTO02,number::year,2,1,changed
+DE14DTO02,pub3_author,,"Flannery, J. A., Richey, J. N., Thirumalai, K., Poore, R. Z. and DeLong, K. L.",added
+DE14DTO02,pub3_citation,,"Flannery, J. A., Richey, J. N., Thirumalai, K., Poore, R. Z. and DeLong, K. L. 2017. Multi",added
+DE14DTO02,pub3_doi,,10.1016/j.palaeo.2016.10.022,added
+DE14DTO02,pub3_firstauthor,,"Flannery, J.",added
+DE14DTO02,pub3_journal,,"Palaeogeography, Palaeoclimatology, Palaeoecology",added
+DE14DTO02,pub3_title,,Multi-species coral Sr/Ca based sea-surface temperature reconstruction using Orbicella fav,added
+DE14DTO02,pub3_year,,2017,added
+DE14DTO02,createdBy::year,,CoralHydro2k,added
+DE14DTO02,variableType::Sr/Ca,,measured,added
+DE14DTO02,proxy::Sr/Ca,,Sr/Ca,added
+DE14DTO02,jcpCorrected::Sr/Ca,,0,added
+DE14DTO02,jcpUsed::Sr/Ca,,0,added
+DE14DTO02,datum::Sr/Ca,,0,added
+DE14DTO02,coralExtensionRate::Sr/Ca,,3.93,added
+DE14DTO02,coralExtensionRateNotes::Sr/Ca,,3.93 mm/yr,added
+DE14DTO02,createdBy::Sr/Ca,,CoralHydro2k,added
+DE14DTO03,pub1_citation,"DeLong, K. L., Flannery, J. A., Poore, R. Z., Quinn, T. M., Maupin, C. R., Lin, K. & Shen,","DeLong, K. L., Flannery, J. A., Poore, R. Z., Quinn, T. M., Maupin, C. R., Lin, K. & Shen,",changed
+DE14DTO03,pub1_title,A reconstruction of sea surface temperature variability in the southeastern Gulf of Mexico,A reconstruction of sea surface temperature variability in the southeastern Gulf of Mexico,changed
+DE14DTO03,pub2_title,Refining temperature reconstructions with the Atlantic coral Siderastrea siderea. ,Refining temperature reconstructions with the Atlantic coral Siderastrea siderea.,changed
+DE14DTO03,number::Sr/Ca,1,2,changed
+DE14DTO03,number::year,2,1,changed
+DE14DTO03,dataSource,,https://www.ncdc.noaa.gov/paleo/study/16217,added
+DE14DTO03,pub3_author,,"DeLong, K. L., Flannery, J. A., Maupin, C. R., Poore, R. Z. and Quinn, T. M.",added
+DE14DTO03,pub3_citation,,"DeLong, K. L., Flannery, J. A., Maupin, C. R., Poore, R. Z. and Quinn, T. M. 2011. A coral",added
+DE14DTO03,pub3_doi,,10.1016/j.palaeo.2011.05.005,added
+DE14DTO03,pub3_firstauthor,,"DeLong, K.",added
+DE14DTO03,pub3_journal,,"Palaeogeography, Palaeoclimatology, Palaeoecology",added
+DE14DTO03,pub3_title,,A coral Sr/Ca calibration and replication study of two massive corals from the Gulf of Mex,added
+DE14DTO03,pub3_year,,2011,added
+DE14DTO03,createdBy::year,,CoralHydro2k,added
+DE14DTO03,variableType::Sr/Ca,,measured,added
+DE14DTO03,proxy::Sr/Ca,,Sr/Ca,added
+DE14DTO03,jcpCorrected::Sr/Ca,,0,added
+DE14DTO03,jcpUsed::Sr/Ca,,0,added
+DE14DTO03,datum::Sr/Ca,,0,added
+DE14DTO03,coralExtensionRate::Sr/Ca,,4.82,added
+DE14DTO03,coralExtensionRateNotes::Sr/Ca,,4.82 mm/yr,added
+DE14DTO03,createdBy::Sr/Ca,,CoralHydro2k,added
+DE14DTO04,pub1_citation,"DeLong, K. L., Flannery, J. A., Poore, R. Z., Quinn, T. M., Maupin, C. R., Lin, K. & Shen,","DeLong, K. L., Flannery, J. A., Poore, R. Z., Quinn, T. M., Maupin, C. R., Lin, K. & Shen,",changed
+DE14DTO04,pub1_title,A reconstruction of sea surface temperature variability in the southeastern Gulf of Mexico,A reconstruction of sea surface temperature variability in the southeastern Gulf of Mexico,changed
+DE14DTO04,pub2_title,Refining temperature reconstructions with the Atlantic coral Siderastrea siderea. ,Refining temperature reconstructions with the Atlantic coral Siderastrea siderea.,changed
+DE14DTO04,number::Sr/Ca,1,2,changed
+DE14DTO04,number::year,2,1,changed
+DE14DTO04,dataSource,,https://www.ncdc.noaa.gov/paleo/study/16217,added
+DE14DTO04,pub3_author,,"DeLong, K. L., Flannery, J. A., Maupin, C. R., Poore, R. Z. and Quinn, T. M.",added
+DE14DTO04,pub3_citation,,"DeLong, K. L., Flannery, J. A., Maupin, C. R., Poore, R. Z. and Quinn, T. M. 2011. A coral",added
+DE14DTO04,pub3_doi,,10.1016/j.palaeo.2011.05.005,added
+DE14DTO04,pub3_firstauthor,,"DeLong, K.",added
+DE14DTO04,pub3_journal,,"Palaeogeography, Palaeoclimatology, Palaeoecology",added
+DE14DTO04,pub3_title,,A coral Sr/Ca calibration and replication study of two massive corals from the Gulf of Mex,added
+DE14DTO04,pub3_year,,2011,added
+DE14DTO04,createdBy::year,,CoralHydro2k,added
+DE14DTO04,variableType::Sr/Ca,,measured,added
+DE14DTO04,proxy::Sr/Ca,,Sr/Ca,added
+DE14DTO04,jcpCorrected::Sr/Ca,,0,added
+DE14DTO04,jcpUsed::Sr/Ca,,0,added
+DE14DTO04,datum::Sr/Ca,,0,added
+DE14DTO04,coralExtensionRate::Sr/Ca,,3.83,added
+DE14DTO04,coralExtensionRateNotes::Sr/Ca,,3.83 mm/yr,added
+DE14DTO04,createdBy::Sr/Ca,,CoralHydro2k,added
+DE16RED01,pub1_citation,"DeCarlo, T. M., Gaetani, G. A., Cohen, A. L., Foster, G. L., Alpert, A. E. and Stewart, J.","DeCarlo, T. M., Gaetani, G. A., Cohen, A. L., Foster, G. L., Alpert, A. E. and Stewart, J.",changed
+DE16RED01,pub1_title,Coral SrU thermometryn,Coral Sr‐U thermometry,changed
+DE16RED01,number::Sr/Ca,1,2,changed
+DE16RED01,number::year,2,1,changed
+DE16RED01,pub2_author,,"Alpert, A. E., Cohen, A. L., Oppo, D. W., DeCarlo, T. M., Gaetani, G. A., Hernandez-Delgad",added
+DE16RED01,pub2_citation,,"Alpert, A. E., Cohen, A. L., Oppo, D. W., DeCarlo, T. M., Gaetani, G. A., Hernandez-Delgad",added
+DE16RED01,pub2_doi,,10.1002/2016PA002976,added
+DE16RED01,pub2_firstauthor,,"Alpert, A. E.",added
+DE16RED01,pub2_journal,,Paleoceanography and Paleoclimatology,added
+DE16RED01,pub2_title,,Twentieth century warming of the tropical Atlantic captured by Sr-U paleothermometry,added
+DE16RED01,pub2_year,,2016,added
+DE16RED01,createdBy::year,,CoralHydro2k,added
+DE16RED01,variableType::Sr/Ca,,measured,added
+DE16RED01,proxy::Sr/Ca,,Sr/Ca,added
+DE16RED01,jcpCorrected::Sr/Ca,,1,added
+DE16RED01,jcpMeasured::Sr/Ca,,8.87,added
+DE16RED01,jcpNotes::Sr/Ca,,data were JCp-1 corrected,added
+DE16RED01,jcpUsed::Sr/Ca,,1,added
+DE16RED01,datum::Sr/Ca,,0,added
+DE16RED01,coralExtensionRate::Sr/Ca,,9,added
+DE16RED01,coralExtensionRateNotes::Sr/Ca,,0.9 cm/yr,added
+DE16RED01,createdBy::Sr/Ca,,CoralHydro2k,added
+DO18DAV01,pub1_citation,"D'Olivo, J. P., Sinclair, D. J., Rankenburg, K. and McCulloch, M. T. 2018. A universal mul","D'Olivo, J. P., Sinclair, D. J., Rankenburg, K. and McCulloch, M. T. 2018. A universal mul",changed
+DO18DAV01,pub1_title,A universal multi-trace element calibration for reconstructing sea surface temperatures fr,A universal multi-trace element calibration for reconstructing sea surface temperatures fr,changed
+DO18DAV01,analyticalErrorUnits::Sr/Ca,% RSD,%RSD,changed
+DO18DAV01,number::Sr/Ca,1,2,changed
+DO18DAV01,number::year,2,1,changed
+DO18DAV01,createdBy::year,,CoralHydro2k,added
+DO18DAV01,variableType::Sr/Ca,,measured,added
+DO18DAV01,proxy::Sr/Ca,,Sr/Ca,added
+DO18DAV01,jcpCorrected::Sr/Ca,,0,added
+DO18DAV01,jcpMeasured::Sr/Ca,,8.85,added
+DO18DAV01,jcpNotes::Sr/Ca,,table in paper with all JCp-1 values for multiple TE/Ca ratios,added
+DO18DAV01,jcpUsed::Sr/Ca,,1,added
+DO18DAV01,datum::Sr/Ca,,0,added
+DO18DAV01,coralExtensionRate::Sr/Ca,,14.6,added
+DO18DAV01,coralExtensionRateNotes::Sr/Ca,,14.6 mm/yr,added
+DO18DAV01,coralTissueThickness::Sr/Ca,,6,added
+DO18DAV01,createdBy::Sr/Ca,,CoralHydro2k,added
+DO24FIJ01,(whole dataset),,NEW RECORD,new
+DR00KSB01,pub1_citation,"Draschba, S., Paetzold, J. and Wefer, G. 2000. North Atlantic climate variability since AD","Draschba, S., Paetzold, J. and Wefer, G. 2000. North Atlantic climate variability since AD",changed
+DR00KSB01,number::d18O,1,2,changed
+DR00KSB01,number::year,2,1,changed
+DR00KSB01,dataSource,,https://doi.pangaea.de/10.1594/PANGAEA.711835,added
+DR00KSB01,createdBy::year,,CoralHydro2k,added
+DR00KSB01,variableType::d18O,,measured,added
+DR00KSB01,proxy::d18O,,d18O,added
+DR00KSB01,jcpCorrected::d18O,,0,added
+DR00KSB01,jcpUsed::d18O,,0,added
+DR00KSB01,coralExtensionRate::d18O,,3.5,added
+DR00KSB01,coralExtensionRateNotes::d18O,,0.35cm/yr,added
+DR00KSB01,createdBy::d18O,,CoralHydro2k,added
+DR00NBB01,pub1_citation,"Draschba, S., Paetzold, J. and Wefer, G. 2000. North Atlantic climate variability since AD","Draschba, S., Paetzold, J. and Wefer, G. 2000. North Atlantic climate variability since AD",changed
+DR00NBB01,number::d18O,1,2,changed
+DR00NBB01,number::year,2,1,changed
+DR00NBB01,dataSource,,https://doi.pangaea.de/10.1594/PANGAEA.711835,added
+DR00NBB01,createdBy::year,,CoralHydro2k,added
+DR00NBB01,variableType::d18O,,measured,added
+DR00NBB01,proxy::d18O,,d18O,added
+DR00NBB01,jcpCorrected::d18O,,0,added
+DR00NBB01,jcpUsed::d18O,,0,added
+DR00NBB01,coralExtensionRate::d18O,,3.9,added
+DR00NBB01,coralExtensionRateNotes::d18O,,0.39cm/yr,added
+DR00NBB01,createdBy::d18O,,CoralHydro2k,added
+DR99ABR01,pub1_citation,"Druffel, E. R. M. and Griffin, S. 1999. Variability of surface ocean radiocarbon and stabl","Druffel, E. R. M. and Griffin, S. 1999. Variability of surface ocean radiocarbon and stabl",changed
+DR99ABR01,pub2_citation,"Druffel, E. R. M., and  Griffin, S. 1993. Large variations of surface ocean radiocarbon: E","Druffel, E. R. M., and  Griffin, S. 1993. Large variations of surface ocean radiocarbon: E",changed
+DR99ABR01,number::d18O,1,3,changed
+DR99ABR01,measurementTableName::year,measurementTable2,measurementTable1,changed
+DR99ABR01,TSid::year,RmoF6TJPeidmbtd4y,R01AkWuetWy2LDmYU,changed
+DR99ABR01,hasTimeTsid::year,RmoF6TJPeidmbtd4y,R01AkWuetWy2LDmYU,changed
+DR99ABR01,number::year,2,1,changed
+DR99ABR01,jcpCorrected::d18O,NA,0,changed
+DR99ABR01,jcpUsed::d18O,NA,0,changed
+DR99ABR01,dataSource,,https://www.ncdc.noaa.gov/paleo/study/1838,added
+DR99ABR01,createdBy::year,,CoralHydro2k,added
+DR99ABR01,variableType::d18O,,measured,added
+DR99ABR01,proxy::d18O,,d18O,added
+DR99ABR01,datum::d18O,,0,added
+DR99ABR01,createdBy::d18O,,CoralHydro2k,added
+DU94URV01,pub1_citation,"Dunbar, R. B., Wellington, G. M., Colgan, M. W. and Glynn, P. W. 1994. Eastern Pacific sea","Dunbar, R. B., Wellington, G. M., Colgan, M. W. and Glynn, P. W. 1994. Eastern Pacific sea",changed
+DU94URV01,notes::d18O,"Core was collected in a subhorizontal, not vertical, orientation from coral colony; indist","Core was collected in a ""subhorizontal"", not vertical, orientation from coral colony; indi",changed
+DU94URV01,number::d18O,1,3,changed
+DU94URV01,measurementTableName::year,measurementTable2,measurementTable1,changed
+DU94URV01,TSid::year,RFtpxkjO2eZ76Lwvv,R9J3YKwz1mdaKIN4S,changed
+DU94URV01,hasTimeTsid::year,RFtpxkjO2eZ76Lwvv,R9J3YKwz1mdaKIN4S,changed
+DU94URV01,number::year,2,1,changed
+DU94URV01,jcpCorrected::d18O,NA,0,changed
+DU94URV01,jcpUsed::d18O,NA,0,changed
+DU94URV01,createdBy::year,,CoralHydro2k,added
+DU94URV01,variableType::d18O,,measured,added
+DU94URV01,proxy::d18O,,d18O,added
+DU94URV01,datum::d18O,,0,added
+DU94URV01,createdBy::d18O,,CoralHydro2k,added
+DU94URV02,pub1_citation,"Dunbar, R. B., Wellington, G. M., Colgan, M. W. and Glynn, P. W. 1994. Eastern Pacific sea","Dunbar, R. B., Wellington, G. M., Colgan, M. W. and Glynn, P. W. 1994. Eastern Pacific sea",changed
+DU94URV02,number::d18O,1,3,changed
+DU94URV02,measurementTableName::year,measurementTable2,measurementTable1,changed
+DU94URV02,TSid::year,ReLdT4gjC49JBY3Jc,R4ohy2axzfTAj22ZL,changed
+DU94URV02,hasTimeTsid::year,ReLdT4gjC49JBY3Jc,R4ohy2axzfTAj22ZL,changed
+DU94URV02,number::year,2,1,changed
+DU94URV02,jcpCorrected::d18O,NA,0,changed
+DU94URV02,jcpUsed::d18O,NA,0,changed
+DU94URV02,createdBy::year,,CoralHydro2k,added
+DU94URV02,variableType::d18O,,measured,added
+DU94URV02,proxy::d18O,,d18O,added
+DU94URV02,datum::d18O,,0,added
+DU94URV02,createdBy::d18O,,CoralHydro2k,added
+EV18ROC01,pub1_citation,"Evangelista, H., Sifeddine, A., Correge, T., Servain, J., Dassie, E. P., Logato, R., Corde","Evangelista, H., Sifeddine, A., Correge, T., Servain, J., Dassie, E. P., Logato, R., Corde",changed
+EV18ROC01,archiveSpecies::Sr/Ca,Siderastrea stellata ,Siderastrea stellata,changed
+EV18ROC01,number::Sr/Ca,1,3,changed
+EV18ROC01,measurementTableName::year,measurementTable2,measurementTable1,changed
+EV18ROC01,TSid::year,R3svkRslZHfa7pkcL,RbLSM9RPW02L4xLH6,changed
+EV18ROC01,hasTimeTsid::year,R3svkRslZHfa7pkcL,RbLSM9RPW02L4xLH6,changed
+EV18ROC01,number::year,2,1,changed
+EV18ROC01,coralExtensionRateNotes::Sr/Ca,6.01 (1.08) mm/yr,6.01 (±1.08) mm/yr,changed
+EV18ROC01,dataSource,,https://agupubs.onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1002%2F2017GC0073,added
+EV18ROC01,createdBy::year,,CoralHydro2k,added
+EV18ROC01,variableType::Sr/Ca,,measured,added
+EV18ROC01,proxy::Sr/Ca,,Sr/Ca,added
+EV18ROC01,datum::Sr/Ca,,0,added
+EV18ROC01,createdBy::Sr/Ca,,CoralHydro2k,added
+EV98KIR01,number::d18O,1,2,changed
+EV98KIR01,number::year,2,1,changed
+EV98KIR01,createdBy::year,,CoralHydro2k,added
+EV98KIR01,variableType::d18O,,measured,added
+EV98KIR01,proxy::d18O,,d18O,added
+EV98KIR01,jcpCorrected::d18O,,0,added
+EV98KIR01,jcpUsed::d18O,,0,added
+EV98KIR01,createdBy::d18O,,CoralHydro2k,added
+FE09OGA01,analyticalError::d18O,NA,0.07,changed
+FE09OGA01,notes::d18O,"Annual regression slopes (-0.213 / C, -0.140 mmol/mol / C) imply an apparent amplification","Annual regression slopes (-0.213‰ / °C, -0.140 mmol/mol / °C) imply an apparent amplificat",changed
+FE09OGA01,number::d18O,1,4,changed
+FE09OGA01,measurementTableName::year,measurementTable5,measurementTable4,changed
+FE09OGA01,TSid::year,RgzYfTcgpg5G55cw0,R3MVSLhVboKiZ7dTa,changed
+FE09OGA01,hasTimeTsid::year,RgzYfTcgpg5G55cw0,R3MVSLhVboKiZ7dTa,changed
+FE09OGA01,number::year,2,1,changed
+FE09OGA01,analyticalError::Sr/Ca,0.04,0.07,changed
+FE09OGA01,notes::Sr/Ca,"Annual regression slopes (-0.213 / C, -0.140 mmol/mol / C) imply an apparent amplification","Annual regression slopes (-0.213‰ / °C, -0.140 mmol/mol / °C) imply an apparent amplificat",changed
+FE09OGA01,number::Sr/Ca,1,3,changed
+FE09OGA01,jcpCorrected::d18O,NA,0,changed
+FE09OGA01,jcpUsed::d18O,NA,0,changed
+FE09OGA01,dataSource,,https://doi.pangaea.de/10.1594/PANGAEA.743956,added
+FE09OGA01,createdBy::year,,CoralHydro2k,added
+FE09OGA01,variableType::d18O,,measured,added
+FE09OGA01,proxy::d18O,,d18O,added
+FE09OGA01,datum::d18O,,0,added
+FE09OGA01,createdBy::d18O,,CoralHydro2k,added
+FE09OGA01,variableType::Sr/Ca,,measured,added
+FE09OGA01,proxy::Sr/Ca,,Sr/Ca,added
+FE09OGA01,datum::Sr/Ca,,0,added
+FE09OGA01,createdBy::Sr/Ca,,CoralHydro2k,added
+FE18RUS01,analyticalError::d18O,NA,0.07,changed
+FE18RUS01,notes::d18O,"Annual regression slopes (-0.29 / C, -0.115 mmol/mol / C) imply an apparent amplification ","Annual regression slopes (-0.29‰ / °C, -0.115 mmol/mol / °C) imply an apparent amplificati",changed
+FE18RUS01,number::d18O,1,4,changed
+FE18RUS01,measurementTableName::year,measurementTable5,measurementTable4,changed
+FE18RUS01,TSid::year,RksRjrV1WFm3ME2BZ,RkgqoizFgPrWuoEmD,changed
+FE18RUS01,hasTimeTsid::year,RksRjrV1WFm3ME2BZ,RkgqoizFgPrWuoEmD,changed
+FE18RUS01,number::year,2,1,changed
+FE18RUS01,analyticalError::Sr/Ca,0.019,0.07,changed
+FE18RUS01,notes::Sr/Ca,"Annual regression slopes (-0.29 / C, -0.115 mmol/mol / C) imply an apparent amplification ","Annual regression slopes (-0.29‰ / °C, -0.115 mmol/mol / °C) imply an apparent amplificati",changed
+FE18RUS01,number::Sr/Ca,1,3,changed
+FE18RUS01,coralExtensionRateNotes::Sr/Ca, 1 cm/year,~ 1 cm/year,changed
+FE18RUS01,jcpMeasured::Sr/Ca,NA,8.924,changed
+FE18RUS01,jcpUsed::Sr/Ca,0,1,changed
+FE18RUS01,coralExtensionRateNotes::d18O, 1 cm/year,~ 1 cm/year,changed
+FE18RUS01,jcpCorrected::d18O,NA,0,changed
+FE18RUS01,jcpMeasured::d18O,NA,8.924,changed
+FE18RUS01,jcpUsed::d18O,NA,1,changed
+FE18RUS01,dataSource,,https://doi.pangaea.de/10.1594/PANGAEA.891096,added
+FE18RUS01,createdBy::year,,CoralHydro2k,added
+FE18RUS01,variableType::d18O,,measured,added
+FE18RUS01,proxy::d18O,,d18O,added
+FE18RUS01,jcpNotes::d18O,,"8.924 +/-0.014, +/-1sd, n=9 (9 aliquots of JCp-1 powder were treated like samples, the ave",added
+FE18RUS01,datum::d18O,,0,added
+FE18RUS01,createdBy::d18O,,CoralHydro2k,added
+FE18RUS01,variableType::Sr/Ca,,measured,added
+FE18RUS01,proxy::Sr/Ca,,Sr/Ca,added
+FE18RUS01,jcpNotes::Sr/Ca,,"8.924 +/-0.014, +/-1sd, n=9 (9 aliquots of JCp-1 powder were treated like samples, the ave",added
+FE18RUS01,datum::Sr/Ca,,0,added
+FE18RUS01,createdBy::Sr/Ca,,CoralHydro2k,added
+FL17DTO01,pub2_journal,Journal of Coastal Research ,Journal of Coastal Research,changed
+FL17DTO01,number::Sr/Ca,1,2,changed
+FL17DTO01,number::year,2,1,changed
+FL17DTO01,coralExtensionRateNotes::Sr/Ca,8.5(1.9) mm/yr,8.5(±1.9) mm/yr,changed
+FL17DTO01,jcpNotes::Sr/Ca,"0.019, 2s, n=50","±0.019, 2s, n=50",changed
+FL17DTO01,dataSource,,https://coastal.er.usgs.gov/data-release/doi-F7CC0XS9/,added
+FL17DTO01,pub3_author,,"DeLong, K. L., Flannery, J. A., Maupin, C. R., Poore, R. Z. and Quinn, T. M.",added
+FL17DTO01,pub3_citation,,"DeLong, K. L., Flannery, J. A., Maupin, C. R., Poore, R. Z. and Quinn, T. M. 2011. A coral",added
+FL17DTO01,pub3_doi,,10.1016/j.palaeo.2011.05.005,added
+FL17DTO01,pub3_firstauthor,,"DeLong, K.",added
+FL17DTO01,pub3_journal,,"Palaeogeography, Palaeoclimatology, Palaeoecology",added
+FL17DTO01,pub3_title,,A coral Sr/Ca calibration and replication study of two massive corals from the Gulf of Mex,added
+FL17DTO01,pub3_year,,2011,added
+FL17DTO01,createdBy::year,,CoralHydro2k,added
+FL17DTO01,variableType::Sr/Ca,,measured,added
+FL17DTO01,proxy::Sr/Ca,,Sr/Ca,added
+FL17DTO01,datum::Sr/Ca,,0,added
+FL17DTO01,createdBy::Sr/Ca,,CoralHydro2k,added
+FL17DTO02,pub2_title,Collection methods and descriptions of coral cores extracted from massive corals in Dry To,Collection methods and descriptions of coral cores extracted from massive corals in Dry To,changed
+FL17DTO02,number::Sr/Ca,1,2,changed
+FL17DTO02,number::year,2,1,changed
+FL17DTO02,jcpNotes::Sr/Ca,"0.019, 2s, n=50","±0.019, 2s, n=50",changed
+FL17DTO02,dataSource,,https://coastal.er.usgs.gov/data-release/doi-F7CC0XS9/,added
+FL17DTO02,createdBy::year,,CoralHydro2k,added
+FL17DTO02,variableType::Sr/Ca,,measured,added
+FL17DTO02,proxy::Sr/Ca,,Sr/Ca,added
+FL17DTO02,datum::Sr/Ca,,0,added
+FL17DTO02,createdBy::Sr/Ca,,CoralHydro2k,added
+FL18DTO01,pub3_journal,Journal of Coastal Research ,Journal of Coastal Research,changed
+FL18DTO01,number::Sr/Ca,1,2,changed
+FL18DTO01,number::year,2,1,changed
+FL18DTO01,dataSource,,https://coastal.er.usgs.gov/data-release/doi-P90M2W6D/,added
+FL18DTO01,createdBy::year,,CoralHydro2k,added
+FL18DTO01,variableType::Sr/Ca,,measured,added
+FL18DTO01,proxy::Sr/Ca,,Sr/Ca,added
+FL18DTO01,jcpCorrected::Sr/Ca,,0,added
+FL18DTO01,jcpMeasured::Sr/Ca,,8.823,added
+FL18DTO01,jcpNotes::Sr/Ca,,"±0.019, 2s, n=50",added
+FL18DTO01,jcpUsed::Sr/Ca,,1,added
+FL18DTO01,datum::Sr/Ca,,0,added
+FL18DTO01,coralExtensionRate::Sr/Ca,,6,added
+FL18DTO01,coralExtensionRateNotes::Sr/Ca,,0.6(±0.08) cm/yr,added
+FL18DTO01,createdBy::Sr/Ca,,CoralHydro2k,added
+FL18DTO02,pub2_author,"Hickey, D., Reich, C. D., DeLong, K. L., Poore, R. Z. and Brock, J. C. ","Hickey, D., Reich, C. D., DeLong, K. L., Poore, R. Z. and Brock, J. C.",changed
+FL18DTO02,pub2_title,Holocene core logs and site methods for modern reef and head-coral cores: Dry Tortugas Nat,Holocene core logs and site methods for modern reef and head-coral cores: Dry Tortugas Nat,changed
+FL18DTO02,number::Sr/Ca,1,2,changed
+FL18DTO02,number::year,2,1,changed
+FL18DTO02,dataSource,,https://coastal.er.usgs.gov/data-release/doi-P90M2W6D/,added
+FL18DTO02,createdBy::year,,CoralHydro2k,added
+FL18DTO02,variableType::Sr/Ca,,measured,added
+FL18DTO02,proxy::Sr/Ca,,Sr/Ca,added
+FL18DTO02,jcpCorrected::Sr/Ca,,0,added
+FL18DTO02,jcpMeasured::Sr/Ca,,8.823,added
+FL18DTO02,jcpNotes::Sr/Ca,,"±0.019, 2s, n=50",added
+FL18DTO02,jcpUsed::Sr/Ca,,1,added
+FL18DTO02,datum::Sr/Ca,,0,added
+FL18DTO02,coralExtensionRate::Sr/Ca,,7.7,added
+FL18DTO02,coralExtensionRateNotes::Sr/Ca,,0.77(±0.11) cm/yr,added
+FL18DTO02,createdBy::Sr/Ca,,CoralHydro2k,added
+FL18DTO03,pub2_title,Collection methods and descriptions of coral cores extracted from massive corals in Dry To,Collection methods and descriptions of coral cores extracted from massive corals in Dry To,changed
+FL18DTO03,number::Sr/Ca,1,2,changed
+FL18DTO03,number::year,2,1,changed
+FL18DTO03,dataSource,,https://coastal.er.usgs.gov/data-release/doi-P90M2W6D/,added
+FL18DTO03,createdBy::year,,CoralHydro2k,added
+FL18DTO03,variableType::Sr/Ca,,measured,added
+FL18DTO03,proxy::Sr/Ca,,Sr/Ca,added
+FL18DTO03,jcpCorrected::Sr/Ca,,0,added
+FL18DTO03,jcpMeasured::Sr/Ca,,8.823,added
+FL18DTO03,jcpNotes::Sr/Ca,,"±0.019, 2s, n=50",added
+FL18DTO03,jcpUsed::Sr/Ca,,1,added
+FL18DTO03,datum::Sr/Ca,,0,added
+FL18DTO03,coralExtensionRate::Sr/Ca,,11.1,added
+FL18DTO03,coralExtensionRateNotes::Sr/Ca,,1.11(±0.12) cm/yr,added
+FL18DTO03,createdBy::Sr/Ca,,CoralHydro2k,added
+FL18DTO04,pub2_title,Collection methods and descriptions of coral cores extracted from massive corals in Dry To,Collection methods and descriptions of coral cores extracted from massive corals in Dry To,changed
+FL18DTO04,number::Sr/Ca,1,2,changed
+FL18DTO04,number::year,2,1,changed
+FL18DTO04,dataSource,,https://coastal.er.usgs.gov/data-release/doi-P90M2W6D/,added
+FL18DTO04,createdBy::year,,CoralHydro2k,added
+FL18DTO04,variableType::Sr/Ca,,measured,added
+FL18DTO04,proxy::Sr/Ca,,Sr/Ca,added
+FL18DTO04,jcpCorrected::Sr/Ca,,0,added
+FL18DTO04,jcpMeasured::Sr/Ca,,8.823,added
+FL18DTO04,jcpNotes::Sr/Ca,,"±0.019, 2s, n=50",added
+FL18DTO04,jcpUsed::Sr/Ca,,1,added
+FL18DTO04,datum::Sr/Ca,,0,added
+FL18DTO04,coralExtensionRate::Sr/Ca,,8.3,added
+FL18DTO04,coralExtensionRateNotes::Sr/Ca,,0.83(±0.17) cm/yr,added
+FL18DTO04,createdBy::Sr/Ca,,CoralHydro2k,added
+FL24MAR01,(whole dataset),,NEW RECORD,new
+GA23SHI01,(whole dataset),,NEW RECORD,new
+GE22LOM01,(whole dataset),,NEW RECORD,new
+GO08BER01,pub3_citation,"Goodkin, N. F. 2007. Geochemistry of slowgrowing corals: Reconstructing sea surface temper","Goodkin, N. F. 2007. Geochemistry of slow‐growing corals: Reconstructing sea surface tempe",changed
+GO08BER01,number::d18O,1,2,changed
+GO08BER01,measurementTableName::year,measurementTable6,measurementTable4,changed
+GO08BER01,TSid::year,RWqz8crf9DhuitnXX,Rcm0nBYRpV1TO8ZNx,changed
+GO08BER01,hasTimeTsid::year,RWqz8crf9DhuitnXX,Rcm0nBYRpV1TO8ZNx,changed
+GO08BER01,number::year,2,1,changed
+GO08BER01,N::year,2304,218,changed
+GO08BER01,SUM::year,4361812.66,411911,changed
+GO08BER01,analyticalError::Sr/Ca,0.27,0.11,changed
+GO08BER01,number::Sr/Ca,1,3,changed
+GO08BER01,jcpCorrected::d18O,NA,0,changed
+GO08BER01,jcpUsed::d18O,NA,0,changed
+GO08BER01,analyticalError::uncertainty,0.27,,removed
+GO08BER01,analyticalErrorUnits::uncertainty,% RSD,,removed
+GO08BER01,archiveSpecies::uncertainty,Diploria labyrinthiformis,,removed
+GO08BER01,ch2kCoreCode::uncertainty,GO08BER01,,removed
+GO08BER01,coralExtensionRate::uncertainty,3.8,,removed
+GO08BER01,coralExtensionRateNotes::uncertainty,3.8 mm/yr,,removed
+GO08BER01,coralHydro2kGroup::uncertainty,1,,removed
+GO08BER01,coreName::uncertainty,BB001,,removed
+GO08BER01,isAnomaly::uncertainty,0,,removed
+GO08BER01,isComposite::uncertainty,0,,removed
+GO08BER01,isPrimary::uncertainty,FALSE,,removed
+GO08BER01,jcpCorrected::uncertainty,0,,removed
+GO08BER01,jcpMeasured::uncertainty,NA,,removed
+GO08BER01,jcpUsed::uncertainty,0,,removed
+GO08BER01,longName::uncertainty,SrCa,,removed
+GO08BER01,measurementMaterial::uncertainty,Sr/Ca,,removed
+GO08BER01,measurementTableName::uncertainty,measurementTable6,,removed
+GO08BER01,medianRes12k::uncertainty,NA,,removed
+GO08BER01,notes::uncertainty,See Goodkin et al 2005 for interannual Sr/Ca calibration,,removed
+GO08BER01,samplingResolution::uncertainty,0.33 mm,,removed
+GO08BER01,TSid::uncertainty,GO08BER01_SrCaUncertainty,GO08BER01_SrCa_err,changed
+GO08BER01,primaryAgeColumn::uncertainty,FALSE,,removed
+GO08BER01,hasTimeTsid::uncertainty,RWqz8crf9DhuitnXX,,removed
+GO08BER01,interpretation::uncertainty,NA; climate; NA; climate,,removed
+GO08BER01,calibration::uncertainty,Hydrostation S (local); 10.1; 0.86; -0.0358; 0.0018,,removed
+GO08BER01,hasResolution::uncertainty,bimonthly_uneven,,removed
+GO08BER01,number::uncertainty,1,5,changed
+GO08BER01,maxYear::uncertainty,1999.58,,removed
+GO08BER01,distinctYearsInCommonEra::uncertainty,219,,removed
+GO08BER01,dataSource,,https://www.ncdc.noaa.gov/paleo/study/6115,added
+GO08BER01,createdBy::year,,CoralHydro2k,added
+GO08BER01,variableType::d18O,,measured,added
+GO08BER01,proxy::d18O,,d18O,added
+GO08BER01,datum::d18O,,0,added
+GO08BER01,createdBy::d18O,,CoralHydro2k,added
+GO08BER01,variableType::Sr/Ca,,measured,added
+GO08BER01,proxy::Sr/Ca,,Sr/Ca,added
+GO08BER01,datum::Sr/Ca,,0,added
+GO08BER01,createdBy::Sr/Ca,,CoralHydro2k,added
+GO08BER01,variableType::uncertainty,,measured,added
+GO08BER01,uncertaintyFor::uncertainty,,Sr/Ca,added
+GO08BER01,createdBy::uncertainty,,CoralHydro2k,added
+GO12SBV01,samplingNotes::d18O,continuous milling ,continuous milling,changed
+GO12SBV01,number::d18O,1,2,changed
+GO12SBV01,number::year,2,1,changed
+GO12SBV01,analyticalError::Sr/Ca,0.0045,0.07,changed
+GO12SBV01,samplingNotes::Sr/Ca,continuous milling ,continuous milling,changed
+GO12SBV01,number::Sr/Ca,1,2,changed
+GO12SBV01,dataSource,,https://www.ncdc.noaa.gov/paleo/study/28590,added
+GO12SBV01,createdBy::year,,CoralHydro2k,added
+GO12SBV01,variableType::d18O,,measured,added
+GO12SBV01,proxy::d18O,,d18O,added
+GO12SBV01,jcpCorrected::d18O,,0,added
+GO12SBV01,jcpUsed::d18O,,0,added
+GO12SBV01,datum::d18O,,0,added
+GO12SBV01,coralExtensionRate::d18O,,12,added
+GO12SBV01,coralExtensionRateNotes::d18O,,1.2 cm/year,added
+GO12SBV01,createdBy::d18O,,CoralHydro2k,added
+GO12SBV01,variableType::Sr/Ca,,measured,added
+GO12SBV01,proxy::Sr/Ca,,Sr/Ca,added
+GO12SBV01,jcpCorrected::Sr/Ca,,0,added
+GO12SBV01,jcpUsed::Sr/Ca,,0,added
+GO12SBV01,datum::Sr/Ca,,0,added
+GO12SBV01,coralExtensionRate::Sr/Ca,,12,added
+GO12SBV01,coralExtensionRateNotes::Sr/Ca,,1.2 cm/year,added
+GO12SBV01,createdBy::Sr/Ca,,CoralHydro2k,added
+GR13MAD01,number::Sr/Ca,1,2,changed
+GR13MAD01,number::year,2,1,changed
+GR13MAD01,createdBy::year,,CoralHydro2k,added
+GR13MAD01,variableType::Sr/Ca,,measured,added
+GR13MAD01,proxy::Sr/Ca,,Sr/Ca,added
+GR13MAD01,jcpCorrected::Sr/Ca,,1,added
+GR13MAD01,jcpMeasured::Sr/Ca,,8.83,added
+GR13MAD01,jcpNotes::Sr/Ca,,"JCp-1 was later re-calculated, was wrongly stated in paper as 8.57",added
+GR13MAD01,jcpUsed::Sr/Ca,,1,added
+GR13MAD01,datum::Sr/Ca,,0,added
+GR13MAD01,coralExtensionRate::Sr/Ca,,14.2,added
+GR13MAD01,coralExtensionRateNotes::Sr/Ca,,14.2,added
+GR13MAD01,createdBy::Sr/Ca,,CoralHydro2k,added
+GR13MAD02,number::Sr/Ca,1,2,changed
+GR13MAD02,number::year,2,1,changed
+GR13MAD02,createdBy::year,,CoralHydro2k,added
+GR13MAD02,variableType::Sr/Ca,,measured,added
+GR13MAD02,proxy::Sr/Ca,,Sr/Ca,added
+GR13MAD02,jcpCorrected::Sr/Ca,,1,added
+GR13MAD02,jcpMeasured::Sr/Ca,,8.83,added
+GR13MAD02,jcpNotes::Sr/Ca,,"JCp-1 was later re-calculated, was wrongly stated in paper as 8.57",added
+GR13MAD02,jcpUsed::Sr/Ca,,1,added
+GR13MAD02,datum::Sr/Ca,,0,added
+GR13MAD02,coralExtensionRate::Sr/Ca,,17.9,added
+GR13MAD02,coralExtensionRateNotes::Sr/Ca,,17.9,added
+GR13MAD02,createdBy::Sr/Ca,,CoralHydro2k,added
+GU25HAI01,(whole dataset),,NEW RECORD,new
+GU25HAI02,(whole dataset),,NEW RECORD,new
+GU25HAI03,(whole dataset),,NEW RECORD,new
+GU25HAI04,(whole dataset),,NEW RECORD,new
+GU99NAU01,pub1_citation,"Guilderson, T. P. and Schrag, D. P. 1999. Reliability of coral isotope records from the We","Guilderson, T. P. and Schrag, D. P. 1999. Reliability of coral isotope records from the We",changed
+GU99NAU01,notes::d18O,Oxygen isotope data has NOT been corrected for the acid fractionation difference (acid-alp,"Oxygen isotope data has NOT been corrected for the acid fractionation difference (""acid-al",changed
+GU99NAU01,number::d18O,1,2,changed
+GU99NAU01,number::year,2,1,changed
+GU99NAU01,createdBy::year,,CoralHydro2k,added
+GU99NAU01,variableType::d18O,,measured,added
+GU99NAU01,proxy::d18O,,d18O,added
+GU99NAU01,jcpCorrected::d18O,,0,added
+GU99NAU01,jcpUsed::d18O,,0,added
+GU99NAU01,createdBy::d18O,,CoralHydro2k,added
+GU99NAU02,pub1_citation,"Guilderson, T. P. and Schrag, D. P. 1999. Reliability of coral isotope records from the We","Guilderson, T. P. and Schrag, D. P. 1999. Reliability of coral isotope records from the We",changed
+GU99NAU02,notes::d18O,"No calibrations, two cores are part of this study (see GU99NAU01); Oxygen isotope data has","No calibrations, two cores are part of this study (see GU99NAU01); Oxygen isotope data has",changed
+GU99NAU02,samplingNotes::d18O,"continuous, 2 mm discrete samples, but growth rate went from 8mm/yr to 21mm/yr and the low","continuous, 2 mm discrete samples, but growth rate went from ~8mm/yr to ~21mm/yr and the l",changed
+GU99NAU02,number::d18O,1,2,changed
+GU99NAU02,number::year,2,1,changed
+GU99NAU02,createdBy::year,,CoralHydro2k,added
+GU99NAU02,variableType::d18O,,measured,added
+GU99NAU02,proxy::d18O,,d18O,added
+GU99NAU02,jcpCorrected::d18O,,0,added
+GU99NAU02,jcpUsed::d18O,,0,added
+GU99NAU02,datum::d18O,,0,added
+GU99NAU02,coralExtensionRateNotes::d18O,,8 to 21 mm/yr,added
+GU99NAU02,createdBy::d18O,,CoralHydro2k,added
+HA19YON01,(whole dataset),,NEW RECORD,new
+HA23HAV01,(whole dataset),,NEW RECORD,new
+HE02GBR01,analyticalError::d18O,NA,0.04,changed
+HE02GBR01,number::d18O,1,4,changed
+HE02GBR01,measurementTableName::year,measurementTable3,measurementTable1,changed
+HE02GBR01,TSid::year,RuCocomilK5XOWhWO,RbEXyHLDa53ACaU8t,changed
+HE02GBR01,hasTimeTsid::year,RuCocomilK5XOWhWO,RbEXyHLDa53ACaU8t,changed
+HE02GBR01,number::year,2,1,changed
+HE02GBR01,analyticalError::Sr/Ca,0.0046,0.04,changed
+HE02GBR01,number::Sr/Ca,1,3,changed
+HE02GBR01,createdBy::year,,CoralHydro2k,added
+HE02GBR01,variableType::d18O,,measured,added
+HE02GBR01,proxy::d18O,,d18O,added
+HE02GBR01,jcpCorrected::d18O,,0,added
+HE02GBR01,jcpUsed::d18O,,0,added
+HE02GBR01,datum::d18O,,1,added
+HE02GBR01,createdBy::d18O,,CoralHydro2k,added
+HE02GBR01,variableType::Sr/Ca,,measured,added
+HE02GBR01,proxy::Sr/Ca,,Sr/Ca,added
+HE02GBR01,jcpCorrected::Sr/Ca,,0,added
+HE02GBR01,jcpUsed::Sr/Ca,,0,added
+HE02GBR01,datum::Sr/Ca,,1,added
+HE02GBR01,createdBy::Sr/Ca,,CoralHydro2k,added
+HE02GBR01,inferredMaterial::d18O,,sea water,added
+HE08LRA01,number::d18O,1,2,changed
+HE08LRA01,number::year,2,1,changed
+HE08LRA01,createdBy::year,,CoralHydro2k,added
+HE08LRA01,variableType::d18O,,measured,added
+HE08LRA01,proxy::d18O,,d18O,added
+HE08LRA01,jcpCorrected::d18O,,0,added
+HE08LRA01,jcpUsed::d18O,,0,added
+HE08LRA01,createdBy::d18O,,CoralHydro2k,added
+HE10GUA01,pub2_title,Sr/Ca and d18O in a fastgrowing Diploria strigosa coral: Evaluation of a new climate archi,Sr/Ca and d18O in a fast‐growing Diploria strigosa coral: Evaluation of a new climate arch,changed
+HE10GUA01,samplingNotes::d18O,continuous (10 to 12 samples/year),continuous (~10 to 12 samples/year),changed
+HE10GUA01,samplingResolution::d18O,0.8 mm,~0.8 mm,changed
+HE10GUA01,number::d18O,1,2,changed
+HE10GUA01,number::year,2,1,changed
+HE10GUA01,analyticalError::Sr/Ca,0.01,0.06,changed
+HE10GUA01,samplingNotes::Sr/Ca,continuous (10 to 12 samples/year),continuous (~10 to 12 samples/year),changed
+HE10GUA01,samplingResolution::Sr/Ca,0.8 mm,~0.8 mm,changed
+HE10GUA01,number::Sr/Ca,1,3,changed
+HE10GUA01,coralExtensionRateNotes::Sr/Ca,9.2 mm/year ( 1.39 mm),9.2 mm/year (± 1.39 mm),changed
+HE10GUA01,coralExtensionRateNotes::d18O,9.2 mm/year ( 1.39 mm),9.2 mm/year (± 1.39 mm),changed
+HE10GUA01,jcpCorrected::d18O,NA,0,changed
+HE10GUA01,jcpUsed::d18O,NA,0,changed
+HE10GUA01,createdBy::year,,CoralHydro2k,added
+HE10GUA01,variableType::d18O,,measured,added
+HE10GUA01,proxy::d18O,,d18O,added
+HE10GUA01,datum::d18O,,0,added
+HE10GUA01,createdBy::d18O,,CoralHydro2k,added
+HE10GUA01,variableType::Sr/Ca,,measured,added
+HE10GUA01,proxy::Sr/Ca,,Sr/Ca,added
+HE10GUA01,datum::Sr/Ca,,0,added
+HE10GUA01,createdBy::Sr/Ca,,CoralHydro2k,added
+HE13MIS01,number::d18O,1,2,changed
+HE13MIS01,measurementTableName::year,measurementTable2,measurementTable1,changed
+HE13MIS01,TSid::year,RNKwBdfJXrEV3NNpD,R9zTq7v3Pmco6dh1O,changed
+HE13MIS01,hasTimeTsid::year,RNKwBdfJXrEV3NNpD,R9zTq7v3Pmco6dh1O,changed
+HE13MIS01,number::year,2,1,changed
+HE13MIS01,analyticalError::Sr/Ca,0.0015,0.05,changed
+HE13MIS01,number::Sr/Ca,1,3,changed
+HE13MIS01,createdBy::year,,CoralHydro2k,added
+HE13MIS01,variableType::d18O,,measured,added
+HE13MIS01,proxy::d18O,,d18O,added
+HE13MIS01,jcpCorrected::d18O,,0,added
+HE13MIS01,jcpNotes::d18O,,"JCP did not exist, but laboratory standards were intercalibrated by TIMS at the University",added
+HE13MIS01,jcpUsed::d18O,,0,added
+HE13MIS01,datum::d18O,,0,added
+HE13MIS01,createdBy::d18O,,CoralHydro2k,added
+HE13MIS01,variableType::Sr/Ca,,measured,added
+HE13MIS01,proxy::Sr/Ca,,Sr/Ca,added
+HE13MIS01,jcpCorrected::Sr/Ca,,0,added
+HE13MIS01,jcpNotes::Sr/Ca,,"JCP did not exist, but laboratory standards were intercalibrated by TIMS at the University",added
+HE13MIS01,jcpUsed::Sr/Ca,,0,added
+HE13MIS01,datum::Sr/Ca,,0,added
+HE13MIS01,createdBy::Sr/Ca,,CoralHydro2k,added
+HE13MIS02,number::d18O,1,2,changed
+HE13MIS02,measurementTableName::year,measurementTable2,measurementTable1,changed
+HE13MIS02,TSid::year,RL2ETFoDYSAxnSBie,RcyUJVk9wmHT2G3Ht,changed
+HE13MIS02,hasTimeTsid::year,RL2ETFoDYSAxnSBie,RcyUJVk9wmHT2G3Ht,changed
+HE13MIS02,number::year,2,1,changed
+HE13MIS02,analyticalError::Sr/Ca,0.0015,0.05,changed
+HE13MIS02,number::Sr/Ca,1,3,changed
+HE13MIS02,createdBy::year,,CoralHydro2k,added
+HE13MIS02,variableType::d18O,,measured,added
+HE13MIS02,proxy::d18O,,d18O,added
+HE13MIS02,jcpCorrected::d18O,,0,added
+HE13MIS02,jcpNotes::d18O,,"JCP did not exist, but laboratory standards were intercalibrated by TIMS at the University",added
+HE13MIS02,jcpUsed::d18O,,0,added
+HE13MIS02,datum::d18O,,0,added
+HE13MIS02,createdBy::d18O,,CoralHydro2k,added
+HE13MIS02,variableType::Sr/Ca,,measured,added
+HE13MIS02,proxy::Sr/Ca,,Sr/Ca,added
+HE13MIS02,jcpCorrected::Sr/Ca,,0,added
+HE13MIS02,jcpNotes::Sr/Ca,,"JCP did not exist, but laboratory standards were intercalibrated by TIMS at the University",added
+HE13MIS02,jcpUsed::Sr/Ca,,0,added
+HE13MIS02,datum::Sr/Ca,,0,added
+HE13MIS02,createdBy::Sr/Ca,,CoralHydro2k,added
+HE18COC01,pub1_citation,"Hennekam, R., Zinke, J., van Sebille, E., ten Have, M., Brummer, G.-J. A. and Reichart, G.","Hennekam, R., Zinke, J., van Sebille, E., ten Have, M., Brummer, G.-J. A. and Reichart, G.",changed
+HE18COC01,analyticalError::d18O,NA,0.07,changed
+HE18COC01,number::d18O,1,4,changed
+HE18COC01,measurementTableName::year,measurementTable3,measurementTable1,changed
+HE18COC01,TSid::year,R5k5NEPjKcWLVYY4x,RklrFhiWJl3khg1EJ,changed
+HE18COC01,hasTimeTsid::year,R5k5NEPjKcWLVYY4x,RklrFhiWJl3khg1EJ,changed
+HE18COC01,number::year,2,1,changed
+HE18COC01,analyticalError::Sr/Ca,0.007,0.07,changed
+HE18COC01,number::Sr/Ca,1,3,changed
+HE18COC01,createdBy::year,,CoralHydro2k,added
+HE18COC01,variableType::d18O,,measured,added
+HE18COC01,proxy::d18O,,d18O,added
+HE18COC01,jcpCorrected::d18O,,0,added
+HE18COC01,jcpMeasured::d18O,,8.82,added
+HE18COC01,jcpNotes::d18O,,The international reference material JCp-1 (coral powder) was analyzed with every sample b,added
+HE18COC01,jcpUsed::d18O,,1,added
+HE18COC01,datum::d18O,,0,added
+HE18COC01,createdBy::d18O,,CoralHydro2k,added
+HE18COC01,variableType::Sr/Ca,,measured,added
+HE18COC01,proxy::Sr/Ca,,Sr/Ca,added
+HE18COC01,jcpCorrected::Sr/Ca,,0,added
+HE18COC01,jcpMeasured::Sr/Ca,,8.82,added
+HE18COC01,jcpNotes::Sr/Ca,,The international reference material JCp-1 (coral powder) was analyzed with every sample b,added
+HE18COC01,jcpUsed::Sr/Ca,,1,added
+HE18COC01,datum::Sr/Ca,,0,added
+HE18COC01,createdBy::Sr/Ca,,CoralHydro2k,added
+HE18COC01,inferredMaterial::d18O,,sea water,added
+HE18COC02,pub1_citation,"Hennekam, R., Zinke, J., van Sebille, E., ten Have, M., Brummer, G.-J. A. and Reichart, G.","Hennekam, R., Zinke, J., van Sebille, E., ten Have, M., Brummer, G.-J. A. and Reichart, G.",changed
+HE18COC02,analyticalError::d18O,NA,0.07,changed
+HE18COC02,number::d18O,1,4,changed
+HE18COC02,measurementTableName::year,measurementTable3,measurementTable1,changed
+HE18COC02,TSid::year,RcgkDC0vBAdmtcaLN,R0DIFeYSYMU7CQkU4,changed
+HE18COC02,hasTimeTsid::year,RcgkDC0vBAdmtcaLN,R0DIFeYSYMU7CQkU4,changed
+HE18COC02,number::year,2,1,changed
+HE18COC02,analyticalError::Sr/Ca,0.007,0.07,changed
+HE18COC02,number::Sr/Ca,1,3,changed
+HE18COC02,createdBy::year,,CoralHydro2k,added
+HE18COC02,variableType::d18O,,measured,added
+HE18COC02,proxy::d18O,,d18O,added
+HE18COC02,jcpCorrected::d18O,,0,added
+HE18COC02,jcpMeasured::d18O,,8.82,added
+HE18COC02,jcpUsed::d18O,,1,added
+HE18COC02,datum::d18O,,0,added
+HE18COC02,createdBy::d18O,,CoralHydro2k,added
+HE18COC02,variableType::Sr/Ca,,measured,added
+HE18COC02,proxy::Sr/Ca,,Sr/Ca,added
+HE18COC02,jcpCorrected::Sr/Ca,,0,added
+HE18COC02,jcpMeasured::Sr/Ca,,8.82,added
+HE18COC02,jcpUsed::Sr/Ca,,1,added
+HE18COC02,datum::Sr/Ca,,0,added
+HE18COC02,createdBy::Sr/Ca,,CoralHydro2k,added
+HE18COC02,inferredMaterial::d18O,,sea water,added
+IN23BIC01,(whole dataset),,NEW RECORD,new
+IT20SUM01,(whole dataset),,NEW RECORD,new
+JI18GAL01,pub1_citation,"Jimenez, G., Cole, J. E., Thompson, D. M. and Tudhope, A. W. 2018. Northern Galapagos Cora","Jimenez, G., Cole, J. E., Thompson, D. M. and Tudhope, A. W. 2018. Northern Galapagos Cora",changed
+JI18GAL01,pub1_title,Northern Galapagos Corals Reveal Twentieth Century Warming in the Eastern Tropical Pacic,Northern Galapagos Corals Reveal Twentieth Century Warming in the Eastern Tropical Paciﬁc,changed
+JI18GAL01,samplingResolution::Sr/Ca,1 mm ,1 mm,changed
+JI18GAL01,number::Sr/Ca,1,2,changed
+JI18GAL01,number::year,2,1,changed
+JI18GAL01,createdBy::year,,CoralHydro2k,added
+JI18GAL01,variableType::Sr/Ca,,measured,added
+JI18GAL01,proxy::Sr/Ca,,Sr/Ca,added
+JI18GAL01,jcpCorrected::Sr/Ca,,0,added
+JI18GAL01,jcpUsed::Sr/Ca,,0,added
+JI18GAL01,datum::Sr/Ca,,0,added
+JI18GAL01,coralExtensionRate::Sr/Ca,,12.4,added
+JI18GAL01,coralExtensionRateNotes::Sr/Ca,,12.4 mm/yr,added
+JI18GAL01,createdBy::Sr/Ca,,CoralHydro2k,added
+JI18GAL02,pub1_citation,"Jimenez, G., Cole, J. E., Thompson, D. M. and Tudhope, A. W. 2018. Northern Galapagos Cora","Jimenez, G., Cole, J. E., Thompson, D. M. and Tudhope, A. W. 2018. Northern Galapagos Cora",changed
+JI18GAL02,pub1_title,Northern Galapagos Corals Reveal Twentieth Century Warming in the Eastern Tropical Pacic,Northern Galapagos Corals Reveal Twentieth Century Warming in the Eastern Tropical Paciﬁc,changed
+JI18GAL02,number::Sr/Ca,1,2,changed
+JI18GAL02,number::year,2,1,changed
+JI18GAL02,createdBy::year,,CoralHydro2k,added
+JI18GAL02,variableType::Sr/Ca,,measured,added
+JI18GAL02,proxy::Sr/Ca,,Sr/Ca,added
+JI18GAL02,jcpCorrected::Sr/Ca,,0,added
+JI18GAL02,jcpUsed::Sr/Ca,,0,added
+JI18GAL02,datum::Sr/Ca,,0,added
+JI18GAL02,coralExtensionRate::Sr/Ca,,20.3,added
+JI18GAL02,coralExtensionRateNotes::Sr/Ca,,20.3 mm/yr,added
+JI18GAL02,createdBy::Sr/Ca,,CoralHydro2k,added
+JI23XIS01,(whole dataset),,NEW RECORD,new
+JI23XIS02,(whole dataset),,NEW RECORD,new
+KA17RYU01,pub1_citation,"Kawakubo, Y., Alibert, C., and Yokoyama, Y. 2017. A Reconstruction of Subtropical Western ","Kawakubo, Y., Alibert, C., and Yokoyama, Y. 2017. A Reconstruction of Subtropical Western ",changed
+KA17RYU01,pub2_citation,"Kawakubo, Y., Yokoyama, Y., Suzuki, A., Okai, T., Alibert, C., Kinsley, L. and Eggins, S. ","Kawakubo, Y., Yokoyama, Y., Suzuki, A., Okai, T., Alibert, C., Kinsley, L. and Eggins, S. ",changed
+KA17RYU01,pub2_title,Precise determination of Sr/Ca by laser ablation ICPMS compared to ICPAES and application ,Precise determination of Sr/Ca by laser ablation ICP‐MS compared to ICP‐AES and applicatio,changed
+KA17RYU01,analyticalErrorUnits::Sr/Ca,% RSD,%RSD,changed
+KA17RYU01,samplingResolution::Sr/Ca,400 um40um,400 um×40um,changed
+KA17RYU01,number::Sr/Ca,1,2,changed
+KA17RYU01,number::year,2,1,changed
+KA17RYU01,dataSource,,https://agupubs.onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1002%2F2017PA0032,added
+KA17RYU01,createdBy::year,,CoralHydro2k,added
+KA17RYU01,variableType::Sr/Ca,,measured,added
+KA17RYU01,proxy::Sr/Ca,,Sr/Ca,added
+KA17RYU01,jcpCorrected::Sr/Ca,,0,added
+KA17RYU01,jcpUsed::Sr/Ca,,0,added
+KA17RYU01,datum::Sr/Ca,,0,added
+KA17RYU01,coralExtensionRate::Sr/Ca,,9,added
+KA17RYU01,coralExtensionRateNotes::Sr/Ca,,8 to 10 mm,added
+KA17RYU01,createdBy::Sr/Ca,,CoralHydro2k,added
+KA21QIL01,(whole dataset),,NEW RECORD,new
+KA21QIL02,(whole dataset),,NEW RECORD,new
+KI04MCV01,number::d18O,1,2,changed
+KI04MCV01,measurementTableName::year,measurementTable2,measurementTable1,changed
+KI04MCV01,TSid::year,Rbgj3l4vJWETpVJ9o,R1Whwj2ckb8qWyMBu,changed
+KI04MCV01,hasTimeTsid::year,Rbgj3l4vJWETpVJ9o,R1Whwj2ckb8qWyMBu,changed
+KI04MCV01,number::year,2,1,changed
+KI04MCV01,analyticalError::Sr/Ca,0.014,0.08,changed
+KI04MCV01,number::Sr/Ca,1,3,changed
+KI04MCV01,pub2_author,,"Kilbourne, K. H., Quinn, T. M. and Taylor, F. W.",added
+KI04MCV01,pub2_citation,,"Kilbourne, K. H., Quinn, T. M. and Taylor, F. W. 2004. A fossil coral perspective on weste",added
+KI04MCV01,pub2_doi,,10.1029/2003PA000944,added
+KI04MCV01,pub2_firstauthor,,"Kilbourne, K. H.",added
+KI04MCV01,pub2_journal,,Paleoceanography,added
+KI04MCV01,pub2_title,,A fossil coral perspective on western tropical Pacific climate ~350 ka,added
+KI04MCV01,pub2_year,,2004,added
+KI04MCV01,createdBy::year,,CoralHydro2k,added
+KI04MCV01,variableType::d18O,,measured,added
+KI04MCV01,proxy::d18O,,d18O,added
+KI04MCV01,jcpCorrected::d18O,,0,added
+KI04MCV01,jcpNotes::d18O,,"JCP did not exist, but laboratory standards were intercalibrated by TIMS at the University",added
+KI04MCV01,jcpUsed::d18O,,0,added
+KI04MCV01,datum::d18O,,0,added
+KI04MCV01,coralExtensionRate::d18O,,20,added
+KI04MCV01,coralExtensionRateNotes::d18O,,20.0 mm/year,added
+KI04MCV01,createdBy::d18O,,CoralHydro2k,added
+KI04MCV01,variableType::Sr/Ca,,measured,added
+KI04MCV01,proxy::Sr/Ca,,Sr/Ca,added
+KI04MCV01,jcpCorrected::Sr/Ca,,0,added
+KI04MCV01,jcpNotes::Sr/Ca,,"JCP did not exist, but laboratory standards were intercalibrated by TIMS at the University",added
+KI04MCV01,jcpUsed::Sr/Ca,,0,added
+KI04MCV01,datum::Sr/Ca,,0,added
+KI04MCV01,coralExtensionRate::Sr/Ca,,20,added
+KI04MCV01,coralExtensionRateNotes::Sr/Ca,,20.0 mm/year,added
+KI04MCV01,createdBy::Sr/Ca,,CoralHydro2k,added
+KI08PAR01,pub2_citation,"Kilbourne, K. H., Quinn, T. M., Webb, R., Guilderson, T., Nyberg, J. and Winter, A. 2010. ","Kilbourne, K. H., Quinn, T. M., Webb, R., Guilderson, T., Nyberg, J. and Winter, A. 2010. ",changed
+KI08PAR01,number::d18O,1,4,changed
+KI08PAR01,measurementTableName::year,measurementTable4,measurementTable1,changed
+KI08PAR01,TSid::year,R1ALLtayNDU7Dgv8m,R1MtW6YHaurEfHg8P,changed
+KI08PAR01,hasTimeTsid::year,R1ALLtayNDU7Dgv8m,R1MtW6YHaurEfHg8P,changed
+KI08PAR01,number::year,2,1,changed
+KI08PAR01,analyticalError::Sr/Ca,0.013,0.06,changed
+KI08PAR01,number::Sr/Ca,1,5,changed
+KI08PAR01,jcpCorrected::d18O,NA,0,changed
+KI08PAR01,jcpUsed::d18O,NA,0,changed
+KI08PAR01,createdBy::year,,CoralHydro2k,added
+KI08PAR01,variableType::d18O,,measured,added
+KI08PAR01,proxy::d18O,,d18O,added
+KI08PAR01,jcpNotes::d18O,,"JCP did not exist, but laboratory standards were intercalibrated by TIMS at the University",added
+KI08PAR01,datum::d18O,,0,added
+KI08PAR01,createdBy::d18O,,CoralHydro2k,added
+KI08PAR01,variableType::Sr/Ca,,measured,added
+KI08PAR01,proxy::Sr/Ca,,Sr/Ca,added
+KI08PAR01,datum::Sr/Ca,,0,added
+KI08PAR01,createdBy::Sr/Ca,,CoralHydro2k,added
+KI14PAR01,pub2_citation,"Watanabe, T., Winter, A. and Oba, T. 2001. Seasonal changes in sea surface temperature and","Watanabe, T., Winter, A. and Oba, T. 2001. Seasonal changes in sea surface temperature and",changed
+KI14PAR01,analyticalError::d18O,NA,0.06,changed
+KI14PAR01,number::d18O,1,7,changed
+KI14PAR01,measurementTableName::year,measurementTable6,measurementTable1,changed
+KI14PAR01,TSid::year,REgfVxjtWmoVHwVkI,RNT5e5C4h2D6PReUQ,changed
+KI14PAR01,hasTimeTsid::year,REgfVxjtWmoVHwVkI,RNT5e5C4h2D6PReUQ,changed
+KI14PAR01,number::year,2,1,changed
+KI14PAR01,analyticalError::Sr/Ca,0.014,0.06,changed
+KI14PAR01,number::Sr/Ca,1,6,changed
+KI14PAR01,coralExtensionRateNotes::Sr/Ca,8mm/year,~8mm/year,changed
+KI14PAR01,coralExtensionRateNotes::d18O,8mm/year,~8mm/year,changed
+KI14PAR01,jcpCorrected::d18O,NA,0,changed
+KI14PAR01,jcpUsed::d18O,NA,0,changed
+KI14PAR01,createdBy::year,,CoralHydro2k,added
+KI14PAR01,variableType::d18O,,measured,added
+KI14PAR01,proxy::d18O,,d18O,added
+KI14PAR01,datum::d18O,,0,added
+KI14PAR01,createdBy::d18O,,CoralHydro2k,added
+KI14PAR01,variableType::Sr/Ca,,measured,added
+KI14PAR01,proxy::Sr/Ca,,Sr/Ca,added
+KI14PAR01,datum::Sr/Ca,,0,added
+KI14PAR01,createdBy::Sr/Ca,,CoralHydro2k,added
+KL97DAH01,number::d18O,1,2,changed
+KL97DAH01,number::year,2,1,changed
+KL97DAH01,createdBy::year,,CoralHydro2k,added
+KL97DAH01,variableType::d18O,,measured,added
+KL97DAH01,proxy::d18O,,d18O,added
+KL97DAH01,jcpCorrected::d18O,,0,added
+KL97DAH01,jcpUsed::d18O,,0,added
+KL97DAH01,datum::d18O,,0,added
+KL97DAH01,coralExtensionRate::d18O,,17,added
+KL97DAH01,coralExtensionRateNotes::d18O,,17 mm/year,added
+KL97DAH01,createdBy::d18O,,CoralHydro2k,added
+KR20SAR01,analyticalError::d18O,NA,0.1,changed
+KR20SAR01,number::d18O,1,2,changed
+KR20SAR01,number::year,2,1,changed
+KR20SAR01,analyticalError::Sr/Ca,0.008,0.1,changed
+KR20SAR01,number::Sr/Ca,1,3,changed
+KR20SAR01,createdBy::year,,CoralHydro2k,added
+KR20SAR01,variableType::d18O,,measured,added
+KR20SAR01,proxy::d18O,,d18O,added
+KR20SAR01,jcpCorrected::d18O,,0,added
+KR20SAR01,jcpMeasured::d18O,,8.831,added
+KR20SAR01,jcpUsed::d18O,,1,added
+KR20SAR01,datum::d18O,,0,added
+KR20SAR01,createdBy::d18O,,CoralHydro2k,added
+KR20SAR01,variableType::Sr/Ca,,measured,added
+KR20SAR01,proxy::Sr/Ca,,Sr/Ca,added
+KR20SAR01,jcpCorrected::Sr/Ca,,0,added
+KR20SAR01,jcpMeasured::Sr/Ca,,8.831,added
+KR20SAR01,jcpUsed::Sr/Ca,,1,added
+KR20SAR01,datum::Sr/Ca,,0,added
+KR20SAR01,createdBy::Sr/Ca,,CoralHydro2k,added
+KR20SAR01,inferredMaterial::d18O,,sea water,added
+KR20SAR02,analyticalError::d18O,NA,0.1,changed
+KR20SAR02,number::d18O,1,2,changed
+KR20SAR02,number::year,2,1,changed
+KR20SAR02,analyticalError::Sr/Ca,0.008,0.1,changed
+KR20SAR02,number::Sr/Ca,1,3,changed
+KR20SAR02,createdBy::year,,CoralHydro2k,added
+KR20SAR02,variableType::d18O,,measured,added
+KR20SAR02,proxy::d18O,,d18O,added
+KR20SAR02,jcpCorrected::d18O,,0,added
+KR20SAR02,jcpMeasured::d18O,,8.831,added
+KR20SAR02,jcpUsed::d18O,,1,added
+KR20SAR02,datum::d18O,,0,added
+KR20SAR02,createdBy::d18O,,CoralHydro2k,added
+KR20SAR02,variableType::Sr/Ca,,measured,added
+KR20SAR02,proxy::Sr/Ca,,Sr/Ca,added
+KR20SAR02,jcpCorrected::Sr/Ca,,0,added
+KR20SAR02,jcpMeasured::Sr/Ca,,8.831,added
+KR20SAR02,jcpUsed::Sr/Ca,,1,added
+KR20SAR02,datum::Sr/Ca,,0,added
+KR20SAR02,createdBy::Sr/Ca,,CoralHydro2k,added
+KR20SAR02,inferredMaterial::d18O,,sea water,added
+KU00NIN01,number::d18O,1,2,changed
+KU00NIN01,number::year,2,1,changed
+KU00NIN01,createdBy::year,,CoralHydro2k,added
+KU00NIN01,variableType::d18O,,measured,added
+KU00NIN01,proxy::d18O,,d18O,added
+KU00NIN01,jcpCorrected::d18O,,0,added
+KU00NIN01,jcpUsed::d18O,,0,added
+KU00NIN01,coralExtensionRate::d18O,,12,added
+KU00NIN01,coralExtensionRateNotes::d18O,,12 mm/yr,added
+KU00NIN01,createdBy::d18O,,CoralHydro2k,added
+KU99HOU01,pub1_citation,"Kuhnert, H., Paetzold, J., Hatcher, B., Wyrwoll, K.-H., Eisenhauer, A., Collins, L. B., Zh","Kuhnert, H., Paetzold, J., Hatcher, B., Wyrwoll, K.-H., Eisenhauer, A., Collins, L. B., Zh",changed
+KU99HOU01,number::d18O,1,2,changed
+KU99HOU01,number::year,2,1,changed
+KU99HOU01,createdBy::year,,CoralHydro2k,added
+KU99HOU01,variableType::d18O,,measured,added
+KU99HOU01,proxy::d18O,,d18O,added
+KU99HOU01,jcpCorrected::d18O,,0,added
+KU99HOU01,jcpUsed::d18O,,0,added
+KU99HOU01,coralExtensionRate::d18O,,15,added
+KU99HOU01,coralExtensionRateNotes::d18O,,15 mm/year,added
+KU99HOU01,createdBy::d18O,,CoralHydro2k,added
+LE21CHA01,(whole dataset),,NEW RECORD,new
+LE21CHA02,(whole dataset),,NEW RECORD,new
+LE21CHA03,(whole dataset),,NEW RECORD,new
+LE23MAL01,(whole dataset),,NEW RECORD,new
+LI00RAR01,analyticalError::d18O,NA,0.04,changed
+LI00RAR01,number::d18O,1,4,changed
+LI00RAR01,measurementTableName::year,measurementTable3,measurementTable1,changed
+LI00RAR01,TSid::year,Rg7EDzxvQhylRorSe,RrrLMNpjX4JpzxAUf,changed
+LI00RAR01,hasTimeTsid::year,Rg7EDzxvQhylRorSe,RrrLMNpjX4JpzxAUf,changed
+LI00RAR01,number::year,2,1,changed
+LI00RAR01,analyticalError::Sr/Ca,0.15,0.04,changed
+LI00RAR01,number::Sr/Ca,1,3,changed
+LI00RAR01,dataSource,,https://www.ncdc.noaa.gov/paleo/study/6089,added
+LI00RAR01,createdBy::year,,CoralHydro2k,added
+LI00RAR01,variableType::d18O,,measured,added
+LI00RAR01,proxy::d18O,,d18O,added
+LI00RAR01,jcpCorrected::d18O,,0,added
+LI00RAR01,jcpUsed::d18O,,0,added
+LI00RAR01,datum::d18O,,0,added
+LI00RAR01,createdBy::d18O,,CoralHydro2k,added
+LI00RAR01,variableType::Sr/Ca,,measured,added
+LI00RAR01,proxy::Sr/Ca,,Sr/Ca,added
+LI00RAR01,jcpCorrected::Sr/Ca,,0,added
+LI00RAR01,jcpUsed::Sr/Ca,,0,added
+LI00RAR01,datum::Sr/Ca,,0,added
+LI00RAR01,createdBy::Sr/Ca,,CoralHydro2k,added
+LI00RAR01,inferredMaterial::d18O,,sea water,added
+LI04FIJ01,analyticalError::d18O,NA,0.04,changed
+LI04FIJ01,samplingNotes::d18O,"12-13 samples/yr for Sr/Ca, 6-7 samples/yr for d18O","~12-13 samples/yr for Sr/Ca, ~6-7 samples/yr for d18O",changed
+LI04FIJ01,number::d18O,1,4,changed
+LI04FIJ01,measurementTableName::year,measurementTable3,measurementTable1,changed
+LI04FIJ01,TSid::year,RiMMBJzTFl9ZUF2O6,RqUN6q4XTRfH6pPPZ,changed
+LI04FIJ01,hasTimeTsid::year,RiMMBJzTFl9ZUF2O6,RqUN6q4XTRfH6pPPZ,changed
+LI04FIJ01,number::year,2,1,changed
+LI04FIJ01,analyticalError::Sr/Ca,0.15,0.04,changed
+LI04FIJ01,samplingNotes::Sr/Ca,"12-13 samples/yr for Sr/Ca, 6-7 samples/yr for d18O","~12-13 samples/yr for Sr/Ca, ~6-7 samples/yr for d18O",changed
+LI04FIJ01,number::Sr/Ca,1,3,changed
+LI04FIJ01,createdBy::year,,CoralHydro2k,added
+LI04FIJ01,variableType::d18O,,measured,added
+LI04FIJ01,proxy::d18O,,d18O,added
+LI04FIJ01,jcpCorrected::d18O,,0,added
+LI04FIJ01,jcpUsed::d18O,,0,added
+LI04FIJ01,datum::d18O,,0,added
+LI04FIJ01,coralExtensionRate::d18O,,11,added
+LI04FIJ01,coralExtensionRateNotes::d18O,,11 ± 1.8 mm/yr.,added
+LI04FIJ01,createdBy::d18O,,CoralHydro2k,added
+LI04FIJ01,variableType::Sr/Ca,,measured,added
+LI04FIJ01,proxy::Sr/Ca,,Sr/Ca,added
+LI04FIJ01,jcpCorrected::Sr/Ca,,0,added
+LI04FIJ01,jcpUsed::Sr/Ca,,0,added
+LI04FIJ01,datum::Sr/Ca,,0,added
+LI04FIJ01,coralExtensionRate::Sr/Ca,,11,added
+LI04FIJ01,coralExtensionRateNotes::Sr/Ca,,11 ± 1.8 mm/yr.,added
+LI04FIJ01,createdBy::Sr/Ca,,CoralHydro2k,added
+LI04FIJ01,inferredMaterial::d18O,,sea water,added
+LI06FIJ01,number::d18O,1,2,changed
+LI06FIJ01,number::year,2,1,changed
+LI06FIJ01,dataSource,,https://www.ncdc.noaa.gov/paleo/study/16216,added
+LI06FIJ01,createdBy::year,,CoralHydro2k,added
+LI06FIJ01,variableType::d18O,,measured,added
+LI06FIJ01,proxy::d18O,,d18O,added
+LI06FIJ01,jcpCorrected::d18O,,0,added
+LI06FIJ01,jcpUsed::d18O,,0,added
+LI06FIJ01,createdBy::d18O,,CoralHydro2k,added
+LI06RAR01,pub1_citation,"Linsley, B. K., Wellington, G. M., Schrag, D. P., Ren, L., Salinger, M. J. and Tudhope, A.","Linsley, B. K., Wellington, G. M., Schrag, D. P., Ren, L., Salinger, M. J. and Tudhope, A.",changed
+LI06RAR01,number::d18O,1,2,changed
+LI06RAR01,number::year,2,1,changed
+LI06RAR01,createdBy::year,,CoralHydro2k,added
+LI06RAR01,variableType::d18O,,measured,added
+LI06RAR01,proxy::d18O,,d18O,added
+LI06RAR01,jcpCorrected::d18O,,0,added
+LI06RAR01,jcpUsed::d18O,,0,added
+LI06RAR01,createdBy::d18O,,CoralHydro2k,added
+LI06RAR02,pub1_citation,"Linsley, B. K., Wellington, G. M., Schrag, D. P., Ren, L., Salinger, M. J. and Tudhope, A.","Linsley, B. K., Wellington, G. M., Schrag, D. P., Ren, L., Salinger, M. J. and Tudhope, A.",changed
+LI06RAR02,samplingNotes::d18O,8 samples/year - Continuous - Every other 1mm increment (point) ,8 samples/year - Continuous - Every other 1mm increment (point),changed
+LI06RAR02,number::d18O,1,2,changed
+LI06RAR02,number::year,2,1,changed
+LI06RAR02,createdBy::year,,CoralHydro2k,added
+LI06RAR02,variableType::d18O,,measured,added
+LI06RAR02,proxy::d18O,,d18O,added
+LI06RAR02,jcpCorrected::d18O,,0,added
+LI06RAR02,jcpUsed::d18O,,0,added
+LI06RAR02,createdBy::d18O,,CoralHydro2k,added
+LI23XIA01,(whole dataset),,NEW RECORD,new
+LI24DON01,(whole dataset),,NEW RECORD,new
+LI24HUV01,(whole dataset),,NEW RECORD,new
+LI24HUV02,(whole dataset),,NEW RECORD,new
+LI24HUV03,(whole dataset),,NEW RECORD,new
+LI24HUV04,(whole dataset),,NEW RECORD,new
+LI94SEC01,number::d18O,1,2,changed
+LI94SEC01,number::year,2,1,changed
+LI94SEC01,createdBy::year,,CoralHydro2k,added
+LI94SEC01,variableType::d18O,,measured,added
+LI94SEC01,proxy::d18O,,d18O,added
+LI94SEC01,jcpCorrected::d18O,,0,added
+LI94SEC01,jcpUsed::d18O,,0,added
+LI94SEC01,createdBy::d18O,,CoralHydro2k,added
+LI99CLI01,pub1_citation,"Linsley, B. K., Messier, R. G. and Dunbar, R. B. 1999. Assessing between-colony oxygen iso","Linsley, B. K., Messier, R. G. and Dunbar, R. B. 1999. Assessing between-colony oxygen iso",changed
+LI99CLI01,notes::d18O,authors describe density banding as poor; some fish grazing scars,"authors describe density banding as ""poor""; some fish grazing scars",changed
+LI99CLI01,number::d18O,1,2,changed
+LI99CLI01,number::year,2,1,changed
+LI99CLI01,createdBy::year,,CoralHydro2k,added
+LI99CLI01,variableType::d18O,,measured,added
+LI99CLI01,proxy::d18O,,d18O,added
+LI99CLI01,jcpCorrected::d18O,,0,added
+LI99CLI01,jcpUsed::d18O,,0,added
+LI99CLI01,coralExtensionRate::d18O,,18,added
+LI99CLI01,coralExtensionRateNotes::d18O,,18 mm/yr,added
+LI99CLI01,coralTissueThickness::d18O,,5.5,added
+LI99CLI01,createdBy::d18O,,CoralHydro2k,added
+MA08DTO01,pub2_title,Refining temperature reconstructions with the Atlantic coral Siderastrea siderea. ,Refining temperature reconstructions with the Atlantic coral Siderastrea siderea.,changed
+MA08DTO01,coreName::d18O,93DRYSS1,93DRYSS‐1,changed
+MA08DTO01,number::d18O,1,2,changed
+MA08DTO01,measurementTableName::year,measurementTable2,measurementTable1,changed
+MA08DTO01,TSid::year,Rq6FDtxRIYrIKzIqa,RmIFVS8KKI2YtgB7d,changed
+MA08DTO01,hasTimeTsid::year,Rq6FDtxRIYrIKzIqa,RmIFVS8KKI2YtgB7d,changed
+MA08DTO01,number::year,2,1,changed
+MA08DTO01,analyticalError::Sr/Ca,0.015,0.06,changed
+MA08DTO01,coreName::Sr/Ca,93DRYSS1,93DRYSS‐1,changed
+MA08DTO01,number::Sr/Ca,1,3,changed
+MA08DTO01,createdBy::year,,CoralHydro2k,added
+MA08DTO01,variableType::d18O,,measured,added
+MA08DTO01,proxy::d18O,,d18O,added
+MA08DTO01,jcpCorrected::d18O,,0,added
+MA08DTO01,jcpUsed::d18O,,0,added
+MA08DTO01,datum::d18O,,0,added
+MA08DTO01,coralExtensionRate::d18O,,4.94,added
+MA08DTO01,coralExtensionRateNotes::d18O,,4.94 mm/yr,added
+MA08DTO01,createdBy::d18O,,CoralHydro2k,added
+MA08DTO01,variableType::Sr/Ca,,measured,added
+MA08DTO01,proxy::Sr/Ca,,Sr/Ca,added
+MA08DTO01,jcpCorrected::Sr/Ca,,0,added
+MA08DTO01,jcpUsed::Sr/Ca,,0,added
+MA08DTO01,datum::Sr/Ca,,0,added
+MA08DTO01,coralExtensionRate::Sr/Ca,,4.94,added
+MA08DTO01,coralExtensionRateNotes::Sr/Ca,,4.94 mm/yr,added
+MA08DTO01,createdBy::Sr/Ca,,CoralHydro2k,added
+MC04PNG01,number::d18O,1,2,changed
+MC04PNG01,number::year,2,1,changed
+MC04PNG01,createdBy::year,,CoralHydro2k,added
+MC04PNG01,variableType::d18O,,measured,added
+MC04PNG01,proxy::d18O,,d18O,added
+MC04PNG01,jcpCorrected::d18O,,0,added
+MC04PNG01,jcpUsed::d18O,,0,added
+MC04PNG01,createdBy::d18O,,CoralHydro2k,added
+MC11KIR01,number::d18O,1,2,changed
+MC11KIR01,number::year,2,1,changed
+MC11KIR01,createdBy::year,,CoralHydro2k,added
+MC11KIR01,variableType::d18O,,measured,added
+MC11KIR01,proxy::d18O,,d18O,added
+MC11KIR01,jcpCorrected::d18O,,0,added
+MC11KIR01,jcpUsed::d18O,,0,added
+MC11KIR01,datum::d18O,,0,added
+MC11KIR01,coralExtensionRate::d18O,,21,added
+MC11KIR01,coralExtensionRateNotes::d18O,,21 mm/year,added
+MC11KIR01,createdBy::d18O,,CoralHydro2k,added
+MO06PED01,number::d18O,1,2,changed
+MO06PED01,number::year,2,1,changed
+MO06PED01,createdBy::year,,CoralHydro2k,added
+MO06PED01,variableType::d18O,,measured,added
+MO06PED01,proxy::d18O,,d18O,added
+MO06PED01,jcpCorrected::d18O,,0,added
+MO06PED01,jcpUsed::d18O,,0,added
+MO06PED01,coralExtensionRate::d18O,,1.25,added
+MO06PED01,coralExtensionRateNotes::d18O,,1-1.5 mm/yr,added
+MO06PED01,createdBy::d18O,,CoralHydro2k,added
+MO20KOI01,analyticalError::d18O,NA,0.06,changed
+MO20KOI01,number::d18O,1,4,changed
+MO20KOI01,measurementTableName::year,measurementTable3,measurementTable1,changed
+MO20KOI01,TSid::year,RIRpOPHMQBs9haqTD,RRggrlFJnHVoolBWD,changed
+MO20KOI01,hasTimeTsid::year,RIRpOPHMQBs9haqTD,RRggrlFJnHVoolBWD,changed
+MO20KOI01,number::year,2,1,changed
+MO20KOI01,analyticalError::Sr/Ca,0.014,0.06,changed
+MO20KOI01,number::Sr/Ca,1,3,changed
+MO20KOI01,createdBy::year,,CoralHydro2k,added
+MO20KOI01,variableType::d18O,,measured,added
+MO20KOI01,proxy::d18O,,d18O,added
+MO20KOI01,jcpCorrected::d18O,,0,added
+MO20KOI01,jcpMeasured::d18O,,8.828,added
+MO20KOI01,jcpNotes::d18O,,"The analytical errors for JCp-1 is 0.10% (average 8.828   0.009 mmol/mol, n = 124)",added
+MO20KOI01,jcpUsed::d18O,,1,added
+MO20KOI01,datum::d18O,,0,added
+MO20KOI01,coralExtensionRate::d18O,,18.5,added
+MO20KOI01,coralExtensionRateNotes::d18O,,~18.5 mm/year,added
+MO20KOI01,coralTissueThickness::d18O,,6,added
+MO20KOI01,createdBy::d18O,,CoralHydro2k,added
+MO20KOI01,variableType::Sr/Ca,,measured,added
+MO20KOI01,proxy::Sr/Ca,,Sr/Ca,added
+MO20KOI01,jcpCorrected::Sr/Ca,,0,added
+MO20KOI01,jcpMeasured::Sr/Ca,,8.828,added
+MO20KOI01,jcpNotes::Sr/Ca,,"The analytical errors for JCp-1 is 0.10% (average 8.828   0.009 mmol/mol, n = 124)",added
+MO20KOI01,jcpUsed::Sr/Ca,,1,added
+MO20KOI01,datum::Sr/Ca,,0,added
+MO20KOI01,coralExtensionRate::Sr/Ca,,18.5,added
+MO20KOI01,coralExtensionRateNotes::Sr/Ca,,~18.5 mm/year,added
+MO20KOI01,coralTissueThickness::Sr/Ca,,6,added
+MO20KOI01,createdBy::Sr/Ca,,CoralHydro2k,added
+MO20KOI01,inferredMaterial::d18O,,sea water,added
+MO20WOA01,analyticalError::d18O,NA,0.06,changed
+MO20WOA01,notes::d18O,uncertainty on Sr/Ca intercept is 0.0018,uncertainty on Sr/Ca intercept is ±0.0018,changed
+MO20WOA01,number::d18O,1,4,changed
+MO20WOA01,measurementTableName::year,measurementTable3,measurementTable1,changed
+MO20WOA01,TSid::year,RJhjj3S9V7XK6LBxp,RBVspv2JpyprIwcTo,changed
+MO20WOA01,hasTimeTsid::year,RJhjj3S9V7XK6LBxp,RBVspv2JpyprIwcTo,changed
+MO20WOA01,number::year,2,1,changed
+MO20WOA01,analyticalError::Sr/Ca,0.018,0.06,changed
+MO20WOA01,notes::Sr/Ca,uncertainty on Sr/Ca intercept is 0.0018,uncertainty on Sr/Ca intercept is ±0.0018,changed
+MO20WOA01,number::Sr/Ca,1,3,changed
+MO20WOA01,createdBy::year,,CoralHydro2k,added
+MO20WOA01,variableType::d18O,,measured,added
+MO20WOA01,proxy::d18O,,d18O,added
+MO20WOA01,jcpCorrected::d18O,,0,added
+MO20WOA01,jcpMeasured::d18O,,8.824,added
+MO20WOA01,jcpNotes::d18O,,"For Sr/Ca, we use reference standard JCp-1. The analytical errors for JCp-1 is 0.18% (aver",added
+MO20WOA01,jcpUsed::d18O,,1,added
+MO20WOA01,datum::d18O,,0,added
+MO20WOA01,coralExtensionRate::d18O,,11,added
+MO20WOA01,coralExtensionRateNotes::d18O,,~11 mm/year,added
+MO20WOA01,coralTissueThickness::d18O,,6,added
+MO20WOA01,createdBy::d18O,,CoralHydro2k,added
+MO20WOA01,variableType::Sr/Ca,,measured,added
+MO20WOA01,proxy::Sr/Ca,,Sr/Ca,added
+MO20WOA01,jcpCorrected::Sr/Ca,,0,added
+MO20WOA01,jcpMeasured::Sr/Ca,,8.824,added
+MO20WOA01,jcpNotes::Sr/Ca,,"For Sr/Ca, we use reference standard JCp-1. The analytical errors for JCp-1 is 0.18% (aver",added
+MO20WOA01,jcpUsed::Sr/Ca,,1,added
+MO20WOA01,datum::Sr/Ca,,0,added
+MO20WOA01,coralExtensionRate::Sr/Ca,,11,added
+MO20WOA01,coralExtensionRateNotes::Sr/Ca,,~11 mm/year,added
+MO20WOA01,coralTissueThickness::Sr/Ca,,6,added
+MO20WOA01,createdBy::Sr/Ca,,CoralHydro2k,added
+MO20WOA01,inferredMaterial::d18O,,sea water,added
+MU17DOA01,samplingNotes::d18O,drill press - one sample every 3 mm,drill press - one sample every ~3 mm,changed
+MU17DOA01,samplingResolution::d18O,3 mm,~3 mm,changed
+MU17DOA01,number::d18O,1,2,changed
+MU17DOA01,number::year,2,1,changed
+MU17DOA01,createdBy::year,,CoralHydro2k,added
+MU17DOA01,variableType::d18O,,measured,added
+MU17DOA01,proxy::d18O,,d18O,added
+MU17DOA01,jcpCorrected::d18O,,0,added
+MU17DOA01,jcpUsed::d18O,,0,added
+MU17DOA01,datum::d18O,,0,added
+MU17DOA01,createdBy::d18O,,CoralHydro2k,added
+MU18GSI01,number::d18O,1,2,changed
+MU18GSI01,number::year,2,1,changed
+MU18GSI01,analyticalError::Sr/Ca,0.2,0.07,changed
+MU18GSI01,number::Sr/Ca,1,2,changed
+MU18GSI01,createdBy::year,,CoralHydro2k,added
+MU18GSI01,variableType::d18O,,measured,added
+MU18GSI01,proxy::d18O,,d18O,added
+MU18GSI01,jcpCorrected::d18O,,0,added
+MU18GSI01,jcpMeasured::d18O,,8.851,added
+MU18GSI01,jcpNotes::d18O,,Analytical precision and accuracy were determined through repeat measurements of the coral,added
+MU18GSI01,jcpUsed::d18O,,1,added
+MU18GSI01,datum::d18O,,0,added
+MU18GSI01,coralExtensionRate::d18O,,10.9,added
+MU18GSI01,coralExtensionRateNotes::d18O,,10.9 mm/yr,added
+MU18GSI01,createdBy::d18O,,CoralHydro2k,added
+MU18GSI01,variableType::Sr/Ca,,measured,added
+MU18GSI01,proxy::Sr/Ca,,Sr/Ca,added
+MU18GSI01,jcpCorrected::Sr/Ca,,0,added
+MU18GSI01,jcpMeasured::Sr/Ca,,8.851,added
+MU18GSI01,jcpNotes::Sr/Ca,,Analytical precision and accuracy were determined through repeat measurements of the coral,added
+MU18GSI01,jcpUsed::Sr/Ca,,1,added
+MU18GSI01,datum::Sr/Ca,,0,added
+MU18GSI01,coralExtensionRate::Sr/Ca,,10.9,added
+MU18GSI01,coralExtensionRateNotes::Sr/Ca,,10.9 mm/yr,added
+MU18GSI01,createdBy::Sr/Ca,,CoralHydro2k,added
+MU18NPI01,number::d18O,1,2,changed
+MU18NPI01,number::year,2,1,changed
+MU18NPI01,analyticalError::Sr/Ca,0.2,0.07,changed
+MU18NPI01,number::Sr/Ca,1,2,changed
+MU18NPI01,createdBy::year,,CoralHydro2k,added
+MU18NPI01,variableType::d18O,,measured,added
+MU18NPI01,proxy::d18O,,d18O,added
+MU18NPI01,jcpCorrected::d18O,,0,added
+MU18NPI01,jcpMeasured::d18O,,8.851,added
+MU18NPI01,jcpNotes::d18O,,Analytical precision and accuracy were determined through repeat measurements of the coral,added
+MU18NPI01,jcpUsed::d18O,,1,added
+MU18NPI01,datum::d18O,,0,added
+MU18NPI01,coralExtensionRate::d18O,,10.9,added
+MU18NPI01,coralExtensionRateNotes::d18O,,10.9 mm/yr,added
+MU18NPI01,createdBy::d18O,,CoralHydro2k,added
+MU18NPI01,variableType::Sr/Ca,,measured,added
+MU18NPI01,proxy::Sr/Ca,,Sr/Ca,added
+MU18NPI01,jcpCorrected::Sr/Ca,,0,added
+MU18NPI01,jcpMeasured::Sr/Ca,,8.851,added
+MU18NPI01,jcpNotes::Sr/Ca,,Analytical precision and accuracy were determined through repeat measurements of the coral,added
+MU18NPI01,jcpUsed::Sr/Ca,,1,added
+MU18NPI01,datum::Sr/Ca,,0,added
+MU18NPI01,coralExtensionRate::Sr/Ca,,10.9,added
+MU18NPI01,coralExtensionRateNotes::Sr/Ca,,10.9 mm/yr,added
+MU18NPI01,createdBy::Sr/Ca,,CoralHydro2k,added
+MU18RED01,pub1_citation,"Murty, S. A., Bernstein, W. N., Ossolinski, J. E., Davis, R. S., Goodkin, N. F. and Hughen","Murty, S. A., Bernstein, W. N., Ossolinski, J. E., Davis, R. S., Goodkin, N. F. and Hughen",changed
+MU18RED01,pub1_title,Spatial and Temporal Robustness of Sr/CaSST Calibrations in Red Sea Corals: Evidence for I,Spatial and Temporal Robustness of Sr/Ca‐SST Calibrations in Red Sea Corals: Evidence for ,changed
+MU18RED01,number::Sr/Ca,1,2,changed
+MU18RED01,number::year,2,1,changed
+MU18RED01,createdBy::year,,CoralHydro2k,added
+MU18RED01,variableType::Sr/Ca,,measured,added
+MU18RED01,proxy::Sr/Ca,,Sr/Ca,added
+MU18RED01,jcpCorrected::Sr/Ca,,0,added
+MU18RED01,jcpMeasured::Sr/Ca,,8.8279,added
+MU18RED01,jcpUsed::Sr/Ca,,1,added
+MU18RED01,datum::Sr/Ca,,0,added
+MU18RED01,createdBy::Sr/Ca,,CoralHydro2k,added
+MU18RED02,pub1_citation,"Murty, S. A., Bernstein, W. N., Ossolinski, J. E., Davis, R. S., Goodkin, N. F. and Hughen","Murty, S. A., Bernstein, W. N., Ossolinski, J. E., Davis, R. S., Goodkin, N. F. and Hughen",changed
+MU18RED02,pub1_title,Spatial and Temporal Robustness of Sr/CaSST Calibrations in Red Sea Corals: Evidence for I,Spatial and Temporal Robustness of Sr/Ca‐SST Calibrations in Red Sea Corals: Evidence for ,changed
+MU18RED02,notes::Sr/Ca,Mean SST ranges given in paper for northern reef 7.7C; for southern reefs 5.8C,Mean SST ranges given in paper for northern reef 7.7°C; for southern reefs 5.8°C,changed
+MU18RED02,number::Sr/Ca,1,2,changed
+MU18RED02,number::year,2,1,changed
+MU18RED02,createdBy::year,,CoralHydro2k,added
+MU18RED02,variableType::Sr/Ca,,measured,added
+MU18RED02,proxy::Sr/Ca,,Sr/Ca,added
+MU18RED02,jcpCorrected::Sr/Ca,,0,added
+MU18RED02,jcpMeasured::Sr/Ca,,8.8279,added
+MU18RED02,jcpUsed::Sr/Ca,,1,added
+MU18RED02,datum::Sr/Ca,,0,added
+MU18RED02,createdBy::Sr/Ca,,CoralHydro2k,added
+MU18RED03,pub1_citation,"Murty, S. A., Bernstein, W. N., Ossolinski, J. E., Davis, R. S., Goodkin, N. F. and Hughen","Murty, S. A., Bernstein, W. N., Ossolinski, J. E., Davis, R. S., Goodkin, N. F. and Hughen",changed
+MU18RED03,pub1_title,Spatial and Temporal Robustness of Sr/CaSST Calibrations in Red Sea Corals: Evidence for I,Spatial and Temporal Robustness of Sr/Ca‐SST Calibrations in Red Sea Corals: Evidence for ,changed
+MU18RED03,notes::Sr/Ca,Mean SST ranges given in paper for northern reef 7.7C; for southern reefs 5.8C,Mean SST ranges given in paper for northern reef 7.7°C; for southern reefs 5.8°C,changed
+MU18RED03,number::Sr/Ca,1,2,changed
+MU18RED03,number::year,2,1,changed
+MU18RED03,createdBy::year,,CoralHydro2k,added
+MU18RED03,variableType::Sr/Ca,,measured,added
+MU18RED03,proxy::Sr/Ca,,Sr/Ca,added
+MU18RED03,jcpCorrected::Sr/Ca,,0,added
+MU18RED03,jcpMeasured::Sr/Ca,,8.8279,added
+MU18RED03,jcpUsed::Sr/Ca,,1,added
+MU18RED03,datum::Sr/Ca,,0,added
+MU18RED03,createdBy::Sr/Ca,,CoralHydro2k,added
+MU18RED04,pub1_citation,"Murty, S. A., Bernstein, W. N., Ossolinski, J. E., Davis, R. S., Goodkin, N. F. and Hughen","Murty, S. A., Bernstein, W. N., Ossolinski, J. E., Davis, R. S., Goodkin, N. F. and Hughen",changed
+MU18RED04,pub1_title,Spatial and Temporal Robustness of Sr/CaSST Calibrations in Red Sea Corals: Evidence for I,Spatial and Temporal Robustness of Sr/Ca‐SST Calibrations in Red Sea Corals: Evidence for ,changed
+MU18RED04,pub2_citation,"Bryan, S. P., Hughen, K. A., Karnauskas, K. B. and Farrar, J. T. 2019. Two Hundred Fifty Y","Bryan, S. P., Hughen, K. A., Karnauskas, K. B. and Farrar, J. T. 2019. Two Hundred Fifty Y",changed
+MU18RED04,pub2_firstauthor,"Bryan, S. P. ","Bryan, S. P.",changed
+MU18RED04,pub2_title,Two Hundred Fifty Years of Reconstructed South Asian Summer Monsoon Intensity and DecadalS,Two Hundred Fifty Years of Reconstructed South Asian Summer Monsoon Intensity and Decadal‐,changed
+MU18RED04,number::Sr/Ca,1,2,changed
+MU18RED04,number::year,2,1,changed
+MU18RED04,dataSource,,https://www.ncdc.noaa.gov/paleo/study/26531,added
+MU18RED04,createdBy::year,,CoralHydro2k,added
+MU18RED04,variableType::Sr/Ca,,measured,added
+MU18RED04,proxy::Sr/Ca,,Sr/Ca,added
+MU18RED04,datum::Sr/Ca,,0,added
+MU18RED04,createdBy::Sr/Ca,,CoralHydro2k,added
+NA09MAL01,number::d18O,1,2,changed
+NA09MAL01,number::year,2,1,changed
+NA09MAL01,createdBy::year,,CoralHydro2k,added
+NA09MAL01,variableType::d18O,,measured,added
+NA09MAL01,proxy::d18O,,d18O,added
+NA09MAL01,jcpCorrected::d18O,,0,added
+NA09MAL01,jcpUsed::d18O,,0,added
+NA09MAL01,coralExtensionRate::d18O,,15,added
+NA09MAL01,coralExtensionRateNotes::d18O,,15 mm/yr,added
+NA09MAL01,createdBy::d18O,,CoralHydro2k,added
+NU09FAN01,analyticalError::d18O,NA,0.07,changed
+NU09FAN01,number::d18O,1,4,changed
+NU09FAN01,measurementTableName::year,measurementTable3,measurementTable1,changed
+NU09FAN01,TSid::year,RaMPRugqBHy3YC0Vt,Ri6QggMZUhRTu4JkK,changed
+NU09FAN01,hasTimeTsid::year,RaMPRugqBHy3YC0Vt,Ri6QggMZUhRTu4JkK,changed
+NU09FAN01,number::year,2,1,changed
+NU09FAN01,analyticalError::Sr/Ca,0.1,0.07,changed
+NU09FAN01,number::Sr/Ca,1,3,changed
+NU09FAN01,createdBy::year,,CoralHydro2k,added
+NU09FAN01,variableType::d18O,,measured,added
+NU09FAN01,proxy::d18O,,d18O,added
+NU09FAN01,jcpCorrected::d18O,,0,added
+NU09FAN01,jcpUsed::d18O,,0,added
+NU09FAN01,datum::d18O,,0,added
+NU09FAN01,createdBy::d18O,,CoralHydro2k,added
+NU09FAN01,variableType::Sr/Ca,,measured,added
+NU09FAN01,proxy::Sr/Ca,,Sr/Ca,added
+NU09FAN01,jcpCorrected::Sr/Ca,,0,added
+NU09FAN01,jcpUsed::Sr/Ca,,0,added
+NU09FAN01,datum::Sr/Ca,,0,added
+NU09FAN01,createdBy::Sr/Ca,,CoralHydro2k,added
+NU09FAN01,inferredMaterial::d18O,,sea water,added
+NU09KIR01,analyticalError::d18O,NA,0.07,changed
+NU09KIR01,number::d18O,1,4,changed
+NU09KIR01,measurementTableName::year,measurementTable3,measurementTable1,changed
+NU09KIR01,TSid::year,R18v1Ah4PgefTVNiA,RIVxmLIidDs7nfeae,changed
+NU09KIR01,hasTimeTsid::year,R18v1Ah4PgefTVNiA,RIVxmLIidDs7nfeae,changed
+NU09KIR01,number::year,2,1,changed
+NU09KIR01,analyticalError::Sr/Ca,0.1,0.07,changed
+NU09KIR01,number::Sr/Ca,1,3,changed
+NU09KIR01,createdBy::year,,CoralHydro2k,added
+NU09KIR01,variableType::d18O,,measured,added
+NU09KIR01,proxy::d18O,,d18O,added
+NU09KIR01,jcpCorrected::d18O,,0,added
+NU09KIR01,jcpUsed::d18O,,0,added
+NU09KIR01,datum::d18O,,0,added
+NU09KIR01,createdBy::d18O,,CoralHydro2k,added
+NU09KIR01,variableType::Sr/Ca,,measured,added
+NU09KIR01,proxy::Sr/Ca,,Sr/Ca,added
+NU09KIR01,jcpCorrected::Sr/Ca,,0,added
+NU09KIR01,jcpUsed::Sr/Ca,,0,added
+NU09KIR01,datum::Sr/Ca,,0,added
+NU09KIR01,createdBy::Sr/Ca,,CoralHydro2k,added
+NU09KIR01,inferredMaterial::d18O,,sea water,added
+NU11PAL01,analyticalError::d18O,NA,0.05,changed
+NU11PAL01,number::d18O,1,4,changed
+NU11PAL01,measurementTableName::year,measurementTable3,measurementTable1,changed
+NU11PAL01,TSid::year,Ry8WHMhkr4ceV7BRQ,RMBJS3OFcMlWmbFHE,changed
+NU11PAL01,hasTimeTsid::year,Ry8WHMhkr4ceV7BRQ,RMBJS3OFcMlWmbFHE,changed
+NU11PAL01,number::year,2,1,changed
+NU11PAL01,analyticalError::Sr/Ca,0.07,0.05,changed
+NU11PAL01,number::Sr/Ca,1,3,changed
+NU11PAL01,dataSource,,https://www.ncdc.noaa.gov/paleo/study/8609,added
+NU11PAL01,createdBy::year,,CoralHydro2k,added
+NU11PAL01,variableType::d18O,,measured,added
+NU11PAL01,proxy::d18O,,d18O,added
+NU11PAL01,jcpCorrected::d18O,,0,added
+NU11PAL01,jcpUsed::d18O,,0,added
+NU11PAL01,datum::d18O,,0,added
+NU11PAL01,coralExtensionRate::d18O,,20,added
+NU11PAL01,coralExtensionRateNotes::d18O,,20mm/yr,added
+NU11PAL01,createdBy::d18O,,CoralHydro2k,added
+NU11PAL01,variableType::Sr/Ca,,measured,added
+NU11PAL01,proxy::Sr/Ca,,Sr/Ca,added
+NU11PAL01,jcpCorrected::Sr/Ca,,0,added
+NU11PAL01,jcpUsed::Sr/Ca,,0,added
+NU11PAL01,datum::Sr/Ca,,0,added
+NU11PAL01,coralExtensionRate::Sr/Ca,,20,added
+NU11PAL01,coralExtensionRateNotes::Sr/Ca,,20mm/yr,added
+NU11PAL01,createdBy::Sr/Ca,,CoralHydro2k,added
+NU11PAL01,inferredMaterial::d18O,,sea water,added
+OS13NGP01,geo_description,"open lagoon, patch reef, 6.5 km from land, and 9.5 km from open ocean","open lagoon, patch reef, ~6.5 km from land, and ~9.5 km from open ocean",changed
+OS13NGP01,notes::d18O,Multiple linear regression analyses using monthly (non-detrended) anomalies for coral and ,Multiple linear regression analyses using monthly (non-detrended) anomalies for coral and ,changed
+OS13NGP01,number::d18O,1,2,changed
+OS13NGP01,number::year,2,1,changed
+OS13NGP01,createdBy::year,,CoralHydro2k,added
+OS13NGP01,variableType::d18O,,measured,added
+OS13NGP01,proxy::d18O,,d18O,added
+OS13NGP01,jcpCorrected::d18O,,0,added
+OS13NGP01,jcpUsed::d18O,,0,added
+OS13NGP01,datum::d18O,,0,added
+OS13NGP01,coralExtensionRate::d18O,,18.3,added
+OS13NGP01,coralExtensionRateNotes::d18O,,18.3 +/- 3.9 mm/yr,added
+OS13NGP01,createdBy::d18O,,CoralHydro2k,added
+OS13NLP01,geo_description,"open lagoon, patch reef,4.3 km from land, and 3 km from open ocean","open lagoon, patch reef,~4.3 km from land, and ~3 km from open ocean",changed
+OS13NLP01,number::d18O,1,2,changed
+OS13NLP01,number::year,2,1,changed
+OS13NLP01,createdBy::year,,CoralHydro2k,added
+OS13NLP01,variableType::d18O,,measured,added
+OS13NLP01,proxy::d18O,,d18O,added
+OS13NLP01,jcpCorrected::d18O,,0,added
+OS13NLP01,jcpUsed::d18O,,0,added
+OS13NLP01,datum::d18O,,0,added
+OS13NLP01,coralExtensionRate::d18O,,18.5,added
+OS13NLP01,coralExtensionRateNotes::d18O,,18.5 +/- 3.3 mm/yr,added
+OS13NLP01,createdBy::d18O,,CoralHydro2k,added
+OS14RIP01,geo_description,"narrowly restricted lagoon, soft reef, restricted embayment with terrestrial inputs likely","narrowly restricted lagoon, soft reef, restricted embayment with terrestrial inputs likely",changed
+OS14RIP01,notes::d18O,Multiple linear regression analyses using monthly (non-detrended) anomalies for coral and ,Multiple linear regression analyses using monthly (non-detrended) anomalies for coral and ,changed
+OS14RIP01,number::d18O,1,2,changed
+OS14RIP01,number::year,2,1,changed
+OS14RIP01,createdBy::year,,CoralHydro2k,added
+OS14RIP01,variableType::d18O,,measured,added
+OS14RIP01,proxy::d18O,,d18O,added
+OS14RIP01,jcpCorrected::d18O,,0,added
+OS14RIP01,jcpUsed::d18O,,0,added
+OS14RIP01,coralExtensionRate::d18O,,20.5,added
+OS14RIP01,coralExtensionRateNotes::d18O,,20.5 +/- 3.3 mm/yr,added
+OS14RIP01,createdBy::d18O,,CoralHydro2k,added
+OS14UCP01,geo_description,"open ocean, fringing reef, minimal terrestrial inputs, experiences direct exchange with th","open ocean, fringing reef, minimal terrestrial inputs, experiences direct exchange with th",changed
+OS14UCP01,notes::d18O,Multiple linear regression analyses using monthly (not detrended) anomalies for coral and ,Multiple linear regression analyses using monthly (not detrended) anomalies for coral and ,changed
+OS14UCP01,number::d18O,1,2,changed
+OS14UCP01,number::year,2,1,changed
+OS14UCP01,createdBy::year,,CoralHydro2k,added
+OS14UCP01,variableType::d18O,,measured,added
+OS14UCP01,proxy::d18O,,d18O,added
+OS14UCP01,jcpCorrected::d18O,,0,added
+OS14UCP01,jcpUsed::d18O,,0,added
+OS14UCP01,coralExtensionRate::d18O,,13.6,added
+OS14UCP01,coralExtensionRateNotes::d18O,,13.6 +/- 2.0 mm/yr,added
+OS14UCP01,createdBy::d18O,,CoralHydro2k,added
+PE22MAR01,(whole dataset),,NEW RECORD,new
+PE24ROC01,(whole dataset),,NEW RECORD,new
+PF04PBA01,pub1_citation,"Pfeiffer, M., Dullo, W.-C. and Eisenhauer, A. 2004. Variability of the Intertropical Conve","Pfeiffer, M., Dullo, W.-C. and Eisenhauer, A. 2004. Variability of the Intertropical Conve",changed
+PF04PBA01,number::d18O,1,2,changed
+PF04PBA01,number::year,2,1,changed
+PF04PBA01,createdBy::year,,CoralHydro2k,added
+PF04PBA01,variableType::d18O,,measured,added
+PF04PBA01,proxy::d18O,,d18O,added
+PF04PBA01,jcpCorrected::d18O,,0,added
+PF04PBA01,jcpUsed::d18O,,0,added
+PF04PBA01,coralExtensionRate::d18O,,14.5,added
+PF04PBA01,coralExtensionRateNotes::d18O,,14 - 15 mm,added
+PF04PBA01,createdBy::d18O,,CoralHydro2k,added
+PF17CHA01,(whole dataset),,NEW RECORD,new
+PF17CHA02,(whole dataset),,NEW RECORD,new
+PF17CHA03,(whole dataset),,NEW RECORD,new
+PF17SEY01,(whole dataset),,NEW RECORD,new
+PF19LAR01,pub2_citation,"Pfeiffer, M., Timm, O., Dullo, W.-C. and Podlech, S. 2004. Oceanic forcing of interannual ","Pfeiffer, M., Timm, O., Dullo, W.-C. and Podlech, S. 2004. Oceanic forcing of interannual ",changed
+PF19LAR01,pub2_title,Oceanic forcing of interannual and multidecadal climate variability in the southwestern In,Oceanic forcing of interannual and multidecadal climate variability in the southwestern In,changed
+PF19LAR01,number::d18O,1,2,changed
+PF19LAR01,number::year,2,1,changed
+PF19LAR01,analyticalError::Sr/Ca,0.01,0.06,changed
+PF19LAR01,number::Sr/Ca,1,2,changed
+PF19LAR01,createdBy::year,,CoralHydro2k,added
+PF19LAR01,variableType::d18O,,measured,added
+PF19LAR01,proxy::d18O,,d18O,added
+PF19LAR01,jcpCorrected::d18O,,0,added
+PF19LAR01,jcpMeasured::d18O,,8.83,added
+PF19LAR01,jcpUsed::d18O,,1,added
+PF19LAR01,datum::d18O,,0,added
+PF19LAR01,coralExtensionRate::d18O,,11,added
+PF19LAR01,coralExtensionRateNotes::d18O,,11 mm (1996-1900) and 5-8 mm (< 1900),added
+PF19LAR01,createdBy::d18O,,CoralHydro2k,added
+PF19LAR01,variableType::Sr/Ca,,measured,added
+PF19LAR01,proxy::Sr/Ca,,Sr/Ca,added
+PF19LAR01,jcpCorrected::Sr/Ca,,0,added
+PF19LAR01,jcpMeasured::Sr/Ca,,8.83,added
+PF19LAR01,jcpUsed::Sr/Ca,,1,added
+PF19LAR01,datum::Sr/Ca,,0,added
+PF19LAR01,coralExtensionRate::Sr/Ca,,11,added
+PF19LAR01,coralExtensionRateNotes::Sr/Ca,,11 mm (1996-1900) and 5-8 mm (< 1900),added
+PF19LAR01,createdBy::Sr/Ca,,CoralHydro2k,added
+PF25ENG01,(whole dataset),,NEW RECORD,new
+PR22KAH01,(whole dataset),,NEW RECORD,new
+PR22KAH02,(whole dataset),,NEW RECORD,new
+QU06RAB01,number::d18O,1,2,changed
+QU06RAB01,measurementTableName::year,measurementTable2,measurementTable1,changed
+QU06RAB01,TSid::year,R32cFCbSkv4nFrBLs,RKPDhhIZuPGHzzKPw,changed
+QU06RAB01,hasTimeTsid::year,R32cFCbSkv4nFrBLs,RKPDhhIZuPGHzzKPw,changed
+QU06RAB01,number::year,2,1,changed
+QU06RAB01,analyticalError::Sr/Ca,0.0065,0.06,changed
+QU06RAB01,number::Sr/Ca,1,3,changed
+QU06RAB01,createdBy::year,,CoralHydro2k,added
+QU06RAB01,variableType::d18O,,measured,added
+QU06RAB01,proxy::d18O,,d18O,added
+QU06RAB01,jcpCorrected::d18O,,0,added
+QU06RAB01,jcpNotes::d18O,,"JCP did not exist, but laboratory standards were intercalibrated by TIMS at the University",added
+QU06RAB01,jcpUsed::d18O,,0,added
+QU06RAB01,datum::d18O,,0,added
+QU06RAB01,coralExtensionRate::d18O,,13,added
+QU06RAB01,coralExtensionRateNotes::d18O,,~13 mm/year,added
+QU06RAB01,createdBy::d18O,,CoralHydro2k,added
+QU06RAB01,variableType::Sr/Ca,,measured,added
+QU06RAB01,proxy::Sr/Ca,,Sr/Ca,added
+QU06RAB01,jcpCorrected::Sr/Ca,,0,added
+QU06RAB01,jcpNotes::Sr/Ca,,"JCP did not exist, but laboratory standards were intercalibrated by TIMS at the University",added
+QU06RAB01,jcpUsed::Sr/Ca,,0,added
+QU06RAB01,datum::Sr/Ca,,0,added
+QU06RAB01,coralExtensionRate::Sr/Ca,,13,added
+QU06RAB01,coralExtensionRateNotes::Sr/Ca,,~13 mm/year,added
+QU06RAB01,createdBy::Sr/Ca,,CoralHydro2k,added
+QU96ESV01,pub1_citation,"Quinn, T. M., Crowley, T. J. and Taylor, F. W. 1996 New stable isotope results from a 173-","Quinn, T. M., Crowley, T. J. and Taylor, F. W. 1996 New stable isotope results from a 173-",changed
+QU96ESV01,pub2_citation,"Quinn, T. M., Taylor, F. W. and Crowley, T. J. 1993. A 173 year stable isotope record from","Quinn, T. M., Taylor, F. W. and Crowley, T. J. 1993. A 173 year stable isotope record from",changed
+QU96ESV01,number::d18O,1,2,changed
+QU96ESV01,number::year,2,1,changed
+QU96ESV01,createdBy::year,,CoralHydro2k,added
+QU96ESV01,variableType::d18O,,measured,added
+QU96ESV01,proxy::d18O,,d18O,added
+QU96ESV01,jcpCorrected::d18O,,0,added
+QU96ESV01,jcpUsed::d18O,,0,added
+QU96ESV01,createdBy::d18O,,CoralHydro2k,added
+RA17PAL01,(whole dataset),,NEW RECORD,new
+RA19PAI01,number::d18O,1,2,changed
+RA19PAI01,measurementTableName::year,measurementTable2,measurementTable1,changed
+RA19PAI01,TSid::year,RDdxtQJyiSOdBKYcC,RfqRZ3Bmf0m4HY3xX,changed
+RA19PAI01,hasTimeTsid::year,RDdxtQJyiSOdBKYcC,RfqRZ3Bmf0m4HY3xX,changed
+RA19PAI01,number::year,2,1,changed
+RA19PAI01,analyticalError::Sr/Ca,0.018,0.07,changed
+RA19PAI01,number::Sr/Ca,1,3,changed
+RA19PAI01,createdBy::year,,CoralHydro2k,added
+RA19PAI01,variableType::d18O,,measured,added
+RA19PAI01,proxy::d18O,,d18O,added
+RA19PAI01,jcpCorrected::d18O,,0,added
+RA19PAI01,jcpMeasured::d18O,,8.824,added
+RA19PAI01,jcpNotes::d18O,,"Bulk coral powder reference material JCp‐1 (Okai et al., 2001) with a consensus Sr/Ca valu",added
+RA19PAI01,jcpUsed::d18O,,1,added
+RA19PAI01,datum::d18O,,0,added
+RA19PAI01,coralExtensionRate::d18O,,13,added
+RA19PAI01,coralExtensionRateNotes::d18O,,1.3 cm/year,added
+RA19PAI01,createdBy::d18O,,CoralHydro2k,added
+RA19PAI01,variableType::Sr/Ca,,measured,added
+RA19PAI01,proxy::Sr/Ca,,Sr/Ca,added
+RA19PAI01,jcpCorrected::Sr/Ca,,0,added
+RA19PAI01,jcpMeasured::Sr/Ca,,8.824,added
+RA19PAI01,jcpNotes::Sr/Ca,,"Bulk coral powder reference material JCp‐1 (Okai et al., 2001) with a consensus Sr/Ca valu",added
+RA19PAI01,jcpUsed::Sr/Ca,,1,added
+RA19PAI01,datum::Sr/Ca,,0,added
+RA19PAI01,coralExtensionRate::Sr/Ca,,13,added
+RA19PAI01,coralExtensionRateNotes::Sr/Ca,,1.3 cm/year,added
+RA19PAI01,createdBy::Sr/Ca,,CoralHydro2k,added
+RA20TAI01,pub1_author,"Ramos, R. D., Goodkin, N. F. and Fan, T.Y.","Ramos, R. D., Goodkin, N. F. and Fan, T.‐Y.",changed
+RA20TAI01,pub1_citation,"Ramos, R. D., Goodkin, N. F. and Fan, T.Y. 2020. Coral records at the northern edge of the","Ramos, R. D., Goodkin, N. F. and Fan, T.‐Y. 2020. Coral records at the northern edge of th",changed
+RA20TAI01,number::d18O,1,2,changed
+RA20TAI01,measurementTableName::year,measurementTable2,measurementTable1,changed
+RA20TAI01,TSid::year,RLOqgj0NNCqzd2zDb,Re6BmWi2KGjKepiYe,changed
+RA20TAI01,hasTimeTsid::year,RLOqgj0NNCqzd2zDb,Re6BmWi2KGjKepiYe,changed
+RA20TAI01,number::year,2,1,changed
+RA20TAI01,analyticalError::Sr/Ca,0.018,0.07,changed
+RA20TAI01,number::Sr/Ca,1,3,changed
+RA20TAI01,createdBy::year,,CoralHydro2k,added
+RA20TAI01,variableType::d18O,,measured,added
+RA20TAI01,proxy::d18O,,d18O,added
+RA20TAI01,jcpCorrected::d18O,,0,added
+RA20TAI01,jcpMeasured::d18O,,8.824,added
+RA20TAI01,jcpNotes::d18O,,from stds analyzed over a 2-yr period,added
+RA20TAI01,jcpUsed::d18O,,1,added
+RA20TAI01,datum::d18O,,0,added
+RA20TAI01,coralExtensionRate::d18O,,12,added
+RA20TAI01,coralExtensionRateNotes::d18O,,1.2 cm/year,added
+RA20TAI01,createdBy::d18O,,CoralHydro2k,added
+RA20TAI01,variableType::Sr/Ca,,measured,added
+RA20TAI01,proxy::Sr/Ca,,Sr/Ca,added
+RA20TAI01,jcpCorrected::Sr/Ca,,0,added
+RA20TAI01,jcpMeasured::Sr/Ca,,8.824,added
+RA20TAI01,jcpNotes::Sr/Ca,,from stds analyzed over a 2-yr period,added
+RA20TAI01,jcpUsed::Sr/Ca,,1,added
+RA20TAI01,datum::Sr/Ca,,0,added
+RA20TAI01,coralExtensionRate::Sr/Ca,,12,added
+RA20TAI01,coralExtensionRateNotes::Sr/Ca,,1.2 cm/year,added
+RA20TAI01,createdBy::Sr/Ca,,CoralHydro2k,added
+RE18CAY01,analyticalError::d18O,NA,0.06,changed
+RE18CAY01,samplingNotes::d18O,"punch drill,  10 samples/year, adjusted path as needed to follow corallite wall","punch drill, ~ 10 samples/year, adjusted path as needed to follow corallite wall",changed
+RE18CAY01,number::d18O,1,4,changed
+RE18CAY01,measurementTableName::year,measurementTable5,measurementTable4,changed
+RE18CAY01,TSid::year,RBQ3pu62e3hqxrOfC,RiSNxVhMyQYXrE8Oa,changed
+RE18CAY01,hasTimeTsid::year,RBQ3pu62e3hqxrOfC,RiSNxVhMyQYXrE8Oa,changed
+RE18CAY01,number::year,2,1,changed
+RE18CAY01,analyticalError::Sr/Ca,0.15,0.06,changed
+RE18CAY01,samplingNotes::Sr/Ca,"punch drill,  10 samples/year, adjusted path as needed to follow corallite wall","punch drill, ~ 10 samples/year, adjusted path as needed to follow corallite wall",changed
+RE18CAY01,number::Sr/Ca,1,3,changed
+RE18CAY01,coralExtensionRateNotes::Sr/Ca,5.07 mm/yr (0.84 mm),5.07 mm/yr (±0.84 mm),changed
+RE18CAY01,coralExtensionRateNotes::d18O,5.07 mm/yr (0.84 mm),5.07 mm/yr (±0.84 mm),changed
+RE18CAY01,jcpCorrected::d18O,NA,0,changed
+RE18CAY01,jcpMeasured::d18O,NA,8.855,changed
+RE18CAY01,jcpUsed::d18O,NA,1,changed
+RE18CAY01,createdBy::year,,CoralHydro2k,added
+RE18CAY01,variableType::d18O,,measured,added
+RE18CAY01,proxy::d18O,,d18O,added
+RE18CAY01,jcpNotes::d18O,,The average Sr/Ca value of the JCp-1 standard from multiple measurements on the same day a,added
+RE18CAY01,datum::d18O,,0,added
+RE18CAY01,createdBy::d18O,,CoralHydro2k,added
+RE18CAY01,variableType::Sr/Ca,,measured,added
+RE18CAY01,proxy::Sr/Ca,,Sr/Ca,added
+RE18CAY01,datum::Sr/Ca,,0,added
+RE18CAY01,createdBy::Sr/Ca,,CoralHydro2k,added
+RE19GBR01,pub1_citation,"Reed, E. V., Cole, J. E., Lough, J. M. Thompson, D. M. and Cantin, N. E. 2019. Linking cli","Reed, E. V., Cole, J. E., Lough, J. M. Thompson, D. M. and Cantin, N. E. 2019. Linking cli",changed
+RE19GBR01,number::d18O,1,2,changed
+RE19GBR01,measurementTableName::year,measurementTable2,measurementTable1,changed
+RE19GBR01,TSid::year,R3hAVBEc6uAJRYmP5,RCZJE28GHdpfWnxjY,changed
+RE19GBR01,hasTimeTsid::year,R3hAVBEc6uAJRYmP5,RCZJE28GHdpfWnxjY,changed
+RE19GBR01,number::year,2,1,changed
+RE19GBR01,analyticalError::Sr/Ca,0.023,0.08,changed
+RE19GBR01,number::Sr/Ca,1,3,changed
+RE19GBR01,createdBy::year,,CoralHydro2k,added
+RE19GBR01,variableType::d18O,,measured,added
+RE19GBR01,proxy::d18O,,d18O,added
+RE19GBR01,jcpCorrected::d18O,,0,added
+RE19GBR01,jcpMeasured::d18O,,8.84,added
+RE19GBR01,jcpUsed::d18O,,1,added
+RE19GBR01,datum::d18O,,0,added
+RE19GBR01,coralExtensionRate::d18O,,21.4,added
+RE19GBR01,coralExtensionRateNotes::d18O,,21.4 mm/year,added
+RE19GBR01,createdBy::d18O,,CoralHydro2k,added
+RE19GBR01,variableType::Sr/Ca,,measured,added
+RE19GBR01,proxy::Sr/Ca,,Sr/Ca,added
+RE19GBR01,jcpCorrected::Sr/Ca,,0,added
+RE19GBR01,jcpMeasured::Sr/Ca,,8.84,added
+RE19GBR01,jcpUsed::Sr/Ca,,1,added
+RE19GBR01,datum::Sr/Ca,,0,added
+RE19GBR01,coralExtensionRate::Sr/Ca,,21.4,added
+RE19GBR01,coralExtensionRateNotes::Sr/Ca,,21.4 mm/year,added
+RE19GBR01,createdBy::Sr/Ca,,CoralHydro2k,added
+RE19GBR02,pub1_citation,"Reed, E. V., Cole, J. E., Lough, J. M. Thompson, D. M. and Cantin, N. E. 2019. Linking cli","Reed, E. V., Cole, J. E., Lough, J. M. Thompson, D. M. and Cantin, N. E. 2019. Linking cli",changed
+RE19GBR02,number::d18O,1,2,changed
+RE19GBR02,number::year,2,1,changed
+RE19GBR02,analyticalError::Sr/Ca,0.023,0.08,changed
+RE19GBR02,number::Sr/Ca,1,2,changed
+RE19GBR02,createdBy::year,,CoralHydro2k,added
+RE19GBR02,variableType::d18O,,measured,added
+RE19GBR02,proxy::d18O,,d18O,added
+RE19GBR02,jcpCorrected::d18O,,0,added
+RE19GBR02,jcpMeasured::d18O,,8.84,added
+RE19GBR02,jcpUsed::d18O,,1,added
+RE19GBR02,datum::d18O,,0,added
+RE19GBR02,coralExtensionRate::d18O,,19.3,added
+RE19GBR02,coralExtensionRateNotes::d18O,,19.3 mm/year,added
+RE19GBR02,createdBy::d18O,,CoralHydro2k,added
+RE19GBR02,variableType::Sr/Ca,,measured,added
+RE19GBR02,proxy::Sr/Ca,,Sr/Ca,added
+RE19GBR02,jcpCorrected::Sr/Ca,,0,added
+RE19GBR02,jcpMeasured::Sr/Ca,,8.84,added
+RE19GBR02,jcpUsed::Sr/Ca,,1,added
+RE19GBR02,datum::Sr/Ca,,0,added
+RE19GBR02,coralExtensionRate::Sr/Ca,,19.3,added
+RE19GBR02,coralExtensionRateNotes::Sr/Ca,,19.3 mm/year,added
+RE19GBR02,createdBy::Sr/Ca,,CoralHydro2k,added
+RE19GBR03,pub1_citation,"Reed, E. V., Cole, J. E., Lough, J. M. Thompson, D. M. and Cantin, N. E. 2019. Linking cli","Reed, E. V., Cole, J. E., Lough, J. M. Thompson, D. M. and Cantin, N. E. 2019. Linking cli",changed
+RE19GBR03,number::d18O,1,2,changed
+RE19GBR03,number::year,2,1,changed
+RE19GBR03,analyticalError::Sr/Ca,0.023,0.08,changed
+RE19GBR03,number::Sr/Ca,1,2,changed
+RE19GBR03,createdBy::year,,CoralHydro2k,added
+RE19GBR03,variableType::d18O,,measured,added
+RE19GBR03,proxy::d18O,,d18O,added
+RE19GBR03,jcpCorrected::d18O,,0,added
+RE19GBR03,jcpMeasured::d18O,,8.84,added
+RE19GBR03,jcpUsed::d18O,,1,added
+RE19GBR03,datum::d18O,,0,added
+RE19GBR03,coralExtensionRate::d18O,,13.4,added
+RE19GBR03,coralExtensionRateNotes::d18O,,13.4 mm/year,added
+RE19GBR03,createdBy::d18O,,CoralHydro2k,added
+RE19GBR03,variableType::Sr/Ca,,measured,added
+RE19GBR03,proxy::Sr/Ca,,Sr/Ca,added
+RE19GBR03,jcpCorrected::Sr/Ca,,0,added
+RE19GBR03,jcpMeasured::Sr/Ca,,8.84,added
+RE19GBR03,jcpUsed::Sr/Ca,,1,added
+RE19GBR03,datum::Sr/Ca,,0,added
+RE19GBR03,coralExtensionRate::Sr/Ca,,13.4,added
+RE19GBR03,coralExtensionRateNotes::Sr/Ca,,13.4 mm/year,added
+RE19GBR03,createdBy::Sr/Ca,,CoralHydro2k,added
+RE19GBR04,pub1_citation,"Reed, E. V., Cole, J. E., Lough, J. M. Thompson, D. M. and Cantin, N. E. 2019. Linking cli","Reed, E. V., Cole, J. E., Lough, J. M. Thompson, D. M. and Cantin, N. E. 2019. Linking cli",changed
+RE19GBR04,number::Sr/Ca,1,2,changed
+RE19GBR04,number::year,2,1,changed
+RE19GBR04,createdBy::year,,CoralHydro2k,added
+RE19GBR04,variableType::Sr/Ca,,measured,added
+RE19GBR04,proxy::Sr/Ca,,Sr/Ca,added
+RE19GBR04,jcpCorrected::Sr/Ca,,0,added
+RE19GBR04,jcpMeasured::Sr/Ca,,8.84,added
+RE19GBR04,jcpUsed::Sr/Ca,,1,added
+RE19GBR04,datum::Sr/Ca,,0,added
+RE19GBR04,coralExtensionRate::Sr/Ca,,14.9,added
+RE19GBR04,coralExtensionRateNotes::Sr/Ca,,14.9 mm/year,added
+RE19GBR04,createdBy::Sr/Ca,,CoralHydro2k,added
+RE19GBR05,pub1_citation,"Reed, E. V., Cole, J. E., Lough, J. M. Thompson, D. M. and Cantin, N. E. 2019. Linking cli","Reed, E. V., Cole, J. E., Lough, J. M. Thompson, D. M. and Cantin, N. E. 2019. Linking cli",changed
+RE19GBR05,number::Sr/Ca,1,2,changed
+RE19GBR05,number::year,2,1,changed
+RE19GBR05,createdBy::year,,CoralHydro2k,added
+RE19GBR05,variableType::Sr/Ca,,measured,added
+RE19GBR05,proxy::Sr/Ca,,Sr/Ca,added
+RE19GBR05,jcpCorrected::Sr/Ca,,0,added
+RE19GBR05,jcpMeasured::Sr/Ca,,8.84,added
+RE19GBR05,jcpUsed::Sr/Ca,,1,added
+RE19GBR05,datum::Sr/Ca,,0,added
+RE19GBR05,coralExtensionRate::Sr/Ca,,17.1,added
+RE19GBR05,coralExtensionRateNotes::Sr/Ca,,17.1 mm/year,added
+RE19GBR05,createdBy::Sr/Ca,,CoralHydro2k,added
+RI10PBL01,pub1_title,Impact of monsoon-driven surface ocean processes on a coral off Port Blair on the Andaman ,Impact of monsoon-driven surface ocean processes on a coral off Port Blair on the Andaman ,changed
+RI10PBL01,number::d18O,1,2,changed
+RI10PBL01,number::year,2,1,changed
+RI10PBL01,createdBy::year,,CoralHydro2k,added
+RI10PBL01,variableType::d18O,,measured,added
+RI10PBL01,proxy::d18O,,d18O,added
+RI10PBL01,jcpCorrected::d18O,,0,added
+RI10PBL01,jcpUsed::d18O,,0,added
+RI10PBL01,datum::d18O,,0,added
+RI10PBL01,coralExtensionRate::d18O,,11.9,added
+RI10PBL01,coralExtensionRateNotes::d18O,,11.9 mm/yr,added
+RI10PBL01,createdBy::d18O,,CoralHydro2k,added
+RO19MAR01,pub1_citation,"Rodriguez, L. G., Cohen, A. L., Ramirez, W., Oppo, D. W., Pourmand, A., Edwards, R. L.,  A","Rodriguez, L. G., Cohen, A. L., Ramirez, W., Oppo, D. W., Pourmand, A., Edwards, R. L.,  A",changed
+RO19MAR01,pub1_title,"MidHolocene, CoralBased Sea Surface Temperatures in the Western Tropical Atlantic","Mid‐Holocene, Coral‐Based Sea Surface Temperatures in the Western Tropical Atlantic",changed
+RO19MAR01,number::Sr/Ca,1,2,changed
+RO19MAR01,number::year,2,1,changed
+RO19MAR01,createdBy::year,,CoralHydro2k,added
+RO19MAR01,variableType::Sr/Ca,,measured,added
+RO19MAR01,proxy::Sr/Ca,,Sr/Ca,added
+RO19MAR01,jcpCorrected::Sr/Ca,,0,added
+RO19MAR01,jcpUsed::Sr/Ca,,0,added
+RO19MAR01,datum::Sr/Ca,,0,added
+RO19MAR01,coralExtensionRate::Sr/Ca,,5.4,added
+RO19MAR01,coralExtensionRateNotes::Sr/Ca,,5.4 mm/yr,added
+RO19MAR01,createdBy::Sr/Ca,,CoralHydro2k,added
+RO19PAR01,pub1_citation,"Rodriguez, L. G., Cohen, A. L., Ramirez, W., Oppo, D. W., Pourmand, A., Edwards, R. L.,  A","Rodriguez, L. G., Cohen, A. L., Ramirez, W., Oppo, D. W., Pourmand, A., Edwards, R. L.,  A",changed
+RO19PAR01,pub1_title,"MidHolocene, CoralBased Sea Surface Temperatures in the Western Tropical Atlantic","Mid‐Holocene, Coral‐Based Sea Surface Temperatures in the Western Tropical Atlantic",changed
+RO19PAR01,pub3_citation,"Watanabe, T., Winter, A. and Oba, T. 2001. Seasonal changes in sea surface temperature and","Watanabe, T., Winter, A. and Oba, T. 2001. Seasonal changes in sea surface temperature and",changed
+RO19PAR01,number::Sr/Ca,1,2,changed
+RO19PAR01,number::year,2,1,changed
+RO19PAR01,createdBy::year,,CoralHydro2k,added
+RO19PAR01,variableType::Sr/Ca,,measured,added
+RO19PAR01,proxy::Sr/Ca,,Sr/Ca,added
+RO19PAR01,jcpCorrected::Sr/Ca,,0,added
+RO19PAR01,jcpUsed::Sr/Ca,,0,added
+RO19PAR01,datum::Sr/Ca,,0,added
+RO19PAR01,createdBy::Sr/Ca,,CoralHydro2k,added
+RO19YUC01,pub1_citation,"Rodriguez, L. G., Cohen, A. L., Ramirez, W., Oppo, D. W., Pourmand, A., Edwards, R. L.,  A","Rodriguez, L. G., Cohen, A. L., Ramirez, W., Oppo, D. W., Pourmand, A., Edwards, R. L.,  A",changed
+RO19YUC01,pub1_title,"MidHolocene, CoralBased Sea Surface Temperatures in the Western Tropical Atlantic","Mid‐Holocene, Coral‐Based Sea Surface Temperatures in the Western Tropical Atlantic",changed
+RO19YUC01,pub2_journal,Paleoceanography ,Paleoceanography,changed
+RO19YUC01,number::Sr/Ca,1,3,changed
+RO19YUC01,measurementTableName::year,measurementTable3,measurementTable1,changed
+RO19YUC01,TSid::year,RqW3bks6VMh7RsdFm,RYpogOad7TrMkksso,changed
+RO19YUC01,hasTimeTsid::year,RqW3bks6VMh7RsdFm,RYpogOad7TrMkksso,changed
+RO19YUC01,number::year,2,1,changed
+RO19YUC01,analyticalError::uncertainty,NA,,removed
+RO19YUC01,archiveSpecies::uncertainty,Siderastrea siderea,,removed
+RO19YUC01,ch2kCoreCode::uncertainty,RO19YUC01,,removed
+RO19YUC01,coralExtensionRate::uncertainty,5.4,,removed
+RO19YUC01,coralExtensionRateNotes::uncertainty,5.4 mm/yr,,removed
+RO19YUC01,coralHydro2kGroup::uncertainty,7,,removed
+RO19YUC01,coreName::uncertainty,Jardin A,,removed
+RO19YUC01,isAnomaly::uncertainty,0,,removed
+RO19YUC01,isComposite::uncertainty,0,,removed
+RO19YUC01,isPrimary::uncertainty,FALSE,,removed
+RO19YUC01,jcpCorrected::uncertainty,0,,removed
+RO19YUC01,jcpMeasured::uncertainty,NA,,removed
+RO19YUC01,jcpUsed::uncertainty,0,,removed
+RO19YUC01,longName::uncertainty,SrCa,,removed
+RO19YUC01,measurementMaterial::uncertainty,Sr/Ca,,removed
+RO19YUC01,measurementTableName::uncertainty,measurementTable3,,removed
+RO19YUC01,medianRes12k::uncertainty,NA,,removed
+RO19YUC01,notes::uncertainty,focused more on Sr/U calibrations,,removed
+RO19YUC01,samplingNotes::uncertainty,dental drill fitted with a 0.3 mm diamond bit,,removed
+RO19YUC01,samplingResolution::uncertainty,0.5 mm,,removed
+RO19YUC01,TSid::uncertainty,RO19YUC01_SrCaUncertainty,RO19YUC01_SrCa_err,changed
+RO19YUC01,primaryAgeColumn::uncertainty,FALSE,,removed
+RO19YUC01,hasTimeTsid::uncertainty,RqW3bks6VMh7RsdFm,,removed
+RO19YUC01,calibration::uncertainty,HadISST,,removed
+RO19YUC01,hasResolution::uncertainty,annual,,removed
+RO19YUC01,number::uncertainty,1,4,changed
+RO19YUC01,createdBy::year,,CoralHydro2k,added
+RO19YUC01,variableType::Sr/Ca,,measured,added
+RO19YUC01,proxy::Sr/Ca,,Sr/Ca,added
+RO19YUC01,datum::Sr/Ca,,0,added
+RO19YUC01,createdBy::Sr/Ca,,CoralHydro2k,added
+RO19YUC01,variableType::uncertainty,,measured,added
+RO19YUC01,uncertaintyFor::uncertainty,,Sr/Ca,added
+RO19YUC01,createdBy::uncertainty,,CoralHydro2k,added
+SA16CLA01,number::d18O,1,2,changed
+SA16CLA01,number::year,2,1,changed
+SA16CLA01,createdBy::year,,CoralHydro2k,added
+SA16CLA01,variableType::d18O,,measured,added
+SA16CLA01,proxy::d18O,,d18O,added
+SA16CLA01,jcpCorrected::d18O,,0,added
+SA16CLA01,jcpUsed::d18O,,0,added
+SA16CLA01,datum::d18O,,0,added
+SA16CLA01,coralExtensionRate::d18O,,5,added
+SA16CLA01,coralExtensionRateNotes::d18O,,4-6 mm/yr,added
+SA16CLA01,createdBy::d18O,,CoralHydro2k,added
+SA18GBR01,analyticalErrorUnits::Sr/Ca,% RSD,%RSD,changed
+SA18GBR01,number::Sr/Ca,1,2,changed
+SA18GBR01,number::year,2,1,changed
+SA18GBR01,createdBy::year,,CoralHydro2k,added
+SA18GBR01,variableType::Sr/Ca,,measured,added
+SA18GBR01,proxy::Sr/Ca,,Sr/Ca,added
+SA18GBR01,jcpCorrected::Sr/Ca,,0,added
+SA18GBR01,jcpMeasured::Sr/Ca,,8.81,added
+SA18GBR01,jcpUsed::Sr/Ca,,1,added
+SA18GBR01,datum::Sr/Ca,,0,added
+SA18GBR01,createdBy::Sr/Ca,,CoralHydro2k,added
+SA19PAL01,pub1_citation,"Sayani, H. R., Cobb, K. M., DeLong, K., Hitt, N. T. and Druffel, E. R. M. 2019. Intercolon","Sayani, H. R., Cobb, K. M., DeLong, K., Hitt, N. T. and Druffel, E. R. M. 2019. Intercolon",changed
+SA19PAL01,pub1_firstauthor,"Sayani, H. ","Sayani, H.",changed
+SA19PAL01,pub1_title,Intercolony d18O and Sr/Ca variability among Porites spp. corals at Palmyra Atoll: Toward ,Intercolony d18O and Sr/Ca variability among Porites spp. corals at Palmyra Atoll: Toward ,changed
+SA19PAL01,number::d18O,1,2,changed
+SA19PAL01,number::year,2,1,changed
+SA19PAL01,analyticalError::Sr/Ca,0.01,0.07,changed
+SA19PAL01,number::Sr/Ca,1,2,changed
+SA19PAL01,dataSource,,https://agupubs.onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1029%2F2019GC0084,added
+SA19PAL01,createdBy::year,,CoralHydro2k,added
+SA19PAL01,variableType::d18O,,measured,added
+SA19PAL01,proxy::d18O,,d18O,added
+SA19PAL01,jcpCorrected::d18O,,0,added
+SA19PAL01,jcpMeasured::d18O,,8.99,added
+SA19PAL01,jcpUsed::d18O,,1,added
+SA19PAL01,datum::d18O,,0,added
+SA19PAL01,coralExtensionRate::d18O,,16.2,added
+SA19PAL01,coralExtensionRateNotes::d18O,,16.2 ± 0.7  mm/year,added
+SA19PAL01,createdBy::d18O,,CoralHydro2k,added
+SA19PAL01,variableType::Sr/Ca,,measured,added
+SA19PAL01,proxy::Sr/Ca,,Sr/Ca,added
+SA19PAL01,jcpCorrected::Sr/Ca,,0,added
+SA19PAL01,jcpMeasured::Sr/Ca,,8.99,added
+SA19PAL01,jcpUsed::Sr/Ca,,1,added
+SA19PAL01,datum::Sr/Ca,,0,added
+SA19PAL01,coralExtensionRate::Sr/Ca,,16.2,added
+SA19PAL01,coralExtensionRateNotes::Sr/Ca,,16.2 ± 0.7  mm/year,added
+SA19PAL01,createdBy::Sr/Ca,,CoralHydro2k,added
+SA19PAL02,pub1_citation,"Sayani, H. R., Cobb, K. M., DeLong, K., Hitt, N. T. and Druffel, E. R. M. 2019. Intercolon","Sayani, H. R., Cobb, K. M., DeLong, K., Hitt, N. T. and Druffel, E. R. M. 2019. Intercolon",changed
+SA19PAL02,pub1_firstauthor,"Sayani, H. ","Sayani, H.",changed
+SA19PAL02,pub1_title,Intercolony d18O and Sr/Ca variability among Porites spp. corals at Palmyra Atoll: Toward ,Intercolony d18O and Sr/Ca variability among Porites spp. corals at Palmyra Atoll: Toward ,changed
+SA19PAL02,number::d18O,1,2,changed
+SA19PAL02,number::year,2,1,changed
+SA19PAL02,analyticalError::Sr/Ca,0.01,0.07,changed
+SA19PAL02,number::Sr/Ca,1,2,changed
+SA19PAL02,dataSource,,https://agupubs.onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1029%2F2019GC0084,added
+SA19PAL02,createdBy::year,,CoralHydro2k,added
+SA19PAL02,variableType::d18O,,measured,added
+SA19PAL02,proxy::d18O,,d18O,added
+SA19PAL02,jcpCorrected::d18O,,0,added
+SA19PAL02,jcpMeasured::d18O,,8.99,added
+SA19PAL02,jcpUsed::d18O,,1,added
+SA19PAL02,datum::d18O,,0,added
+SA19PAL02,coralExtensionRate::d18O,,15.8,added
+SA19PAL02,coralExtensionRateNotes::d18O,,15.8 ± 1.0  mm/year,added
+SA19PAL02,createdBy::d18O,,CoralHydro2k,added
+SA19PAL02,variableType::Sr/Ca,,measured,added
+SA19PAL02,proxy::Sr/Ca,,Sr/Ca,added
+SA19PAL02,jcpCorrected::Sr/Ca,,0,added
+SA19PAL02,jcpMeasured::Sr/Ca,,8.99,added
+SA19PAL02,jcpUsed::Sr/Ca,,1,added
+SA19PAL02,datum::Sr/Ca,,0,added
+SA19PAL02,coralExtensionRate::Sr/Ca,,15.8,added
+SA19PAL02,coralExtensionRateNotes::Sr/Ca,,15.8 ± 1.0  mm/year,added
+SA19PAL02,createdBy::Sr/Ca,,CoralHydro2k,added
+SA20FAN01,number::d18O,1,2,changed
+SA20FAN01,number::year,2,1,changed
+SA20FAN01,createdBy::year,,CoralHydro2k,added
+SA20FAN01,variableType::d18O,,measured,added
+SA20FAN01,proxy::d18O,,d18O,added
+SA20FAN01,jcpCorrected::d18O,,0,added
+SA20FAN01,jcpUsed::d18O,,0,added
+SA20FAN01,datum::d18O,,0,added
+SA20FAN01,coralExtensionRate::d18O,,15,added
+SA20FAN01,coralExtensionRateNotes::d18O,,~15 mm/year,added
+SA20FAN01,createdBy::d18O,,CoralHydro2k,added
+SA20FAN02,number::d18O,1,2,changed
+SA20FAN02,number::year,2,1,changed
+SA20FAN02,createdBy::year,,CoralHydro2k,added
+SA20FAN02,variableType::d18O,,measured,added
+SA20FAN02,proxy::d18O,,d18O,added
+SA20FAN02,jcpCorrected::d18O,,0,added
+SA20FAN02,jcpUsed::d18O,,0,added
+SA20FAN02,datum::d18O,,0,added
+SA20FAN02,coralExtensionRate::d18O,,15,added
+SA20FAN02,coralExtensionRateNotes::d18O,,~15 mm/year,added
+SA20FAN02,createdBy::d18O,,CoralHydro2k,added
+SH92PUN01,pub1_citation,"Shen, G. T., Cole, J. E., Lea, D. W., Linn, L. J., McConnaughey, T. A. and Fairbanks, R. G","Shen, G. T., Cole, J. E., Lea, D. W., Linn, L. J., McConnaughey, T. A. and Fairbanks, R. G",changed
+SH92PUN01,number::d18O,1,2,changed
+SH92PUN01,number::year,2,1,changed
+SH92PUN01,createdBy::year,,CoralHydro2k,added
+SH92PUN01,variableType::d18O,,measured,added
+SH92PUN01,proxy::d18O,,d18O,added
+SH92PUN01,jcpCorrected::d18O,,0,added
+SH92PUN01,jcpUsed::d18O,,0,added
+SH92PUN01,coralExtensionRate::d18O,,11,added
+SH92PUN01,coralExtensionRateNotes::d18O,,~11 mm/yr,added
+SH92PUN01,createdBy::d18O,,CoralHydro2k,added
+SM06LKF01,notes::d18O,"Due to chipping during initial sampling, the top 1.5 years were sampled in a parallel path","Due to chipping during initial sampling, the top ~1.5 years were sampled in a parallel pat",changed
+SM06LKF01,number::d18O,1,2,changed
+SM06LKF01,measurementTableName::year,measurementTable2,measurementTable1,changed
+SM06LKF01,TSid::year,RlxzHhJpBAVVomHET,RaHsJYdGCwfePJfwa,changed
+SM06LKF01,hasTimeTsid::year,RlxzHhJpBAVVomHET,RaHsJYdGCwfePJfwa,changed
+SM06LKF01,number::year,2,1,changed
+SM06LKF01,analyticalError::Sr/Ca,0.013,0.06,changed
+SM06LKF01,notes::Sr/Ca,"Due to chipping during initial sampling, the top 1.5 years were sampled in a parallel path","Due to chipping during initial sampling, the top ~1.5 years were sampled in a parallel pat",changed
+SM06LKF01,number::Sr/Ca,1,3,changed
+SM06LKF01,createdBy::year,,CoralHydro2k,added
+SM06LKF01,variableType::d18O,,measured,added
+SM06LKF01,proxy::d18O,,d18O,added
+SM06LKF01,jcpCorrected::d18O,,0,added
+SM06LKF01,jcpNotes::d18O,,"JCP did not exist, but laboratory standards were intercalibrated by TIMS at the University",added
+SM06LKF01,jcpUsed::d18O,,0,added
+SM06LKF01,datum::d18O,,0,added
+SM06LKF01,createdBy::d18O,,CoralHydro2k,added
+SM06LKF01,variableType::Sr/Ca,,measured,added
+SM06LKF01,proxy::Sr/Ca,,Sr/Ca,added
+SM06LKF01,jcpCorrected::Sr/Ca,,0,added
+SM06LKF01,jcpNotes::Sr/Ca,,"JCP did not exist, but laboratory standards were intercalibrated by TIMS at the University",added
+SM06LKF01,jcpUsed::Sr/Ca,,0,added
+SM06LKF01,datum::Sr/Ca,,0,added
+SM06LKF01,createdBy::Sr/Ca,,CoralHydro2k,added
+SM06LKF02,number::d18O,1,2,changed
+SM06LKF02,measurementTableName::year,measurementTable2,measurementTable1,changed
+SM06LKF02,TSid::year,RC2g8ileldWrIFDhS,REHnMyfxr5eLOuuj8,changed
+SM06LKF02,hasTimeTsid::year,RC2g8ileldWrIFDhS,REHnMyfxr5eLOuuj8,changed
+SM06LKF02,number::year,2,1,changed
+SM06LKF02,analyticalError::Sr/Ca,0.013,0.06,changed
+SM06LKF02,number::Sr/Ca,1,3,changed
+SM06LKF02,createdBy::year,,CoralHydro2k,added
+SM06LKF02,variableType::d18O,,measured,added
+SM06LKF02,proxy::d18O,,d18O,added
+SM06LKF02,jcpCorrected::d18O,,0,added
+SM06LKF02,jcpNotes::d18O,,"JCP did not exist, but laboratory standards were intercalibrated by TIMS at the University",added
+SM06LKF02,jcpUsed::d18O,,0,added
+SM06LKF02,datum::d18O,,0,added
+SM06LKF02,createdBy::d18O,,CoralHydro2k,added
+SM06LKF02,variableType::Sr/Ca,,measured,added
+SM06LKF02,proxy::Sr/Ca,,Sr/Ca,added
+SM06LKF02,jcpCorrected::Sr/Ca,,0,added
+SM06LKF02,jcpNotes::Sr/Ca,,"JCP did not exist, but laboratory standards were intercalibrated by TIMS at the University",added
+SM06LKF02,jcpUsed::Sr/Ca,,0,added
+SM06LKF02,datum::Sr/Ca,,0,added
+SM06LKF02,createdBy::Sr/Ca,,CoralHydro2k,added
+ST13MAL01,number::d18O,1,2,changed
+ST13MAL01,number::year,2,1,changed
+ST13MAL01,analyticalError::Sr/Ca,0.11,0.08,changed
+ST13MAL01,number::Sr/Ca,1,2,changed
+ST13MAL01,createdBy::year,,CoralHydro2k,added
+ST13MAL01,variableType::d18O,,measured,added
+ST13MAL01,proxy::d18O,,d18O,added
+ST13MAL01,jcpCorrected::d18O,,0,added
+ST13MAL01,jcpUsed::d18O,,0,added
+ST13MAL01,datum::d18O,,0,added
+ST13MAL01,coralExtensionRate::d18O,,10,added
+ST13MAL01,coralExtensionRateNotes::d18O,,10 mm / year,added
+ST13MAL01,createdBy::d18O,,CoralHydro2k,added
+ST13MAL01,variableType::Sr/Ca,,measured,added
+ST13MAL01,proxy::Sr/Ca,,Sr/Ca,added
+ST13MAL01,jcpCorrected::Sr/Ca,,0,added
+ST13MAL01,jcpUsed::Sr/Ca,,0,added
+ST13MAL01,datum::Sr/Ca,,0,added
+ST13MAL01,coralExtensionRate::Sr/Ca,,10,added
+ST13MAL01,coralExtensionRateNotes::Sr/Ca,,10 mm / year,added
+ST13MAL01,createdBy::Sr/Ca,,CoralHydro2k,added
+SW98STP01,pub1_citation,"Swart, P. K., White, K. S., Enfield, D., Dodge, R. E. and Milne, P. 1998. Stable oxygen is","Swart, P. K., White, K. S., Enfield, D., Dodge, R. E. and Milne, P. 1998. Stable oxygen is",changed
+SW98STP01,pub1_title,Stable oxygen isotopic composition of corals from the Gulf of Guinea as indicators of peri,Stable oxygen isotopic composition of corals from the Gulf of Guinea as indicators of peri,changed
+SW98STP01,number::d18O,1,2,changed
+SW98STP01,number::year,2,1,changed
+SW98STP01,createdBy::year,,CoralHydro2k,added
+SW98STP01,variableType::d18O,,measured,added
+SW98STP01,proxy::d18O,,d18O,added
+SW98STP01,jcpCorrected::d18O,,0,added
+SW98STP01,jcpUsed::d18O,,0,added
+SW98STP01,createdBy::d18O,,CoralHydro2k,added
+SW99LIG01,number::d18O,1,2,changed
+SW99LIG01,number::year,2,1,changed
+SW99LIG01,createdBy::year,,CoralHydro2k,added
+SW99LIG01,variableType::d18O,,measured,added
+SW99LIG01,proxy::d18O,,d18O,added
+SW99LIG01,jcpCorrected::d18O,,0,added
+SW99LIG01,jcpUsed::d18O,,0,added
+SW99LIG01,createdBy::d18O,,CoralHydro2k,added
+SW99LIG02,pub2_citation,"Swart, P. K., Healy, G. F., Dodge, R. E., Kramer, P., Hudson, J. H., Halley, R. B. and Rob","Swart, P. K., Healy, G. F., Dodge, R. E., Kramer, P., Hudson, J. H., Halley, R. B. and Rob",changed
+SW99LIG02,number::d18O,1,2,changed
+SW99LIG02,number::year,2,1,changed
+SW99LIG02,createdBy::year,,CoralHydro2k,added
+SW99LIG02,variableType::d18O,,measured,added
+SW99LIG02,proxy::d18O,,d18O,added
+SW99LIG02,jcpCorrected::d18O,,0,added
+SW99LIG02,jcpUsed::d18O,,0,added
+SW99LIG02,coralExtensionRate::d18O,,8.95,added
+SW99LIG02,coralExtensionRateNotes::d18O,,8.95 mm/yr,added
+SW99LIG02,createdBy::d18O,,CoralHydro2k,added
+TA18TAS01,pub1_citation,"Tangri, N., Dunbar, R. B., Linsley, B. K. and Mucciarone, D. M. 2018. ENSO's Shrinking Twe","Tangri, N., Dunbar, R. B., Linsley, B. K. and Mucciarone, D. M. 2018. ENSO's Shrinking Twe",changed
+TA18TAS01,pub1_title,ENSO's Shrinking TwentiethCentury Footprint Revealed in a HalfMillennium Coral Core From t,ENSO's Shrinking Twentieth‐Century Footprint Revealed in a Half‐Millennium Coral Core From,changed
+TA18TAS01,number::d18O,1,2,changed
+TA18TAS01,number::year,2,1,changed
+TA18TAS01,createdBy::year,,CoralHydro2k,added
+TA18TAS01,variableType::d18O,,measured,added
+TA18TAS01,proxy::d18O,,d18O,added
+TA18TAS01,jcpCorrected::d18O,,0,added
+TA18TAS01,jcpUsed::d18O,,0,added
+TA18TAS01,datum::d18O,,0,added
+TA18TAS01,createdBy::d18O,,CoralHydro2k,added
+TA21MIN01,(whole dataset),,NEW RECORD,new
+TA22SCS01,(whole dataset),,NEW RECORD,new
+TA22SCS02,(whole dataset),,NEW RECORD,new
+TA22SCS03,(whole dataset),,NEW RECORD,new
+TA22SCS04,(whole dataset),,NEW RECORD,new
+TA22SCS05,(whole dataset),,NEW RECORD,new
+TO24NOM01,(whole dataset),,NEW RECORD,new
+TO24ROT01,(whole dataset),,NEW RECORD,new
+TU01DEP01,number::d18O,1,2,changed
+TU01DEP01,number::year,2,1,changed
+TU01DEP01,createdBy::year,,CoralHydro2k,added
+TU01DEP01,variableType::d18O,,measured,added
+TU01DEP01,proxy::d18O,,d18O,added
+TU01DEP01,jcpCorrected::d18O,,0,added
+TU01DEP01,jcpUsed::d18O,,0,added
+TU01DEP01,createdBy::d18O,,CoralHydro2k,added
+TU01LAI01,number::d18O,1,2,changed
+TU01LAI01,number::year,2,1,changed
+TU01LAI01,createdBy::year,,CoralHydro2k,added
+TU01LAI01,variableType::d18O,,measured,added
+TU01LAI01,proxy::d18O,,d18O,added
+TU01LAI01,jcpCorrected::d18O,,0,added
+TU01LAI01,jcpUsed::d18O,,0,added
+TU01LAI01,createdBy::d18O,,CoralHydro2k,added
+TU01SIA01,number::d18O,1,2,changed
+TU01SIA01,number::year,2,1,changed
+TU01SIA01,createdBy::year,,CoralHydro2k,added
+TU01SIA01,variableType::d18O,,measured,added
+TU01SIA01,proxy::d18O,,d18O,added
+TU01SIA01,jcpCorrected::d18O,,0,added
+TU01SIA01,jcpUsed::d18O,,0,added
+TU01SIA01,datum::d18O,,0,added
+TU01SIA01,createdBy::d18O,,CoralHydro2k,added
+TU95MAD01,geo_description,lagoon is flushed by strong tidal and wind-driven currents that flow through 3 deep passes,lagoon is flushed by strong tidal and wind-driven currents that flow through 3 deep passes,changed
+TU95MAD01,pub1_citation,"Tudhope, A. W., Shimmield, G. B., Chilcott, C. P., Jebb, M., Fallick, A. E. and Dalgleish,","Tudhope, A. W., Shimmield, G. B., Chilcott, C. P., Jebb, M., Fallick, A. E. and Dalgleish,",changed
+TU95MAD01,samplingNotes::d18O,each annual growth increment (identified via UV florescence) was cut into 4 equally sized ,each annual growth increment (identified via UV florescence) was cut into 4 equally sized ,changed
+TU95MAD01,number::d18O,1,2,changed
+TU95MAD01,number::year,2,1,changed
+TU95MAD01,createdBy::year,,CoralHydro2k,added
+TU95MAD01,variableType::d18O,,measured,added
+TU95MAD01,proxy::d18O,,d18O,added
+TU95MAD01,jcpCorrected::d18O,,0,added
+TU95MAD01,jcpUsed::d18O,,0,added
+TU95MAD01,coralExtensionRate::d18O,,9.9,added
+TU95MAD01,coralExtensionRateNotes::d18O,,9.9 mm/yr,added
+TU95MAD01,createdBy::d18O,,CoralHydro2k,added
+UR00MAI01,pub1_citation,"Urban, F. E., Cole, J. E. and Overpeck, J. T. 2000. Influence of mean climate change on cl","Urban, F. E., Cole, J. E. and Overpeck, J. T. 2000. Influence of mean climate change on cl",changed
+UR00MAI01,number::d18O,1,2,changed
+UR00MAI01,number::year,2,1,changed
+UR00MAI01,createdBy::year,,CoralHydro2k,added
+UR00MAI01,variableType::d18O,,measured,added
+UR00MAI01,proxy::d18O,,d18O,added
+UR00MAI01,jcpCorrected::d18O,,0,added
+UR00MAI01,jcpUsed::d18O,,0,added
+UR00MAI01,datum::d18O,,0,added
+UR00MAI01,coralExtensionRate::d18O,,9.5,added
+UR00MAI01,coralExtensionRateNotes::d18O,,7-12 mm/year,added
+UR00MAI01,createdBy::d18O,,CoralHydro2k,added
+WA14SHI01,(whole dataset),,NEW RECORD,new
+WA17BAN01,number::d18O,1,2,changed
+WA17BAN01,measurementTableName::year,measurementTable2,measurementTable1,changed
+WA17BAN01,TSid::year,R4K3MjDsbYuy5hqBD,RHjAUnHfx9rZrusju,changed
+WA17BAN01,hasTimeTsid::year,R4K3MjDsbYuy5hqBD,RHjAUnHfx9rZrusju,changed
+WA17BAN01,number::year,2,1,changed
+WA17BAN01,analyticalErrorUnits::Sr/Ca,% RSD,%RSD,changed
+WA17BAN01,number::Sr/Ca,1,3,changed
+WA17BAN01,dataSource,,https://coralogy.kikaireefs.org/C-1%20Scientific%20data.html,added
+WA17BAN01,createdBy::year,,CoralHydro2k,added
+WA17BAN01,variableType::d18O,,measured,added
+WA17BAN01,proxy::d18O,,d18O,added
+WA17BAN01,jcpCorrected::d18O,,0,added
+WA17BAN01,jcpUsed::d18O,,1,added
+WA17BAN01,datum::d18O,,0,added
+WA17BAN01,coralExtensionRate::d18O,,25.1,added
+WA17BAN01,coralExtensionRateNotes::d18O,,19-31.5 mm/year,added
+WA17BAN01,createdBy::d18O,,CoralHydro2k,added
+WA17BAN01,variableType::Sr/Ca,,measured,added
+WA17BAN01,proxy::Sr/Ca,,Sr/Ca,added
+WA17BAN01,jcpCorrected::Sr/Ca,,0,added
+WA17BAN01,jcpUsed::Sr/Ca,,1,added
+WA17BAN01,datum::Sr/Ca,,0,added
+WA17BAN01,coralExtensionRate::Sr/Ca,,25.1,added
+WA17BAN01,coralExtensionRateNotes::Sr/Ca,,19-31.5 mm/year,added
+WA17BAN01,createdBy::Sr/Ca,,CoralHydro2k,added
+WE09ARR01,number::d18O,1,2,changed
+WE09ARR01,measurementTableName::year,measurementTable2,measurementTable1,changed
+WE09ARR01,TSid::year,RCXMlfYZszek0hd9C,REedmQMoRkID1XDdO,changed
+WE09ARR01,hasTimeTsid::year,RCXMlfYZszek0hd9C,REedmQMoRkID1XDdO,changed
+WE09ARR01,number::year,2,1,changed
+WE09ARR01,analyticalError::Sr/Ca,0.3,0.08,changed
+WE09ARR01,number::Sr/Ca,1,3,changed
+WE09ARR01,createdBy::year,,CoralHydro2k,added
+WE09ARR01,variableType::d18O,,measured,added
+WE09ARR01,proxy::d18O,,d18O,added
+WE09ARR01,jcpCorrected::d18O,,0,added
+WE09ARR01,jcpUsed::d18O,,0,added
+WE09ARR01,datum::d18O,,0,added
+WE09ARR01,createdBy::d18O,,CoralHydro2k,added
+WE09ARR01,variableType::Sr/Ca,,measured,added
+WE09ARR01,proxy::Sr/Ca,,Sr/Ca,added
+WE09ARR01,jcpCorrected::Sr/Ca,,0,added
+WE09ARR01,jcpUsed::Sr/Ca,,0,added
+WE09ARR01,datum::Sr/Ca,,0,added
+WE09ARR01,createdBy::Sr/Ca,,CoralHydro2k,added
+WU13TON01,analyticalErrorUnits::d18O,permil,ActiveX VT_ERROR:,changed
+WU13TON01,notes::d18O,Microatoll with core taken from top and side and spliced together; As with all coral times,Microatoll with core taken from top and side and spliced together; As with all coral times,changed
+WU13TON01,number::d18O,1,3,changed
+WU13TON01,measurementTableName::year,measurementTable4,measurementTable2,changed
+WU13TON01,TSid::year,RUDar6qQusWBt4ytD,RZOULc2bXBvujbd1x,changed
+WU13TON01,hasTimeTsid::year,RUDar6qQusWBt4ytD,RZOULc2bXBvujbd1x,changed
+WU13TON01,number::year,2,1,changed
+WU13TON01,SUM::year,404380.5,404167.5,changed
+WU13TON01,analyticalError::Sr/Ca,0.041,0.03,changed
+WU13TON01,notes::Sr/Ca,Microatoll with core taken from top and side and spliced together; As with all coral times,Microatoll with core taken from top and side and spliced together; As with all coral times,changed
+WU13TON01,number::Sr/Ca,1,3,changed
+WU13TON01,coralExtensionRateNotes::Sr/Ca,15.292.78 mm/year,15.29 ± 2.78 mm/year,changed
+WU13TON01,coralExtensionRateNotes::d18O,15.292.78 mm/year,15.29 ± 2.78 mm/year,changed
+WU13TON01,jcpCorrected::d18O,NA,0,changed
+WU13TON01,jcpUsed::d18O,NA,0,changed
+WU13TON01,createdBy::year,,CoralHydro2k,added
+WU13TON01,variableType::d18O,,measured,added
+WU13TON01,proxy::d18O,,d18O,added
+WU13TON01,datum::d18O,,0,added
+WU13TON01,createdBy::d18O,,CoralHydro2k,added
+WU13TON01,variableType::Sr/Ca,,measured,added
+WU13TON01,proxy::Sr/Ca,,Sr/Ca,added
+WU13TON01,datum::Sr/Ca,,0,added
+WU13TON01,createdBy::Sr/Ca,,CoralHydro2k,added
+WU14CLI01,analyticalError::d18O,NA,0.06,changed
+WU14CLI01,number::d18O,1,4,changed
+WU14CLI01,measurementTableName::year,measurementTable3,measurementTable1,changed
+WU14CLI01,TSid::year,Ruq6gyawguwWzHed7,RFcW8l3kX1Q5qcHKD,changed
+WU14CLI01,hasTimeTsid::year,Ruq6gyawguwWzHed7,RFcW8l3kX1Q5qcHKD,changed
+WU14CLI01,number::year,2,1,changed
+WU14CLI01,analyticalError::Sr/Ca,0.023,0.06,changed
+WU14CLI01,number::Sr/Ca,1,3,changed
+WU14CLI01,dataSource,,https://www.ncdc.noaa.gov/paleo/study/17380,added
+WU14CLI01,createdBy::year,,CoralHydro2k,added
+WU14CLI01,variableType::d18O,,measured,added
+WU14CLI01,proxy::d18O,,d18O,added
+WU14CLI01,jcpCorrected::d18O,,0,added
+WU14CLI01,jcpUsed::d18O,,0,added
+WU14CLI01,datum::d18O,,0,added
+WU14CLI01,coralExtensionRate::d18O,,20,added
+WU14CLI01,coralExtensionRateNotes::d18O,,~20mm/year,added
+WU14CLI01,createdBy::d18O,,CoralHydro2k,added
+WU14CLI01,variableType::Sr/Ca,,measured,added
+WU14CLI01,proxy::Sr/Ca,,Sr/Ca,added
+WU14CLI01,jcpCorrected::Sr/Ca,,0,added
+WU14CLI01,jcpUsed::Sr/Ca,,0,added
+WU14CLI01,datum::Sr/Ca,,0,added
+WU14CLI01,coralExtensionRate::Sr/Ca,,20,added
+WU14CLI01,coralExtensionRateNotes::Sr/Ca,,~20mm/year,added
+WU14CLI01,createdBy::Sr/Ca,,CoralHydro2k,added
+WU14CLI01,inferredMaterial::d18O,,sea water,added
+XI17HAI01,analyticalError::d18O,NA,0.06,changed
+XI17HAI01,number::d18O,1,7,changed
+XI17HAI01,measurementTableName::year,measurementTable6,measurementTable1,changed
+XI17HAI01,TSid::year,RPOvWyhZImoWxlaXc,R1ew8ddaUUF0dZXhE,changed
+XI17HAI01,hasTimeTsid::year,RPOvWyhZImoWxlaXc,R1ew8ddaUUF0dZXhE,changed
+XI17HAI01,number::year,2,1,changed
+XI17HAI01,analyticalError::Sr/Ca,0.16,0.06,changed
+XI17HAI01,number::Sr/Ca,1,6,changed
+XI17HAI01,jcpCorrected::d18O,NA,1,changed
+XI17HAI01,jcpMeasured::d18O,NA,8.838,changed
+XI17HAI01,jcpUsed::d18O,NA,1,changed
+XI17HAI01,dataSource,,https://ars.els-cdn.com/content/image/1-s2.0-S1367912016304138-mmc1.xlsx,added
+XI17HAI01,createdBy::year,,CoralHydro2k,added
+XI17HAI01,variableType::d18O,,measured,added
+XI17HAI01,proxy::d18O,,d18O,added
+XI17HAI01,datum::d18O,,0,added
+XI17HAI01,createdBy::d18O,,CoralHydro2k,added
+XI17HAI01,variableType::Sr/Ca,,measured,added
+XI17HAI01,proxy::Sr/Ca,,Sr/Ca,added
+XI17HAI01,datum::Sr/Ca,,0,added
+XI17HAI01,createdBy::Sr/Ca,,CoralHydro2k,added
+XU15BVI01,pub1_title,Assessing coral Sr/CaSST calibration techniques using the species Diploria strigosa,Assessing coral Sr/Ca–SST calibration techniques using the species Diploria strigosa,changed
+XU15BVI01,number::Sr/Ca,1,2,changed
+XU15BVI01,number::year,2,1,changed
+XU15BVI01,createdBy::year,,CoralHydro2k,added
+XU15BVI01,variableType::Sr/Ca,,measured,added
+XU15BVI01,proxy::Sr/Ca,,Sr/Ca,added
+XU15BVI01,jcpCorrected::Sr/Ca,,0,added
+XU15BVI01,jcpUsed::Sr/Ca,,0,added
+XU15BVI01,datum::Sr/Ca,,0,added
+XU15BVI01,coralExtensionRate::Sr/Ca,,6.9,added
+XU15BVI01,coralExtensionRateNotes::Sr/Ca,,6.9(±0.4) mm/yr,added
+XU15BVI01,createdBy::Sr/Ca,,CoralHydro2k,added
+XU15BVI02,pub1_title,Assessing coral Sr/CaSST calibration techniques using the species Diploria strigosa,Assessing coral Sr/Ca–SST calibration techniques using the species Diploria strigosa,changed
+XU15BVI02,number::Sr/Ca,1,2,changed
+XU15BVI02,number::year,2,1,changed
+XU15BVI02,createdBy::year,,CoralHydro2k,added
+XU15BVI02,variableType::Sr/Ca,,measured,added
+XU15BVI02,proxy::Sr/Ca,,Sr/Ca,added
+XU15BVI02,jcpCorrected::Sr/Ca,,0,added
+XU15BVI02,jcpUsed::Sr/Ca,,0,added
+XU15BVI02,datum::Sr/Ca,,0,added
+XU15BVI02,coralExtensionRate::Sr/Ca,,5.6,added
+XU15BVI02,coralExtensionRateNotes::Sr/Ca,,5.6(±0.2) mm/yr,added
+XU15BVI02,createdBy::Sr/Ca,,CoralHydro2k,added
+XU15BVI03,pub1_title,Assessing coral Sr/CaSST calibration techniques using the species Diploria strigosa,Assessing coral Sr/Ca–SST calibration techniques using the species Diploria strigosa,changed
+XU15BVI03,number::Sr/Ca,1,2,changed
+XU15BVI03,number::year,2,1,changed
+XU15BVI03,createdBy::year,,CoralHydro2k,added
+XU15BVI03,variableType::Sr/Ca,,measured,added
+XU15BVI03,proxy::Sr/Ca,,Sr/Ca,added
+XU15BVI03,jcpCorrected::Sr/Ca,,0,added
+XU15BVI03,jcpUsed::Sr/Ca,,0,added
+XU15BVI03,datum::Sr/Ca,,0,added
+XU15BVI03,coralExtensionRate::Sr/Ca,,6.2,added
+XU15BVI03,coralExtensionRateNotes::Sr/Ca,,6.2(±0.4) mm/yr,added
+XU15BVI03,createdBy::Sr/Ca,,CoralHydro2k,added
+ZI04IFR01,number::d18O,1,2,changed
+ZI04IFR01,measurementTableName::year,measurementTable2,measurementTable1,changed
+ZI04IFR01,TSid::year,RM79rVQda2Wm4HN9K,RhIoAxFs0KZgG6C9o,changed
+ZI04IFR01,hasTimeTsid::year,RM79rVQda2Wm4HN9K,RhIoAxFs0KZgG6C9o,changed
+ZI04IFR01,number::year,2,1,changed
+ZI04IFR01,analyticalError::Sr/Ca,0.1,0.08,changed
+ZI04IFR01,number::Sr/Ca,1,3,changed
+ZI04IFR01,createdBy::year,,CoralHydro2k,added
+ZI04IFR01,variableType::d18O,,measured,added
+ZI04IFR01,proxy::d18O,,d18O,added
+ZI04IFR01,jcpCorrected::d18O,,0,added
+ZI04IFR01,jcpUsed::d18O,,0,added
+ZI04IFR01,datum::d18O,,0,added
+ZI04IFR01,coralExtensionRate::d18O,,10,added
+ZI04IFR01,coralExtensionRateNotes::d18O,,10 mm/year,added
+ZI04IFR01,createdBy::d18O,,CoralHydro2k,added
+ZI04IFR01,variableType::Sr/Ca,,measured,added
+ZI04IFR01,proxy::Sr/Ca,,Sr/Ca,added
+ZI04IFR01,jcpCorrected::Sr/Ca,,0,added
+ZI04IFR01,jcpUsed::Sr/Ca,,0,added
+ZI04IFR01,datum::Sr/Ca,,0,added
+ZI04IFR01,coralExtensionRate::Sr/Ca,,10,added
+ZI04IFR01,coralExtensionRateNotes::Sr/Ca,,10 mm/year,added
+ZI04IFR01,createdBy::Sr/Ca,,CoralHydro2k,added
+ZI08MAY01,analyticalError::d18O,NA,0.07,changed
+ZI08MAY01,number::d18O,1,4,changed
+ZI08MAY01,measurementTableName::year,measurementTable3,measurementTable1,changed
+ZI08MAY01,TSid::year,RGfCnPoFrtilhZai5,ROTUBwzpHl29LAY98,changed
+ZI08MAY01,hasTimeTsid::year,RGfCnPoFrtilhZai5,ROTUBwzpHl29LAY98,changed
+ZI08MAY01,number::year,2,1,changed
+ZI08MAY01,analyticalError::Sr/Ca,0.005,0.07,changed
+ZI08MAY01,number::Sr/Ca,1,3,changed
+ZI08MAY01,createdBy::year,,CoralHydro2k,added
+ZI08MAY01,variableType::d18O,,measured,added
+ZI08MAY01,proxy::d18O,,d18O,added
+ZI08MAY01,jcpCorrected::d18O,,0,added
+ZI08MAY01,jcpUsed::d18O,,0,added
+ZI08MAY01,datum::d18O,,0,added
+ZI08MAY01,coralExtensionRate::d18O,,14,added
+ZI08MAY01,coralExtensionRateNotes::d18O,,14 mm/year (± 2mm/year),added
+ZI08MAY01,createdBy::d18O,,CoralHydro2k,added
+ZI08MAY01,variableType::Sr/Ca,,measured,added
+ZI08MAY01,proxy::Sr/Ca,,Sr/Ca,added
+ZI08MAY01,jcpCorrected::Sr/Ca,,0,added
+ZI08MAY01,jcpUsed::Sr/Ca,,0,added
+ZI08MAY01,datum::Sr/Ca,,0,added
+ZI08MAY01,coralExtensionRate::Sr/Ca,,14,added
+ZI08MAY01,coralExtensionRateNotes::Sr/Ca,,14 mm/year (± 2mm/year),added
+ZI08MAY01,createdBy::Sr/Ca,,CoralHydro2k,added
+ZI08MAY01,inferredMaterial::d18O,,sea water,added
+ZI14HOU01,number::d18O,1,4,changed
+ZI14HOU01,measurementTableName::year,measurementTable4,measurementTable1,changed
+ZI14HOU01,TSid::year,RXbXj1kmt5d3esS1K,RcagtPlKdJfayLJB8,changed
+ZI14HOU01,hasTimeTsid::year,RXbXj1kmt5d3esS1K,RcagtPlKdJfayLJB8,changed
+ZI14HOU01,number::year,2,1,changed
+ZI14HOU01,analyticalError::Sr/Ca,0.007,0.1,changed
+ZI14HOU01,number::Sr/Ca,1,5,changed
+ZI14HOU01,jcpCorrected::d18O,NA,0,changed
+ZI14HOU01,jcpUsed::d18O,NA,1,changed
+ZI14HOU01,createdBy::year,,CoralHydro2k,added
+ZI14HOU01,variableType::d18O,,measured,added
+ZI14HOU01,proxy::d18O,,d18O,added
+ZI14HOU01,jcpNotes::d18O,,JCP used for Hab10A Sr/Ca,added
+ZI14HOU01,datum::d18O,,0,added
+ZI14HOU01,createdBy::d18O,,CoralHydro2k,added
+ZI14HOU01,variableType::Sr/Ca,,measured,added
+ZI14HOU01,proxy::Sr/Ca,,Sr/Ca,added
+ZI14HOU01,datum::Sr/Ca,,0,added
+ZI14HOU01,createdBy::Sr/Ca,,CoralHydro2k,added
+ZI14IFR02,originalDataUrl,https://www.ncdc.noaa.gov/paleo/study/16438,available in the supplementary,changed
+ZI14IFR02,geo_longitude,43.5882,43,changed
+ZI14IFR02,geo_latitude,-23.1573,-23,changed
+ZI14IFR02,geo_description,lagoon,"lagoon, close to the passage throught the lagoon",changed
+ZI14IFR02,pub1_author,"Zinke, J., Loveday, B. R., Reason, C. J. C., Dullo, W.-C. and Kroon, D.","Zinke, J., Watanabe, T.K., Ruhs, S., Pfeiffer, M., Grab, S., Garbe-Schonberg, D., Biastoch",changed
+ZI14IFR02,pub1_citation,"Zinke, J., Loveday, B. R., Reason, C. J. C., Dullo, W.-C. and Kroon, D. 2014. Madagascar c","Zinke, J., Watanabe, T.K., Ruhs, S., Pfeiffer, M., Grab, S., Garbe-Schonberg, D., Biastoch",changed
+ZI14IFR02,pub1_doi,10.1038/srep04393,https://cp.copernicus.org/articles/18/1453/2022/cp-18-1453-2022.pdf,changed
+ZI14IFR02,pub1_journal,Scientific Reports,Climate of the Past,changed
+ZI14IFR02,pub1_title,Madagascar corals track sea surface temperature variability in the Agulhas Current core re,A 334-year coral record of surface temperature and salinity variability in the greater Agu,changed
+ZI14IFR02,pub1_year,2014,2022,changed
+ZI14IFR02,pub2_author,"Zinke, J., Dullo, W. C., Heiss, G. A. and Eisenhauer, A.","Zinke, J., Loveday, B. R., Reason, C. J. C., Dullo, W.-C. and Kroon, D.",changed
+ZI14IFR02,pub2_citation,"Zinke, J., Dullo, W. C., Heiss, G. A. and Eisenhauer, A. 2004. ENSO and Indian Ocean subtr","Zinke, J., Loveday, B. R., Reason, C. J. C., Dullo, W.-C. and Kroon, D. 2014. Madagascar c",changed
+ZI14IFR02,pub2_doi,10.1016/j.epsl.2004.09.028,10.1038/srep04393,changed
+ZI14IFR02,pub2_journal,Earth and Planetary Science Letters,Scientific Reports,changed
+ZI14IFR02,pub2_title,ENSO and Indian Ocean subtropical dipole variability is recorded in a coral record off sou,Madagascar corals track sea surface temperature variability in the Agulhas Current core re,changed
+ZI14IFR02,pub2_year,2004,2014,changed
+ZI14IFR02,notes::d18O,Published slopes based on composite coral results. Used -0.20.02 permil per 1 deg C regres,Used published slopes of literature. -0.06 and -0.22,changed
+ZI14IFR02,number::d18O,1,4,changed
+ZI14IFR02,measurementTableName::year,measurementTable2,measurementTable1,changed
+ZI14IFR02,TSid::year,R05JKSwbqLRx9FKwO,Rm2YXrPJ6LwhNyyb9,changed
+ZI14IFR02,hasTimeTsid::year,R05JKSwbqLRx9FKwO,Rm2YXrPJ6LwhNyyb9,changed
+ZI14IFR02,number::year,2,1,changed
+ZI14IFR02,coralExtensionRateNotes::d18O,1.28  0.24 cm/yr,1.28 ± 0.24 cm/year,changed
+ZI14IFR02,jcpCorrected::d18O,NA,0,changed
+ZI14IFR02,jcpMeasured::d18O,NA,8.831,changed
+ZI14IFR02,jcpUsed::d18O,NA,1,changed
+ZI14IFR02,pub3_author,,"Zinke, J., Dullo, W. C., Heiss, G. A. and Eisenhauer, A.",added
+ZI14IFR02,pub3_citation,,"Zinke, J., Dullo, W. C., Heiss, G. A. and Eisenhauer, A. 2004. ENSO and Indian Ocean subtr",added
+ZI14IFR02,pub3_doi,,10.1016/j.epsl.2004.09.028,added
+ZI14IFR02,pub3_firstauthor,,"Zinke, J.",added
+ZI14IFR02,pub3_journal,,Earth and Planetary Science Letters,added
+ZI14IFR02,pub3_title,,ENSO and Indian Ocean subtropical dipole variability is recorded in a coral record off sou,added
+ZI14IFR02,pub3_year,,2004,added
+ZI14IFR02,createdBy::year,,CoralHydro2k,added
+ZI14IFR02,variableType::d18O,,measured,added
+ZI14IFR02,proxy::d18O,,d18O,added
+ZI14IFR02,datum::d18O,,0,added
+ZI14IFR02,createdBy::d18O,,CoralHydro2k,added
+ZI14IFR02,units::Sr/Ca,,mmol/mol,added
+ZI14IFR02,variableType::Sr/Ca,,measured,added
+ZI14IFR02,proxy::Sr/Ca,,Sr/Ca,added
+ZI14IFR02,analyticalError::Sr/Ca,,0.08,added
+ZI14IFR02,analyticalErrorUnits::Sr/Ca,,mmol/mol,added
+ZI14IFR02,jcpCorrected::Sr/Ca,,0,added
+ZI14IFR02,jcpMeasured::Sr/Ca,,8.831,added
+ZI14IFR02,jcpUsed::Sr/Ca,,1,added
+ZI14IFR02,datum::Sr/Ca,,0,added
+ZI14IFR02,coralExtensionRate::Sr/Ca,,12.8,added
+ZI14IFR02,coralExtensionRateNotes::Sr/Ca,,1.28 ± 0.24 cm/year,added
+ZI14IFR02,coreName::Sr/Ca,,Ifaty-1,added
+ZI14IFR02,isComposite::Sr/Ca,,0,added
+ZI14IFR02,notes::Sr/Ca,,Used published slopes of literature. -0.06 and -0.22,added
+ZI14IFR02,samplingNotes::Sr/Ca,,sampled at annual resolution (Mar-Feb) along the major growth axis following the density p,added
+ZI14IFR02,samplingResolution::Sr/Ca,,annual resolution,added
+ZI14IFR02,archiveSpecies::Sr/Ca,,Porites sp.,added
+ZI14IFR02,variableName::Sr/Ca,,Sr/Ca,added
+ZI14IFR02,number::Sr/Ca,,5,added
+ZI14IFR02,TSid::Sr/Ca,,ZI14IFR02_SrCa_annual,added
+ZI14IFR02,createdBy::Sr/Ca,,CoralHydro2k,added
+ZI14IFR02,N::Sr/Ca,,113,added
+ZI14IFR02,SUM::Sr/Ca,,985.21,added
+ZI14IFR02,hasResolution::Sr/Ca,,annual,added
+ZI14TUR01,originalDataUrl,https://www.ncdc.noaa.gov/paleo/study/16438,available in the supplementary,changed
+ZI14TUR01,geo_longitude,43.6195,43.2,changed
+ZI14TUR01,geo_latitude,-23.3572,-22.5,changed
+ZI14TUR01,geo_description,barrier reef,Barrier reef,changed
+ZI14TUR01,pub1_author,"Zinke, J., Loveday, B. R., Reason, C. J. C., Dullo, W.-C. and Kroon, D.","Zinke, J., Watanabe, T.K., Ruhs, S., Pfeiffer, M., Grab, S., Garbe-Schonberg, D., Biastoch",changed
+ZI14TUR01,pub1_citation,"Zinke, J., Loveday, B. R., Reason, C. J. C., Dullo, W.-C. and Kroon, D. 2014. Madagascar c","Zinke, J., Watanabe, T.K., Ruhs, S., Pfeiffer, M., Grab, S., Garbe-Schonberg, D., Biastoch",changed
+ZI14TUR01,pub1_doi,10.1038/srep04393,https://cp.copernicus.org/articles/18/1453/2022/cp-18-1453-2022.pdf,changed
+ZI14TUR01,pub1_journal,Scientific Reports,Climate of the Past,changed
+ZI14TUR01,pub1_title,Madagascar corals track sea surface temperature variability in the Agulhas Current core re,A 334-year coral record of surface temperature and salinity variability in the greater Agu,changed
+ZI14TUR01,pub1_year,2014,2022,changed
+ZI14TUR01,pub2_author,"Zinke, J., Dullo, W. C., Heiss, G. A. and Eisenhauer, A.","Zinke, J., Loveday, B. R., Reason, C. J. C., Dullo, W.-C. and Kroon, D.",changed
+ZI14TUR01,pub2_citation,"Zinke, J., Dullo, W. C., Heiss, G. A. and Eisenhauer, A. 2004. ENSO and Indian Ocean subtr","Zinke, J., Loveday, B. R., Reason, C. J. C., Dullo, W.-C. and Kroon, D. 2014. Madagascar c",changed
+ZI14TUR01,pub2_doi,10.1016/j.epsl.2004.09.028,10.1038/srep04393,changed
+ZI14TUR01,pub2_journal,Earth and Planetary Science Letters,Scientific Reports,changed
+ZI14TUR01,pub2_title,ENSO and Indian Ocean subtropical dipole variability is recorded in a coral record off sou,Madagascar corals track sea surface temperature variability in the Agulhas Current core re,changed
+ZI14TUR01,pub2_year,2004,2014,changed
+ZI14TUR01,notes::d18O,Published slopes based on composite coral results. Used -0.20.02 permil per 1 deg C regres,Used published slopes of literature. -0.06 and -0.22,changed
+ZI14TUR01,number::d18O,1,4,changed
+ZI14TUR01,measurementTableName::year,measurementTable2,measurementTable1,changed
+ZI14TUR01,TSid::year,ReDNFif4VlpRnowFB,R5eNpsOSQi2B9y8w3,changed
+ZI14TUR01,hasTimeTsid::year,ReDNFif4VlpRnowFB,R5eNpsOSQi2B9y8w3,changed
+ZI14TUR01,number::year,2,1,changed
+ZI14TUR01,coralExtensionRateNotes::d18O,1.54  0.25 cm/yr,1.54 ± 0.25 cm/year,changed
+ZI14TUR01,jcpCorrected::d18O,NA,0,changed
+ZI14TUR01,jcpMeasured::d18O,NA,8.831,changed
+ZI14TUR01,jcpUsed::d18O,NA,1,changed
+ZI14TUR01,pub3_author,,"Zinke, J., Dullo, W. C., Heiss, G. A. and Eisenhauer, A.",added
+ZI14TUR01,pub3_citation,,"Zinke, J., Dullo, W. C., Heiss, G. A. and Eisenhauer, A. 2004. ENSO and Indian Ocean subtr",added
+ZI14TUR01,pub3_doi,,10.1016/j.epsl.2004.09.028,added
+ZI14TUR01,pub3_firstauthor,,"Zinke, J.",added
+ZI14TUR01,pub3_journal,,Earth and Planetary Science Letters,added
+ZI14TUR01,pub3_title,,ENSO and Indian Ocean subtropical dipole variability is recorded in a coral record off sou,added
+ZI14TUR01,pub3_year,,2004,added
+ZI14TUR01,createdBy::year,,CoralHydro2k,added
+ZI14TUR01,variableType::d18O,,measured,added
+ZI14TUR01,proxy::d18O,,d18O,added
+ZI14TUR01,datum::d18O,,0,added
+ZI14TUR01,createdBy::d18O,,CoralHydro2k,added
+ZI14TUR01,units::Sr/Ca,,mmol/mol,added
+ZI14TUR01,variableType::Sr/Ca,,measured,added
+ZI14TUR01,proxy::Sr/Ca,,Sr/Ca,added
+ZI14TUR01,analyticalError::Sr/Ca,,0.08,added
+ZI14TUR01,analyticalErrorUnits::Sr/Ca,,mmol/mol,added
+ZI14TUR01,jcpCorrected::Sr/Ca,,0,added
+ZI14TUR01,jcpMeasured::Sr/Ca,,8.831,added
+ZI14TUR01,jcpUsed::Sr/Ca,,1,added
+ZI14TUR01,datum::Sr/Ca,,0,added
+ZI14TUR01,coralExtensionRate::Sr/Ca,,15.4,added
+ZI14TUR01,coralExtensionRateNotes::Sr/Ca,,1.54 ± 0.25 cm/year,added
+ZI14TUR01,coreName::Sr/Ca,,Tulear-3,added
+ZI14TUR01,isComposite::Sr/Ca,,0,added
+ZI14TUR01,notes::Sr/Ca,,Used published slopes of literature. -0.06 and -0.22,added
+ZI14TUR01,samplingNotes::Sr/Ca,,sampled at annual resolution (Mar-Feb) along the major growth axis following the density p,added
+ZI14TUR01,samplingResolution::Sr/Ca,,annual resolution,added
+ZI14TUR01,archiveSpecies::Sr/Ca,,Porites sp.,added
+ZI14TUR01,variableName::Sr/Ca,,Sr/Ca,added
+ZI14TUR01,number::Sr/Ca,,5,added
+ZI14TUR01,TSid::Sr/Ca,,ZI14TUR01_SrCa_annual,added
+ZI14TUR01,createdBy::Sr/Ca,,CoralHydro2k,added
+ZI14TUR01,N::Sr/Ca,,90,added
+ZI14TUR01,SUM::Sr/Ca,,804.45,added
+ZI14TUR01,hasResolution::Sr/Ca,,annual,added
+ZI15BUN01,analyticalErrorUnits::Sr/Ca,% RSD,%RSD,changed
+ZI15BUN01,number::Sr/Ca,1,3,changed
+ZI15BUN01,measurementTableName::year,measurementTable2,measurementTable1,changed
+ZI15BUN01,TSid::year,RDdqgIkDB9q1LJ7fm,RvPJCn6dHZ8BKpTcE,changed
+ZI15BUN01,hasTimeTsid::year,RDdqgIkDB9q1LJ7fm,RvPJCn6dHZ8BKpTcE,changed
+ZI15BUN01,number::year,2,1,changed
+ZI15BUN01,createdBy::year,,CoralHydro2k,added
+ZI15BUN01,variableType::Sr/Ca,,measured,added
+ZI15BUN01,proxy::Sr/Ca,,Sr/Ca,added
+ZI15BUN01,datum::Sr/Ca,,0,added
+ZI15BUN01,createdBy::Sr/Ca,,CoralHydro2k,added
+ZI15CLE01,analyticalErrorUnits::Sr/Ca,% RSD,%RSD,changed
+ZI15CLE01,number::Sr/Ca,1,3,changed
+ZI15CLE01,measurementTableName::year,measurementTable2,measurementTable1,changed
+ZI15CLE01,TSid::year,RIURbYfmpErlpPKNC,RyUY1i2a36kme3fMH,changed
+ZI15CLE01,hasTimeTsid::year,RIURbYfmpErlpPKNC,RyUY1i2a36kme3fMH,changed
+ZI15CLE01,number::year,2,1,changed
+ZI15CLE01,createdBy::year,,CoralHydro2k,added
+ZI15CLE01,variableType::Sr/Ca,,measured,added
+ZI15CLE01,proxy::Sr/Ca,,Sr/Ca,added
+ZI15CLE01,datum::Sr/Ca,,0,added
+ZI15CLE01,createdBy::Sr/Ca,,CoralHydro2k,added
+ZI15IMP01,analyticalErrorUnits::Sr/Ca,% RSD,%RSD,changed
+ZI15IMP01,number::Sr/Ca,1,3,changed
+ZI15IMP01,measurementTableName::year,measurementTable2,measurementTable1,changed
+ZI15IMP01,TSid::year,RbenEx25gV8YSeW6d,Rj7h5KjnWFziHeNTo,changed
+ZI15IMP01,hasTimeTsid::year,RbenEx25gV8YSeW6d,Rj7h5KjnWFziHeNTo,changed
+ZI15IMP01,number::year,2,1,changed
+ZI15IMP01,createdBy::year,,CoralHydro2k,added
+ZI15IMP01,variableType::Sr/Ca,,measured,added
+ZI15IMP01,proxy::Sr/Ca,,Sr/Ca,added
+ZI15IMP01,datum::Sr/Ca,,0,added
+ZI15IMP01,createdBy::Sr/Ca,,CoralHydro2k,added
+ZI15IMP02,analyticalErrorUnits::Sr/Ca,% RSD,%RSD,changed
+ZI15IMP02,number::Sr/Ca,1,3,changed
+ZI15IMP02,measurementTableName::year,measurementTable2,measurementTable1,changed
+ZI15IMP02,TSid::year,R2wzQnaMSWGgaSaKb,RMx3Ihf42gbS8Wlpw,changed
+ZI15IMP02,hasTimeTsid::year,R2wzQnaMSWGgaSaKb,RMx3Ihf42gbS8Wlpw,changed
+ZI15IMP02,number::year,2,1,changed
+ZI15IMP02,createdBy::year,,CoralHydro2k,added
+ZI15IMP02,variableType::Sr/Ca,,measured,added
+ZI15IMP02,proxy::Sr/Ca,,Sr/Ca,added
+ZI15IMP02,datum::Sr/Ca,,0,added
+ZI15IMP02,createdBy::Sr/Ca,,CoralHydro2k,added
+ZI15MER01,analyticalErrorUnits::Sr/Ca,% RSD,%RSD,changed
+ZI15MER01,number::Sr/Ca,1,3,changed
+ZI15MER01,measurementTableName::year,measurementTable2,measurementTable1,changed
+ZI15MER01,TSid::year,R1l6ZiS2VKaoPSeOs,RHc5jPZ7vJjeSHHfd,changed
+ZI15MER01,hasTimeTsid::year,R1l6ZiS2VKaoPSeOs,RHc5jPZ7vJjeSHHfd,changed
+ZI15MER01,number::year,2,1,changed
+ZI15MER01,createdBy::year,,CoralHydro2k,added
+ZI15MER01,variableType::Sr/Ca,,measured,added
+ZI15MER01,proxy::Sr/Ca,,Sr/Ca,added
+ZI15MER01,datum::Sr/Ca,,0,added
+ZI15MER01,createdBy::Sr/Ca,,CoralHydro2k,added
+ZI15TAN01,analyticalErrorUnits::Sr/Ca,% RSD,%RSD,changed
+ZI15TAN01,number::Sr/Ca,1,3,changed
+ZI15TAN01,measurementTableName::year,measurementTable2,measurementTable1,changed
+ZI15TAN01,TSid::year,RkF6laFInwpUhITAV,Ra6TFPdgoidfa0Kav,changed
+ZI15TAN01,hasTimeTsid::year,RkF6laFInwpUhITAV,Ra6TFPdgoidfa0Kav,changed
+ZI15TAN01,number::year,2,1,changed
+ZI15TAN01,createdBy::year,,CoralHydro2k,added
+ZI15TAN01,variableType::Sr/Ca,,measured,added
+ZI15TAN01,proxy::Sr/Ca,,Sr/Ca,added
+ZI15TAN01,datum::Sr/Ca,,0,added
+ZI15TAN01,createdBy::Sr/Ca,,CoralHydro2k,added
+ZI16ROD01,number::Sr/Ca,1,2,changed
+ZI16ROD01,number::year,2,1,changed
+ZI16ROD01,createdBy::year,,CoralHydro2k,added
+ZI16ROD01,variableType::Sr/Ca,,measured,added
+ZI16ROD01,proxy::Sr/Ca,,Sr/Ca,added
+ZI16ROD01,jcpCorrected::Sr/Ca,,1,added
+ZI16ROD01,jcpMeasured::Sr/Ca,,8.83,added
+ZI16ROD01,jcpUsed::Sr/Ca,,1,added
+ZI16ROD01,datum::Sr/Ca,,0,added
+ZI16ROD01,coralExtensionRate::Sr/Ca,,9.2,added
+ZI16ROD01,coralExtensionRateNotes::Sr/Ca,,9.2,added
+ZI16ROD01,createdBy::Sr/Ca,,CoralHydro2k,added
+ZI16ROD02,number::Sr/Ca,1,2,changed
+ZI16ROD02,number::year,2,1,changed
+ZI16ROD02,createdBy::year,,CoralHydro2k,added
+ZI16ROD02,variableType::Sr/Ca,,measured,added
+ZI16ROD02,proxy::Sr/Ca,,Sr/Ca,added
+ZI16ROD02,jcpCorrected::Sr/Ca,,1,added
+ZI16ROD02,jcpMeasured::Sr/Ca,,8.83,added
+ZI16ROD02,jcpUsed::Sr/Ca,,1,added
+ZI16ROD02,datum::Sr/Ca,,0,added
+ZI16ROD02,coralExtensionRate::Sr/Ca,,11.8,added
+ZI16ROD02,coralExtensionRateNotes::Sr/Ca,,11.8,added
+ZI16ROD02,createdBy::Sr/Ca,,CoralHydro2k,added
+ZI23NFL01,(whole dataset),,NEW RECORD,new
+ZI23NFL02,(whole dataset),,NEW RECORD,new
