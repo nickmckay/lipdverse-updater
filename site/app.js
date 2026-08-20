@@ -159,25 +159,54 @@ const humanBytes = n => {
   return `${v < 10 && i > 0 ? v.toFixed(1) : Math.round(v)} ${u[i]}`
 }
 
+// Version numbers sort as numbers, not as text: 0_1_10 is after 0_1_9.
+const cmpVersion = (a, b) => {
+  const pa = String(a).split('_').map(Number), pb = String(b).split('_').map(Number)
+  for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
+    const d = (pa[i] || 0) - (pb[i] || 0)
+    if (d) return d
+  }
+  return 0
+}
+
 async function renderCompilationDownloads (mount, name, version) {
   const all = await downloads()
-  const d = all.find(x => String(x.compilation).toLowerCase() === String(name).toLowerCase() &&
-                          String(x.version) === String(version))
-  if (!d) {
+  const mine = all.filter(x => String(x.compilation).toLowerCase() === String(name).toLowerCase())
+                  .sort((a, b) => cmpVersion(b.version, a.version))
+  if (!mine.length) {
     mount.replaceChildren(el('p', { class: 'muted small' },
-      'No download has been published for this release.'))
+      'No download has been published for this compilation yet.'))
     return
   }
+  // A bare /dev/<compilation>/ URL is the one people type, and it carries no
+  // version, so it was showing nothing at all. Fall back to the newest
+  // published release, and say which one it is rather than implying it is the
+  // release being viewed.
+  const exact = version ? mine.find(x => String(x.version) === String(version)) : null
+  const d = exact || mine[0]
+  const substitute = !exact
   const base = `${BASE}/export/downloads/${encodeURIComponent(d.compilation)}/${encodeURIComponent(d.version)}`
   const kids = []
   if (d.zip) kids.push(el('a', { class: 'dlbtn', href: `${base}/${d.zip.file}`, download: '' },
     'Download all LiPD files', el('span', { class: 'dlsize' }, ` ${humanBytes(d.zip.bytes)}`)))
   if (d.bib) kids.push(el('a', { class: 'dlbtn secondary', href: `${base}/${d.bib.file}`, download: '' },
     'BibTeX', el('span', { class: 'dlsize' }, ` ${humanBytes(d.bib.bytes)}`)))
-  kids.push(el('span', { class: 'muted small' },
-    ` ${Number(d.datasets).toLocaleString()} datasets, as published in ${d.version}`))
+  kids.push(el('span', { class: substitute ? 'warn small' : 'muted small' },
+    substitute
+      ? ` ${Number(d.datasets).toLocaleString()} datasets, from ${d.version}` +
+        (version ? ` \u2014 no download published for ${version}` : ' (the latest published release)')
+      : ` ${Number(d.datasets).toLocaleString()} datasets, as published in ${d.version}`))
   mount.replaceChildren(el('div', { class: 'downloads' }, ...kids))
 }
+
+
+// `current_version` is a real directory on the live site -- a copy of the
+// newest release under every compilation -- and the URLs it produces are in
+// published papers. The app has no directories, so it treats the word as what
+// it means: whichever release is newest. Handled rather than redirected, so a
+// cited link keeps working and keeps its address.
+const CURRENT_ALIASES = ['current_version', 'current', 'latest']
+const isCurrentAlias = v => CURRENT_ALIASES.includes(String(v || '').toLowerCase())
 
 // ---- routing ---------------------------------------------------------------
 //
@@ -205,18 +234,31 @@ async function viewAll () {
   renderCollection(rows, 'Every dataset in LiPDverse, including those no compilation contains.')
 }
 
+const resolvedLabel = (name, version) =>
+  isCurrentAlias(version) ? `${name} \u00b7 current` : (version ? `${name} \u00b7 ${version}` : name)
+
 async function viewCompilation (name, version) {
   $('#scope').textContent = version ? `${name} · ${version}` : name
   const [members, all] = await Promise.all([
     loadParquet('compilation_versions'), loadParquet('datasets')
   ])
+  // Resolve the alias against what this compilation actually has, newest first.
+  let resolved = version
+  let aliased = false
+  if (isCurrentAlias(version)) {
+    const vs = [...new Set(members
+      .filter(r => String(r.compilation).toLowerCase() === name.toLowerCase())
+      .map(r => String(r.version)))].sort(cmpVersion)
+    resolved = vs.length ? vs[vs.length - 1] : null
+    aliased = true
+  }
   const want = members.filter(r =>
     String(r.compilation).toLowerCase() === name.toLowerCase() &&
-    (!version || String(r.version) === version))
+    (!resolved || String(r.version) === resolved))
 
   if (!want.length) {
     return $('#main').replaceChildren(
-      el('p', {}, `No release named `, el('code', {}, `${name}${version ? '/' + version : ''}`), ` in this export.`),
+      el('p', {}, `No release named `, el('code', {}, `${name}${resolved ? '/' + resolved : ''}`), ` in this export.`),
       el('p', { class: 'muted' }, 'Older releases are served by their original pages; only releases the new pipeline produced appear here.'))
   }
 
@@ -230,10 +272,10 @@ async function viewCompilation (name, version) {
   saveCtx({ scope: { kind: 'compilation', name, version }, label: `${name} ${version || ''}`.trim(),
             href: location.pathname })
   const dlMount = el('div', {})
-  if (version) renderCompilationDownloads(dlMount, name, version)
-  const note = pinned
+  renderCompilationDownloads(dlMount, name, resolved)
+  const note = (aliased && resolved ? `Showing ${resolved}, the newest release. ` : '') + (pinned
     ? `${rows.length.toLocaleString()} datasets, each pinned to the version this release contained.`
-    : `${rows.length.toLocaleString()} datasets. This release recorded names only, so the data shown is current rather than as-published.`
+    : `${rows.length.toLocaleString()} datasets. This release recorded names only, so the data shown is current rather than as-published.`)
   renderCollection(rows, note, !pinned, dlMount)
 }
 
