@@ -1,0 +1,42 @@
+# Routing for the rebuilt lipdverse site.
+#
+# The rule is one line long and does the whole job: if the request names a file
+# or directory that actually exists, serve it; otherwise hand it to the app.
+#
+# That ordering is deliberate. Every legacy page under data/<datasetId>/<version>
+# is a real directory, so it keeps being served exactly as before -- 41,496 of
+# them, holding the only record of what past versions contained. Nothing is
+# redirected, rewritten or shadowed. The app only ever sees URLs that would
+# otherwise have been a 404.
+#
+# So the transition needs no cutover: a version that exists on disk is history
+# and serves itself, a version that does not is rendered live from the export.
+
+RewriteEngine On
+RewriteBase /dev/
+
+# Real file or directory wins, always.
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Never route data out to the app: a missing parquet should 404 as itself
+# rather than silently returning an HTML page, which is the failure that makes
+# a fetch() error message meaningless.
+RewriteRule ^export/ - [L]
+
+# Nor anything that looks like an asset. A missing .js answered with HTML is
+# how the app silently failed to start: the browser will not execute text/html
+# as a module and reports nothing useful. Let it 404 as itself.
+RewriteRule \.(js|mjs|css|map|json|geojson|parquet|duckdb|zip|bib|lpd|csv|png|jpg|svg|ico|woff2?)$ - [L]
+
+# Everything else is the app, which reads the path and decides what to show.
+RewriteRule ^ site/index.html [L]
+
+# Parquet served with a sane type so range requests are not second-guessed.
+# .lpd is a zip; say so, or a browser may try to render it.
+AddType application/zip .lpd
+AddType application/x-bibtex .bib
+AddType application/geo+json .geojson
+AddType application/vnd.apache.parquet .parquet
+AddType application/octet-stream .duckdb

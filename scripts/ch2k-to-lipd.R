@@ -90,6 +90,11 @@ VARS <- list(
   SrCa_annual    = list(name = "Sr/Ca", units = NULL,     res = "annual", material = NULL),
   d18O_sw_annual = list(name = "d18O",  units = "permil", res = "annual", material = "sea water"))
 UNC <- list(d18O_err = "d18O", SrCa_err = "SrCa")
+# convert.m renamed the error fields BEFORE minting TSids -- [ti.d18OUncertainty]
+# = ti.d18O_err -- so the published columns are <core>_d18OUncertainty, not
+# <core>_d18O_err. Keying on the raw source name would mint a new id and orphan
+# the existing column.
+UNC_TSID <- list(d18O_err = "d18OUncertainty", SrCa_err = "SrCaUncertainty")
 
 # ‰ and º survive in the source; the published files use permil and strip the
 # degree sign. Same normalisation both places, or the merge sees a change on
@@ -200,7 +205,7 @@ series_of <- function(dsn, rec, colmeta) {
     put(sig_of(y), list(year = y, name = "uncertainty", values = vv,
                         extra = list(units = norm_units(m[[paste0("units_", UNC[[u]])]]),
                                      variableType = "measured", uncertaintyFor = VARS[[UNC[[u]]]]$name),
-                        base = UNC[[u]], srcvar = u))
+                        base = UNC[[u]], srcvar = UNC_TSID[[u]]))
   }
   groups
 }
