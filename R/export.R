@@ -922,9 +922,10 @@ lv_export <- function(cfg, version, datasets, export_dir = lv_path("export"),
   # written, so the parquet, the duckdb and the bibliography all say the same
   # thing. The files keep whatever they have; the store answers only for gaps.
   refs <- tryCatch(lv_references(store), error = function(e) NULL)
+  links <- tryCatch(lv_reference_links(store), error = function(e) NULL)
   if (!is.null(refs) && nrow(refs) && nrow(tables$publications)) {
     before <- sum(!is.na(tables$publications$title))
-    tables$publications <- lv_resolve_references(tables$publications, refs)
+    tables$publications <- lv_resolve_references(tables$publications, refs, links)
     if (progress) {
       cli::cli_alert_info(
         "References: {sum(!is.na(tables$publications$ref_source))} of {nrow(tables$publications)} publication{?s} resolved from the store, titles {before} -> {sum(!is.na(tables$publications$title))}")
@@ -1035,6 +1036,20 @@ lv_export_database <- function(label = format(Sys.Date(), "%Y-%m-%d"),
   # The vocabulary is global, so it comes through whichever compilation is asked
   # for; asking for none would leave it empty.
   tables$vocab <- lv_export_context(NA_character_, store = store)$vocab
+
+  # The whole-database export never resolved its publications, which is why
+  # citekey and ref_source were empty for all 13,271 of them while the
+  # per-compilation exports filled them in (issue #16). Same store, same rules.
+  refs <- tryCatch(lv_references(store), error = function(e) NULL)
+  links <- tryCatch(lv_reference_links(store), error = function(e) NULL)
+  if (!is.null(refs) && nrow(refs) && nrow(tables$publications)) {
+    before <- sum(!is.na(tables$publications$title))
+    tables$publications <- lv_resolve_references(tables$publications, refs, links)
+    if (progress) {
+      cli::cli_alert_info(
+        "References: {sum(!is.na(tables$publications$ref_source))} of {nrow(tables$publications)} publication{?s} resolved, titles {before} -> {sum(!is.na(tables$publications$title))}")
+    }
+  }
   # Every compilation's published membership, since this export is the whole
   # database rather than one compilation.
   tables$compilation_versions <- lv_version_members(store)

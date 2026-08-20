@@ -13,7 +13,14 @@
 # rows to be worked by hand. (5,611 rows have something in the doi field; 699 of
 # those hold no DOI at all -- see extract_doi below.)
 #
-# Two registries, because our DOIs come from two worlds:
+# ORDER MATTERS, and the first version of this got it backwards. The curated
+# bibliography the project maintains is already in the reference store -- 4,838
+# entries -- and it covers 4,762 of the 4,912 gap rows that carry a DOI. It also
+# answers where no DOI exists at all, through the datasetId -> citekey links
+# imported from bibDsid.json. So the store is asked first and the registries
+# only fill what it cannot: they are the fallback, not the source.
+#
+# Two registries, because the DOIs it cannot answer come from two worlds:
 #
 #   Crossref   journal articles. 10.1016 (380), 10.1029 (242), 10.1038 (102)...
 #   DataCite   data publications. 10.1594 is PANGAEA (85), 10.25921 is NOAA
@@ -39,9 +46,22 @@ cli::cli_alert_info("Reading {.path {export}}")
 
 p <- arrow::read_parquet(file.path(export, "publications.parquet"))
 nz <- function(x) !is.na(x) & nzchar(as.character(x))
+
+# ---- the store first -------------------------------------------------------
+refs  <- tryCatch(lv_references(qc_store()), error = function(e) NULL)
+links <- tryCatch(lv_reference_links(qc_store()), error = function(e) NULL)
+au0 <- vapply(p$authors, function(x) paste(as.character(x), collapse = "; "), "")
+before <- sum(!nz(au0) | !nz(p$title))
+if (!is.null(refs) && nrow(refs)) {
+  p <- lv_resolve_references(p, refs, links)
+  cli::cli_alert_success(
+    "Reference store answered for {sum(!is.na(p$ref_source))} publication{?s}")
+}
+
 au <- vapply(p$authors, function(x) paste(as.character(x), collapse = "; "), "")
 gap <- p[!nz(au) | !nz(p$title), , drop = FALSE]
 gap$authors_now <- au[!nz(au) | !nz(p$title)]
+cli::cli_alert_info("Gap {before} -> {nrow(gap)} row{?s} after the store; the registries take the rest")
 
 # A "doi" field in this database holds a DOI, a DOI inside a publisher URL, an
 # FTP path, or the word "palmod". Pull a DOI out of whatever is there; anything
@@ -141,10 +161,13 @@ cli::cli_progress_done(id = pb)
 res <- purrr::list_rbind(rows)
 
 out <- gap |>
-  select(datasetId, pubIndex, doi_raw = doi, doi = doi_clean,
+  select(datasetId, pubIndex, doi_raw = doi, doi = doi_clean, ref_source,
          authors_now, year_now = year, title_now = title, journal_now = journal) |>
   left_join(res, by = "doi") |>
-  mutate(decision = NA_character_) |>
+  mutate(decision = NA_character_,
+         # what the store already supplied, so a reviewer can see which rows the
+         # registry is answering for and which were curated
+         from_store = !is.na(ref_source)) |>
   arrange(is.na(doi), desc(resolved), datasetId)
 
 fs::dir_create("review")

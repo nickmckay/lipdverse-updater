@@ -133,3 +133,57 @@ test_that("the bibliography prefers the store and says so when it cannot", {
   expect_match(txt, "Missing Title")
   expect_match(txt, "Missing Author")
 })
+
+test_that("a publication with no DOI resolves through the dataset's citekeys", {
+  # 1,623 publication rows carry no usable DOI, so the DOI join cannot answer
+  # for them. The dataset does: bibDsid.json maps datasetId to the citekeys it
+  # cites, in citation order, so publication N takes the dataset's Nth citation.
+  refs <- tibble::tibble(citekey = c("smith2001", "jones1999"),
+                         doi = c("10.1/a", NA), author = c("Smith, A.", "Jones, B."),
+                         title = c("A paper", "Another paper"), year = c("2001", "1999"),
+                         journal = c("J1", "J2"), source = "curated")
+  links <- tibble::tibble(datasetId = c("D1", "D1"), citekey = c("smith2001", "jones1999"),
+                          rank = 1:2)
+  pubs <- tibble::tibble(datasetId = c("D1", "D1"), pubIndex = 1:2,
+                         doi = c(NA_character_, NA_character_),
+                         title = c(NA_character_, NA_character_),
+                         journal = NA_character_, year = NA_integer_,
+                         authors = list(character(), character()))
+
+  # without links, nothing can be filled: there is no DOI to join on
+  none <- lv_resolve_references(pubs, refs)
+  expect_true(all(is.na(none$title)))
+
+  out <- lv_resolve_references(pubs, refs, links)
+  expect_equal(out$title, c("A paper", "Another paper"))
+  expect_equal(out$citekey, c("smith2001", "jones1999"))
+  expect_equal(unlist(out$authors), c("Smith, A.", "Jones, B."))
+})
+
+test_that("the dataset link never overrides a DOI match", {
+  # The DOI is the stronger identifier; the link is only a fallback for rows it
+  # cannot answer. A link pointing somewhere else must not win.
+  refs <- tibble::tibble(citekey = c("right", "wrong"), doi = c("10.1/a", NA),
+                         author = c("Right, A.", "Wrong, B."),
+                         title = c("Correct", "Incorrect"), year = c("2001", "1999"),
+                         journal = c("J1", "J2"), source = "curated")
+  links <- tibble::tibble(datasetId = "D1", citekey = "wrong", rank = 1L)
+  pubs <- tibble::tibble(datasetId = "D1", pubIndex = 1L, doi = "10.1/a",
+                         title = NA_character_, journal = NA_character_,
+                         year = NA_integer_, authors = list(character()))
+  out <- lv_resolve_references(pubs, refs, links)
+  expect_equal(out$title, "Correct")
+})
+
+test_that("reference links round-trip through the store and re-import cleanly", {
+  store <- qc_store(withr::local_tempdir())
+  expect_equal(nrow(lv_reference_links(store)), 0)
+  lv_reference_links_add(tibble::tibble(datasetId = c("D1", "D1", "D2"),
+                                        citekey = c("a", "b", "c")), store)
+  l <- lv_reference_links(store)
+  expect_equal(nrow(l), 3)
+  expect_equal(l$rank[l$datasetId == "D1"], 1:2)   # citation order is kept
+  # re-importing the same links must not duplicate them
+  lv_reference_links_add(tibble::tibble(datasetId = "D1", citekey = "a"), store)
+  expect_equal(nrow(lv_reference_links(store)), 3)
+})

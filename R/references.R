@@ -154,17 +154,92 @@ lv_references_read_bib <- function(path) {
 #' @return `publications` with the stored fields filled in where the DOI matched,
 #'   plus `citekey` and `ref_source` columns saying which tier answered.
 #' @export
-lv_resolve_references <- function(publications, refs) {
+
+#' Which references a dataset cites
+#'
+#' A reference resolves to a publication by DOI where there is one, and 1,623
+#' publication rows have no usable DOI at all. The link that answers for those
+#' is per dataset rather than per publication: the legacy site published
+#' `bibDsid.json`, a map of datasetId to the citekeys that dataset cites, and
+#' 817 of the 1,308 datasets with no DOI have a curated citation waiting behind
+#' it.
+#'
+#' Stored beside the references themselves so the store answers both questions:
+#' what a reference says, and which datasets cite it.
+#'
+#' @param store A QC store.
+#' @return A tibble of `datasetId`, `citekey`, `rank`, `source`, `added_at`.
+#' @export
+lv_reference_links <- function(store = qc_store()) {
+  p <- fs::path(store$path, "references", "dataset-citekeys.csv")
+  if (!fs::file_exists(p)) {
+    return(tibble::tibble(datasetId = character(), citekey = character(),
+                          rank = integer(), source = character(), added_at = character()))
+  }
+  readr::read_csv(p, col_types = readr::cols(.default = readr::col_character()),
+                  progress = FALSE) |>
+    dplyr::mutate(rank = suppressWarnings(as.integer(.data$rank)))
+}
+
+#' @param links A tibble of `datasetId` and `citekey`, in citation order.
+#' @param source Where the link came from.
+#' @rdname lv_reference_links
+#' @export
+lv_reference_links_add <- function(links, store = qc_store(), source = "bibDsid") {
+  stopifnot(all(c("datasetId", "citekey") %in% names(links)))
+  cur <- lv_reference_links(store)
+  new <- tibble::as_tibble(links)
+  if (is.null(new$rank)) {
+    new <- new |> dplyr::group_by(.data$datasetId) |>
+      dplyr::mutate(rank = dplyr::row_number()) |> dplyr::ungroup()
+  }
+  new$source <- source
+  new$added_at <- format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
+  out <- dplyr::bind_rows(cur, new)
+  # Last write wins per (dataset, citekey), so re-importing is idempotent.
+  out <- out[!duplicated(paste(out$datasetId, out$citekey), fromLast = TRUE), , drop = FALSE]
+  out <- out[order(out$datasetId, out$rank), , drop = FALSE]
+  p <- fs::path(store$path, "references", "dataset-citekeys.csv")
+  fs::dir_create(fs::path_dir(p))
+  readr::write_csv(out, p, na = "")
+  invisible(out)
+}
+
+lv_resolve_references <- function(publications, refs, links = NULL) {
   p <- tibble::as_tibble(publications)
+  # NA must stay NA. as.character(NA) is "NA", which lowercases to "na" and then
+  # matches every other missing DOI: with 1,081 references carrying no DOI, a
+  # publication without one was joining to whichever of them came first and
+  # taking its author, title and year. Blank counts as missing too.
   norm_doi <- function(x) {
     x <- tolower(trimws(as.character(x)))
+    x[is.na(x) | !nzchar(x) | x %in% c("na", "nan", "none", "null")] <- NA_character_
     sub("^https?://(dx\\.)?doi\\.org/", "", x)
   }
   p$ref_source <- NA_character_
   p$citekey <- NA_character_
   if (!nrow(p) || !nrow(refs)) return(p)
 
-  i <- match(norm_doi(p$doi), norm_doi(refs$doi))
+  # incomparables: match() pairs NA with NA by default, so a publication with no
+  # DOI would join to a reference with no DOI -- 1,081 of them in the store --
+  # and take its author, title and year. A missing identifier identifies nothing.
+  i <- match(norm_doi(p$doi), norm_doi(refs$doi), incomparables = NA)
+
+  # Where the DOI cannot answer -- 1,623 publication rows carry none -- fall
+  # back to what the DATASET cites. lv_reference_links() holds datasetId ->
+  # citekey in citation order, so publication N of a dataset takes that
+  # dataset's Nth citation. That is the same ordering the files use (pub1,
+  # pub2, ...), and it is the only link available for a record with no DOI.
+  if (!is.null(links) && nrow(links) && !is.null(p$datasetId) && !is.null(p$pubIndex)) {
+    ord <- links[order(links$datasetId, links$rank), , drop = FALSE]
+    key <- paste(ord$datasetId, ord$rank)
+    want <- paste(p$datasetId, suppressWarnings(as.integer(p$pubIndex)))
+    j <- match(want, key)
+    ck <- ifelse(is.na(j), NA_character_, ord$citekey[j])
+    k <- match(ck, refs$citekey, incomparables = NA)
+    use <- is.na(i) & !is.na(k)
+    if (any(use)) i[use] <- k[use]
+  }
   hit <- !is.na(i)
   # A stored record answers for the fields the file lacks; the file is not
   # overwritten where it has something, because the file is what a curator edits.
